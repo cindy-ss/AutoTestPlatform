@@ -1,0 +1,8 @@
+{
+  "name": "react",
+  "private": true,
+  "dependencies": {
+    "react":"*",
+    "react-dom":"*"
+  }
+}

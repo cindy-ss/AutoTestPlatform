@@ -1,0 +1,9 @@
+{
+  "name": "lab",
+  "private": true,
+  "dependencies": {
+    "angular": "*",
+    "angular-route":"*",
+    "jquery":"*"
+  }
+}

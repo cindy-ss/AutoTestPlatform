@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kanojo</title>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+<div id="res"></div>
+<script>
+    $.ajax({
+        async: false,
+        url: "http://localhost:2333/listen",
+        type: "GET",
+        dataType: 'jsonp',
+        jsonp: 'jsoncallback',
+//            data: qsData,
+        timeout: 5000,
+        success: function (data) {//客户端jquery预先定义好的callback函数,成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+            console.log(data);
+//            $("#res").html(data);
+        },
+        error: function (msg) {
+            console.log("请求出错", msg);
+        }
+    });
+</script>
+</body>
+</html>

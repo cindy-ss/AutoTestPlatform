@@ -1,0 +1,55 @@
+<script type="text/javascript" src="../lib/jquery-2.1.1.min.js"></script>
+<body>
+<div id="res"></div>
+<script type="text/javascript">
+    $(document).ready(function(){
+//        var str = '<?xml version="1.0" encoding="utf-8"?><service name="getMenuRole"><app-header><field name="channelId">10</field><field name="tranDate">2015-02-11 17:54:47</field></app-header><body><field name="userId">BB14001206</field><field name="isPublic">RPA</field><field name="NEXT_KEY">1</field><field name="PAGE_SIZE">12</field><field name="userLogId">BB14001206</field><field name="pageNo">1</field><field name="pageSize">12</field></body></service>"';
+//        var url = "http://10.225.8.214/";
+        var url = "http://127.0.0.1:8888/";
+        var openid = "dongxin";
+        var openkey = "3e7e31a3-82b7-45fd-9799-a74f5dcb709c";
+        var serviceName = "QueryApplyList";
+        var param = {"APPLYSTATUS":"040","ROLEID":"2A1","EndTime":"","PAGEINDEX":5,"StartTime":"","PAGECOUNT":15,"CertNo":"","CUSTOMERNAME":"","USERID":"00101"};
+        invoke(url, openid, openkey, serviceName, param, function(data){
+            console.log("fuck" + data);
+            document.querySelector("#res").innerText = data;
+        }, function(err){
+            alert(err);
+        });
+    });
+
+    var invoke = function(url, openid, openkey, serviceName, param, sc, ec){
+//        param = JSON.stringify(param);
+//        var url = url + "?openid=" + openid + "&openkey=" + openkey + "&serviceName=" + serviceName + "&param=" + param;
+//        console.log(url);
+//        $.ajax({
+////            url:'http://10.225.8.214:8888/?openid=dongxin&openkey=3e7e31a3-82b7-45fd-9799-a74f5dcb709c&serviceName=getMenuRole&param='+str,
+////            url:'http://127.0.0.1:8888/?openid=dongxin&openkey=3e7e31a3-82b7-45fd-9799-a74f5dcb709c&serviceName=getMenuRole&param='+str,
+//            url : url,
+//            dataType:"jsonp",
+//            jsonp:"jsonpcallback",
+//            success:sc
+//        });
+
+        var obj = {
+            "openid" : openid,
+            "openkey" : openkey,
+            "serviceName" : serviceName,
+            "param" : param
+        };
+
+        var req = new XMLHttpRequest();
+        req.onreadystatechange = function(){
+            if(req.readyState == 4 && req.status == 200){
+                console.log(req.response);
+            }
+        };
+        req.open("POST", url, true);
+        req.setRequestHeader("Content-Type", "text/html");
+//        req.send(obj);
+        req.send(JSON.stringify(obj));
+//        console.log(JSON.stringify(obj));
+//        console.log(obj);
+    };
+</script>
+</body>
