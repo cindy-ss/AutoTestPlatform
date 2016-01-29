@@ -4,6 +4,6 @@
   "dependencies": {
     "angular": "*",
     "angular-route":"*",
-    "jquery":"*"
+    "bootstrap" : "*"
   }
 }
