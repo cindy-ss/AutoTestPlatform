@@ -1,0 +1,55 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">文件</h3>
+    </div>
+    <div class="panel-body">
+        <div class="input-group">
+            <p class="form-control">
+                <span ng-repeat="(p, v) in pathList">{{v}}</span>
+            </p>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="getFile()">Go!</button>
+            </span>
+        </div>
+        <div class="list-group">
+            <a ng-click="goBack()" class="list-group-item">
+                <span class="glyphicon glyphicon-level-up text-danger"></span>
+                ..
+            </a>
+            <a ng-repeat="(c, v) in fileList" ng-click="open(v)" class="list-group-item">
+                <span class="glyphicon" ng-class="fileClass(v)"></span>
+                {{v.name}}
+            </a>
+        </div>
+    </div>
+</div>
+<div>
+
+</div>
+<div class="modal fade" ng-class="{'in' : currentStat}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="closeFile()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">预览</h4>
+            </div>
+            <div class="modal-body">
+                <img ng-src="{{imageData}}" ng-show="currentFileExt=='image'" class="img-responsive center-block" />
+                <p ng-show="currentFileExt=='file'">{{fileData}}</p>
+            </div>
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-primary" ng-click="closeFile()">关闭</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade in" ng-show="currentStat" ng-click="closeFile()"></div>
+
+<style>
+    .in {
+        display: block; padding-left: 0
+    }
+    .list-group-item{
+        cursor: pointer;
+    }
+</style>

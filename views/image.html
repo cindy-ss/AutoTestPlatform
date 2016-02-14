@@ -1,0 +1,18 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">图册</h3>
+    </div>
+    <div class="panel-body">
+        <div class="input-group">
+            <input type="text" ng-model="url" class="form-control" />
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" ng-click="loadUrl()">Go!</button>
+            </span>
+        </div>
+        <div class="row" style="margin-top:1em;">
+            <div class="col-lg-3 col-md-3 col-sm-3" ng-repeat="(c, v) in imgList track by $index">
+                <img class="img-responsive  center-block thumbnail" ng-src="{{v}}" />
+            </div>
+        </div>
+    </div>
+</div>
