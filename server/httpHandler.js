@@ -30,9 +30,12 @@ var imageSearch = function(req, res){
                             temp = "http://" + arrUrl.concat(arrTemp).join("/");
                         }
                     }
-                    console.log("image Haken:" + temp);
-                    console.log(" ");
+                    //console.log("image Haken:" + temp);
+                    //console.log(" ");
                     imageArr.push(temp);
+                }
+                if(name.toLowerCase() === "iframe"){
+                    //console.log("IframeHaken");
                 }
                 //if(name === "script" && attribs.type === "text/javascript"){
                 //    console.log("JS! Hooray!");
@@ -65,6 +68,7 @@ var domHandler = function(url, handler){
                 var parser = new htmlparser.Parser(handler, options);
 
                 parser.write(data);
+
                 parser.done();
             });
             res.resume();
@@ -80,7 +84,7 @@ var domHandler = function(url, handler){
                     decodeEntities: true
                 };
                 var parser = new htmlparser.Parser(handler, options);
-
+                fs.writeFile("./fuck.txt", data);
                 parser.write(data);
                 parser.done();
             });
@@ -115,7 +119,7 @@ var imageListDownload = function(arr, target){
     });
 };
 
-imageListDownload(["http://s1.dwstatic.com/group1/M00/55/C1/6ccc84a90ec32a800003eeca74a4047f.jpg", "http://s1.dwstatic.com/group1/M00/55/C1/6ccc84a90ec32a800003eeca74a4047f.jpg"], "/Users/Edel/project/github/lab");
+//imageListDownload(["http://s1.dwstatic.com/group1/M00/55/C1/6ccc84a90ec32a800003eeca74a4047f.jpg", "http://s1.dwstatic.com/group1/M00/55/C1/6ccc84a90ec32a800003eeca74a4047f.jpg"], "/Users/Edel/project/github/lab");
 
 exports.fileSearch = fileSearch;
 exports.imageSearch = imageSearch;

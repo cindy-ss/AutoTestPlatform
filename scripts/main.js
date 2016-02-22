@@ -103,4 +103,58 @@ edel.controller("imageCtrl", util.getParam(function($scope, http){
     };
 }));
 
-edel.controller('todoCtrl', util.getParam(function($scope){}));
+edel.controller('todoCtrl', util.getParam(function($scope, todo){
+    $scope.cards = [];
+    $scope.showList = [];
+    $scope.listContent = "";
+    $scope.newCardContent = [];
+    $scope.createNewList = false;
+
+    $scope.showCardAdding = function(num){
+        $scope.showList = [];
+        $scope.showList[num] = true;
+    };
+    $scope.showListAdding = function(){
+        $scope.showList = [];
+        $scope.showList[-1] = true;
+    };
+
+    $scope.getAllCards = function(){
+        todo.getAllCards(function(data){
+            $scope.cards = data;
+        });
+    };
+    $scope.addList = function(){
+        if($scope.listContent != ""){
+            todo.addList($scope.listContent, function(res){
+                $scope.listContent = "";
+                $scope.getAllCards();
+            });
+        }
+    };
+    $scope.addCard = function(listId, num){
+        if($scope.newCardContent[num] != ""){
+            todo.addCardByList(listId, $scope.newCardContent[num], function(res){
+                $scope.newCardContent[num] = "";
+                $scope.getAllCards();
+            });
+        }
+    };
+    $scope.deleteCard = function(listId, cardIndex){
+        todo.deleteCard(listId, cardIndex, function(res){
+            console.log(res);
+            $scope.getAllCards();
+        });
+    };
+    $scope.deleteList = function(listId){
+        todo.deleteList(listId, function(res){
+            console.log(res);
+            $scope.getAllCards();
+        });
+    };
+    $scope.closeAll = function(){
+        $scope.showList = [];
+    };
+
+    $scope.getAllCards();
+}));

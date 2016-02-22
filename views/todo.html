@@ -1,1 +1,50 @@
-<div></div>
+<div class="row-outer">
+    <div class="row-inner" ng-style="{'width':(cards.length + 1) * 205 + 'px'}">
+        <div class="panel panel-info list-fix" ng-repeat="list in cards">
+
+            <div class="panel-heading">
+                {{list.name}}
+                <a type="button" class="close" aria-label="Close" ng-click="deleteList(list._id)"><span
+                        aria-hidden="true">&times;</span></a>
+            </div>
+
+            <div class="panel-body">
+                <div class="panel panel-default" ng-repeat="card in list.cards">
+                    <div class="panel-body">
+                        {{card.name}}
+                        <a type="button" class="close" aria-label="Close" ng-click="deleteCard()"><span
+                                aria-hidden="true">&times;</span></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer" ng-click="showCardAdding($index)" ng-show="!showList[$index]">
+                Add a card
+            </div>
+
+            <div class="panel-footer" ng-show="showList[$index]">
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" placeholder="Card Content"
+                              ng-model="newCardContent[$index]"></textarea>
+                </div>
+                <a type="submit" class="btn btn-default" ng-click="addCard(list._id, $index)">Submit</a>
+                <a type="button" class="close" aria-label="Close" ng-click="closeAll()"><span
+                        aria-hidden="true">&times;</span></a>
+            </div>
+        </div>
+        <div class="panel panel-default list-fix">
+            <div class="panel-body" ng-click="showListAdding()" ng-show="!showList[-1]">
+                Add a list
+            </div>
+            <div class="panel-body" ng-show="showList[-1]">
+                <div class="form-group">
+                    <textarea rows="2" class="form-control" placeholder="Card Content"
+                              ng-model="listContent"></textarea>
+                </div>
+                <a type="submit" class="btn btn-default" ng-click="addList()">Add</a>
+                <a type="button" class="close" aria-label="Close" ng-click="closeAll()"><span
+                        aria-hidden="true">&times;</span></a>
+            </div>
+        </div>
+    </div>
+</div>

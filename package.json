@@ -31,6 +31,8 @@
     "htmlparser2": "^3.9.0",
     "imap": "^0.8.16",
     "merge-stream": "^1.0.0",
+    "mongodb": "^2.1.7",
+    "mongoose": "^4.4.3",
     "nodemailer": "^2.0.0",
     "request": "^2.67.0"
   }

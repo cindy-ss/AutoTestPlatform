@@ -52,7 +52,7 @@ var readFile = function(url, res){
                 };
                 obj.data = data.toString("base64");
                 res.write(JSON.stringify(obj));
-                res.end()
+                res.end();
             });
             break;
         default:
