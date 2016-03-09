@@ -1,6 +1,8 @@
 var express = require("express");
 var app = express();
 var router = express.Router();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 var handler = require("./server/handler.js");
 
@@ -52,10 +54,15 @@ router.route("/cards/:list_id/:card_id")
 
 app.use(router);
 
-app.use(express.static("./"));
+//app.use(express.static("./"));
+app.use('/', express.static(__dirname + '/'));
+
+io.on("connection", function(socket){
+    handler.socketHandler(socket, io)
+});
 
 app.set('port', (process.env.PORT || 2333));
 
-app.listen(app.get('port'), function() {
+http.listen(app.get('port'), function() {
     console.log("Node app is running on port:" + app.get('port'))
 });

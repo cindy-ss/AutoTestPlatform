@@ -27,6 +27,7 @@ var createPlayer = function(){
         obj.cardArr[i.toString()] = 0;
     }
 
+    //todo outer should have meanings.
     obj.getCard = function(seatNo){
         var res = {
             inner : 0,
@@ -39,6 +40,7 @@ var createPlayer = function(){
         return res;
     };
 
+    //todo react should have meanings.
     obj.react = function(obj){
         var inner = obj.inner,
             outer = obj.outer,
@@ -63,7 +65,7 @@ var start = function(){
             env = players[current].getCard(target);
             isTrue = players[target].react(env);
 
-            console.log("Turn " + turns + ":   " + current + "Send a " + env.inner + "/" + env.outer + " to " + target);
+            console.log("Turn " + turns + ":   " + current + " Send a " + env.inner + "/" + env.outer + " to " + target);
             console.log("=====" + isTrue);
             console.log(players[0].cardArr);
             console.log(players[1].cardArr);

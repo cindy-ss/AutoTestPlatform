@@ -9,14 +9,38 @@ edel.config(['$routeProvider', function($routeProvider){
     when('/file', {templateUrl: "views/file.html", controller: "fileCtrl"}).
     when('/image', {templateUrl: "views/image.html", controller: "imageCtrl"}).
     when('/todo', {templateUrl: "views/todo.html", controller: "todoCtrl"}).
-    otherwise({redirectTo : "/"});
+    when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
+    when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"});
+    //when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
+    //otherwise({redirectTo : "/"});
 }]);
 
-edel.controller("navCtrl", util.getParam(function($scope){
+edel.controller("masterCtrl", util.getParam(function($scope, $rootScope, user, socket){
+    $scope.init = function(){};
+
+    $scope.closeModel = function(){
+        $rootScope.loginStat = false;
+    };
+    $scope.loginStart = function(){
+        $rootScope.loginStat = true;
+    };
+    $scope.login = function(){
+        var name = $scope.ex_name;
+        var pwd = $scope.ex_pwd;
+        user.login(name, pwd, function(res){
+            if(res){
+                $scope.name = $scope.ex_name;
+                $scope.ex_name = "";
+                $scope.closeModel();
+            }
+        })
+    };
+}));
+
+edel.controller("navCtrl", util.getParam(function($scope, $rootScope){
     $scope.active = 0;
     $scope.setActive = function(num){
         $scope.active = num;
-        console.log($scope.active);
     };
 }));
 
@@ -157,4 +181,55 @@ edel.controller('todoCtrl', util.getParam(function($scope, todo){
     };
 
     $scope.getAllCards();
+}));
+
+edel.controller('lobbyCtrl', util.getParam(function($scope, $location, socket, user, $rootScope){
+    $scope.currentStat = false;
+    $rootScope.loginStat = false;
+    $scope.user = user.getStat();
+
+    $scope.closeModel = function(){
+        $scope.currentStat = false;
+    };
+
+    $scope.creatingRoom = function(){
+        console.log($rootScope.loginStat);
+        if($scope.user.name === undefined){
+            $rootScope.loginStat = true;
+            console.log($rootScope.loginStat);
+        }
+        else {
+            $scope.currentStat = true;
+        }
+    };
+
+    $scope.createRoom = function(){
+        if($scope.newRoomName){
+            socket.emit("createRoom", $scope.newRoomName);
+            $scope.currentStat = false;
+            $scope.newRoomName = "";
+        }
+    };
+
+    $scope.joinRoom = function(str){
+        socket.emit("joinRoom", str);
+    };
+
+//=================
+
+    socket.on("roomList", function(roomList){
+        $scope.roomList = roomList;
+    });
+
+    socket.on("createRoomCB", function(str){
+        if(str){
+            $location.url("cockroach?room=" + str);
+        }
+    });
+}));
+
+edel.controller('cockroachCtrl', util.getParam(function($scope, $location, socket){
+    $scope.currentStat = false;
+    var roomName = $location.search()["room"];
+    socket.emit("getRoomInfo", roomName);
 }));
