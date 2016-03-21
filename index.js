@@ -39,6 +39,14 @@ router.route("/cards/:list_id")
         handler.deleteList(req, res, req.listId);
     });
 
+router.route("/dots")
+    .get(function(req, res){
+        handler.getDots(req, res);
+    })
+    .post(function(req, res){
+        handler.addDot(req, res);
+    });
+
 router.param("card_id", function(req, res, next, id){
     req.cardIndex = id;
     next();

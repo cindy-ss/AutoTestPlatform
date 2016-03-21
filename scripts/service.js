@@ -262,16 +262,35 @@ api.service("cockroach", util.getParam(function($http){
     this.setPlayerNum = function(num){};
 }));
 
-api.service("user", util.getParam(function($http){
+api.service("user", util.getParam(function($http, socket){
     var user = {};
     this.login = function(name, pwd, cb){
         user.name = name;
         user.pwd = pwd;
-        user.rooms = [];
-        cb(true);
+        //user.rooms = [];
+        socket.emit("login", JSON.stringify(user));
+        socket.on("loginCB", function(res){
+            cb(res);
+        });
     };
 
     this.getStat = function(){
         return user;
+    };
+}));
+
+api.service("emotion", util.getParam(function($http){
+    this.getEmotion = function(cb){
+        $http.get("./dots")
+            .success(function(data){
+                cb(data);
+            });
+    };
+
+    this.addDot = function(obj, cb){
+        $http.post("./dots", obj)
+            .success(function(data){
+                cb(data);
+            })
     };
 }));

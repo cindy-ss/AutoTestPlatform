@@ -10,7 +10,8 @@ edel.config(['$routeProvider', function($routeProvider){
     when('/image', {templateUrl: "views/image.html", controller: "imageCtrl"}).
     when('/todo', {templateUrl: "views/todo.html", controller: "todoCtrl"}).
     when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
-    when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"});
+    when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
+    when('/emotion', {templateUrl: "views/emotion.html", controller: "emotionCtrl"});
     //when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
     //otherwise({redirectTo : "/"});
 }]);
@@ -193,13 +194,13 @@ edel.controller('lobbyCtrl', util.getParam(function($scope, $location, socket, u
     };
 
     $scope.creatingRoom = function(){
-        console.log($rootScope.loginStat);
         if($scope.user.name === undefined){
             $rootScope.loginStat = true;
             console.log($rootScope.loginStat);
         }
         else {
             $scope.currentStat = true;
+            $scope.newRoomName = "";
         }
     };
 
@@ -207,29 +208,97 @@ edel.controller('lobbyCtrl', util.getParam(function($scope, $location, socket, u
         if($scope.newRoomName){
             socket.emit("createRoom", $scope.newRoomName);
             $scope.currentStat = false;
-            $scope.newRoomName = "";
         }
     };
 
-    $scope.joinRoom = function(str){
-        socket.emit("joinRoom", str);
+    $scope.joinRoom = function(_id){
+        if($scope.user.name === undefined){
+            $rootScope.loginStat = true;
+            console.log($rootScope.loginStat);
+        }
+        else {
+            socket.emit("joinRoom", _id);
+        }
+    };
+//================
+
+    var roomListHandler = function(roomList){
+        $scope.roomList = roomList;
     };
 
 //=================
 
-    socket.on("roomList", function(roomList){
-        $scope.roomList = roomList;
-    });
+    socket.on("roomList", roomListHandler);
 
-    socket.on("createRoomCB", function(str){
+    socket.on("joinRoomCB", function(str){
         if(str){
             $location.url("cockroach?room=" + str);
         }
     });
+
+    socket.emit("getRoomList");
 }));
 
-edel.controller('cockroachCtrl', util.getParam(function($scope, $location, socket){
+edel.controller('cockroachCtrl', util.getParam(function($scope, $location, socket, user){
     $scope.currentStat = false;
     var roomName = $location.search()["room"];
     socket.emit("getRoomInfo", roomName);
+
+    $scope.user = user.getStat();
+
+    if(!$scope.user.name){
+        $location.url("lobby");
+    }
+
+    socket.on("roomInfo", function(str){
+        $scope.info = JSON.parse(str);
+    });
+
+    $scope.backToLobby = function(){
+        socket.emit("leaveRoom", roomName);
+    };
+
+    socket.on("leaveRoomCB", function(res){
+        if(res){
+            $location.url("lobby");
+        }
+    })
+}));
+
+edel.controller('emotionCtrl', util.getParam(function($scope, $rootScope, user, emotion){
+    $scope.average = 0;
+
+    var getData = function(){
+        emotion.getEmotion(function(arr){
+            $scope.emotion = arr;
+            var sum = 0;
+            arr.map(function(v, i, arr){
+                sum += v.score;
+            });
+            console.log(sum);
+            $scope.average = Math.round(sum * 10 / arr.length) / 10;
+            drawDayEmotion(arr, "#map");
+        });
+    };
+
+    $scope.format = function(d){
+        var temp = new Date(d);
+        return temp.getHours() + ":" + temp.getMinutes();
+    };
+
+    $scope.addDot = function(){
+        var obj = {};
+        obj.score = $scope.score;
+        obj.title = $scope.title;
+        obj.description = $scope.des;
+        emotion.addDot(obj, function(res){
+            console.log(res);
+            $scope.score = 0;
+            $scope.title = "";
+            $scope.des = "";
+            getData();
+        })
+    };
+
+    getData();
 }));

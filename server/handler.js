@@ -10,6 +10,8 @@ var httpHandler = require("./httpHandler.js");
 var fileHandler = require("./fileHandler.js");
 var todoHandler = require("./todoHandler.js");
 var socketHandler = require("./socketHandler.js");
+var emotionHandler = require("./emotionHandler.js");
+
 
 var osHandler = function(req, res){
     var obj = {};
@@ -32,3 +34,5 @@ exports.addCard = todoHandler.addCard;
 exports.deleteList = todoHandler.deleteList;
 exports.deleteCard = todoHandler.deleteCard;
 exports.socketHandler = socketHandler.socketHandler;
+exports.addDot = emotionHandler.addDot;
+exports.getDots = emotionHandler.getDots;

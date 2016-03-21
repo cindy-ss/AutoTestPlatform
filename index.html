@@ -12,6 +12,8 @@
     <script src="scripts/service.js"></script>
     <script src="scripts/main.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="lib/d3.v3.min.js"></script>
+    <script src="scripts/draw.js"></script>
     <title>个人工作台</title>
     <style>
         body {padding-top: 70px;}
@@ -44,6 +46,22 @@
             cursor: pointer;
             text-decoration: underline;
         }
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        /*.x.axis path {*/
+            /*display: none;*/
+        /*}*/
+
+        .line {
+            fill: none;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
     </style>
 </head>
 <body>
@@ -69,6 +87,7 @@
                     <li ng-class="{'active' : active == 2}" ng-click="setActive(2)"><a href="#/image">图册</a></li>
                     <li ng-class="{'active' : active == 3}" ng-click="setActive(3)"><a href="#/todo">待办</a></li>
                     <li ng-class="{'active' : active == 4}" ng-click="setActive(4)"><a href="#/lobby">大厅</a></li>
+                    <li ng-class="{'active' : active == 5}" ng-click="setActive(5)"><a href="#/emotion">曲线</a></li>
                 </ul>
                 <p class="navbar-text pull-right" id="userBar">
                     <span ng-show="!name" ng-click="loginStart()">登录</span>

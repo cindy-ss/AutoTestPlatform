@@ -3,7 +3,7 @@
  */
 
 var util = require("./util.js");
-var dao = require("./dao.js");
+var dao = require("./dao/dao.js");
 var ObjectId = require('mongodb').ObjectID;
 
 var getCards = function (req, res, cardId) {
