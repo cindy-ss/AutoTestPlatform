@@ -53,7 +53,8 @@ edel.controller("fileCtrl", util.getParam(function($scope, file){
     $scope.currentStat = false;
     $scope.fileList = [];
     $scope.currentFileExt = "";
-    $scope.pathList = ["/", "Users/", "Edel/"];
+    //$scope.pathList = ["/", "Users/", "Edel/"];
+    $scope.pathList = ["/"];
     $scope.readDir = function(){
         var path = $scope.pathList.join("");
         file.getFileList(path, "list", function(data){
