@@ -294,3 +294,21 @@ api.service("emotion", util.getParam(function($http){
             })
     };
 }));
+
+api.service("assistant", function($timeout, socket){
+    this.emotion = "normal";
+    var _currentThought = "hello world";
+
+    this.say = function(){
+        this.words = _currentThought;
+        $timeout(this.shut, 4000)
+    };
+
+    this.shut = function(){
+        console.log("fuck");
+        this.words = "--";
+    };
+
+    this.hear = function(words){
+    };
+});

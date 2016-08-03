@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../lib/jquery-2.1.1.min.js"></script>
+    <style>
+        .fuck {
+            color :red;
+        }
+    </style>
+</head>
+<body>
+<ul id="t1">
+    <li>Fuck1</li>
+    <li>Fuck2</li>
+    <li>Fuck3</li>
+</ul>
+<ul id="t2">
+    <li>Damn1</li>
+    <li>Damn2</li>
+    <li>Damn3</li>
+</ul>
+<ul id="t3" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <li>Shit1</li>
+    <li>Shit2</li>
+    <li>Shit3</li>
+</ul>
+<script>
+//    $(function () {
+        function allowDrop(ev)
+        {
+            ev.preventDefault();
+        }
+
+        function drag(ev)
+        {
+//            ev.dataTransfer.setData("Text",ev.target.id);
+        }
+
+        function drop(ev)
+        {
+            ev.preventDefault();
+//            var data=ev.dataTransfer.getData("Text");
+            var arr = document.getElementsByClassName("fuck");
+//            console.log(arr);
+            for (var i = 0; i < arr.length; i++) {
+                var obj = arr[0];
+                ev.target.appendChild(obj);
+            }
+        }
+var liArr1 = $("#t1 li");
+var liArr2 = $("#t2 li");
+        liArr1.click(function (e) {
+            $(this).toggleClass("fuck");
+        });
+    liArr1.attr("draggable", true);
+    liArr1.on("ondragstart", drag);
+        liArr2.click(function (e) {
+            $(this).toggleClass("fuck");
+        });
+    liArr2.attr("draggable", true);
+    liArr2.on("ondragstart", drag);
+</script>
+</body>
+</html>

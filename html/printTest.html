@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PrintTest</title>
+    <style media="print">
+            #t {
+                color: red;
+            }
+        #t thead {
+            display:table-header-group
+        }
+    </style>
+    <style>
+
+        body {
+            padding: 0;
+            margin: 0;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: 0;
+        }
+        body {
+
+        }
+        @keyframes blink
+        {
+            0% {
+                box-shadow: 0;
+            }
+            50% {
+                box-shadow: 0px 0px 25px 10px palevioletred inset;
+            }
+            100% {
+                box-shadow: 0;
+            }
+        }
+        @-webkit-keyframes blink
+        {
+            0% {
+                box-shadow: 0;
+            }
+            40% {
+                box-shadow: 0px 0px 35px 20px darkred inset;
+            }
+            60% {
+                box-shadow: 0px 0px 35px 20px darkred inset;
+            }
+            100% {
+                box-shadow: 0;
+            }
+        }
+        body.active {
+            animation: blink 1s linear infinite;
+            -webkit-animation: blink 1.25s linear infinite;
+        }
+    </style>
+</head>
+<body class="active">
+    <h1 style="text-align: center">( ⊙ o ⊙ )啊！</h1>
+</body>
+</html>

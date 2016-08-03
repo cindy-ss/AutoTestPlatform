@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Progress</title>
+</head>
+<body>
+<progress max="100" value="0" id="FFF"></progress>
+<script>
+    var fuck = function(e){
+        var val = parseInt(document.querySelector("#FFF").getAttribute("value"));
+        val = (val + 10) % 100;
+        document.querySelector("#FFF").setAttribute("value", val);
+        console.log(val);
+        setTimeout(fuck, 1000);
+    };
+    fuck();
+</script>
+</body>
+</html>

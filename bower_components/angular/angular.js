@@ -3090,7 +3090,7 @@ function jqLiteDocumentLoaded(action, win) {
     // i.e. it will definitely not be in a $apply
     win.setTimeout(action);
   } else {
-    // No need to unbind this handler as load is only ever called once
+    // No need to unbind this socketHandler as load is only ever called once
     jqLite(win).on('load', action);
   }
 }
@@ -3373,7 +3373,7 @@ function createEventHandler(element, events) {
       return event.immediatePropagationStopped === true;
     };
 
-    // Some events have special handlers that wrap the real handler
+    // Some events have special handlers that wrap the real socketHandler
     var handlerWrapper = eventFns.specialHandlerWrapper || defaultHandlerWrapper;
 
     // Copy event handlers in case event handlers array is modified during execution.
@@ -3403,7 +3403,7 @@ function specialMouseHandlerWrapper(target, event, handler) {
   // Read about mouseenter and mouseleave:
   // http://www.quirksmode.org/js/events_mouse.html#link8
   var related = event.relatedTarget;
-  // For mousenter/leave call the handler if related is outside the target.
+  // For mousenter/leave call the socketHandler if related is outside the target.
   // NB: No relatedTarget if the mouse left/entered the browser window
   if (!related || (related !== target && !jqLiteContains.call(target, related))) {
     handler.call(target, event);
@@ -6026,7 +6026,7 @@ function Browser(window, document, $log, $sniffer) {
 
   /**
    * @private
-   * Remove popstate and hashchange handler from window.
+   * Remove popstate and hashchange socketHandler from window.
    *
    * NOTE: this api is intended for use only by $rootScope.
    */
@@ -13018,7 +13018,7 @@ function $LocationProvider() {
         defaultPrevented = $rootScope.$broadcast('$locationChangeStart', newUrl, oldUrl,
             newState, oldState).defaultPrevented;
 
-        // if the location was changed by a `$locationChangeStart` handler then stop
+        // if the location was changed by a `$locationChangeStart` socketHandler then stop
         // processing this location change
         if ($location.absUrl() !== newUrl) return;
 
@@ -13051,7 +13051,7 @@ function $LocationProvider() {
           var defaultPrevented = $rootScope.$broadcast('$locationChangeStart', newUrl, oldUrl,
               $location.$$state, oldState).defaultPrevented;
 
-          // if the location was changed by a `$locationChangeStart` handler then stop
+          // if the location was changed by a `$locationChangeStart` socketHandler then stop
           // processing this location change
           if ($location.absUrl() !== newUrl) return;
 
@@ -16747,7 +16747,7 @@ function $RootScopeProvider() {
        * unrolling of the loop.
        *
        * Just before a scope is destroyed, a `$destroy` event is broadcasted on this scope.
-       * Application code can register a `$destroy` event handler that will give it a chance to
+       * Application code can register a `$destroy` event socketHandler that will give it a chance to
        * perform any necessary cleanup.
        *
        * Note that, in AngularJS, there is also a `$destroy` jQuery event, which can be used to
@@ -21477,7 +21477,7 @@ var formDirectiveFactory = function(isNgForm) {
               // action is not prevented. see #1238
               //
               // IE 9 is not affected because it doesn't fire a submit event and try to do a full
-              // page reload if the form was destroyed by submission of the form via a click handler
+              // page reload if the form was destroyed by submission of the form via a click socketHandler
               // on a button in the form. Looks like an IE9 specific bug.
               var handleFormSubmission = function(event) {
                 scope.$apply(function() {
@@ -24537,7 +24537,7 @@ forEach(
         compile: function($element, attr) {
           // We expose the powerful $event object on the scope that provides access to the Window,
           // etc. that isn't protected by the fast paths in $parse.  We explicitly request better
-          // checks at the cost of speed since event handler expressions are not executed as
+          // checks at the cost of speed since event socketHandler expressions are not executed as
           // frequently as regular change detection.
           var fn = $parse(attr[directiveName], /* interceptorFn */ null, /* expensiveChecks */ true);
           return function ngEventHandler(scope, element) {
@@ -26360,7 +26360,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * Update the view value.
    *
    * This method should be called when a control wants to change the view value; typically,
-   * this is done from within a DOM event handler. For example, the {@link ng.directive:input input}
+   * this is done from within a DOM event socketHandler. For example, the {@link ng.directive:input input}
    * directive calls it when the value of the input changes and {@link ng.directive:select select}
    * calls it when an option is selected.
    *
@@ -27381,7 +27381,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
       getWatchables: $parse(valuesFn, function(optionValues) {
         // Create a collection of things that we would like to watch (watchedArray)
         // so that they can all be watched using a single $watchCollection
-        // that only runs the handler once if anything changes
+        // that only runs the socketHandler once if anything changes
         var watchedArray = [];
         optionValues = optionValues || [];
 

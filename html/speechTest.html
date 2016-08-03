@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>语音搜索测试</title>
+</head>
+<body>
+<input type="text" webkit-speech id="test" lang="zh-CN" onwebkitspeechchange="fuck()" />
+<script>
+    var fuck = function () {
+        alert(document.querySelector("#test").value());
+    }
+</script>
+</body>
+</html>

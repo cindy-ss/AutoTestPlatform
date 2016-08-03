@@ -62,7 +62,7 @@ jQuery.extend( {
 } );
 
 /**
- * The ready event handler and self cleanup method
+ * The ready event socketHandler and self cleanup method
  */
 function completed() {
 	document.removeEventListener( "DOMContentLoaded", completed );

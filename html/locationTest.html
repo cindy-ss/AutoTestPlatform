@@ -1,0 +1,14 @@
+<html>
+<body>
+<video id="demo" style="width: 800px; height: 600px;"></video>
+<script>
+    var video = document.querySelector("#demo");
+    navigator.webkitGetUserMedia({video : true}, function(stream){
+        video.src = window.webkitURL.createObjectURL(stream);
+        video.play();
+    }, function(err){
+        console.log(err)
+    })
+</script>
+</body>
+</html>

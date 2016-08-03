@@ -1,0 +1,7 @@
+var obj = '"<?xml version="1.0" encoding="UTF-8"?><Message><Head><_MCSJnlNo>1230310798</_MCSJnlNo><_RejCode>ECM000000</_RejCode><_RejMsg></_RejMsg><_MCHJnlNo>7098A0B5FFFFFFC447624762A7823013</_MCHJnlNo><_TransactionId>creditcard.MCCreditCradInfoQry</_TransactionId><_MCHTimestamp>113-0-1 0:56:2</_MCHTimestamp></Head><Body><CardNo>6251229695000180</CardNo><KeyType>01</KeyType><CustId>412625196909049638</CustId><Name>史季</Name><EmbName>SHIJI</EmbName><IssDate>20200817</IssDate><OpenDate>20200817</OpenDate><PexDate></PexDate><CrdLimt>3000000.00</CrdLimt><AvLimt>3000000.00</AvLimt><MpCredIt>0.00</MpCredIt><MpAvbile>0.00</MpAvbile><CashCredIt>1500000.00</CashCredIt><CashAvbile>1500000.00</CashAvbile><XAvlimt>0.00</XAvlimt><MaFlag>1</MaFlag><LossDt>20210408</LossDt><Expire>2308</Expire><PinChk>1</PinChk><WithDrw>1</WithDrw><PbFlag>P</PbFlag><PinSetNo>00</PinSetNo><PinSetDay>00000000</PinSetDay><CdFrm1>A4</CdFrm1><ActivDay></ActivDay><Product>0033</Product><Aecamt>000000000</Aecamt><Accamt>000000000</Accamt><ActiveCh>IS</ActiveCh><VfCrlMtSet>0</VfCrlMtSet><RepCard>0</RepCard><NewCard></NewCard><OrIssusDt>20200817</OrIssusDt><Reserved>1020200817100216</Reserved></Body></Message>"';
+
+var parser = new DOMParser();
+var xmlDoc = parser.parseFromString(data,"text/xml");
+var res;
+res = JSON.parse(xmlDoc.getElementsByTagName("_MCSJnlNo")[0].innerHTML);
+console.log(res);

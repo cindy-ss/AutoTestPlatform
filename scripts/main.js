@@ -1,22 +1,56 @@
 /**
  * Created by Edel on 16/1/27.
  */
-var edel = angular.module("edel", ['api', 'ngRoute']);
+var edel = angular.module("edel", ['api', 'ngRoute'], function($compileProvider) {
+    // configure new 'compile' directive by passing a directive
+    // factory function. The factory function injects the '$compile'
+    $compileProvider.directive('compile', function($compile) {
+        // directive factory creates a link function
+        return function(scope, element, attrs) {
+            scope.$watch(
+                function(scope) {
+                    // watch the 'compile' expression for changes
+                    return scope.$eval(attrs.compile);
+                },
+                function(value) {
+                    // when the 'compile' expression changes
+                    // assign it into the current DOM
+                    element.html(value);
+
+                    // compile the new DOM and link it to the current
+                    // scope.
+                    // NOTE: we only compile .childNodes so that
+                    // we don't get into infinite loop compiling ourselves
+                    $compile(element.contents())(scope);
+                }
+            );
+        };
+    });
+});
 
 edel.config(['$routeProvider', function($routeProvider){
     $routeProvider.
-    when('/', {templateUrl : "views/main.html", controller: "mailCtrl"}).
-    when('/file', {templateUrl: "views/file.html", controller: "fileCtrl"}).
-    when('/image', {templateUrl: "views/image.html", controller: "imageCtrl"}).
-    when('/todo', {templateUrl: "views/todo.html", controller: "todoCtrl"}).
-    when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
-    when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
-    when('/emotion', {templateUrl: "views/emotion.html", controller: "emotionCtrl"});
+    //when('/', {templateUrl : "views/main.html", controller: "mailCtrl"}).
+    //when('/file', {templateUrl: "views/file.html", controller: "fileCtrl"}).
+    //when('/image', {templateUrl: "views/image.html", controller: "imageCtrl"}).
+    //when('/todo', {templateUrl: "views/todo.html", controller: "todoCtrl"}).
+    //when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
     //when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
-    //otherwise({redirectTo : "/"});
+    //when('/emotion', {templateUrl: "views/emotion.html", controller: "emotionCtrl"}).
+    otherwise({redirectTo : "/"});
+
+    angular.forEach(config.pages, function(value, key){
+        $routeProvider.when(value.url, {
+            templateUrl : value.template,
+            controller : value.ctrl
+        })
+    });
+
 }]);
 
-edel.controller("masterCtrl", util.getParam(function($scope, $rootScope, user, socket){
+edel.controller("masterCtrl", util.getParam(function($scope, $rootScope, user, $location){
+    $scope.types = config.types;
+
     $scope.init = function(){};
 
     $scope.closeModel = function(){
@@ -36,12 +70,20 @@ edel.controller("masterCtrl", util.getParam(function($scope, $rootScope, user, s
             }
         })
     };
-}));
 
-edel.controller("navCtrl", util.getParam(function($scope, $rootScope){
-    $scope.active = 0;
-    $scope.setActive = function(num){
-        $scope.active = num;
+    console.log($location.path());
+    var getCurrentPage = function(){
+        var l = $location.path();
+        var res = "首页";
+        angular.forEach(config.pages, function(value, key){
+            if(value.url == l) res = value.type;
+        });
+        return res;
+    };
+    $rootScope.currentPage = getCurrentPage();
+    $scope.setActive = function(obj){
+        $rootScope.currentPage = obj.name;
+        $location.url(obj.url);
     };
 }));
 
@@ -302,4 +344,74 @@ edel.controller('emotionCtrl', util.getParam(function($scope, $rootScope, user, 
     };
 
     getData();
+}));
+
+edel.controller("decisionCtrl", util.getParam(function($scope){
+    $scope.options = ["KFC", "饺子", "麻辣烫", "亚惠", "顶牛", "外院"];
+
+    $scope.resList = ["", "饺子", ""];
+    $scope.weekList = ["周一", "周二", "周三", "周四", "周五"];
+    $scope.banList = $scope.resList.unique();
+
+    $scope.d = new Date().getDay();
+
+    var target = [];
+    var getTarget = function(){
+        target = $scope.options.filter(function(item){
+            return $scope.banList.indexOf(item) == -1;
+        });
+    };
+    getTarget();
+
+    $scope.ban = function(str){
+        var p = $scope.banList.indexOf(str);
+        if(p == -1){
+            $scope.banList.push(str);
+        }
+        else{
+            $scope.banList.splice(p, 1);
+        }
+        console.log($scope.banList);
+        getTarget();
+    };
+
+    $scope.getOption = function(){
+        var i = Math.floor(Math.random() * target.length);
+        //console.log(target[i]);
+        $scope.resList[$scope.d - 1] = target[i];
+    };
+
+    $scope.addOption = function () {
+        if($scope.newOption != "" && $scope.options.indexOf($scope.newOption) != -1) {
+            alert("Fuck");
+            return;
+        }
+        $scope.options.push($scope.newOption);
+        getTarget();
+        $scope.adding = false;
+    };
+
+    $scope.removeOption = function(i){
+        $scope.options.splice(i, 1);
+        getTarget();
+    }
+}));
+
+edel.controller("assistantCtrl", util.getParam(function($scope, assistant, socket){
+    $scope.thumb = "normal";
+    socket.on("emotion", function(str){
+        $scope.thumb = str;
+    });
+    socket.on("answer", function(str){
+        $scope.words = str;
+    });
+    $scope.tap = function(){
+        socket.emit("touch");
+    };
+}));
+
+edel.controller("cliCtrl", util.getParam(function($scope, assistant, socket){
+    $scope.say = function(){
+        socket.emit("say", $scope.words);
+    };
 }));

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XML</title>
+    <script>
+        var obj = '"<?xml version="1.0" encoding="UTF-8"?><Message><Head><_MCSJnlNo>1187769979</_MCSJnlNo><_RejCode>ECM000000</_RejCode><_RejMsg></_RejMsg><_MCHJnlNo>7098A0B5FFFFFFC447624762A7823013</_MCHJnlNo><_TransactionId>creditcard.MCCreditCradInfoQry</_TransactionId><_MCHTimestamp>113-0-1 8:18:45</_MCHTimestamp></Head><Body><CardNo>6251220695000445</CardNo><KeyType>01</KeyType><CustId>632223196705221770</CustId><Name>堵落羽</Name><EmbName>DULUOYU</EmbName><IssDate>20200817</IssDate><OpenDate>20200817</OpenDate><PexDate></PexDate><CrdLimt>100000.00</CrdLimt><AvLimt>100000.00</AvLimt><MpCredIt>0.00</MpCredIt><MpAvbile>0.00</MpAvbile><CashCredIt>50000.00</CashCredIt><CashVbile>50000.00</CashVbile><XCredLimit>0.00</XCredLimit><XAvlimt>0.00</XAvlimt><Maflag>1</Maflag><Lmt_opt>9</Lmt_opt><LossDt>20210408</LossDt><Expire>2308</Expire><Prod_desc>标准金卡</Prod_desc><PinChk>1</PinChk><WithDrw>1</WithDrw><PbFlag>P</PbFlag><Fee_Code>14</Fee_Code><Pin_faild>0</Pin_faild><Pin_failt>00</Pin_failt><Pin_sts>0</Pin_sts><Pin_failday>00000000</Pin_failday><PinSetNo>00</PinSetNo><PinSetDay>00000000</PinSetDay><App_sourc></App_sourc><Lmp_limit>0.00</Lmp_limit><Lmp_avail>0.00</Lmp_avail><CdFrm1>A2</CdFrm1><ActivDay></ActivDay><Cancl_day>20210408</Cancl_day><Issue_nbr>0</Issue_nbr><Fee_month>2109</Fee_month><Ori_activday></Ori_activday><Cancl_reas>03</Cancl_reas><Product>0031</Product><Category>0010</Category><Curr_num>156</Curr_num><Curr_num2>840</Curr_num2><Add_rel></Add_rel><Pin_set>1</Pin_set><Issue_sts>9</Issue_sts><Issue_reas>A</Issue_reas><Cc_yn>0</Cc_yn><Ec_yn>0</Ec_yn><Aecamt>000000000</Aecamt><Accamt>000000000</Accamt><Aecamt_tdy>0.00</Aecamt_tdy><Accamt_tdy>0.00</Accamt_tdy><ActiveCh>IS</ActiveCh><Emboss_cpy></Emboss_cpy><Prod_level>30</Prod_level><Brn_code>00080001</Brn_code><Ab_code></Ab_code><VfCrlMtSet>0</VfCrlMtSet><Amt_crelmt>0000100000</Amt_crelmt><Avl_crdlmt>100000.00</Avl_crdlmt><Card_to>F</Card_to><RepCard>0</RepCard><NewCard></NewCard><Pboc_yn>01</Pboc_yn><Active_fst>20210129</Active_fst><Cv2_fails>00</Cv2_fails><Cv2_faildl>00</Cv2_faildl><OrIssusDt>20200817</OrIssusDt><Vcn_sts></Vcn_sts><Reserved>1020200817100216</Reserved></Body></Message>"';
+
+
+
+
+        var tempObj = obj.substr(1, obj.length - 2);
+        var parser = new DOMParser();
+
+        // creates object instantce of XMLtoJSON
+        var xml2json = new XMLtoJSON();
+        var tempJson = xml2json.fromStr(tempObj);
+        console.log(tempJson);
+
+        var xmlDoc = parser.parseFromString(tempObj,"text/xml");
+//        console.log(xmlDoc.childNodes[0].innerHTML);
+        var res;
+        res = xmlDoc.getElementsByTagName("_RejCode")[0];
+        console.log(res.innerHTML);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

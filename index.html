@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="UTF-8">
     <script src="scripts/util.js"></script>
+    <script src="scripts/config.js"></script>
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
@@ -14,124 +15,41 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="lib/d3.v3.min.js"></script>
     <script src="scripts/draw.js"></script>
-    <title>个人工作台</title>
-    <style>
-        body {padding-top: 70px;}
-        .panel-body-fix {
-            height : 200px;
-            overflow: scroll;
-        }
-        .progress {
-            margin-bottom: 0;
-        }
-        .img-border {
-            /*border:1px solid #666;*/
-            /*box-shadow: 3px 3px #bbb;*/
-        }
-        .row-inner > div {
-            padding : 0;
-        }
-        .row-outer {
-            overflow-x: scroll;
-            /*white-space: nowrap;*/
-        }
-        .row-inner {
-        }
-        .list-fix {
-            width : 200px;
-            display: inline-block;
-            float: left;
-        }
-        #userBar span {
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        .axis path,
-        .axis line {
-            fill: none;
-            stroke: #000;
-            shape-rendering: crispEdges;
-        }
-
-        /*.x.axis path {*/
-            /*display: none;*/
-        /*}*/
-
-        .line {
-            fill: none;
-            stroke: steelblue;
-            stroke-width: 1.5px;
-        }
-    </style>
+    <title>Lisa</title>
+    <link rel="stylesheet" href="styles/main.css"/>
 </head>
 <body>
-<div class="container-fluid" ng-controller="masterCtrl">
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="navCtrl">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Edel</a>
-            </div>
+<div class="container-fluid">
 
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li ng-class="{'active' : active == 0}" ng-click="setActive(0)"><a href="#/">首页</a></li>
-                    <li ng-class="{'active' : active == 1}" ng-click="setActive(1)"><a href="#/file">文件</a></li>
-                    <li ng-class="{'active' : active == 2}" ng-click="setActive(2)"><a href="#/image">图册</a></li>
-                    <li ng-class="{'active' : active == 3}" ng-click="setActive(3)"><a href="#/todo">待办</a></li>
-                    <li ng-class="{'active' : active == 4}" ng-click="setActive(4)"><a href="#/lobby">大厅</a></li>
-                    <li ng-class="{'active' : active == 5}" ng-click="setActive(5)"><a href="#/emotion">曲线</a></li>
-                </ul>
-                <p class="navbar-text pull-right" id="userBar">
-                    <span ng-show="!name" ng-click="loginStart()">登录</span>
-                    <span ng-show="name">{{name}}</span>
-                    <span>登出</span>
-                </p>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-    <div ng-view></div>
-
-
-    <div class="modal fade" ng-class="{'in' : loginStat}">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="closeModel()"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Login</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <div class="form-group">
-                            <label for="userName" class="col-sm-2 control-label">用户名</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="userName" ng-model="ex_name">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="pwd" class="col-sm-2 control-label">密码</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" id="pwd" ng-model="ex_pwd">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <a class="btn btn-default" ng-click="login()">登录</a>
-                            </div>
-                        </div>
-                    </form>
+    <div class="helper" ng-controller="assistantCtrl">
+        <div class="row">
+            <img ng-src="images/thumb/{{thumb}}.png" alt="Assistant's Face" class="thumbnail helper_thumb col-sm-3 col-sm-offset-1 pull-right" ng-click="tap()" />
+            <div class="panel col-sm-8 pull-right" ng-show="words">
+                <div class="panel-body" compile="words">
+                    <!--{{words}}-->
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal-backdrop fade in" ng-show="loginStat" ng-click="closeModel()"></div>
+
+    <!--<div ng-view></div>-->
+
+    <div class="cli" ng-controller="cliCtrl">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel">
+                    <div class="panel-body cli_panel">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="what you wanna say" ng-model="words">
+                        <span class="input-group-btn">
+                            <a class="btn btn-success" ng-click="say()">Say</a>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

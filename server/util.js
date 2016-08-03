@@ -12,4 +12,19 @@ var postHandler = function(req, cb){
     });
 };
 
+Array.prototype.clone = function(){
+    return this.slice(0);
+};
+
+Array.prototype.unique = function(){
+    var result = [], hash = {};
+    for (var i = 0, elem; (elem = this[i]) != null; i++) {
+        if (!hash[elem]) {
+            result.push(elem);
+            hash[elem] = true;
+        }
+    }
+    return result;
+};
+
 exports.postHandler = postHandler;

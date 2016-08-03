@@ -73,4 +73,8 @@ var getMail = function(cb){
     imap.connect();
 };
 
+getMail(function(res){
+    console.log(res);
+});
+
 exports.getMail = getMail;
