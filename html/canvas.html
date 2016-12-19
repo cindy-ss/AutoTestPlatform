@@ -1,0 +1,21 @@
+<html>
+<head>
+    <script src="../lib/jquery-2.1.1.min.js"></script>
+    <style>
+        body {
+            width:100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        $(document).ready(function(){
+            $("#f").attr("width", $(window).width());
+            $("#f").attr("height", document.body.scrollHeight);
+        })
+    </script>
+</head>
+<body>
+<canvas id="f"></canvas>
+<div style="height: 1000px;">1</div>
+</body>
+</html>

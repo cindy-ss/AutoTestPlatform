@@ -31,10 +31,10 @@ var edel = angular.module("edel", ['api', 'ngRoute'], function($compileProvider)
 edel.config(['$routeProvider', function($routeProvider){
     $routeProvider.
     //when('/', {templateUrl : "views/main.html", controller: "mailCtrl"}).
-    //when('/file', {templateUrl: "views/file.html", controller: "fileCtrl"}).
+    when('/file', {templateUrl: "views/file.html", controller: "fileCtrl"}).
     //when('/image', {templateUrl: "views/image.html", controller: "imageCtrl"}).
     //when('/todo', {templateUrl: "views/todo.html", controller: "todoCtrl"}).
-    //when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
+    when('/lobby', {templateUrl: "views/lobby.html", controller: "lobbyCtrl"}).
     //when('/cockroach', {templateUrl: "views/cockroach.html", controller: "cockroachCtrl"}).
     //when('/emotion', {templateUrl: "views/emotion.html", controller: "emotionCtrl"}).
     otherwise({redirectTo : "/"});

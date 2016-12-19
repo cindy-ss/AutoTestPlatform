@@ -22,43 +22,95 @@
             bottom: 0;
             top: 0;
         }
-        body {
-
-        }
-        @keyframes blink
-        {
-            0% {
-                box-shadow: 0;
-            }
-            50% {
-                box-shadow: 0px 0px 25px 10px palevioletred inset;
-            }
-            100% {
-                box-shadow: 0;
-            }
-        }
         @-webkit-keyframes blink
         {
             0% {
                 box-shadow: 0;
             }
             40% {
-                box-shadow: 0px 0px 35px 20px darkred inset;
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
             }
             60% {
-                box-shadow: 0px 0px 35px 20px darkred inset;
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            100% {
+                box-shadow: 0;
+            }
+        }
+        @keyframes blink
+        {
+            0% {
+                box-shadow: 0;
+            }
+            40% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            60% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            100% {
+                box-shadow: 0;
+            }
+        }
+        @-ms-keyframes blink
+        {
+            0% {
+                box-shadow: 0;
+            }
+            40% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            60% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            100% {
+                box-shadow: 0;
+            }
+        }
+        @-moz-keyframes blink
+        {
+            0% {
+                box-shadow: 0;
+            }
+            40% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
+            }
+            60% {
+                box-shadow: 0px 0px 15px 5px #ab000d inset;
             }
             100% {
                 box-shadow: 0;
             }
         }
         body.active {
-            animation: blink 1s linear infinite;
+            animation: blink 1.25s linear infinite;
             -webkit-animation: blink 1.25s linear infinite;
+            -ms-animation: blink 1.25s linear infinite;
+            -moz-animation: blink 1.25s linear infinite;
+        }
+
+        #d {
+            /*-webkit-transform: skew(30deg, 0deg);*/
+            background: gray;
+            margin-top: 3em;
+        }
+        #fuck:after, #fuck:before{
+            position: absolute;
+            content: "a";
+            display: block;
+        }
+        #fuck:after{
+            width:3em;
+            height:2em;
+            left:-4em;
+            background: red;
+            top:0;
         }
     </style>
 </head>
 <body class="active">
-    <h1 style="text-align: center">( ⊙ o ⊙ )啊！</h1>
+    <div style="text-align: center" id="d">
+        <span id="fuck">( ⊙ o ⊙ )啊！</span>
+    </div>
 </body>
 </html>

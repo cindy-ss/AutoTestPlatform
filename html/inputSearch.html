@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InputSearch</title>
+</head>
+<body>
+<input type="text" placeholder="type some words" onkeyup="detect()" id="ipt" />
+<p id="res"></p>
+<script>
+    const detect = function () {
+        const ipt = document.querySelector('#ipt');
+//        console.log(ipt.value.match(/[\u4e00-\u9fa5](?!.*[\u4e00-\u9fa5])$/));
+        document.querySelector('#res').innerHTML = ipt.value.match(/^.*([\u4e00-\u9fa5])[^\u4e00-\u9fa5]*$/);
+    }
+</script>
+</body>
+</html>
