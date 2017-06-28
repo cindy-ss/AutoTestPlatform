@@ -1,2 +1,0 @@
-# lab
-The Lab project
