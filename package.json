@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/edel-ma/lab/issues"
   },
-  "homepage": "https://github.com/edel-ma/lab#readme"
+  "homepage": "https://github.com/edel-ma/lab#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.1",
+    "express": "^4.15.3",
+    "jquery": "^3.2.1",
+    "request": "^2.81.0"
+  }
 }

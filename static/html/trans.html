@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Helper</title>
+</head>
+<body>
+<textarea id="urls"></textarea>
+<button onclick="quest()">Quest</button>
+<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<script>
+    var quest = function(){
+        var urls = document.querySelector('#urls').value;
+        console.log(urls);
+        $.post('/api/trans', {urls : urls}, function(data){
+            console.log(data);
+        });
+    };
+</script>
+</body>
+</html>
