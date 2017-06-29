@@ -1,21 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Translation Helper</title>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css" />
 </head>
-<body>
-<textarea id="urls"></textarea>
-<button onclick="quest()">Quest</button>
+<body class="container-fluid">
+<div id="trans" class="row">
+    <div class="col-md-4">
+        <p>URL Input</p>
+        <textarea cols="3" id="urls" v-model="urls" class="form-control"></textarea>
+        <button v-on:click="quest" class="btn btn-primary">Quest</button>
+    </div>
+    <div class="col-md-8">
+        <ul class="list-unstyled">
+            <li v-for="item in arr">
+                <ul>
+                    <p><a v-bind:href="item.url">{{item.url}}</a></p>
+                    <li><strong>Description</strong> : {{item.desc}}</li>
+                    <li><strong>OG Description</strong> : {{item.ogDesc}}</li>
+                    <li><strong>Title</strong> : {{item.title}}</li>
+                    <li><strong>OG Title</strong> : {{item.ogTitle}}</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="../../node_modules/vue/dist/vue.js"></script>
 <script src="../../node_modules/jquery/dist/jquery.js"></script>
 <script>
-    var quest = function(){
-        var urls = document.querySelector('#urls').value;
-        console.log(urls);
-        $.post('/api/trans', {urls : urls}, function(data){
-            console.log(data);
-        });
-    };
+    var app = new Vue({
+        el: '#trans',
+        data: {
+            arr: [],
+            urls: ""
+        },
+        methods: {
+            quest: function () {
+                var that = this;
+                $.post('/api/trans', {urls: this.urls}, function (data) {
+                    that.arr = data;
+                });
+            }
+        }
+    });
 </script>
 </body>
 </html>

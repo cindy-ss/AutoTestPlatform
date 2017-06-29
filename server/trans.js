@@ -5,8 +5,14 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const conf = require('./conf').conf;
+const async = require('async');
 
 const fetchTrans = (url, cb) => {
+    if(url.indexOf('.html') === -1){
+        if(url.charAt(url.length - 1) !== "/"){
+            url += '/';
+        }
+    }
     const headers = getHeaders(url);
     const options = getOptions(headers);
     request(url, options, (err, data, res) => {
@@ -20,6 +26,7 @@ const fetchTrans = (url, cb) => {
         let title = $("title").text();
 
         let obj = {
+            url,
             desc,
             ogDesc,
             title,
@@ -49,4 +56,11 @@ const getOptions = (headers) => {
     };
 };
 
-exports.fetchTrans = fetchTrans;
+const runTask = (urlArr, cb) => {
+    async.map(urlArr, fetchTrans, (err, res) => {
+        console.log(res);
+        cb(res);
+    });
+};
+
+exports.runTask = runTask;

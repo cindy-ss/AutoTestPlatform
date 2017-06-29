@@ -18,11 +18,14 @@ router.route('/trans')
         res.json({});
     })
     .post((req, res) => {
-        console.log(req.body.urls.split('\n'));
-        res.json(req.body.urls);
+    console.log(req.body);
+    console.log(req.body.urls);
+        trans.runTask(req.body.urls.split('\n'), data => {
+            res.json(data);
+        });
     });
 
 app.use('/api', router);
 
-app.set('port', (process.env.PORT || 2333));
+app.set('port', (process.env.PORT || 2331));
 http.listen(app.get('port'));
