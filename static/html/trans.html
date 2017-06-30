@@ -4,15 +4,44 @@
     <meta charset="UTF-8">
     <title>Translation Helper</title>
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css"/>
+    <style>
+        .red {
+            color : red;
+        }
+    </style>
 </head>
 <body class="container-fluid">
 <div id="trans" class="row">
     <div class="col-md-4">
+        <p>
+            URL Import(.txt only)
+        </p>
+        <div class="input-group">
+            <input class="form-control" type="file" id="fileInput">
+
+            <span class="input-group-btn">
+                <input type="button" class="btn btn-primary" value="Import" v-on:click="importTxt"/>
+            </span>
+        </div>
+
         <p>URL Input</p>
-        <textarea cols="3" id="urls" v-model="urls" class="form-control"></textarea>
+        <p>
+            <textarea rows="5" id="urls" v-model="urls" class="form-control"></textarea>
+        </p>
+
         <button v-on:click="quest" class="btn btn-primary">Quest</button>
     </div>
     <div class="col-md-8">
+        <p>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
+                Excel
+            </label>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
+                HTML
+            </label>
+        </p>
         <p>
             <button v-on:click="getExcel" class="btn btn-primary">Export</button>
             <a v-bind:href="excelUrl">{{excelName}}</a>
@@ -28,7 +57,7 @@
             </tr>
             <tr v-for="item in arr">
                 <td><a v-bind:href="item.url">{{item.url}}</a></td>
-                <td>{{item.desc}}</td>
+                <td v-bind:class="{ red: item.desc.length > 50 }">{{item.desc}}</td>
                 <td>{{item.ogDesc}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.ogTitle}}</td>
@@ -55,23 +84,45 @@
         data: {
             arr: [],
             urls: "",
-            excelUrl : "",
-            excelName : ""
+            excelUrl: "",
+            excelName: ""
         },
         methods: {
             quest: function () {
-                var that = this;
-                $.post('/api/trans', {urls: this.urls}, function (data) {
-                    that.arr = data;
-                });
+                if(this.urls.length > 5){
+                    var that = this;
+                    $.post('/api/trans', {urls: this.urls}, function (data) {
+                        that.arr = data;
+                    });
+                }else{
+                    console.log("null");
+                }
             },
             getExcel: function () {
+                if(this.arr.length > 0){
+                    var that = this;
+                    $.post('/api/trans2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
+                        console.log(data);
+                        that.excelName = data;
+                        that.excelUrl = `../data/${data}`;
+                    });
+                }else{
+                    console.log('cant');
+                }
+            },
+            importTxt: function () {
                 var that = this;
-                $.post('/api/trans2xls', {xls: JSON.stringify(this.arr)}, function (data) {
-                    console.log(data);
-                    that.excelName = data;
-                    that.excelUrl = `../data/${data}`;
-                });
+                var fileInput = document.querySelector("#fileInput");
+                if(fileInput.files.length >= 1){
+                    var file = document.querySelector("#fileInput").files[0];
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        console.log(this.result);
+                        that.urls += this.result;
+                        fileInput.value = "";
+                    };
+                    reader.readAsText(file);
+                }
             }
         }
     });

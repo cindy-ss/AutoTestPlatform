@@ -10,8 +10,8 @@ const fs = require('fs');
 const excel = require('json2excel');
 
 const fetchTrans = (url, cb) => {
-    if(url.indexOf('.html') === -1){
-        if(url.charAt(url.length - 1) !== "/"){
+    if (url.indexOf('.html') === -1) {
+        if (url.charAt(url.length - 1) !== "/") {
             url += '/';
         }
     }
@@ -49,8 +49,8 @@ const getHeaders = (url) => {
 const getOptions = (headers) => {
     return {
         auth: {
-            user : conf.odName,
-            pass : conf.odPass
+            user: conf.odName,
+            pass: conf.odPass
         },
         strictSSL: false,
         followRedirect: false,
@@ -65,7 +65,45 @@ const runTask = (urlArr, cb) => {
     });
 };
 
-const export2Xls = (req, cb) => {
+const dealHTML = (content, cb) => {
+    const exportPath = `report${new Date().getTime()}.html`;
+
+    let finalStr = `
+<style>
+.red {
+color : red;
+}
+</style>
+    <table>
+    <tr>
+                <th>URL</th>
+                <th>Description</th>
+                <th>OG Description</th>
+                <th>Title</th>
+                <th>OG Title</th>
+            </tr>
+    `;
+
+    content.forEach(item => {
+        finalStr += `
+            <tr>
+                <td><a href="${item.url}">${item.url}</a></td>
+                <td${item.desc.length > 50 ? " class='red'" : ""}>${item.desc}</td>
+                <td${item.ogDesc.length > 150 ? " class='red'" : ""}>${item.ogDesc}</td>
+                <td>${item.title}</td>
+                <td>${item.ogTitle}</td>
+            </tr>
+            `;
+    });
+
+    finalStr += "</table>";
+
+    fs.writeFileSync(`static/data/${exportPath}`, finalStr, 'utf-8');
+
+    cb(null, exportPath);
+};
+
+const dealExcel = (content, cb) => {
     const exportPath = `report${new Date().getTime()}.xlsx`;
     let data = {
         sheets: [
@@ -84,13 +122,23 @@ const export2Xls = (req, cb) => {
         filepath: `static/data/${exportPath}`
     };
 
-    data.sheets[0].items = req;
+    data.sheets[0].items = content;
 
     excel.j2e(data, function (err) {
         console.log(err);
         console.log('finish');
         cb(err, exportPath);
     });
+};
+
+const export2Xls = (obj, cb) => {
+    switch (obj.type) {
+        case "html" :
+            dealHTML(obj.xls, cb);
+            break;
+        default:
+            dealExcel(obj.xls, cb);
+    }
 };
 
 exports.runTask = runTask;

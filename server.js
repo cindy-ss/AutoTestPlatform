@@ -21,7 +21,11 @@ router.route('/trans')
 
 router.route('/trans2xls')
     .post((req, res) => {
-        trans.export2Xls(JSON.parse(req.body.xls), (err, exPath) => {
+    let obj = {
+        xls : JSON.parse(req.body.xls),
+        type : req.body.type
+    };
+        trans.export2Xls(obj, (err, exPath) => {
             res.end(exPath);
         });
     });
