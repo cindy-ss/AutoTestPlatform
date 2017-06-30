@@ -5,7 +5,7 @@ const express = require("express"),
 
 const trans = require('./server/trans');
 
-app.use(body_parser.urlencoded({ extended: false }))
+app.use(body_parser.urlencoded({extended: false}))
 
 const router = express.Router();
 
@@ -13,15 +13,16 @@ app.use('/', express.static('./static'));
 app.use('/node_modules', express.static('./node_modules'));
 
 router.route('/trans')
-    .get((req, res) => {
-        console.lod(req.query.url);
-        res.json({});
-    })
     .post((req, res) => {
-    console.log(req.body);
-    console.log(req.body.urls);
         trans.runTask(req.body.urls.split('\n'), data => {
             res.json(data);
+        });
+    });
+
+router.route('/trans2xls')
+    .post((req, res) => {
+        trans.export2Xls(JSON.parse(req.body.xls), (err, exPath) => {
+            res.end(exPath);
         });
     });
 
