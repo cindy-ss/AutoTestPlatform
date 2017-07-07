@@ -18,24 +18,36 @@ const fetchTrans = (url, cb) => {
     const headers = getHeaders(url);
     const options = getOptions(headers);
     request(url, options, (err, data, res) => {
-        const $ = cheerio.load(res);
-        let desc = $("meta[name='Description']").attr('content');
+        if (!err && data.statusCode == 200) {
 
-        let ogDesc = $("meta[property='og:description']").attr('content');
+            const $ = cheerio.load(res);
+            let desc = $("meta[name='Description']").attr('content');
 
-        let ogTitle = $("meta[property='og:title']").attr('content');
+            let ogDesc = $("meta[property='og:description']").attr('content');
 
-        let title = $("title").text();
+            let ogTitle = $("meta[property='og:title']").attr('content');
 
-        let obj = {
-            url,
-            desc,
-            ogDesc,
-            title,
-            ogTitle
-        };
+            let title = $("title").text();
 
-        cb(err, obj);
+            let obj = {
+                url,
+                desc,
+                ogDesc,
+                title,
+                ogTitle
+            };
+
+            cb(err, obj);
+        }else{
+            //console.log('bad link');
+            let obj = {
+                url,
+                desc:"Bad Link",
+                ogDesc:"NA",
+                title:'NA',
+                ogTitle:'NA'};
+            cb(null,obj);
+        }
     });
 };
 
