@@ -29,7 +29,8 @@
             <textarea rows="5" id="urls" v-model="urls" class="form-control"></textarea>
         </p>
 
-        <button v-on:click="quest" class="btn btn-primary">Quest</button>
+        <button v-on:click="quest" class="btn btn-primary">Query</button>
+        <button v-on:click="clear" class="btn btn-primary">Clear</button>
     </div>
     <div class="col-md-8">
         <p>
@@ -123,6 +124,9 @@
                     };
                     reader.readAsText(file);
                 }
+            },
+            clear:function() {
+                $("#urls").val('');
             }
         }
     });
