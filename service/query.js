@@ -37,8 +37,13 @@ const query = (url, cb) => {
         }
     }
 
-    const headers = getHeaders(url);
-    const options = getOptions(headers);
+    let options = {};
+
+    if(url.indexOf('http://ic') !== -1 && url.indexOf('https://ic') !== -1){
+        const headers = getHeaders(url);
+        options = getOptions(headers);
+    }
+
     request(url, options, (err, data, res) => {
         if (!err && data && data.statusCode === 200) {
             if(data){
