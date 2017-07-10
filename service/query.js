@@ -30,16 +30,16 @@ const getOptions = (headers) => {
     };
 };
 
-const query = (url, cb) => {
+const query = (url, cb, opt) => {
     if (url.indexOf('.html') === -1) {
         if (url.charAt(url.length - 1) !== "/") {
             url += '/';
         }
     }
 
-    let options = {};
+    let options = opt || {};
 
-    if(url.indexOf('http://ic') !== -1 && url.indexOf('https://ic') !== -1){
+    if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
         const headers = getHeaders(url);
         options = getOptions(headers);
     }
@@ -65,4 +65,18 @@ const query = (url, cb) => {
     });
 };
 
+const bareQuery = (url, cb, opt) => {
+    let options = opt || {};
+
+    if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
+        const headers = getHeaders(url);
+        options = getOptions(headers);
+    }
+
+    request(url, options, (err, data, res) => {
+        cb(err, data, res);
+    });
+};
+
 exports.query = query;
+exports.bareQuery = bareQuery;
