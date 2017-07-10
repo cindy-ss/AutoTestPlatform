@@ -5,7 +5,7 @@ const express = require("express"),
 
 const trans = require('./server/trans');
 
-app.use(body_parser.urlencoded({extended: false}))
+app.use(body_parser.urlencoded({extended: false}));
 
 const router = express.Router();
 

@@ -9,17 +9,11 @@ const async = require('async');
 const fs = require('fs');
 const excel = require('json2excel');
 
-const fetchTrans = (url, cb) => {
-    if (url.indexOf('.html') === -1) {
-        if (url.charAt(url.length - 1) !== "/") {
-            url += '/';
-        }
-    }
-    const headers = getHeaders(url);
-    const options = getOptions(headers);
-    request(url, options, (err, data, res) => {
-        if (!err && data.statusCode == 200) {
+const query = require('../service/query');
 
+const fetchTrans = (url, cb) => {
+    query.query(url, (err, res) => {
+        if(!err){
             const $ = cheerio.load(res);
             let desc = $("meta[name='Description']").attr('content');
 
@@ -39,7 +33,6 @@ const fetchTrans = (url, cb) => {
 
             cb(err, obj);
         }else{
-            //console.log('bad link');
             let obj = {
                 url,
                 desc:"Bad Link",
@@ -51,28 +44,8 @@ const fetchTrans = (url, cb) => {
     });
 };
 
-const getHeaders = (url) => {
-    return {
-        referer: url,
-        "User-Agent": conf.pkg
-    };
-};
-
-const getOptions = (headers) => {
-    return {
-        auth: {
-            user: conf.odName,
-            pass: conf.odPass
-        },
-        strictSSL: false,
-        followRedirect: false,
-        headers
-    };
-};
-
 const runTask = (urlArr, cb) => {
     async.map(urlArr, fetchTrans, (err, res) => {
-        // console.log(res);
         cb(res);
     });
 };
