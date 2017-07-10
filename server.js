@@ -33,4 +33,6 @@ router.route('/trans2xls')
 app.use('/api', router);
 
 app.set('port', (process.env.PORT || 2333));
-http.listen(app.get('port'));
+http.listen(app.get('port'), () => {
+    console.log(`QA Test Platform starts on ${app.get('port')}!`)
+});

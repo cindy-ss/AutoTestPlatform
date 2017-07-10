@@ -59,7 +59,6 @@ const query = (url, cb) => {
                     msg : 'Data is Null!'
                 }, null);
             }
-            cb(null, res);
         }else{
             cb(err, null);
         }

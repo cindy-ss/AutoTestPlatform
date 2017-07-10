@@ -13,7 +13,7 @@ const query = require('../service/query');
 
 const fetchTrans = (url, cb) => {
     query.query(url, (err, res) => {
-        if(!err){
+        if (!err) {
             const $ = cheerio.load(res);
             let desc = $("meta[name='Description']").attr('content');
 
@@ -32,14 +32,15 @@ const fetchTrans = (url, cb) => {
             };
 
             cb(err, obj);
-        }else{
+        } else {
             let obj = {
                 url,
-                desc:"Bad Link",
-                ogDesc:"NA",
-                title:'NA',
-                ogTitle:'NA'};
-            cb(null,obj);
+                desc: "Bad Link",
+                ogDesc: "NA",
+                title: 'NA',
+                ogTitle: 'NA'
+            };
+            cb(null, obj);
         }
     });
 };
