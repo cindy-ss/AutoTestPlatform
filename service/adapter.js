@@ -43,6 +43,20 @@ const mp4Handler = (content, cb) => {
     cb(null, res);
 };
 
+const bgHandler = (content, cb) => {
+    let res = [];
+    const $ = cheerio.load(content);
+
+    const arr = $("figure");
+
+    arr.each((i, item) => {
+        console.log($(item).css('background'));
+        console.log($(item).class);
+    });
+
+    cb(null, res);
+};
+
 const imageHandler = (content, cb) => {
     let res = [];
     const $ = cheerio.load(content);
@@ -105,3 +119,4 @@ exports.imageHandler = imageHandler;
 exports.fontHandler = fontHandler;
 exports.mp4Handler = mp4Handler;
 exports.wechatHandler = wechatHandler;
+exports.bgHandler = bgHandler;
