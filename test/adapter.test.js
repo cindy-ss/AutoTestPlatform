@@ -17,26 +17,28 @@ const query = require('../service/query'),
 //     }
 // });
 
-const src = 'https://www.apple.com/cn/watch/';
+const src = 'https://www.apple.com/cn/retail/business/';
 
 
 query.query(src, (err, data) => {
     if (!err) {
-        adapter.imageHandler(data, (err, res) => {
-            if (!err) {
-                console.log(res);
-            }
-        });
+        // adapter.imageHandler(data, (err, res) => {
+        //     if (!err) {
+        //         console.log(res);
+        //     }
+        // });
+        //
+        // adapter.wechatHandler(data, (err, res) => {
+        //     if (!err && res) {
+        //         let tempUrl = url.resolve(src, res);
+        //         console.log(tempUrl);
+        //
+        //         file.getImageSizeByUrl(tempUrl, (err, obj) => {
+        //             console.log(obj);
+        //         })
+        //     }
+        // });
 
-        adapter.wechatHandler(data, (err, res) => {
-            if (!err && res) {
-                let tempUrl = url.resolve(src, res);
-                console.log(tempUrl);
-
-                file.getImageSizeByUrl(tempUrl, (err, obj) => {
-                    console.log(obj);
-                })
-            }
-        });
+        adapter.bgHandler(data, (err, res) => {});
     }
 });
