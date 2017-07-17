@@ -2,32 +2,48 @@
  * Created by edel.ma on 7/17/17.
  */
 
-const q = require('./query');
-const fontkit = require('fontkit');
-const fs = require('fs');
+const q = require('./query'),
+    fontkit = require('fontkit'),
+    fs = require('fs'),
+    async = require('async');
 
-const src = '/wss/fonts/PingHei/v1/PingHei-light.woff';
+const srcArr = ['PingHei/v1/PingHei-light.woff'],
+    prefix = '/wss/fonts/';
 
-const fontInit = () => {};
+const init = (cb) => {
+    async.each(srcArr, (item, callback) => {
+        q.bareQuery(`http://www.apple.com${prefix}${item}`, (err, res, data) => {
+            fs.writeFileSync('./font.woff', data);
+            callback(err);
+        }, {
+            encoding: null
+        });
+    }, err => {
+        cb();
+    });
+};
 
-// q.bareQuery(`http://www.apple.com${src}`, (err, res, data) => {
-//     // console.log(err);
-//     // console.log(data);
-//
-//     fs.writeFileSync('./font.woff', data);
-//
-// }, {
-//     encoding : null
-// });
+const check = (data) => {
+    let resArr = [];
+    const font = fontkit.openSync('./font.woff');
 
+    for(let i of data){
+        if(font.characterSet.indexOf(i.charCodeAt(0)) === -1){
+            resArr.push(i.charCodeAt(0).toString(16));
+        }
+    }
 
-const font = fontkit.openSync('./font.woff');
-// console.log(font.characterSet);
+    return resArr;
+};
 
-font.characterSet.forEach(item => {
-    console.log(item.toString(16));
-});
+const checkByUrl = (url, cb) => {
+    q.query(url, (err, data) => {
+        const $ = cheerio.load(data);
+        const text = $("body").text().replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "");
 
+        cb(err, check(text));
+    })
+};
 
 function parse(b, a) {
     var c = new XMLHttpRequest();
@@ -79,3 +95,7 @@ function parse(b, a) {
     };
     c.send()
 }
+
+exports.init = init;
+exports.check = check;
+exports.checkByUrl = checkByUrl;

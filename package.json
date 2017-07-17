@@ -33,7 +33,6 @@
     "prompt": "^1.0.0",
     "request": "^2.81.0",
     "selenium-webdriver": "^3.4.0",
-    "vue": "^2.3.4",
-    "woff-parser": "^1.0.0"
+    "vue": "^2.3.4"
   }
 }
