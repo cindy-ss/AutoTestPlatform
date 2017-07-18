@@ -3,6 +3,8 @@ const express = require("express"),
     http = require('http').Server(app),
     body_parser = require('body-parser');
 
+// const basic = require
+
 const trans = require('./server/trans');
 const wechat=require('./server/wechat');
 

@@ -4,7 +4,7 @@
 
 const ic = require('../server/image_checker');
 
-const src = '';
+const src = 'https://images.apple.com/v/mac/home/w/images/home/imac_pro_large.jpg';
 
 ic.check(src, (err, data) => {
     if(err){

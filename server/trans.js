@@ -33,6 +33,7 @@ const fetchTrans = (url, cb) => {
 
             cb(err, obj);
         } else {
+            console.log(err);
             let obj = {
                 url,
                 desc: "Bad Link",

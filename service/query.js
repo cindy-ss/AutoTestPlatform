@@ -14,11 +14,12 @@ basic.init({
 const getHeaders = (url) => {
     return {
         referer: url,
-        "User-Agent": conf.pkg
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/603.2.4 (KHTML, like Gecko) Version/10.1.1 Safari/603.2.4"
     };
 };
 
 const getOptions = (headers) => {
+    console.log(basic.odUser);
     return {
         auth: {
             user: basic.odUser,
