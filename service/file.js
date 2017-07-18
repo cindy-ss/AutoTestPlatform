@@ -12,8 +12,6 @@ const getImageSizeByUrl = (url, cb) => {
         if(!err){
             obj = sizeOf(res);
             console.log("size="+obj);
-
-
         }
 
         cb(err, obj);
