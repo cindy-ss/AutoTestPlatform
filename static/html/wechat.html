@@ -126,6 +126,7 @@
                 if(this.urls.length > 5){
                     var that = this;
                     $.post('/api/wechat', {urls: this.urls}, function (data) {
+                        console.log(data);
                         that.arr = data;
                     });
                 }else{

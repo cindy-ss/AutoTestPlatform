@@ -97,11 +97,16 @@ const dealHTML = (content, cb) => {
 .red {
 color : red;
 }
+table td, table, th {
+border : 1px solid gray;
+border-collapse: collapse;
+}
 </style>
     <table>
     <tr>
                 <th>URL</th>
                 <th>Title</th>
+                <th>WeChat Info</th>
                 <th>WeChat URL</th>
                 
             </tr>
@@ -112,9 +117,9 @@ color : red;
             <tr>
                 <td><a href="${item.url}">${item.url}</a></td>
                 <td>${item.title}</td>
-                <td><img v-bind:src="item.wechaturl" height="60" width="60"><br>
-                     Width:{{item.obj1.width}}.Hight:{{item.obj1.height}}</td>
-                <td> URL:{{item.wechaturl}}<br></td>
+                <td><img src="${item.wechaturl}" height="60" width="60"><br>
+                     Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
+                <td> URL:${item.wechaturl}}<br></td>
             </tr>
             `;
     });
