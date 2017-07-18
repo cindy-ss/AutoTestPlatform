@@ -39,7 +39,16 @@ router.route('/trans2xls')
             res.end(exPath);
         });
     });
-
+router.route('/wechat2xls')
+    .post((req, res) => {
+        let obj = {
+            xls : JSON.parse(req.body.xls),
+            type : req.body.type
+        };
+        wechat.export2Xls(obj, (err, exPath) => {
+            res.end(exPath);
+        });
+    });
 app.use('/api', router);
 
 app.set('port', (process.env.PORT || 2333));

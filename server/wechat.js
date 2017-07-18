@@ -52,7 +52,6 @@ const fetchTrans = (url, cb) => {
                             //console.log(" obj width="+obj1.width);
                             let obj = {
                                 url,
-                                desc,
                                 title,
                                 wechaturl,
                                 obj1
@@ -75,7 +74,6 @@ const fetchTrans = (url, cb) => {
             console.log("404");
             let obj = {
                 url,
-                desc: "Bad Link",
                 title: 'NA',
                 wechaturl:'NA',
                 obj1:'NA'
@@ -103,10 +101,9 @@ color : red;
     <table>
     <tr>
                 <th>URL</th>
-                <th>Description</th>
-                <th>OG Description</th>
                 <th>Title</th>
-                <th>OG Title</th>
+                <th>WeChat URL</th>
+                
             </tr>
     `;
 
@@ -114,10 +111,10 @@ color : red;
         finalStr += `
             <tr>
                 <td><a href="${item.url}">${item.url}</a></td>
-                <td${item.desc.length > 50 ? " class='red'" : ""}>${item.desc}</td>
-                <td${item.ogDesc.length > 150 ? " class='red'" : ""}>${item.ogDesc}</td>
                 <td>${item.title}</td>
-                <td>${item.ogTitle}</td>
+                <td><img v-bind:src="item.wechaturl" height="60" width="60"><br>
+                     Width:{{item.obj1.width}}.Hight:{{item.obj1.height}}</td>
+                <td> URL:{{item.wechaturl}}<br></td>
             </tr>
             `;
     });
@@ -136,10 +133,8 @@ const dealExcel = (content, cb) => {
             {
                 header: {
                     url: 'URL',
-                    desc: 'Description',
-                    ogDesc: 'OG Description',
                     title: 'Title',
-                    ogTitle: 'OG Title',
+                    wechaturl: 'WeChat',
                 },
                 items: [],
                 sheetName: 'Report',
