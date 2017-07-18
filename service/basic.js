@@ -7,10 +7,10 @@ let odUser, odPass;
 //Init with your OD user name and password.
 const init = (option) => {
     option = option || {};
-    odUser = option.odUser || undefined;
-    odPass = option.odPass || undefined;
+    this.odUser = option.odUser || undefined;
+    this.odPass = option.odPass || undefined;
 };
 
 exports.init = init;
-exports.odUser = odUser;
-exports.odPass = odPass;
+exports.odUser = this.odUser;
+exports.odPass = this.odPass;
