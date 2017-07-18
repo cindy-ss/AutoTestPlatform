@@ -4,7 +4,7 @@
 
 const request = require('request');
 const cheerio = require('cheerio');
-const conf = require('./conf').conf;
+// const conf = require('./conf').conf;
 const async = require('async');
 const fs = require('fs');
 const excel = require('json2excel');

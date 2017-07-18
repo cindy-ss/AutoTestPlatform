@@ -3,12 +3,12 @@
  */
 
 const request = require('request');
-const conf = require('../server/conf').conf;
+// const conf = require('../server/conf').conf;
 const basic = require('./basic');
 
 basic.init({
-    odUser : conf.odName,
-    odPass : conf.odPass
+    // odUser : conf.odName,
+    // odPass : conf.odPass
 });
 
 const getHeaders = (url) => {

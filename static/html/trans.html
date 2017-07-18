@@ -1,167 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<h2 class="page-header">Translation Helper</h2>
+<div id="trans" class="row">
+    <div class="col-md-4">
+        <p>
+            URL Import(.txt only)
+        </p>
+        <div class="input-group">
+            <input class="form-control" type="file" id="fileInput">
 
-    <title>Translation Helper</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css"/>
-    <link href="../styles/dashboard.css" rel="stylesheet">
-
-    <style>
-        .red {
-            color : red;
-        }
-    </style>
-</head>
-
-<body class="container-fluid">
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">QA Test Platform</a>
+            <span class="input-group-btn">
+    <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+</span>
         </div>
+
+        <p>URL Input</p>
+        <p>
+            <textarea rows="5" id="urls" class="form-control"></textarea>
+        </p>
+
+        <button id="btnQuest" class="btn btn-primary">Query</button>
+        <button id="btnClear" class="btn btn-primary">Clear</button>
     </div>
-</nav>
+    <div class="col-md-8">
+        <p>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
+                Excel
+            </label>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
+                HTML
+            </label>
+        </p>
+        <p>
+            <button id="btnExport" v-on:click="getExcel" class="btn btn-primary">Export</button>
+            <a v-bind:href="excelUrl" target="_blank">{{excelName}}</a>
+        </p>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="../index.html">Overview <span class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="#">Translation Helper</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="page-header">Translation Helper</h2>
-            <div id="trans" class="row">
-                <div class="col-md-4">
-                    <p>
-                        URL Import(.txt only)
-                    </p>
-                    <div class="input-group">
-                        <input class="form-control" type="file" id="fileInput">
-
-                        <span class="input-group-btn">
-                <input type="button" class="btn btn-primary" value="Import" v-on:click="importTxt"/>
-            </span>
-                    </div>
-
-                    <p>URL Input</p>
-                    <p>
-                        <textarea rows="5" id="urls" v-model="urls" class="form-control"></textarea>
-                    </p>
-
-                    <button v-on:click="quest" class="btn btn-primary">Query</button>
-                    <button v-on:click="clear" class="btn btn-primary">Clear</button>
-                </div>
-                <div class="col-md-8">
-                    <p>
-                        <label>
-                            <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-                            Excel
-                        </label>
-                        <label>
-                            <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-                            HTML
-                        </label>
-                    </p>
-                    <p>
-                        <button v-on:click="getExcel" class="btn btn-primary">Export</button>
-                        <a v-bind:href="excelUrl" target="_blank">{{excelName}}</a>
-                    </p>
-
-                    <table class="table table-striped table-bordered">
-                        <tr>
-                            <th>URL</th>
-                            <th>Description</th>
-                            <th>OG Description</th>
-                            <th>Title</th>
-                            <th>OG Title</th>
-
-
-                        </tr>
-                        <tr v-for="item in arr">
-                            <td><a v-bind:href="item.url">{{item.url}}</a></td>
-                            <td v-bind:class="{ red:  item.desc.length > 150 }">{{item.desc}}</td>
-                            <td v-bind:class="{ red:  item.desc.length > 150 }">{{item.ogDesc}}</td>
-                            <td>{{item.title}}</td>
-                            <td>{{item.ogTitle}}</td>
-
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>URL</th>
+                <th>Description</th>
+                <th>OG Description</th>
+                <th>Title</th>
+                <th>OG Title</th>
+            </tr>
+            <tbody id="resContainer">
+            </tbody>
+        </table>
     </div>
 </div>
 
-
-<script src="../../node_modules/vue/dist/vue.js"></script>
-<script src="../../node_modules/jquery/dist/jquery.js"></script>
 <script>
-    var app = new Vue({
-        el: '#trans',
-        data: {
-            arr: [],
-            urls: "",
-            excelUrl: "",
-            excelName: ""
-        },
-        methods: {
-            quest: function () {
-                if(this.urls.length > 5){
-                    var that = this;
-                    $.post('/api/trans', {urls: this.urls}, function (data) {
-                        that.arr = data;
-                    });
-                }else{
-                    console.log("null");
-                }
-            },
-            getExcel: function () {
-                if(this.arr.length > 0){
-                    var that = this;
-                    $.post('/api/trans2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
-                        console.log(data);
-                        that.excelName = data;
-                        that.excelUrl = `../data/${data}`;
-                    });
-                }else{
-                    console.log('cant');
-                }
-            },
-            importTxt: function () {
-                var that = this;
-                var fileInput = document.querySelector("#fileInput");
-                if(fileInput.files.length >= 1){
-                    var file = document.querySelector("#fileInput").files[0];
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        console.log(this.result);
-                        that.urls += this.result;
-                        fileInput.value = "";
-                    };
-                    reader.readAsText(file);
-                }
-            },
-            clear:function() {
-                $("#urls").val('');
-            }
+    const fileInput = $("#fileInput");
+    const urlInput = $("#urls");
+    const resContainer = $('#resContainer');
+
+    $("#btnImport").click(() => {
+        if (fileInput[0].files.length >= 1) {
+            const file = fileInput[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                urlInput.val(this.result);
+                fileInput.val("");
+            };
+            reader.readAsText(file);
         }
     });
+
+    $('#btnClear').click(() => {
+        urlInput.val('');
+    });
+
+    $('#btnQuest').click(() => {
+        if (urlInput.val().length > 5) {
+            resContainer.html('');
+            $.post('/api/trans', {urls: urlInput.val()}, function (data) {
+                if (data) {
+                    let str = '';
+                    data.forEach((item, index) => {
+                        str += `<tr>
+                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.desc}</td>
+                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.ogDesc}</td>
+                                    <td>${item.title}</td>
+                                    <td>${item.ogTitle}</td>
+                                </tr>`
+                    });
+                    resContainer.html(str);
+                }
+            });
+        } else {
+            console.log("null");
+        }
+    });
+
+    //            getExcel: function () {
+    //                if (this.arr.length > 0) {
+    //                    var that = this;
+    //                    $.post('/api/trans2xls', {
+    //                        xls: JSON.stringify(this.arr),
+    //                        type: document.querySelector("input[name=optionsRadios]:checked").value
+    //                    }, function (data) {
+    //                        console.log(data);
+    //                        that.excelName = data;
+    //                        that.excelUrl = `../data/${data}`;
+    //                    });
+    //                } else {
+    //                    console.log('cant');
+    //                }
+    //            },
+    //            importTxt: function () {
+    //                var that = this;
+    //                var fileInput = document.querySelector("#fileInput");
+    //                if (fileInput.files.length >= 1) {
+    //                    var file = document.querySelector("#fileInput").files[0];
+    //                    var reader = new FileReader();
+    //                    reader.onload = function () {
+    //                        console.log(this.result);
+    //                        that.urls += this.result;
+    //                        fileInput.value = "";
+    //                    };
+    //                    reader.readAsText(file);
+    //                }
+    //            },
 </script>
-</body>
-</html>
