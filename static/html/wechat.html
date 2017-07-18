@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Translation Helper</title>
+    <title>WeChat Helper</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css"/>
@@ -45,7 +45,7 @@
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="page-header">Translation Helper</h2>
+            <h2 class="page-header">WeChat Helper</h2>
             <div id="trans" class="row">
                 <div class="col-md-4">
                     <p>
@@ -87,18 +87,20 @@
                         <tr>
                             <th>URL</th>
                             <th>Description</th>
-                            <th>OG Description</th>
                             <th>Title</th>
-                            <th>OG Title</th>
+                            <th>WeChat URL</th>
+                            <th>WeChat Img</th>
 
 
                         </tr>
                         <tr v-for="item in arr">
                             <td><a v-bind:href="item.url">{{item.url}}</a></td>
-                            <td v-bind:class="{ red:  item.desc.length > 150 }">{{item.desc}}</td>
-                            <td v-bind:class="{ red:  item.desc.length > 150 }">{{item.ogDesc}}</td>
+                            <td v-bind:class="{ red: item.desc.length > 150 }">{{item.desc}}</td>
                             <td>{{item.title}}</td>
-                            <td>{{item.ogTitle}}</td>
+                            <td><img v-bind:src="item.wechaturl" height="60" width="60"><br>
+                                Width:{{item.obj1.width}}.Hight:{{item.obj1.height}}</td>
+                             <td> URL:{{item.wechaturl}}<br></td>
+
 
                         </tr>
                     </table>
@@ -124,7 +126,7 @@
             quest: function () {
                 if(this.urls.length > 5){
                     var that = this;
-                    $.post('/api/trans', {urls: this.urls}, function (data) {
+                    $.post('/api/wechat', {urls: this.urls}, function (data) {
                         that.arr = data;
                     });
                 }else{

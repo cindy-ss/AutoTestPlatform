@@ -8,8 +8,12 @@ const conf = require('./conf').conf;
 const async = require('async');
 const fs = require('fs');
 const excel = require('json2excel');
-
 const query = require('../service/query');
+
+const sizeOf = require('image-size');
+const file = require('../service/file');
+const URL = require('url');
+const adapter = require('../service/adapter');
 
 const fetchTrans = (url, cb) => {
     query.query(url, (err, res) => {
@@ -23,22 +27,58 @@ const fetchTrans = (url, cb) => {
 
             let title = $("title").text();
 
-            let obj = {
-                url,
-                desc,
-                ogDesc,
-                title,
-                ogTitle
-            };
+            let p = URL.parse(url);
 
-            cb(err, obj);
+            adapter.wechatHandler(res, (err, res1) => {
+                if(!err){
+                    if (res1==null){
+                        console.log("null");
+                        let obj = {
+                            url,
+                            desc,
+                            title,
+                            wechaturl:"No WeChat Img",
+                            obj1:"NA"
+
+                        };
+                        cb(err, obj);
+
+                    }else{
+
+                        let wechaturl = p.protocol + "//" + p.hostname + res1;
+                        let src = wechaturl;
+                        console.log("src="+src);
+                        file.getImageSizeByUrl(src, (err, obj1) => {
+                            //console.log(" obj width="+obj1.width);
+                            let obj = {
+                                url,
+                                desc,
+                                title,
+                                wechaturl,
+                                obj1
+
+                            };
+                            cb(err, obj);
+
+                        });
+
+                    }
+                }
+
+            })
+
+
+
+
         } else {
+
+            console.log("404");
             let obj = {
                 url,
                 desc: "Bad Link",
-                ogDesc: "NA",
                 title: 'NA',
-                ogTitle: 'NA'
+                wechaturl:'NA',
+                obj1:'NA'
             };
             cb(null, obj);
         }

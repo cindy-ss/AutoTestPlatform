@@ -4,6 +4,7 @@ const express = require("express"),
     body_parser = require('body-parser');
 
 const trans = require('./server/trans');
+const wechat=require('./server/wechat');
 
 app.use(body_parser.urlencoded({extended: false}));
 
@@ -19,6 +20,13 @@ router.route('/trans')
         });
     });
 
+router.route('/wechat')
+    .post((req, res) => {
+        wechat.runTask(req.body.urls.split('\n'), data => {
+            res.json(data);
+
+        });
+    });
 router.route('/trans2xls')
     .post((req, res) => {
     let obj = {
