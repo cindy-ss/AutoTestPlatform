@@ -12,21 +12,30 @@ $(() =>{
 
     const sideBar = $("#sidebar");
     const main = $("#content");
+    const txtOdUser = $('#txtOdUser');
+    const txtOdPass = $('#txtOdPass');
 
     sideBar.load('../include/sidebar.html', () => {
         sideBar.find('a').click(loadTarget);
         main.load('../html/main.html')
     });
 
-    let odUser = localStorage.getItem('odUser');
-    let odPass = localStorage.getItem('odPass');
+    $.get('/api/init', data => {
+        const {odUser, odPass} = data;
 
-    if(!(odUser && odPass)){
-        $('#odConfirm').modal();
-    }
+        console.log(odUser);
+
+        if(!(odUser && odPass)){
+            $('#odConfirm').modal();
+        }
+    });
 
     $('#btnSubmit').click(() => {
-        console.log($('#txtOdUser').val());
-        console.log($('#txtOdPass').val());
+        $.post('/api/init', {odUser : txtOdUser.val(), odPass : txtOdPass.val()}, function(data){
+            console.log(data);
+            if(data && data.odPass && data.odUser){
+                $("#odConfirm").modal('hide');
+            }
+        })
     });
 });
