@@ -33,15 +33,21 @@
         <p class="col-md-5 exbutton">
             <button id="btnExport"  class="btn btn-primary">Export</button>
         </p>
-
+    </div>
+    <div class="col-md-8">
         <table class="table table-striped table-bordered">
+            <thead>
             <tr>
                 <th>URL</th>
-                <th>Description</th>
-                <th>OG Description</th>
                 <th>Title</th>
+                <th>Description</th>
                 <th>OG Title</th>
+                <th>OG Description</th>
+                <th>OG Img</th>
+                <th>WeChat Img</th>
+                <th>WeChat URL</th>
             </tr>
+            </thead>
             <tbody id="resContainer">
             </tbody>
         </table>
@@ -76,10 +82,17 @@
                     data.forEach((item, index) => {
                         str += `<tr>
                                     <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.desc}</td>
-                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.ogDesc}</td>
                                     <td>${item.title}</td>
+                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.desc}</td>
                                     <td>${item.ogTitle}</td>
+                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.ogDesc}</td>
+                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage"style="height:60px; width:60px "><br>
+                                     <br>
+                                      Width:${item.obj2.width}.Hight:${item.obj2.height}</td></td>
+                                    <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage"style="height:60px; width:60px "><br>
+                                     <br>
+                                      Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
+                                    <td>${item.wechaturl}</td>
                                 </tr>`
                     });
                     $('#resContainer').html(str);
