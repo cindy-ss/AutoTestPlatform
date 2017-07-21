@@ -4,15 +4,20 @@
 
 const ic = require('../server/image_checker');
 
-const src = 'https://images.apple.com/v/mac/home/w/images/home/imac_pro_large.jpg';
+const src = '/cn/iphone-7/images/overview/software_hero_medium_2x.jpg';
 
-ic.check(src, (err, data) => {
+ic.checkWithSize(src, (err, data) => {
     if(err){
         console.log(err);
     }else{
         console.log(`The check result for ${src} is : `);
-        data.forEach((item, index) => {
-            console.log(`[${index}]. < ${item.url} > : ${item.res.height} * ${item.res.width}`);
+        console.log("GEO:");
+        data.geo.forEach((item, index) => {
+            console.log(`[${index + 1}]. < ${item.url} > : ${item.res.height} * ${item.res.width}`);
+        });
+        console.log("US:");
+        data.us.forEach((item, index) => {
+            console.log(`[${index + 1}]. < ${item.url} > : ${item.res.height} * ${item.res.width}`);
         })
     }
 });

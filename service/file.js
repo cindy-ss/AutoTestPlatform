@@ -9,13 +9,13 @@ const getImageSizeByUrl = (url, cb) => {
     let obj = {};
 
     query.bareQuery(url, (err, data, res) => {
-        if(!err){
+        if(data && data.statusCode === 200){
             obj = sizeOf(res);
-            console.log("size="+obj);
+            // console.log("size="+obj);
         }
 
         cb(err, obj);
-    }, {encoding : null});
+    }, {}, {encoding : null});
 };
 
 exports.getImageSizeByUrl = getImageSizeByUrl;

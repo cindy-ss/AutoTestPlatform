@@ -6,11 +6,12 @@ const query = require('../service/query'),
     url = require('url'),
     path = require('path'),
     file = require('../service/file'),
-    async = require('async');
+    async = require('async'),
+    gh = require('../service/geo_helper');
 
-const BASE = ['_medium', '_medium_2x', '_large', '_large_2x'];
+const BASE = ['_medium', '_medium_2x', '_large', '_large_2x', '_small', '_small_2x'];
 
-const check = (src, cb) => {
+const checkWithSize = (src, cb) => {
     if (!(cb && typeof cb === "function")) {
         cb = () => {
         };
@@ -18,12 +19,17 @@ const check = (src, cb) => {
 
     const _url = url.resolve("https://www.apple.com/", src);
 
+    let isUS = _url.indexOf('/v/') !== -1;
+
     const obj = path.parse(_url);
 
     const arr = obj.name ? obj.name.split("_") : [];
 
-    let imageArr = [], resArr = [];
-
+    let geoImageArr = [], usImageArr = [];
+    let res = {
+        geo: [],
+        us: [],
+    };
     let newName;
 
     if (arr.length >= 1) {
@@ -38,22 +44,49 @@ const check = (src, cb) => {
 
     if (newName) {
         for (let i of BASE) {
-            imageArr.push(url.resolve(_url, `${newName}${i}${obj.ext}`));
+            const item = url.resolve(_url, `${newName}${i}${obj.ext}`);
+            if(isUS){
+                usImageArr.push(item);
+            }else{
+                geoImageArr.push(item);
+                usImageArr.push(gh.geo2us(item));
+            }
         }
     }
 
-    async.each(imageArr, (item, callback) => {
-        file.getImageSizeByUrl(item, (err, obj) => {
-            const temp = {
-                url: item,
-                res: obj
-            };
-            resArr.push(temp);
-            callback(err);
-        });
-    }, (err) => {
-        cb(err, resArr);
+    async.waterfall([
+        callback => {
+            async.each(geoImageArr, (item, callbackInner) => {
+                file.getImageSizeByUrl(item, (err, obj) => {
+                    const temp = {
+                        url: item,
+                        res: obj
+                    };
+                    res.geo.push(temp);
+                    callbackInner(err);
+                });
+            }, (err) => {
+                callback(err);
+            });
+        },
+        callback => {
+            async.each(usImageArr, (item, callbackInner) => {
+                file.getImageSizeByUrl(item, (err, obj) => {
+                    const temp = {
+                        url: item,
+                        res: obj
+                    };
+                    res.us.push(temp);
+                    callbackInner(err);
+                });
+            }, (err) => {
+                callback(err);
+            });
+        }
+    ], (err, result) => {
+        cb(err, res);
     });
 };
 
-exports.check = check;
+exports.checkWithSize = checkWithSize;
+// exports.check = check;
