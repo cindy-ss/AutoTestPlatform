@@ -21,10 +21,11 @@ const metrics = [
     prefix = '/wss/fonts/';
 
 const getAvailableFontType = () => {
+    return metrics.map(({name}) => {return name;});
     // let arr = [];
     // metrics.forEach((item, index) => {arr.push(item.name)});
     // return arr;
-    return metrics;
+    // return metrics;
 };
 
 const init = (cb) => {
@@ -44,8 +45,8 @@ const check = (data, option) => {
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
     let res = {};
     let srcArr = [];
-    let filter = [];
     if(option){
+        let filter = [];
         for(let i of metrics[0]){
             if(option[i]){
                 filter.push(i);
@@ -78,7 +79,6 @@ const check = (data, option) => {
         }
     });
 
-
     return res;
 };
 
@@ -87,60 +87,9 @@ const checkByUrl = (url, option, cb) => {
         const $ = cheerio.load(data);
         const text = $("body").text();
 
-        cb(err, check(text));
+        cb(err, check(text, option));
     })
 };
-
-function parse(b, a) {
-    var c = new XMLHttpRequest();
-    c.open("GET", b, true);
-    c.responseType = "arraybuffer";
-    c.onreadystatechange = function () {
-        if (c.readyState == 4 && c.status == 200) {
-            opentype.parse(this.response);
-            progress++;
-            if (a == 101) {
-                cnTradArray = glyphArray;
-            } else if (a == 201) {
-                hkTradArray = glyphArray;
-            } else if (a == 301) {
-                twTradArray = glyphArray;
-            } else if (a == 102) {
-                cnHanHeiArray = glyphArray;
-            } else if (a == 202) {
-                hkHanHeiArray = glyphArray;
-            } else if (a == 302) {
-                twHanHeiArray = glyphArray;
-            } else if (a == 103) {
-                cnSFArray = glyphArray;
-            } else if (a == 203) {
-                hkSFArray = glyphArray;
-            } else if (a == 303) {
-                twSFArray = glyphArray;
-            } else if (a == 401) {
-                usMyriadArray = glyphArray;
-            } else if (a == 403) {
-                usSFDisplayArray = glyphArray;
-            } else if (a == 99902) {
-                usSFIconsArray = glyphArray;
-            }
-            if (progress === 12) {
-                fontArrayData = {
-                    'zh-CN': {'PingHei': cnTradArray, 'HanHei': cnHanHeiArray, 'SF': cnSFArray},
-                    'zh-HK': {'MHei': hkTradArray, 'HanHei': hkHanHeiArray, 'SF': hkSFArray},
-                    'zh-TW': {'MHei': twTradArray, 'HanHei': twHanHeiArray, 'SF': twSFArray},
-                    'en-US': {'myriad': usMyriadArray, 'SF': usSFDisplayArray},
-                    'ja-JP': {},
-                    'ko-KR': {},
-                    'zh-MO': {'trad': hkTradArray, 'hanhei': hkHanHeiArray, 'sf': hkSFArray},
-                    'ar-AE': {'gulf': []},
-                    'ICONS': {'icons': usSFIconsArray}
-                };
-            }
-        }
-    };
-    c.send()
-}
 
 exports.init = init;
 exports.check = check;

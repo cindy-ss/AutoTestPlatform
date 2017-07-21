@@ -4,6 +4,8 @@
 
 const font = require('../service/font');
 
-font.init(() => {
-    console.log(font.check('宁波市海曙区碶闸街 133 号 天一广场 8 号门'));
-});
+// font.init(() => {
+//     console.log(font.check('阿飞镂空设计的就快过完了'));
+// });
+
+console.log(font.getAvailableFontType());
