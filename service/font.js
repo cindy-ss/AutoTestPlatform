@@ -21,11 +21,8 @@ const metrics = [
     prefix = '/wss/fonts/';
 
 const getAvailableFontType = () => {
-    return metrics.map(({name}) => {return name;});
-    // let arr = [];
-    // metrics.forEach((item, index) => {arr.push(item.name)});
-    // return arr;
-    // return metrics;
+    // return metrics.map(({name}) => {return name;});
+    return metrics;
 };
 
 const init = (cb) => {
