@@ -30,7 +30,7 @@ router.route('/init')
 
 router.route('/trans')
     .post((req, res) => {
-        trans.runTask(req.body.urls.split('\n'), data => {
+        trans.runTask(req.body.urls.split('\n'), req.session.od, data => {
             res.json(data);
         });
     });

@@ -10,7 +10,7 @@ const excel = require('json2excel');
 
 const query = require('../service/query');
 
-const fetchTrans = (url, cb) => {
+const fetchTrans = (url, auth, cb) => {
     query.query(url, (err, res) => {
         if (!err) {
             const $ = cheerio.load(res);
@@ -42,11 +42,13 @@ const fetchTrans = (url, cb) => {
             };
             cb(null, obj);
         }
-    });
+    }, auth);
 };
 
-const runTask = (urlArr, cb) => {
-    async.map(urlArr, fetchTrans, (err, res) => {
+const runTask = (urlArr, auth, cb) => {
+    async.map(urlArr, (item, callback) => {
+        fetchTrans(item, auth, callback)
+    }, (err, res) => {
         cb(res);
     });
 };
