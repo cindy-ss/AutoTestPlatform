@@ -64,11 +64,9 @@
             reader.readAsText(file);
         }
     });
-
     $('#btnClear').click(() => {
         $("#urls").val('');
     });
-
     $('#btnQuest').click(() => {
         if ($("#urls").val().length > 5) {
             $('#resContainer').html('');
