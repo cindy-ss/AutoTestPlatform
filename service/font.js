@@ -14,12 +14,18 @@ const metrics = [
             geo : 'cn',
             type : 'woff2',
             name : 'SF_SC_WOFF2',
+            weight : 400,
             path : './font/PingFangSC-Regular.woff2'
         }
     ],
     prefix = '/wss/fonts/';
 
-const getAvailableFontType = () => {};
+const getAvailableFontType = () => {
+    // let arr = [];
+    // metrics.forEach((item, index) => {arr.push(item.name)});
+    // return arr;
+    return metrics;
+};
 
 const init = (cb) => {
     async.each(metrics, (item, callback) => {
@@ -38,7 +44,26 @@ const check = (data, option) => {
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
     let res = {};
     let srcArr = [];
-    srcArr = metrics;
+    let filter = [];
+    if(option){
+        for(let i of metrics[0]){
+            if(option[i]){
+                filter.push(i);
+            }
+        }
+        metrics.forEach((item, index) => {
+            let flag = true;
+            for(let i of filter){
+                flag = flag && (item[i] === option[i]);
+            }
+            if(flag){
+                srcArr.push(item)
+            }
+        });
+    }else{
+        srcArr = metrics;
+    }
+
     srcArr.forEach((item, index) => {
         res[item.name] = [];
         const font = fontkit.openSync(item.path);
@@ -57,7 +82,7 @@ const check = (data, option) => {
     return res;
 };
 
-const checkByUrl = (url, cb) => {
+const checkByUrl = (url, option, cb) => {
     q.query(url, (err, data) => {
         const $ = cheerio.load(data);
         const text = $("body").text();
@@ -120,3 +145,4 @@ function parse(b, a) {
 exports.init = init;
 exports.check = check;
 exports.checkByUrl = checkByUrl;
+exports.getAvailableFontType = getAvailableFontType;
