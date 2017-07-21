@@ -5,41 +5,62 @@
 const q = require('./query'),
     fontkit = require('fontkit'),
     fs = require('fs'),
-    async = require('async');
+    async = require('async'),
+    path = require('path');
 
-const srcArr = ['PingHei/v1/PingHei-light.woff'],
+const metrics = [
+        {
+            url : 'SF-Pro-SC/v1/PingFangSC-Regular.woff2',
+            geo : 'cn',
+            type : 'woff2',
+            name : 'SF_SC_WOFF2',
+            path : './font/PingFangSC-Regular.woff2'
+        }
+    ],
     prefix = '/wss/fonts/';
 
+const getAvailableFontType = () => {};
+
 const init = (cb) => {
-    async.each(srcArr, (item, callback) => {
-        q.bareQuery(`http://www.apple.com${prefix}${item}`, (err, res, data) => {
-            fs.writeFileSync('./font.woff', data);
+    async.each(metrics, (item, callback) => {
+        q.bareQuery(`http://www.apple.com${prefix}${item.url}`, (err, res, data) => {
+            fs.writeFileSync(item.path, data);
             callback(err);
-        }, {
+        }, {}, {
             encoding: null
         });
     }, err => {
-        cb();
+        cb(err);
     });
 };
 
-const check = (data) => {
-    let resArr = [];
-    const font = fontkit.openSync('./font.woff');
+const check = (data, option) => {
+    data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
+    let res = {};
+    let srcArr = [];
+    srcArr = metrics;
+    srcArr.forEach((item, index) => {
+        res[item.name] = [];
+        const font = fontkit.openSync(item.path);
 
-    for(let i of data){
-        if(font.characterSet.indexOf(i.charCodeAt(0)) === -1){
-            resArr.push(i.charCodeAt(0).toString(16));
+        for (let i of data) {
+            if (font.characterSet.indexOf(i.charCodeAt(0)) === -1) {
+                res[item.name].push({
+                    word : i,
+                    code : i.charCodeAt(0).toString(16)
+                });
+            }
         }
-    }
+    });
 
-    return resArr;
+
+    return res;
 };
 
 const checkByUrl = (url, cb) => {
     q.query(url, (err, data) => {
         const $ = cheerio.load(data);
-        const text = $("body").text().replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "");
+        const text = $("body").text();
 
         cb(err, check(text));
     })
