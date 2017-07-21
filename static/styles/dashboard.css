@@ -6,7 +6,10 @@
 body {
   padding-top: 50px;
 }
-
+ul,li{
+  marign:0;
+  padding:0;
+}
 
 /*
  * Global add-ons
@@ -30,9 +33,6 @@ body {
  */
 
 /* Hide for mobile, show later */
-.sidebar {
-  display: none;
-}
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
@@ -66,14 +66,45 @@ body {
   color: #fff;
   background-color: #428bca;
 }
-
-
+.sideIcon{
+  width: 20px;
+  float: left;
+  color: #333;
+  font-size: 16px;
+  border: 0;
+  background: transparent;
+  outline: none;
+  margin-top: 300px;
+  padding-left: 0;
+}
+.navslid{
+  border: 1px solid #ccc;
+  height: 700px;
+}
+@keyframes show {
+  from {width: 0;}
+  to {width: 200px;}
+}
+@keyframes hide {
+  from {width: 200px}
+  to {width: 0;}
+}
+.navslid-show {
+  animation-name: show;
+}
+.navslid-hide {
+  animation-name: hide;
+  animation-duration: 1s;
+  width: 0;
+  margin-left:-100px;
+}
 /*
  * Main content
  */
 
 .main {
   padding: 20px;
+  margin-left:0;
 }
 @media (min-width: 768px) {
   .main {
@@ -103,4 +134,8 @@ body {
 .placeholder img {
   display: inline-block;
   border-radius: 50%;
+}
+/*Export style*/
+.exbutton{
+  margin-top:-10px;
 }

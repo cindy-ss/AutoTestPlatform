@@ -1,76 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>WeChat Helper</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css"/>
-    <link href="../styles/dashboard.css" rel="stylesheet">
-
-    <style>
-        .red {
-            color : red;
-        }
-    </style>
-</head>
-
-<body class="container-fluid">
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">QA Test Platform</a>
-        </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="../index.html">Overview <span class="sr-only">(current)</span></a></li>
-                <li class="active"><a href="#">Translation Helper</a></li>
-            </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="page-header">WeChat Helper</h2>
+<h2 class="page-header">WeChat Helper</h2>
             <div id="trans" class="row">
                 <div class="col-md-4">
                     <p>
                         URL Import(.txt only)
                     </p>
                     <div class="input-group">
-                        <input class="form-control" type="file" id="fileInput">
-
+                        <input class="form-control" type="file" id="file_Input">
                         <span class="input-group-btn">
-                <input type="button" class="btn btn-primary" value="Import" v-on:click="importTxt"/>
+                <input type="button" class="btn btn-primary" value="Import" id="import_Txt"/>
             </span>
                     </div>
 
                     <p>URL Input</p>
                     <p>
-                        <textarea rows="5" id="urls" v-model="urls" class="form-control"></textarea>
+                        <textarea rows="5" id="urls_" v-model="urls" class="form-control"></textarea>
                     </p>
 
-                    <button v-on:click="quest" class="btn btn-primary">Query</button>
-                    <button v-on:click="clear" class="btn btn-primary">Clear</button>
+                    <button id="btn_Quest" class="btn btn-primary">Query</button>
+                    <button id="btn_Clear" class="btn btn-primary">Clear</button>
                 </div>
-
-
                 <div class="col-md-8">
-                    <p>
+                    <p class="col-md-3">
                         <label>
                             <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
                             Excel
@@ -80,9 +30,8 @@
                             HTML
                         </label>
                     </p>
-                    <p>
-                        <button v-on:click="getExcel" class="btn btn-primary">Export</button>
-                        <a v-bind:href="excelUrl" target="_blank">{{excelName}}</a>
+                    <p class="col-md-5 exbutton">
+                        <button id="getExcel" class="btn btn-primary">Export</button>
                     </p>
 
                     <table class="table table-striped table-bordered">
@@ -91,17 +40,9 @@
                             <th>Title</th>
                             <th>WeChat Img</th>
                             <th>WeChat URL</th>
-
                         </tr>
-                        <tr v-for="item in arr">
-                            <td><a v-bind:href="item.url">{{item.url}}</a></td>
-                            <td>{{item.title}}</td>
-                            <td><img v-bind:src="item.wechaturl" height="60" width="60"><br>
-                                Width:{{item.obj1.width}}.Hight:{{item.obj1.height}}</td>
-                             <td> URL:{{item.wechaturl}}<br></td>
-
-
-                        </tr>
+                        <tbody id="res_Container">
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -109,11 +50,61 @@
     </div>
 </div>
 
-
-<script src="../../node_modules/vue/dist/vue.js"></script>
-<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<!--<script src="../../node_modules/vue/dist/vue.js"></script>-->
+<!--<script src="../../node_modules/jquery/dist/jquery.js"></script>-->
 <script>
-    var app = new Vue({
+
+//    const url_Input = $("#urls_");
+    //const res_Container = $('#res_Container');
+    $("#import_Txt").click(() => {
+        if ($("#file_Input")[0].files.length >= 1) {
+            const file = $("#file_Input")[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                $("#file_Input").val(this.result);
+                $("#file_Input").val("");
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    $('#btn_Clear').click(() => {
+        $("#urls_").val('');
+    });
+
+    $('#btn_Quest').click(() => {
+        if ($("#urls_").val().length > 5) {
+            $('#res_Container').html('');
+            $.post('/api/wechat', {urls: $("#urls_").val()}, function (data) {
+                if (data) {
+                    let str = '';
+                    data.forEach((item, index) => {
+                        str += `<tr>
+                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                                    <td>${item.title}</td>
+                                    <td class="text-center"><img src="${item.wechaturl}" style="height:60px; width:60px "><br>
+                                     <br>
+                                      Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
+                                    <td>${item.wechaturl}</td>
+                                </tr>`
+                    });
+                    $('#res_Container').html(str);
+                }
+            });
+        } else {
+            console.log("null");
+        }
+    });
+    $("#getExcel").click(()=>{
+        if($("#urls_").val().length>0){
+            const arr=$("#res_Container").html();
+            $.post('/api/trans2xls',{xls:JSON.stringify(arr),type: document.querySelector("input[name=optionsRadios]:checked").value},function (data) {
+                $(this).text('../data/${data}');
+            })
+        }
+
+    })
+    /*var app = new Vue({
         el: '#trans',
         data: {
             arr: [],
@@ -163,7 +154,7 @@
                 $("#urls").val('');
             }
         }
-    });
+    });*/
 </script>
 </body>
 </html>
