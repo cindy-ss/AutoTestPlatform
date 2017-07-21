@@ -3,13 +3,6 @@
  */
 
 const request = require('request');
-// const conf = require('../server/conf').conf;
-const basic = require('./basic');
-
-basic.init({
-    // odUser : conf.odName,
-    // odPass : conf.odPass
-});
 
 const getHeaders = (url) => {
     return {
@@ -18,12 +11,15 @@ const getHeaders = (url) => {
     };
 };
 
-const getOptions = (headers) => {
-    console.log(basic.odUser);
+const getOptions = (headers, auth) => {
+    auth = auth || {
+            odUser : '',
+            odPass : ''
+        };
     return {
         auth: {
-            user: basic.odUser,
-            pass: basic.odPass
+            user: auth.odUser,
+            pass: auth.odPass
         },
         strictSSL: false,
         followRedirect: false,
@@ -31,7 +27,8 @@ const getOptions = (headers) => {
     };
 };
 
-const query = (url, cb, opt) => {
+//todo argument sort.
+const query = (url, cb, auth, opt) => {
     if (url.indexOf('.html') === -1) {
         if (url.charAt(url.length - 1) !== "/") {
             url += '/';
@@ -42,7 +39,7 @@ const query = (url, cb, opt) => {
 
     if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
         const headers = getHeaders(url);
-        options = getOptions(headers);
+        options = getOptions(headers, auth);
     }
 
     request(url, options, (err, data, res) => {
@@ -66,12 +63,12 @@ const query = (url, cb, opt) => {
     });
 };
 
-const bareQuery = (url, cb, opt) => {
+const bareQuery = (url, cb, auth, opt) => {
     let options = opt || {};
 
     if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
         const headers = getHeaders(url);
-        options = getOptions(headers);
+        options = getOptions(headers, auth);
     }
 
     request(url, options, (err, data, res) => {
