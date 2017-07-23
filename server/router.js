@@ -13,16 +13,16 @@ router.route('/init')
         console.log(req.body.odUser);
         console.log(req.body.odPass);
 
-        if(req.body.odUser && req.body.odPass){
+        if (req.body.odUser && req.body.odPass) {
             req.session.od = {
-                odUser : req.body.odUser,
-                odPass : req.body.odPass
+                odUser: req.body.odUser,
+                odPass: req.body.odPass
             }
         }
         res.json(req.session.od);
     })
     .get((req, res) => {
-        if(!req.session.od){
+        if (!req.session.od) {
             req.session.od = {};
         }
         res.json(req.session.od);
@@ -49,7 +49,18 @@ router.route('/trans2xls')
             type: req.body.type
         };
         trans.export2Xls(obj, (err, exPath) => {
-            res.end(exPath);
+            if(req.body.type === 'html'){
+                res.end(exPath.toString());
+            }else{
+                res.end(exPath);
+            }
+
+        });
+    })
+    .get((req, res) => {
+        const path = `./static/data/report-${req.query.id}.html`;
+        res.download(path, (err) => {
+            console.log(err);
         });
     });
 router.route('/wechat2xls')

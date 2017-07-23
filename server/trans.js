@@ -2,11 +2,11 @@
  * Created by edel.ma on 6/28/17.
  */
 
-const request = require('request');
-const cheerio = require('cheerio');
-const async = require('async');
-const fs = require('fs');
-const excel = require('json2excel');
+const cheerio = require('cheerio'),
+    async = require('async'),
+    fs = require('fs'),
+    excel = require('json2excel'),
+    mustache = require('mustache');
 
 const query = require('../service/query');
 
@@ -22,9 +22,9 @@ const fetchTrans = (url, auth, cb) => {
 
             let title = $("title").text();
 
-            let p = URL.parse(url);
+            // let p = URL.parse(url);
 
-            const URL = require('url');
+            // const URL = require('url');
 
             let obj = {
                 url,
@@ -36,7 +36,6 @@ const fetchTrans = (url, auth, cb) => {
             };
 
             cb(err, obj);
-
 
 
         } else {
@@ -59,6 +58,21 @@ const runTask = (urlArr, auth, cb) => {
     }, (err, res) => {
         cb(res);
     });
+};
+
+const dealHTMLWithMustache = (content, cb) => {
+    const temp = fs.readFileSync('./server/templates/meta.mst', 'utf-8');
+    const exportTime = new Date().getTime();
+    const title = `report-${exportTime}`;
+    const exportPath = `./static/data/${title}.html`;
+    const obj = {
+        title,
+        content
+    };
+    const res = mustache.render(temp, obj);
+    fs.writeFileSync(exportPath, res, 'utf-8');
+
+    cb(null, exportTime);
 };
 
 const dealHTML = (content, cb) => {
@@ -130,7 +144,7 @@ const dealExcel = (content, cb) => {
 const export2Xls = (obj, cb) => {
     switch (obj.type) {
         case "html" :
-            dealHTML(obj.xls, cb);
+            dealHTMLWithMustache(obj.xls, cb);
             break;
         default:
             dealExcel(obj.xls, cb);

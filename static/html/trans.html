@@ -31,7 +31,7 @@
             </label>
         </p>
         <p class="col-md-5 exbutton">
-            <button id="btnExport"  class="btn btn-primary">Export</button>
+            <button id="btnExport" class="btn btn-primary">Export</button>
         </p>
     </div>
     <div class="col-md-8">
@@ -56,8 +56,9 @@
 
 <script>
     //const fileInput = $("#fileInput");
-   // const urlInput = $("#urls");
-   // const resContainer = $('#resContainer');
+    // const urlInput = $("#urls");
+    // const resContainer = $('#resContainer');
+    let storedData;
 
     $("#btnImport").click(() => {
         if ($("#fileInput")[0].files.length >= 1) {
@@ -78,6 +79,7 @@
             $('#resContainer').html('');
             $.post('/api/trans', {urls: $("#urls").val()}, function (data) {
                 if (data) {
+                    storedData = data;
                     let str = '';
                     data.forEach((item, index) => {
                         str += `<tr>
@@ -86,10 +88,10 @@
                                     <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.desc}</td>
                                     <td>${item.ogTitle}</td>
                                     <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.ogDesc}</td>
-                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage"style="height:60px; width:60px "><br>
+                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br>
                                      <br>
                                       Width:${item.obj2.width}.Hight:${item.obj2.height}</td></td>
-                                    <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage"style="height:60px; width:60px "><br>
+                                    <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage" class="ext-thumb"><br>
                                      <br>
                                       Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
                                     <td>${item.wechaturl}</td>
@@ -102,13 +104,18 @@
             console.log("null");
         }
     });
-    $("#btnExport").click(()=>{
-         if($("#urls").val().length>0){
-             const arr=$("#resContainer").html();
-             $.post('/api/trans2xls',{xls:JSON.stringify(arr),type: document.querySelector("input[name=optionsRadios]:checked").value},function (data) {
-                     $(this).text('../data/${data}');
-             })
-         }
+    $("#btnExport").click(() => {
+        if ($("#urls").val().length > 0) {
+            const arr = $("#resContainer").text();
+            console.log(storedData);
+            $.post('/api/trans2xls', {
+                    xls: JSON.stringify(storedData),
+                    type: document.querySelector("input[name=optionsRadios]:checked").value
+                },
+                (data) => {
+                    $.fileDownload(`/api/trans2xls?id=${data}`);
+                })
+        }
     })
 
     //            getExcel: function () {

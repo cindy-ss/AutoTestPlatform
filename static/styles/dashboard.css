@@ -148,3 +148,9 @@ ul,li{
   background: transparent;
 
 }
+
+/*the thumb for report*/
+.ext-thumb {
+  height:60px;
+  width:60px
+}
