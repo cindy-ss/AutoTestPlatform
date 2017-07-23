@@ -9,7 +9,7 @@ const query = require('../service/query'),
     async = require('async'),
     gh = require('../service/geo_helper');
 
-const BASE = ['_medium', '_medium_2x', '_large', '_large_2x', '_small', '_small_2x'];
+const BASE = ['_medium', '_medium_2x', '_large', '_large_2x', '_small', '_small_2x','_xlarge','_xlarge_2x','_xsmall','_xsmall_2x'];
 
 const checkWithSize = (src, cb) => {
     if (!(cb && typeof cb === "function")) {

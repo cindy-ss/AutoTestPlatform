@@ -1,4 +1,4 @@
-<h2 class="page-header">Image Helper</h2>
+<h2 class="page-header">Image Checker</h2>
             <div id="trans" class="row">
                 <div class="col-md-4">
                     <p>
@@ -38,7 +38,15 @@
                         <thead>
                         <tr>
                             <th>URL</th>
-                            <th> All Image of page</th>
+                            <th>US</th>
+                            <th><select class="sel_mask" id="geos" name="geos">
+                                <option value="">Please Select Geo</option>
+                                <option value="1">CN</option>
+                                <option value="2">HK</option>
+                                <option value="3">HKEN</option>
+                                <option value="4">TW</option>
+                                <option value="5">MO</option>
+                            </select></th>
                         </tr>
                         </thead>
                         <tbody id="res_Container">
@@ -53,6 +61,8 @@
 <!--<script src="../../node_modules/vue/dist/vue.js"></script>-->
 <!--<script src="../../node_modules/jquery/dist/jquery.js"></script>-->
 <script>
+
+    $('#geos option[value=""]').attr('selected',true);
 
 //    const url_Input = $("#urls_");
     //const res_Container = $('#res_Container');
@@ -75,7 +85,7 @@
     $('#btn_Quest').click(() => {
         if ($("#urls_").val().length > 5) {
             $('#res_Container').html('');
-            $.post('/api/wechat', {urls: $("#urls_").val()}, function (data) {
+            $.post('/api/image_checker', {urls: $("#urls_").val()}, function (data) {
                 if (data) {
                     let str = '';
                     data.forEach((item, index) => {
@@ -100,7 +110,9 @@
             })
         }
 
-    })
+    });
+
+
     /*var app = new Vue({
         el: '#trans',
         data: {

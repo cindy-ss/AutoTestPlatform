@@ -22,15 +22,23 @@ const fetchTrans = (url, auth, cb) => {
 
             let title = $("title").text();
 
+            let p = URL.parse(url);
+
+            const URL = require('url');
+
             let obj = {
                 url,
-                desc,
-                ogDesc,
                 title,
-                ogTitle
+                desc,
+                ogTitle,
+                ogDesc,
+
             };
 
             cb(err, obj);
+
+
+
         } else {
             console.log(err);
             let obj = {

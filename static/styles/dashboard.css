@@ -139,3 +139,12 @@ ul,li{
 .exbutton{
   margin-top:-10px;
 }
+
+/*image -selector*/
+.sel_mask{
+  width:200px;
+  height:25px;
+  font-size: 14px;
+  background: transparent;
+
+}
