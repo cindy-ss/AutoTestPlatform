@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/edel-ma/lab#readme",
   "dependencies": {
-    "any-base": "^1.0.1",
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
@@ -29,12 +28,8 @@
     "fontkit": "^1.7.7",
     "image-size": "^0.6.0",
     "jquery": "^3.2.1",
-    "js-yaml": "^3.9.0",
     "json2excel": "^1.2.0",
-    "phantomjs-prebuilt": "^2.1.14",
     "prompt": "^1.0.0",
-    "request": "^2.81.0",
-    "selenium-webdriver": "^3.4.0",
-    "vue": "^2.3.4"
+    "request": "^2.81.0"
   }
 }
