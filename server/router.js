@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 const trans = require('./trans');
-const wechat = require('./wechat');
+//const wechat = require('./trans');
 
 router.route('/init')
     .post((req, res) => {
@@ -35,13 +35,13 @@ router.route('/trans')
         });
     });
 
-router.route('/wechat')
-    .post((req, res) => {
-        wechat.runTask(req.body.urls.split('\n'), data => {
-            res.json(data);
-
-        });
-    });
+// router.route('/wechat')
+//     .post((req, res) => {
+//         wechat.runTask(req.body.urls.split('\n'), data => {
+//             res.json(data);
+//
+//         });
+//     });
 router.route('/trans2xls')
     .post((req, res) => {
         let obj = {

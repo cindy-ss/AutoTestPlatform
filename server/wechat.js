@@ -25,6 +25,8 @@ const fetchTrans = (url, cb) => {
 
             let ogTitle = $("meta[property='og:title']").attr('content');
 
+            let ogImage =$("meta[property='og:image']").attr('content');
+
             let title = $("title").text();
 
             let p = URL.parse(url);
@@ -37,6 +39,9 @@ const fetchTrans = (url, cb) => {
                             url,
                             desc,
                             title,
+                            ogTitle,
+                            ogDesc,
+                            ogImage,
                             wechaturl:"No WeChat Img",
                             obj1:"NA"
 
@@ -46,13 +51,16 @@ const fetchTrans = (url, cb) => {
                     }else{
 
                         let wechaturl = p.protocol + "//" + p.hostname + res1;
-                        let src = wechaturl;
+
                         console.log("src="+src);
-                        file.getImageSizeByUrl(src, (err, obj1) => {
+                        file.getImageSizeByUrl(wechaturl, (err, obj1) => {
                             //console.log(" obj width="+obj1.width);
                             let obj = {
                                 url,
                                 title,
+                                ogTitle,
+                                ogDesc,
+                                ogImage,
                                 wechaturl,
                                 obj1
 
@@ -83,8 +91,10 @@ const fetchTrans = (url, cb) => {
     });
 };
 
-const runTask = (urlArr, cb) => {
-    async.map(urlArr, fetchTrans, (err, res) => {
+const runTask = (urlArr, auth, cb) => {
+    async.map(urlArr, (item, callback) => {
+        fetchTrans(item, auth, callback)
+    }, (err, res) => {
         cb(res);
     });
 };

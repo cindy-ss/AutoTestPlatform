@@ -44,6 +44,7 @@
                 <th>OG Title</th>
                 <th>OG Description</th>
                 <th>OG Img</th>
+                <th>OG Img URL</th>
                 <th>WeChat Img</th>
                 <th>WeChat URL</th>
             </tr>
@@ -85,12 +86,11 @@
                         str += `<tr>
                                     <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                                     <td>${item.title}</td>
-                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.desc}</td>
+                                    <td>${item.desc}</td>
                                     <td>${item.ogTitle}</td>
-                                    <td class="${ item.desc.length > 150 ? 'red' : '' }">${item.ogDesc}</td>
-                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br>
-                                     <br>
-                                      Width:${item.obj2.width}.Hight:${item.obj2.height}</td></td>
+                                    <td>${item.ogDesc}</td>
+                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br></td>
+                                    <td>${item.ogImage} </td>
                                     <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage" class="ext-thumb"><br>
                                      <br>
                                       Width:${item.obj1.width}.Hight:${item.obj1.height}</td>

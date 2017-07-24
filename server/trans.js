@@ -9,6 +9,10 @@ const cheerio = require('cheerio'),
     mustache = require('mustache');
 
 const query = require('../service/query');
+const URL = require('url');
+const adapter = require('../service/adapter');
+const sizeOf = require('image-size');
+const file = require('../service/file');
 
 const fetchTrans = (url, auth, cb) => {
     query.query(url, (err, res) => {
@@ -20,22 +24,55 @@ const fetchTrans = (url, auth, cb) => {
 
             let ogTitle = $("meta[property='og:title']").attr('content');
 
+            let ogImage = $("meta[property='og:image']").attr('content');
+
             let title = $("title").text();
 
-            // let p = URL.parse(url);
+            let p = URL.parse(url);
 
-            // const URL = require('url');
 
-            let obj = {
-                url,
-                title,
-                desc,
-                ogTitle,
-                ogDesc,
+            adapter.wechatHandler(res, (err, res1) => {
+                if(!err){
+                    if (res1==null){
+                        console.log("null");
+                        let obj = {
+                            url,
+                            desc,
+                            title,
+                            ogTitle,
+                            ogDesc,
+                            ogImage,
+                            wechaturl:"No WeChat Img",
+                            obj1:"NA"
 
-            };
+                        };
+                        cb(err, obj);
 
-            cb(err, obj);
+                    }else{
+
+                        let wechaturl = p.protocol + "//" + p.hostname + res1;
+
+                        console.log("wechat url="+wechaturl);
+                        file.getImageSizeByUrl(wechaturl, (err, obj1) => {
+                            //console.log(" obj width="+obj1.width);
+                            let obj = {
+                                url,
+                                title,
+                                ogTitle,
+                                ogDesc,
+                                ogImage,
+                                wechaturl,
+                                obj1
+
+                            };
+                            cb(err, obj);
+
+                        });
+
+                    }
+                }
+
+            })
 
 
         } else {
