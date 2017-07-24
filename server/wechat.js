@@ -44,7 +44,6 @@ const fetchTrans = (url, cb) => {
                             ogImage,
                             wechaturl:"No WeChat Img",
                             obj1:"NA"
-
                         };
                         cb(err, obj);
 
