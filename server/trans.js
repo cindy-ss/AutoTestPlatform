@@ -71,7 +71,8 @@ const fetchTrans = (url, auth, cb) => {
                     }
                 }
 
-            })
+            });
+
 
 
         } else {
