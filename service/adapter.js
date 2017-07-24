@@ -2,8 +2,7 @@
  * Created by edel.ma on 7/10/17.
  */
 
-const cheerio = require('cheerio'),
-    css = require('css');
+const cheerio = require('cheerio');
 
 const REG = {
     MP4: new RegExp(/\.mp4$/)
@@ -46,17 +45,11 @@ const mp4Handler = (content, cb) => {
 
 const bgHandler = (content, cb) => {
     let res = [];
-    const matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
-    // const cssTree = css.parse(content);
-    //
-    // if(cssTree && cssTree.stylesheet && cssTree.stylesheet.rules){
-    //     const ruleArr = cssTree.stylesheet.rules;
-    //
-    //     ruleArr.forEach(rule => {
-    //         // if(rule.declarations)
-    //     });
-    // }
-    cb(null, matched);
+    let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
+    matched.forEach(item => {
+        res.push(item.substr(5, item.length - 7));
+    });
+    cb(null, res);
 };
 
 const imageHandler = (content, cb) => {
@@ -87,7 +80,7 @@ const cssHandler = (content, cb) => {
     arr.each((i, item) => {
         if (item.attribs && item.attribs.href) {
             let tempUrl = item.attribs.href;
-            if (tempUrl.indexOf('main.built.css') !== -1) {
+            if (tempUrl.indexOf('main.built.css') !== -1 || tempUrl.indexOf('home.built.css') !== -1) {
                 res.push({
                     tag: 'css',
                     url: tempUrl

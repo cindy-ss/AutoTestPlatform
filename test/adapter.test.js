@@ -18,7 +18,7 @@ const query = require('../service/query'),
 //     }
 // });
 
-const src = 'https://www.apple.com/cn/';
+const src = 'https://www.apple.com/';
 
 
 query.query(src, (err, data) => {
@@ -34,7 +34,7 @@ query.query(src, (err, data) => {
                     })
                 }, (err, res) => {
                     if (!err) {
-                        console.log(res.length);
+                        console.log(res);
                     }
                 });
             }
