@@ -30,7 +30,6 @@ const fetchTrans = (url, auth, cb) => {
 
             let p = URL.parse(url);
 
-
             adapter.wechatHandler(res, (err, res1) => {
                 if(!err){
                     if (res1==null){
