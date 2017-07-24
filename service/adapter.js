@@ -2,10 +2,11 @@
  * Created by edel.ma on 7/10/17.
  */
 
-const cheerio = require('cheerio');
+const cheerio = require('cheerio'),
+    css = require('css');
 
 const REG = {
-    MP4 : new RegExp(/\.mp4$/)
+    MP4: new RegExp(/\.mp4$/)
 };
 
 const videoHandler = (content, cb) => {
@@ -30,10 +31,10 @@ const mp4Handler = (content, cb) => {
     arr.each((i, item) => {
         if (item.attribs && item.attribs.href) {
             let tempUrl = item.attribs.href;
-            if(REG.MP4.test(tempUrl)){
+            if (REG.MP4.test(tempUrl)) {
                 res.push({
-                    tag : 'a',
-                    url : tempUrl,
+                    tag: 'a',
+                    url: tempUrl,
                     // text : item.text()
                 })
             }
@@ -45,16 +46,17 @@ const mp4Handler = (content, cb) => {
 
 const bgHandler = (content, cb) => {
     let res = [];
-    const $ = cheerio.load(content);
-
-    const arr = $("figure");
-
-    arr.each((i, item) => {
-        console.log($(item).css('background'));
-        console.log($(item).class);
-    });
-
-    cb(null, res);
+    const matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
+    // const cssTree = css.parse(content);
+    //
+    // if(cssTree && cssTree.stylesheet && cssTree.stylesheet.rules){
+    //     const ruleArr = cssTree.stylesheet.rules;
+    //
+    //     ruleArr.forEach(rule => {
+    //         // if(rule.declarations)
+    //     });
+    // }
+    cb(null, matched);
 };
 
 const imageHandler = (content, cb) => {
@@ -64,12 +66,33 @@ const imageHandler = (content, cb) => {
     const arr = $("img");
 
     arr.each((i, item) => {
-        if(item.attribs && item.attribs.src){
+        if (item.attribs && item.attribs.src) {
             let tempUrl = item.attribs.src;
             res.push({
-                tag : 'img',
-                url : tempUrl
+                tag: 'img',
+                url: tempUrl
             });
+        }
+    });
+
+    cb(null, res);
+};
+
+const cssHandler = (content, cb) => {
+    let res = [];
+    const $ = cheerio.load(content);
+
+    const arr = $("link[rel='stylesheet']");
+
+    arr.each((i, item) => {
+        if (item.attribs && item.attribs.href) {
+            let tempUrl = item.attribs.href;
+            if (tempUrl.indexOf('main.built.css') !== -1) {
+                res.push({
+                    tag: 'css',
+                    url: tempUrl
+                });
+            }
         }
     });
 
@@ -96,17 +119,17 @@ const wechatHandler = (content, cb) => {
 
     let url = null;
 
-    if(div && div.css('display') === 'none'){
+    if (div && div.css('display') === 'none') {
         const img_wechat = $('body > div > img')[0];
         const img_first = $('img')[0];
 
-        if(
+        if (
             img_wechat && img_wechat.attribs
             &&
             img_first && img_first.attribs
             &&
             img_wechat.attribs.src === img_first.attribs.src
-        ){
+        ) {
             url = img_wechat.attribs.src;
         }
     }
@@ -120,3 +143,4 @@ exports.fontHandler = fontHandler;
 exports.mp4Handler = mp4Handler;
 exports.wechatHandler = wechatHandler;
 exports.bgHandler = bgHandler;
+exports.cssHandler = cssHandler;

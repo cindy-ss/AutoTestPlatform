@@ -2,7 +2,8 @@
  * Created by edel.ma on 7/10/17.
  */
 
-const request = require('request');
+const request = require('request'),
+    path = require('path');
 
 const getHeaders = (url) => {
     return {
@@ -13,8 +14,8 @@ const getHeaders = (url) => {
 
 const getOptions = (headers, auth) => {
     auth = auth || {
-            odUser : '',
-            odPass : ''
+            odUser: '',
+            odPass: ''
         };
     return {
         auth: {
@@ -29,7 +30,7 @@ const getOptions = (headers, auth) => {
 
 //todo argument sort.
 const query = (url, cb, auth, opt) => {
-    if (url.indexOf('.html') === -1) {
+    if (! path.parse(url).ext) {
         if (url.charAt(url.length - 1) !== "/") {
             url += '/';
         }
@@ -37,27 +38,27 @@ const query = (url, cb, auth, opt) => {
 
     let options = opt || {};
 
-    if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
+    if (url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1) {
         const headers = getHeaders(url);
         options = getOptions(headers, auth);
     }
 
     request(url, options, (err, data, res) => {
         if (!err && data && data.statusCode === 200) {
-            if(data){
-                if(data.statusCode === 200){
+            if (data) {
+                if (data.statusCode === 200) {
                     cb(null, res);
-                }else{
+                } else {
                     cb({
-                        msg : `Status Code Err, return ${data.statusCode}!`
+                        msg: `Status Code Err, return ${data.statusCode}!`
                     }, null);
                 }
-            }else{
+            } else {
                 cb({
-                    msg : 'Data is Null!'
+                    msg: 'Data is Null!'
                 }, null);
             }
-        }else{
+        } else {
             cb(err, null);
         }
     });
@@ -66,7 +67,7 @@ const query = (url, cb, auth, opt) => {
 const bareQuery = (url, cb, auth, opt) => {
     let options = opt || {};
 
-    if(url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1){
+    if (url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1) {
         const headers = getHeaders(url);
         options = getOptions(headers, auth);
     }

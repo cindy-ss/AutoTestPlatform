@@ -23,6 +23,7 @@
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",
     "cheerio": "^1.0.0-rc.1",
+    "css": "^2.2.1",
     "express": "^4.15.3",
     "express-session": "^1.15.4",
     "fontkit": "^1.7.7",

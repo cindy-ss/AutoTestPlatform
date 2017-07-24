@@ -5,7 +5,8 @@
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
     url = require('url'),
-    file = require('../service/file');
+    file = require('../service/file'),
+    async = require('async');
 
 // query.query('https://www.apple.com/cn/iphone/photography-how-to/', (err, data) => {
 //     if(!err){
@@ -17,23 +18,26 @@ const query = require('../service/query'),
 //     }
 // });
 
-const src = 'httphhjhjcn/';
+const src = 'https://www.apple.com/cn/';
 
 
 query.query(src, (err, data) => {
     if (!err) {
-        // adapter.imageHandler(data, (err, res) => {
-        //     if (!err) {
-        //         console.log(res);
-        //     }
-        // });
-        adapter.wechatHandler(data, (err, res) => {
+        adapter.cssHandler(data, (err, res) => {
             if (!err) {
                 console.log(res);
+                async.reduce(res, [], (memo, item, callback) => {
+                    query.query(item.url, (err, content) => {
+                        adapter.bgHandler(content, (err, arr) => {
+                            callback(null, memo.concat(arr));
+                        })
+                    })
+                }, (err, res) => {
+                    if (!err) {
+                        console.log(res.length);
+                    }
+                });
             }
         });
-
-
-        adapter.bgHandler(data, (err, res) => {});
     }
 });
