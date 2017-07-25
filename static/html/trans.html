@@ -86,10 +86,11 @@
                         str += `<tr>
                                     <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                                     <td>${item.title}</td>
-                                    <td>${item.desc}</td>
+                                    <td${item.desc.length > 50 ? " class='red'" : ""}>${item.desc}</td>
                                     <td>${item.ogTitle}</td>
                                     <td>${item.ogDesc}</td>
-                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br></td>
+                                    <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br>
+                                     Width:${item.ogsize.width}.Hight:${item.ogsize.height}</td>
                                     <td>${item.ogImage} </td>
                                     <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage" class="ext-thumb"><br>
                                      <br>
