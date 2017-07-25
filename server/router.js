@@ -6,7 +6,6 @@ const express = require('express');
 const router = express.Router();
 
 const trans = require('./trans');
-//const wechat = require('./trans');
 
 router.route('/init')
     .post((req, res) => {
@@ -35,13 +34,6 @@ router.route('/trans')
         });
     });
 
-// router.route('/wechat')
-//     .post((req, res) => {
-//         wechat.runTask(req.body.urls.split('\n'), data => {
-//             res.json(data);
-//
-//         });
-//     });
 router.route('/trans2xls')
     .post((req, res) => {
         let obj = {
@@ -63,15 +55,17 @@ router.route('/trans2xls')
             console.log(err);
         });
     });
-router.route('/wechat2xls')
-    .post((req, res) => {
-        let obj = {
-            xls: JSON.parse(req.body.xls),
-            type: req.body.type
-        };
-        wechat.export2Xls(obj, (err, exPath) => {
-            res.end(exPath);
-        });
-    });
+
+router.route('/font/url')
+    .post((req, res) => {});
+
+router.route('/font/text')
+    .post((req, res) => {});
+
+router.route('/font/options')
+    .get((req, res) => {});
+
+router.route('/image')
+    .post((req, res) => {});
 
 exports.router = router;
