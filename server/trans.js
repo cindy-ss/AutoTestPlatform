@@ -34,38 +34,41 @@ const fetchTrans = (url, auth, cb) => {
                 if(!err){
                     if (res1==null){
                         console.log("null");
-                        let obj = {
-                            url,
-                            desc,
-                            title,
-                            ogTitle,
-                            ogDesc,
-                            ogImage,
-                            wechaturl:"No WeChat Img",
-                            obj1:"NA"
-
-                        };
-                        cb(err, obj);
-
-                    }else{
-
-                        let wechaturl = p.protocol + "//" + p.hostname + res1;
-
-                        console.log("wechat url="+wechaturl);
-                        file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-                            //console.log(" obj width="+obj1.width);
+                        file.getImageSizeByUrl(ogImage, (err, ogsize) => {
                             let obj = {
                                 url,
+                                desc,
                                 title,
                                 ogTitle,
                                 ogDesc,
                                 ogImage,
-                                wechaturl,
-                                obj1
+                                wechaturl:"No WeChat Img",
+                                obj1:"NA",
+                                ogsize
 
                             };
-                            cb(err, obj);
+                        })
 
+                        cb(err, obj);
+
+                    }else{
+                        let wechaturl = p.protocol + "//" + p.hostname + res1;
+                        file.getImageSizeByUrl(wechaturl, (err, obj1) => {
+                            file.getImageSizeByUrl(ogImage, (err, ogsize) => {
+                                let obj = {
+                                    url,
+                                    title,
+                                    desc,
+                                    ogTitle,
+                                    ogDesc,
+                                    ogImage,
+                                    wechaturl,
+                                    obj1,
+                                    ogsize
+
+                                };
+                                cb(err, obj);
+                            })
                         });
 
                     }
@@ -124,10 +127,15 @@ color : red;
     <table>
     <tr>
                 <th>URL</th>
-                <th>Description</th>
-                <th>OG Description</th>
                 <th>Title</th>
+                <th>Description</th>
                 <th>OG Title</th>
+                <th>OG Description</th>
+                <th>OG Img</th>
+                <th>OG Img URL</th>
+                <th>WeChat Img</th>
+                <th>WeChat URL</th>
+                
             </tr>
     `;
 
@@ -135,10 +143,18 @@ color : red;
         finalStr += `
             <tr>
                 <td><a href="${item.url}">${item.url}</a></td>
-                <td${item.desc.length > 50 ? " class='red'" : ""}>${item.desc}</td>
-                <td${item.ogDesc.length > 150 ? " class='red'" : ""}>${item.ogDesc}</td>
                 <td>${item.title}</td>
+                <td${item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
                 <td>${item.ogTitle}</td>
+                <td${item.ogDesc.length > 150 ? " class='red'" : ""}>${item.ogDesc}</td>
+                <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br>
+                     Width:${item.ogsize.width}.Hight:${item.ogsize.height}</td>
+                <td>${item.ogImage} </td>
+                <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage" class="ext-thumb"><br>
+                     <br>
+                     Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
+                <td>${item.wechaturl}</td>
+               
             </tr>
             `;
     });
