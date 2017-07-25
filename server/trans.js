@@ -29,12 +29,22 @@ const fetchTrans = (url, auth, cb) => {
             let title = $("title").text();
 
             let p = URL.parse(url);
+//     ogsize: file.getImageSizeByUrl(wechaturl, (err, obj1) => {
+            //
+            // });
 
-            adapter.wechatHandler(res, (err, res1) => {
-                if(!err){
-                    if (res1==null){
-                        console.log("null");
-                        file.getImageSizeByUrl(ogImage, (err, ogsize) => {
+            async.parallel([
+                callback => {
+                    file.getImageSizeByUrl(ogImage, (err, ogsize) => {
+                        console.log(`ogsize=ogsize`);
+                        callback(err,ogsize)
+                    });
+
+                },
+
+                callback => {
+                    adapter.wechatHandler(res, (err, res1) => {
+                        if (res1 == null) {
                             let obj = {
                                 url,
                                 desc,
@@ -42,19 +52,15 @@ const fetchTrans = (url, auth, cb) => {
                                 ogTitle,
                                 ogDesc,
                                 ogImage,
-                                wechaturl:"No WeChat Img",
-                                obj1:"NA",
-                                ogsize
-
+                                wechaturl: "No WeChat Img",
+                                obj1: "NA"
                             };
-                        })
 
-                        cb(err, obj);
+                            callback(err, obj);
 
-                    }else{
-                        let wechaturl = p.protocol + "//" + p.hostname + res1;
-                        file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-                            file.getImageSizeByUrl(ogImage, (err, ogsize) => {
+                        } else {
+                            let wechaturl = p.protocol + "//" + p.hostname + res1;
+                            file.getImageSizeByUrl(wechaturl, (err, obj1) => {
                                 let obj = {
                                     url,
                                     title,
@@ -63,19 +69,25 @@ const fetchTrans = (url, auth, cb) => {
                                     ogDesc,
                                     ogImage,
                                     wechaturl,
-                                    obj1,
-                                    ogsize
+                                    obj1
 
                                 };
-                                cb(err, obj);
-                            })
-                        });
+                                callback(err, obj);
 
-                    }
+                            });
+
+
+                        }
+
+                    })
                 }
 
-            });
 
+            ], function (err, results) {
+
+                console.log(results);
+                cb(err,results);
+            });
 
 
         } else {
