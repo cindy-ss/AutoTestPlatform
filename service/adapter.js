@@ -23,21 +23,11 @@ const videoHandler = (content, cb) => {
 
 const mp4Handler = (content, cb) => {
     let res = [];
-    const $ = cheerio.load(content);
 
-    const arr = $("a");
+    let matched = content.match(/\"[a-z0-9A-Z_\:\/\.\-]*\.mp4/g);
 
-    arr.each((i, item) => {
-        if (item.attribs && item.attribs.href) {
-            let tempUrl = item.attribs.href;
-            if (REG.MP4.test(tempUrl)) {
-                res.push({
-                    tag: 'a',
-                    url: tempUrl,
-                    // text : item.text()
-                })
-            }
-        }
+    matched.forEach(item => {
+        res.push(item);
     });
 
     cb(null, res);
