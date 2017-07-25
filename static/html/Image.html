@@ -1,6 +1,6 @@
 <h2 class="page-header">Image Checker</h2>
             <div id="trans" class="row">
-                <div class="col-md-4">
+                <div class="col-md-3 navslid trans-side navslid-show">
                     <p>
                         URL Import(.txt only)
                     </p>
@@ -18,6 +18,9 @@
 
                     <button id="btn_Quest" class="btn btn-primary">Query</button>
                     <button id="btn_Clear" class="btn btn-primary">Clear</button>
+                </div>
+                <div>
+                    <button class="sideIcon">&lt;</button>
                 </div>
                 <div class="col-md-8">
                     <p class="col-md-3">
@@ -111,7 +114,20 @@
         }
 
     });
+    $(".sideIcon").click(()=> {
+        if ($(".trans-side").hasClass("navslid-hide")) {
+            $(".trans-side").addClass("navslid-show");
+            $(".trans-side").removeClass("navslid-hide");
 
+        }
+        else if ($(".trans-side").hasClass("navslid-show")) {
+            $(".trans-side").addClass("navslid-hide");
+            $(".trans-side").removeClass("navslid-show");
+        }
+        else {
+            $(".trans-side").addClass("navslid-hide");
+        }
+    });
 
     /*var app = new Vue({
         el: '#trans',

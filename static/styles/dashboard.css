@@ -27,7 +27,17 @@ ul,li{
 .navbar-fixed-top {
   border: 0;
 }
-
+.nav-list>li>a{
+  color:#fff;
+  line-height: 50px;
+  display: block;
+  text-align: center;
+}
+.nav-list>li>a:hover
+{
+  text-decoration: none;
+  background-color: #428bca;
+}
 /*
  * Sidebar
  */
@@ -51,21 +61,21 @@ ul,li{
 }
 
 /* Sidebar navigation */
-.nav-sidebar {
-  margin-right: -21px; /* 20px padding + 1px border */
-  margin-bottom: 20px;
-  margin-left: -20px;
-}
-.nav-sidebar > li > a {
-  padding-right: 20px;
-  padding-left: 20px;
-}
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-  color: #fff;
-  background-color: #428bca;
-}
+/*.nav-sidebar {*/
+  /*margin-right: -21px; !* 20px padding + 1px border *!*/
+  /*margin-bottom: 20px;*/
+  /*margin-left: -20px;*/
+/*}*/
+/*.nav-sidebar > li > a {*/
+  /*padding-right: 20px;*/
+  /*padding-left: 20px;*/
+/*}*/
+/*.nav-sidebar > .active > a,*/
+/*.nav-sidebar > .active > a:hover,*/
+/*.nav-sidebar > .active > a:focus {*/
+  /*color: #fff;*/
+  /*background-color: #428bca;*/
+/*}*/
 .sideIcon{
   width: 20px;
   float: left;
@@ -78,9 +88,9 @@ ul,li{
   padding-left: 0;
 }
 .navslid{
-  border: 1px solid #ccc;
-  height: 700px;
-}
+   border-right: 1px solid #eee;
+   height: 1080px;
+ }
 @keyframes show {
   from {width: 0;}
   to {width: 200px;}
@@ -96,7 +106,7 @@ ul,li{
   animation-name: hide;
   animation-duration: 1s;
   width: 0;
-  margin-left:-100px;
+  margin-left:-200px;
 }
 /*
  * Main content
@@ -148,9 +158,15 @@ ul,li{
   background: transparent;
 
 }
-
 /*the thumb for report*/
 .ext-thumb {
   height:60px;
   width:60px
 }
+/*table*/
+ table{
+   overflow: scroll;
+ }
+ thead{
+   background: #ccc;
+ }

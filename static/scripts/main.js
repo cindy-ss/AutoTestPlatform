@@ -15,11 +15,10 @@ $(() =>{
     const txtOdUser = $('#txtOdUser');
     const txtOdPass = $('#txtOdPass');
 
-    sideBar.load('../include/sidebar.html', () => {
+     sideBar.load('../include/sidebar.html', () => {
         sideBar.find('a').click(loadTarget);
         main.load('../html/main.html')
     });
-
     $.get('/api/init', data => {
         const {odUser, odPass} = data;
         console.log(odUser);
@@ -37,15 +36,5 @@ $(() =>{
             }
         })
     });
-    $(".sideIcon").click(function() {
-        if ($("#sidebar").hasClass("navslid-hide")) {
-            $("#sidebar").addClass("navslid-show");
-            $("#sidebar").removeClass("navslid-hide");
-        } else if ($("#sidebar").hasClass("navslid-show")) {
-            $("#sidebar").addClass("navslid-hide");
-            $("#sidebar").removeClass("navslid-show");
-        } else {
-            $("#sidebar").addClass("navslid-hide");
-        }
-    });
+
 });

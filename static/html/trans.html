@@ -1,14 +1,14 @@
 <h2 class="page-header">Meta Checker</h2>
 <div id="trans" class="row">
-    <div class="col-md-4">
+    <div class="col-md-3 navslid trans-side navslid-show">
         <p>
             URL Import(.txt only)
         </p>
         <div class="input-group">
             <input class="form-control" type="file" id="fileInput">
             <span class="input-group-btn">
-    <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
-</span>
+             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+              </span>
         </div>
 
         <p>URL Input</p>
@@ -19,7 +19,10 @@
         <button id="btnQuest" class="btn btn-primary">Query</button>
         <button id="btnClear" class="btn btn-primary">Clear</button>
     </div>
-    <div class="col-md-8">
+    <div>
+        <button class="sideIcon">&lt;</button>
+    </div>
+    <div class="col-md-8 showValue">
         <p class="col-md-3">
             <label>
                 <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
@@ -34,7 +37,7 @@
             <button id="btnExport" class="btn btn-primary">Export</button>
         </p>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 showValue">
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
@@ -118,6 +121,20 @@
                 })
         }
     })
+    $(".sideIcon").click(()=> {
+        if ($(".trans-side").hasClass("navslid-hide")) {
+            $(".trans-side").addClass("navslid-show");
+            $(".trans-side").removeClass("navslid-hide");
+
+        }
+        else if ($(".trans-side").hasClass("navslid-show")) {
+            $(".trans-side").addClass("navslid-hide");
+            $(".trans-side").removeClass("navslid-show");
+        }
+        else {
+            $(".trans-side").addClass("navslid-hide");
+        }
+    });
 
     //            getExcel: function () {
     //                if (this.arr.length > 0) {
