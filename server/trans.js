@@ -6,92 +6,123 @@ const cheerio = require('cheerio'),
     async = require('async'),
     fs = require('fs'),
     excel = require('json2excel'),
-    mustache = require('mustache');
+    URL = require('url');
 
-const query = require('../service/query');
-const URL = require('url');
-const adapter = require('../service/adapter');
-const sizeOf = require('image-size');
-const file = require('../service/file');
+const query = require('../service/query'),
+    adapter = require('../service/adapter'),
+    file = require('../service/file');
 
 const fetchTrans = (url, auth, cb) => {
     query.query(url, (err, res) => {
         if (!err) {
             const $ = cheerio.load(res);
+
             let desc = $("meta[name='Description']").attr('content');
-
             let ogDesc = $("meta[property='og:description']").attr('content');
-
             let ogTitle = $("meta[property='og:title']").attr('content');
-
             let ogImage = $("meta[property='og:image']").attr('content');
-
             let title = $("title").text();
 
+            let obj = {
+                url,
+                desc: desc,
+                ogDesc,
+                ogTitle,
+                ogImage: {
+                    url: ogImage
+                },
+                title,
+            };
+
             let p = URL.parse(url);
-//     ogsize: file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-            //
-            // });
 
             async.parallel([
                 callback => {
-                    file.getImageSizeByUrl(ogImage, (err, ogsize) => {
-                        console.log(`ogsize=ogsize`);
-                        callback(err,ogsize)
+                    file.getImageSizeByUrl(ogImage, (err, ogSize) => {
+                        callback(err, ogSize)
                     });
-
                 },
-
                 callback => {
-                    adapter.wechatHandler(res, (err, res1) => {
-                        if (res1 == null) {
-                            let obj = {
-                                url,
-                                desc,
-                                title,
-                                ogTitle,
-                                ogDesc,
-                                ogImage,
-                                wechaturl: "No WeChat Img",
-                                obj1: "NA"
-                            };
+                    adapter.wechatHandler(res, (err, res) => {
+                        if (!err) {
+                            if (res) {
+                                const wechat_url = URL.resolve(url, res);
 
-                            callback(err, obj);
-
+                                file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
+                                    if (!err) {
+                                        callback(err, {
+                                            url: wechat_url,
+                                            size: wechat_size
+                                        });
+                                    } else {
+                                        callback(null, {
+                                            url: wechat_url,
+                                            size: {}
+                                        })
+                                    }
+                                })
+                            } else {
+                                callback(err, {
+                                    url: null,
+                                    size: {}
+                                })
+                            }
                         } else {
-                            let wechaturl = p.protocol + "//" + p.hostname + res1;
-                            file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-                                let obj = {
-                                    url,
-                                    title,
-                                    desc,
-                                    ogTitle,
-                                    ogDesc,
-                                    ogImage,
-                                    wechaturl,
-                                    obj1
-
-                                };
-                                callback(err, obj);
-
-                            });
-
-
+                            callback(err, null);
                         }
-
+                        // if (res == null) {
+                        //     let obj = {
+                        //         url,
+                        //         desc,
+                        //         title,
+                        //         ogTitle,
+                        //         ogDesc,
+                        //         ogImage,
+                        //         wechaturl: "No WeChat Img",
+                        //         obj1: "NA"
+                        //     };
+                        //
+                        //     callback(err, obj);
+                        //
+                        // } else {
+                        //     let wechaturl = p.protocol + "//" + p.hostname + res;
+                        //     file.getImageSizeByUrl(wechaturl, (err, obj1) => {
+                        //         let obj = {
+                        //             url,
+                        //             title,
+                        //             desc,
+                        //             ogTitle,
+                        //             ogDesc,
+                        //             ogImage,
+                        //             wechaturl,
+                        //             obj1
+                        //
+                        //         };
+                        //         callback(err, obj);
+                        //
+                        //     });
+                        //
+                        //
+                        // }
                     })
                 }
-
-
             ], function (err, results) {
-
                 console.log(results);
-                cb(err,results);
+                if (!err) {
+                    if (results) {
+                        obj.wechat = {
+                            url: results[1].url,
+                            size: results[1].size
+                        };
+                        obj.ogImage.size = results[0];
+                    }
+                    cb(err, obj);
+                } else {
+                    cb(err, obj);
+                }
+                // cb(err, results);
             });
-
-
         } else {
-            console.log(err);
             let obj = {
                 url,
                 desc: "Bad Link",
@@ -112,33 +143,30 @@ const runTask = (urlArr, auth, cb) => {
     });
 };
 
-const dealHTMLWithMustache = (content, cb) => {
-    const temp = fs.readFileSync('./server/templates/meta.mst', 'utf-8');
-    const exportTime = new Date().getTime();
-    const title = `report-${exportTime}`;
-    const exportPath = `./static/data/${title}.html`;
-    const obj = {
-        title,
-        content
-    };
-    const res = mustache.render(temp, obj);
-    fs.writeFileSync(exportPath, res, 'utf-8');
-
-    cb(null, exportTime);
-};
-
 const dealHTML = (content, cb) => {
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
     const exportPath = `./static/data/${title}.html`;
 
     let finalStr = `
-<style>
-.red {
-color : red;
-}
-</style>
-    <table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        .red {
+            color : red;
+        }
+        .ext-thumb {
+            width : 60px;
+            height : 60px
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+    <table class="table table-bordered table-striped table-hover">
     <tr>
                 <th>URL</th>
                 <th>Title</th>
@@ -149,31 +177,32 @@ color : red;
                 <th>OG Img URL</th>
                 <th>WeChat Img</th>
                 <th>WeChat URL</th>
-                
             </tr>
     `;
 
     content.forEach(item => {
         finalStr += `
             <tr>
-                <td><a href="${item.url}">${item.url}</a></td>
+                <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                 <td>${item.title}</td>
-                <td${item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
+                <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
                 <td>${item.ogTitle}</td>
-                <td${item.ogDesc.length > 150 ? " class='red'" : ""}>${item.ogDesc}</td>
-                <td class="text-center"><img src="${item.ogImage}" alt="ogImage" class="ext-thumb"><br>
-                     Width:${item.ogsize.width}.Hight:${item.ogsize.height}</td>
-                <td>${item.ogImage} </td>
-                <td class="text-center"><img src="${item.wechaturl}" alt="wachatImage" class="ext-thumb"><br>
-                     <br>
-                     Width:${item.obj1.width}.Hight:${item.obj1.height}</td>
-                <td>${item.wechaturl}</td>
-               
+                <td>${item.ogDesc}</td>
+                <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
+                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
+                <td>${item.ogImage.url} </td>
+                <td class="text-center"><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                <br>
+                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
+                <td>${item.wechat.url}</td>
             </tr>
             `;
     });
 
-    finalStr += "</table>";
+    finalStr += `</table>
+</body>
+</html>
+`;
 
     fs.writeFileSync(exportPath, finalStr, 'utf-8');
 
