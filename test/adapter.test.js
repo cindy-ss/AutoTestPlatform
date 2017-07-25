@@ -18,26 +18,33 @@ const query = require('../service/query'),
 //     }
 // });
 
-const src = 'https://www.apple.com/';
+const src = 'https://www.apple.com/cn/switch';
 
+// query.query(src, (err, data) => {
+//     if (!err) {
+//         adapter.cssHandler(data, (err, res) => {
+//             if (!err) {
+//                 console.log(res);
+//                 async.reduce(res, [], (memo, item, callback) => {
+//                     query.query(item.url, (err, content) => {
+//                         adapter.bgHandler(content, (err, arr) => {
+//                             callback(null, memo.concat(arr));
+//                         })
+//                     })
+//                 }, (err, res) => {
+//                     if (!err) {
+//                         console.log(res);
+//                     }
+//                 });
+//             }
+//         });
+//     }
+// });
 
 query.query(src, (err, data) => {
-    if (!err) {
-        adapter.cssHandler(data, (err, res) => {
-            if (!err) {
-                console.log(res);
-                async.reduce(res, [], (memo, item, callback) => {
-                    query.query(item.url, (err, content) => {
-                        adapter.bgHandler(content, (err, arr) => {
-                            callback(null, memo.concat(arr));
-                        })
-                    })
-                }, (err, res) => {
-                    if (!err) {
-                        console.log(res);
-                    }
-                });
-            }
+    if(!err){
+        adapter.mp4Handler(data, (err, res) => {
+            console.log(res);
         });
     }
 });

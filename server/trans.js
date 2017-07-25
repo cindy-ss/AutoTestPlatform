@@ -116,7 +116,9 @@ const dealHTMLWithMustache = (content, cb) => {
 };
 
 const dealHTML = (content, cb) => {
-    const exportPath = `report${new Date().getTime()}.html`;
+    const exportTime = new Date().getTime();
+    const title = `report-${exportTime}`;
+    const exportPath = `./static/data/${title}.html`;
 
     let finalStr = `
 <style>
@@ -161,9 +163,9 @@ color : red;
 
     finalStr += "</table>";
 
-    fs.writeFileSync(`static/data/${exportPath}`, finalStr, 'utf-8');
+    fs.writeFileSync(exportPath, finalStr, 'utf-8');
 
-    cb(null, exportPath);
+    cb(null, exportTime);
 };
 
 const dealExcel = (content, cb) => {
@@ -197,7 +199,7 @@ const dealExcel = (content, cb) => {
 const export2Xls = (obj, cb) => {
     switch (obj.type) {
         case "html" :
-            dealHTMLWithMustache(obj.xls, cb);
+            dealHTML(obj.xls, cb);
             break;
         default:
             dealExcel(obj.xls, cb);
