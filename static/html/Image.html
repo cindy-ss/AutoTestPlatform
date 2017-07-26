@@ -1,73 +1,74 @@
 <h2 class="page-header">Image Checker</h2>
-            <div id="trans" class="row">
-                <div class="col-md-4 navslid trans-side navslid-show">
-                    <p>
-                        URL Import(.txt only)
-                    </p>
-                    <div class="input-group">
-                        <input class="form-control" type="file" id="file_Input">
-                        <span class="input-group-btn">
+<div id="trans" class="row">
+    <div class="col-md-4 navslid trans-side navslid-show">
+        <div style="display:none;">
+            <p>
+                URL Import(.txt only)
+            </p>
+            <div class="input-group">
+                <input class="form-control" type="file" id="file_Input">
+                <span class="input-group-btn">
                 <input type="button" class="btn btn-primary" value="Import" id="import_Txt"/>
             </span>
-                    </div>
-
-                    <p>URL Input</p>
-                    <p>
-                        <textarea rows="5" id="urls_" v-model="urls" class="form-control"></textarea>
-                    </p>
-
-                    <button id="btn_Quest" class="btn btn-primary">Query</button>
-                    <button id="btn_Clear" class="btn btn-primary">Clear</button>
-                </div>
-                <div>
-                    <button class="sideIcon">&lt;</button>
-                </div>
-                <div class="col-md-7">
-                    <p class="col-md-4">
-                        <label>
-                            <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-                            Excel
-                        </label>
-                        <label>
-                            <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-                            HTML
-                        </label>
-                    </p>
-                    <p class="col-md-4 exbutton">
-                        <button id="getExcel" class="btn btn-primary">Export</button>
-                    </p>
-
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                        <tr>
-                            <th>URL</th>
-                            <th>US</th>
-                            <th><select class="sel_mask" id="geos" name="geos">
-                                <option value="">Please Select Geo</option>
-                                <option value="1">CN</option>
-                                <option value="2">HK</option>
-                                <option value="3">HKEN</option>
-                                <option value="4">TW</option>
-                                <option value="5">MO</option>
-                            </select></th>
-                        </tr>
-                        </thead>
-                        <tbody id="res_Container">
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
+        <p>URL Input (One URL only)</p>
+        <p>(eg:https://www.apple.com/cn/iphone)</p>
+        <p>
+            <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
+            <input type="text" id="url" name="url" fs="请输入"></input>
+        </p>
+
+        <button id="btn_Quest" class="btn btn-primary">Query</button>
+        <button id="btn_Clear" class="btn btn-primary">Clear</button>
     </div>
+    <div>
+        <button class="sideIcon">&lt;</button>
+    </div>
+    <div class="col-md-7">
+        <p class="col-md-4">
+            <label>
+                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
+                Excel
+            </label>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
+                HTML
+            </label>
+        </p>
+        <p class="col-md-4 exbutton">
+            <button id="getExcel" class="btn btn-primary">Export</button>
+        </p>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>URL</th>
+                <th>US & Count</th>
+                <th>CN & Count</th>
+                <th>HK & Count</th>
+                <th>HKEN & Count</th>
+                <th>TW & Count</th>
+                <th>MO & Count</th>
+
+            </tr>
+            </thead>
+            <tbody id="res_Container">
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
 </div>
 
 <!--<script src="../../node_modules/vue/dist/vue.js"></script>-->
 <!--<script src="../../node_modules/jquery/dist/jquery.js"></script>-->
 <script>
 
-    $('#geos option[value=""]').attr('selected',true);
+    $('#geos option[value=""]').attr('selected', true);
 
-//    const url_Input = $("#urls_");
+    //    const url_Input = $("#urls_");
     //const res_Container = $('#res_Container');
     $("#import_Txt").click(() => {
         if ($("#file_Input")[0].files.length >= 1) {
@@ -85,19 +86,29 @@
         $("#urls_").val('');
     });
 
+//    [  {geo: 'us', url: 'https://ic12.apple.com/retail/business/', total: 74,
+//        list: [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
+//                'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg' ] },
+//        {geo: '/cn/', url: 'https://ic12.apple.com/cn/retail/business/', total: 92, list:
+//              [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
+//                  'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg']
+//        }
+//    ]
+
     $('#btn_Quest').click(() => {
         if ($("#urls_").val().length > 5) {
             $('#res_Container').html('');
-            $.post('/service/image-checker', {urls: $("#urls_").val()}, function (data) {
-                if (data) {
+            $.post('/api/image', url, function (data) {
+                if (data.result =="true") {
                     let str = '';
-                    data.forEach((item, index) => {
+
+                    $.each(data, function (n, value) {
                         str += `<tr>
-                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-                                    <td class="text-center"><img src="${item.USwechaturl}" style="height:50px; width:50px "></td>
-                                    <td class="text-center"><img src="${item.CNwechaturl}" style="height:50px; width:50px "></td>
+                               <td class="text-center" style=" ">${value.geo}</td>
                                 </tr>`
-                    });
+                    }
+
+
                     $('#res_Container').html(str);
                 }
             });
@@ -105,16 +116,19 @@
             console.log("null");
         }
     });
-    $("#getExcel").click(()=>{
-        if($("#urls_").val().length>0){
-            const arr=$("#res_Container").html();
-            $.post('/api/trans2xls',{xls:JSON.stringify(arr),type: document.querySelector("input[name=optionsRadios]:checked").value},function (data) {
+    $("#getExcel").click(() => {
+        if ($("#urls_").val().length > 0) {
+            const arr = $("#res_Container").html();
+            $.post('/api/trans2xls', {
+                xls: JSON.stringify(arr),
+                type: document.querySelector("input[name=optionsRadios]:checked").value
+            }, function (data) {
                 $(this).text('../data/${data}');
             })
         }
 
     });
-    $(".sideIcon").click(()=> {
+    $(".sideIcon").click(() => {
         if ($(".trans-side").hasClass("navslid-hide")) {
             $(".trans-side").addClass("navslid-show");
             $(".trans-side").removeClass("navslid-hide");
@@ -130,56 +144,56 @@
     });
 
     /*var app = new Vue({
-        el: '#trans',
-        data: {
-            arr: [],
-            urls: "",
-            excelUrl: "",
-            excelName: ""
-        },
-        methods: {
-            quest: function () {
-                if(this.urls.length > 5){
-                    var that = this;
-                    $.post('/api/wechat', {urls: this.urls}, function (data) {
-                        console.log(data);
-                        that.arr = data;
-                    });
-                }else{
-                    console.log("null");
-                }
-            },
-            getExcel: function () {
-                if(this.arr.length > 0){
-                    var that = this;
-                    $.post('/api/wechat2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
-                        console.log(data);
-                        that.excelName = data;
-                        that.excelUrl = `../data/${data}`;
-                    });
-                }else{
-                    console.log('cant');
-                }
-            },
-            importTxt: function () {
-                var that = this;
-                var fileInput = document.querySelector("#fileInput");
-                if(fileInput.files.length >= 1){
-                    var file = document.querySelector("#fileInput").files[0];
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        console.log(this.result);
-                        that.urls += this.result;
-                        fileInput.value = "";
-                    };
-                    reader.readAsText(file);
-                }
-            },
-            clear:function() {
-                $("#urls").val('');
-            }
-        }
-    });*/
+     el: '#trans',
+     data: {
+     arr: [],
+     urls: "",
+     excelUrl: "",
+     excelName: ""
+     },
+     methods: {
+     quest: function () {
+     if(this.urls.length > 5){
+     var that = this;
+     $.post('/api/wechat', {urls: this.urls}, function (data) {
+     console.log(data);
+     that.arr = data;
+     });
+     }else{
+     console.log("null");
+     }
+     },
+     getExcel: function () {
+     if(this.arr.length > 0){
+     var that = this;
+     $.post('/api/wechat2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
+     console.log(data);
+     that.excelName = data;
+     that.excelUrl = `../data/${data}`;
+     });
+     }else{
+     console.log('cant');
+     }
+     },
+     importTxt: function () {
+     var that = this;
+     var fileInput = document.querySelector("#fileInput");
+     if(fileInput.files.length >= 1){
+     var file = document.querySelector("#fileInput").files[0];
+     var reader = new FileReader();
+     reader.onload = function () {
+     console.log(this.result);
+     that.urls += this.result;
+     fileInput.value = "";
+     };
+     reader.readAsText(file);
+     }
+     },
+     clear:function() {
+     $("#urls").val('');
+     }
+     }
+     });*/
 </script>
 </body>
 </html>

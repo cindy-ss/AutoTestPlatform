@@ -75,11 +75,13 @@ router.route('/image')
         if(url){
             ic.check(url, req.session.od, (err, data) => {
                 if(!err){
+                    console.log("succcccc");
                     res.json({
                         result : true,
                         data : data
                     })
                 }else{
+                    console.log("errrr");
                     res.json({
                         result : false,
                         message : 'Err'
@@ -87,6 +89,7 @@ router.route('/image')
                 }
             })
         }else{
+
             res.json({
                 result : false,
                 message : 'No URL Provided'
