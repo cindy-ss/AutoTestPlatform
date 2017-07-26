@@ -38,10 +38,12 @@ const bgHandler = (content, url, cb) => {
     let res = [];
     if (content) {
         let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
-        matched.forEach(item => {
-            const tempUrl = item.substr(5, item.length - 7);
-            res.push(URL.resolve(url, tempUrl));
-        });
+        if(matched){
+            matched.forEach(item => {
+                const tempUrl = item.substr(5, item.length - 7);
+                res.push(URL.resolve(url, tempUrl));
+            });
+        }
         cb(null, res);
     } else {
         cb(new Error('No Content Provided'), res);

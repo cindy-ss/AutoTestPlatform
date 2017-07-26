@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 const trans = require('./trans');
+const ic = require('./image_checker');
 
 router.route('/init')
     .post((req, res) => {
@@ -42,7 +43,7 @@ router.route('/trans2xls')
         };
         trans.export2Xls(obj, (err, exPath) => {
             // if(req.body.type === 'html'){
-                res.end(exPath.toString());
+            res.end(exPath.toString());
             // }else{
             //     res.end(exPath);
             // }
@@ -57,15 +58,40 @@ router.route('/trans2xls')
     });
 
 router.route('/font/url')
-    .post((req, res) => {});
+    .post((req, res) => {
+    });
 
 router.route('/font/text')
-    .post((req, res) => {});
+    .post((req, res) => {
+    });
 
 router.route('/font/options')
-    .get((req, res) => {});
+    .get((req, res) => {
+    });
 
 router.route('/image')
-    .post((req, res) => {});
+    .post((req, res) => {
+        const url = req.body.url;
+        if(url){
+            ic.check(url, req.session.od, (err, data) => {
+                if(!err){
+                    res.json({
+                        result : true,
+                        data : data
+                    })
+                }else{
+                    res.json({
+                        result : false,
+                        message : 'Err'
+                    })
+                }
+            })
+        }else{
+            res.json({
+                result : false,
+                message : 'No URL Provided'
+            })
+        }
+    });
 
 exports.router = router;

@@ -4,22 +4,33 @@
 
 const async = require('async');
 
-const ic = require('../service/image-checker');
+const ic = require('../service/image-checker'),
+    gh = require('../service/geo_helper');
 
-const check = (urlArr, auth, cb) => {
-    if(urlArr && urlArr.length > 0){
-        async.everyLimit(urlArr, 2, (item, callback) => {
-            ic.check(item, auth, (err, data) => {
-                if(!err){
-                    callback()
-                }else{
-                    callback(err, {})
-                }
-            })
-        }, (err, result) => {});
-    }else{
-        cb(new Error('URL Array should be a non-empty array.'), [])
-    }
+const check = (url, auth, cb) => {
+    const arr = [{
+        geo : 'us',
+        url : url
+    }].concat(gh.us2geoByUrl(url));
+    async.map(arr, (item, callback) => {
+        ic.check(item.url, auth, (err, data) => {
+            let obj = {
+                geo : item.geo,
+                url : item.url,
+                total : 0,
+                list : []
+            };
+            if(!err){
+                obj.total = data.length;
+                obj.list = data;
+                callback(null, obj);
+            }else{
+                callback(null, obj);
+            }
+        })
+    }, (err, result) => {
+        cb(null, result);
+    });
 };
 
 exports.check = check;
