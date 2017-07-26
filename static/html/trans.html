@@ -89,9 +89,9 @@
                         str += `<tr>
                                     <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                                     <td>${item.title}</td>
-                                    <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
+                                    <td${item.desc&&(item.desc.length > 150||item.desc.length<100) ? " class='red'" : ""}>${item.desc}</td>
                                     <td>${item.ogTitle}</td>
-                                    <td>${item.ogDesc}</td>
+                                    <td${item.ogDesc&&(item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td>
                                     <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
                                      Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
                                     <td>${item.ogImage.url} </td>

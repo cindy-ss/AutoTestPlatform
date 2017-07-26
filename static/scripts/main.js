@@ -24,7 +24,7 @@ $(() =>{
         console.log(odUser);
 
         if(!(odUser && odPass)){
-            // $('#odConfirm').modal();
+            $('#odConfirm').modal();
         }
     });
 
