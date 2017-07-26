@@ -2,26 +2,46 @@
  * Created by edel.ma on 7/24/17.
  */
 
-const findCssLinks = require("@marcom/find-css-links"),
-    findInlineImages = require("@marcom/find-inline-images"),
-    backgroundImages = require("@marcom/find-background-images");
+const async = require('async');
 
-const getImages = (src, cb) => {
-    let cssArr = findCssLinks(src);
-    let innerImageArr = findInlineImages(src);
+const q = require('./query'),
+    adapter = require('./adapter');
 
-    console.log(cssArr, innerImageArr);
-    // let bgImageArr = backgroundImages(css);
+const check = (url, auth, cb) => {
+    if (url) {
+        q.query(url, (err, data) => {
+            if (!err) {
+                adapter.cssHandler(data, url, (err, res) => {
+                    if (!err) {
+                        async.reduce(res, [], (memo, item, callback) => {
+                            q.query(item.url, (err, content) => {
+                                adapter.bgHandler(content, item.url, (err, arr) => {
+                                    if (!err) {
+                                        callback(null, memo.concat(arr));
+                                    } else {
+                                        console.log(item.url);
+                                        callback(err);
+                                    }
+                                })
+                            }, auth)
+                        }, (err, res) => {
+                            if (!err) {
+                                cb(null, res);
+                            } else {
+                                cb(err, []);
+                            }
+                        });
+                    } else {
+                        cb(err, []);
+                    }
+                });
+            } else {
+                cb(err, []);
+            }
+        }, auth);
+    } else {
+        cb(new Error('No valid url provided'), []);
+    }
 };
 
-//     console.log(link.url);
-//     console.log(link.line);
-//     console.log(image.url);
-//     console.log(image.line);
-//
-// var css = fs.readFileSync("somecssfile.css").toString();
-// var images = backgroundImages(css);
-//     console.log(image.url);
-//     console.log(image.meta.line);
-
-exports.getImages = getImages;
+exports.check = check;

@@ -2,7 +2,8 @@
  * Created by edel.ma on 7/10/17.
  */
 
-const cheerio = require('cheerio');
+const cheerio = require('cheerio'),
+    URL = require('url');
 
 const REG = {
     MP4: new RegExp(/\.mp4$/)
@@ -24,7 +25,7 @@ const videoHandler = (content, cb) => {
 const mp4Handler = (content, cb) => {
     let res = [];
 
-    let matched = content.match(/\"[a-z0-9A-Z_\:\/\.\-]*\.mp4/g);
+    let matched = content.match(/[a-z0-9A-Z_\:\/\.\-]*\.mp4/g);
 
     matched.forEach(item => {
         res.push(item);
@@ -33,13 +34,18 @@ const mp4Handler = (content, cb) => {
     cb(null, res);
 };
 
-const bgHandler = (content, cb) => {
+const bgHandler = (content, url, cb) => {
     let res = [];
-    let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
-    matched.forEach(item => {
-        res.push(item.substr(5, item.length - 7));
-    });
-    cb(null, res);
+    if (content) {
+        let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
+        matched.forEach(item => {
+            const tempUrl = item.substr(5, item.length - 7);
+            res.push(URL.resolve(url, tempUrl));
+        });
+        cb(null, res);
+    } else {
+        cb(new Error('No Content Provided'), res);
+    }
 };
 
 const imageHandler = (content, cb) => {
@@ -61,7 +67,7 @@ const imageHandler = (content, cb) => {
     cb(null, res);
 };
 
-const cssHandler = (content, cb) => {
+const cssHandler = (content, url, cb) => {
     let res = [];
     const $ = cheerio.load(content);
 
@@ -70,10 +76,10 @@ const cssHandler = (content, cb) => {
     arr.each((i, item) => {
         if (item.attribs && item.attribs.href) {
             let tempUrl = item.attribs.href;
-            if (tempUrl.indexOf('main.built.css') !== -1 || tempUrl.indexOf('home.built.css') !== -1) {
+            if (tempUrl.indexOf('ac-globalnav.built.css') === -1 && tempUrl.indexOf('ac-globalfooter.built.css') === -1 && tempUrl.indexOf('ac-localnav.built.css') === -1 && tempUrl.indexOf('fonts?') === -1) {
                 res.push({
                     tag: 'css',
-                    url: tempUrl
+                    url: URL.resolve(url, tempUrl)
                 });
             }
         }

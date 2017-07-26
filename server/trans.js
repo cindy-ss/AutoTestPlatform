@@ -70,40 +70,6 @@ const fetchTrans = (url, auth, cb) => {
                         } else {
                             callback(err, null);
                         }
-                        // if (res == null) {
-                        //     let obj = {
-                        //         url,
-                        //         desc,
-                        //         title,
-                        //         ogTitle,
-                        //         ogDesc,
-                        //         ogImage,
-                        //         wechaturl: "No WeChat Img",
-                        //         obj1: "NA"
-                        //     };
-                        //
-                        //     callback(err, obj);
-                        //
-                        // } else {
-                        //     let wechaturl = p.protocol + "//" + p.hostname + res;
-                        //     file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-                        //         let obj = {
-                        //             url,
-                        //             title,
-                        //             desc,
-                        //             ogTitle,
-                        //             ogDesc,
-                        //             ogImage,
-                        //             wechaturl,
-                        //             obj1
-                        //
-                        //         };
-                        //         callback(err, obj);
-                        //
-                        //     });
-                        //
-                        //
-                        // }
                     })
                 }
             ], function (err, results) {
@@ -210,7 +176,9 @@ const dealHTML = (content, cb) => {
 };
 
 const dealExcel = (content, cb) => {
-    const exportPath = `report${new Date().getTime()}.xlsx`;
+    const exportTime = new Date().getTime();
+    const title = `report-${exportTime}`;
+    const exportPath = `./static/data/${title}.xlsx`;
     let data = {
         sheets: [
             {
@@ -225,15 +193,14 @@ const dealExcel = (content, cb) => {
                 sheetName: 'Report',
             }
         ],
-        filepath: `static/data/${exportPath}`
+        filepath: exportPath
     };
 
     data.sheets[0].items = content;
 
     excel.j2e(data, function (err) {
-        console.log(err);
         console.log('finish');
-        cb(err, exportPath);
+        cb(err, exportTime);
     });
 };
 

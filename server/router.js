@@ -41,11 +41,11 @@ router.route('/trans2xls')
             type: req.body.type
         };
         trans.export2Xls(obj, (err, exPath) => {
-            if(req.body.type === 'html'){
+            // if(req.body.type === 'html'){
                 res.end(exPath.toString());
-            }else{
-                res.end(exPath);
-            }
+            // }else{
+            //     res.end(exPath);
+            // }
 
         });
     })
