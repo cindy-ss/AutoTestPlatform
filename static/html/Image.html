@@ -16,7 +16,7 @@
         <p>(eg:https://www.apple.com/cn/iphone)</p>
         <p>
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
-            <input type="text" id="url" name="url" fs="请输入"></input>
+            <input type="text" id="url" name="url" placeholder="请输入" />
         </p>
 
         <button id="btn_Quest" class="btn btn-primary">Query</button>
@@ -96,9 +96,10 @@
 //    ]
 
     $('#btn_Quest').click(() => {
-        if ($("#urls_").val().length > 5) {
+        if ($("#url").val().length > 5) {
             $('#res_Container').html('');
-            $.post('/api/image', url, function (data) {
+            $.post('/api/image', {url : $('#url').val()}, function (data) {
+                console.log(data);
                 if (data.result =="true") {
                     let str = '';
 
@@ -106,7 +107,7 @@
                         str += `<tr>
                                <td class="text-center" style=" ">${value.geo}</td>
                                 </tr>`
-                    }
+                    })
 
 
                     $('#res_Container').html(str);

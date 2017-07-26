@@ -72,6 +72,7 @@ router.route('/font/options')
 router.route('/image')
     .post((req, res) => {
         const url = req.body.url;
+        console.log(req.body.url);
         if(url){
             ic.check(url, req.session.od, (err, data) => {
                 if(!err){

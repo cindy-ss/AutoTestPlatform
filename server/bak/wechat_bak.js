@@ -8,12 +8,12 @@ const cheerio = require('cheerio');
 const async = require('async');
 const fs = require('fs');
 const excel = require('json2excel');
-const query = require('../service/query');
+const query = require('../../service/query');
 
 const sizeOf = require('image-size');
-const file = require('../service/file');
+const file = require('../../service/file');
 const URL = require('url');
-const adapter = require('../service/adapter');
+const adapter = require('../../service/adapter');
 
 const fetchTrans = (url, cb) => {
     query.query(url, (err, res) => {
