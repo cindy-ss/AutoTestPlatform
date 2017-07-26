@@ -170,3 +170,7 @@ ul,li{
  thead{
    background: #eee;
  }
+
+.red {
+  color : red;
+}

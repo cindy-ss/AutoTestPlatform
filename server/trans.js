@@ -70,44 +70,12 @@ const fetchTrans = (url, auth, cb) => {
                         } else {
                             callback(err, null);
                         }
-                        // if (res == null) {
-                        //     let obj = {
-                        //         url,
-                        //         desc,
-                        //         title,
-                        //         ogTitle,
-                        //         ogDesc,
-                        //         ogImage,
-                        //         wechaturl: "No WeChat Img",
-                        //         obj1: "NA"
-                        //     };
-                        //
-                        //     callback(err, obj);
-                        //
-                        // } else {
-                        //     let wechaturl = p.protocol + "//" + p.hostname + res;
-                        //     file.getImageSizeByUrl(wechaturl, (err, obj1) => {
-                        //         let obj = {
-                        //             url,
-                        //             title,
-                        //             desc,
-                        //             ogTitle,
-                        //             ogDesc,
-                        //             ogImage,
-                        //             wechaturl,
-                        //             obj1
-                        //
-                        //         };
-                        //         callback(err, obj);
-                        //
-                        //     });
-                        //
-                        //
-                        // }
+
+
                     })
                 }
             ], function (err, results) {
-                console.log(results);
+                //console.log(results);
                 if (!err) {
                     if (results) {
                         obj.wechat = {
@@ -185,9 +153,9 @@ const dealHTML = (content, cb) => {
             <tr>
                 <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                 <td>${item.title}</td>
-                <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
+                <td${item.desc && (item.desc.length > 150|| item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td>
                 <td>${item.ogTitle}</td>
-                <td>${item.ogDesc}</td>
+                <td${item.ogDesc &&(item.ogDesc.length > 150|| item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td>
                 <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
                 Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
                 <td>${item.ogImage.url} </td>

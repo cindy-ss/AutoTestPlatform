@@ -5,6 +5,9 @@
 const findCssLinks = require("@marcom/find-css-links"),
     findInlineImages = require("@marcom/find-inline-images"),
     backgroundImages = require("@marcom/find-background-images");
+const ic = require('../server/image_checker');
+
+
 
 const getImages = (src, cb) => {
     let cssArr = findCssLinks(src);
