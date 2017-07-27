@@ -43,17 +43,36 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th>URL</th>
-                <th>US & Count</th>
-                <th>CN & Count</th>
-                <th>HK & Count</th>
-                <th>HKEN & Count</th>
-                <th>TW & Count</th>
-                <th>MO & Count</th>
+                <th>US</th>
+                <th>CN</th>
+                <th>HK</th>
+                <th>HKEN</th>
+                <th>TW</th>
+                <th>MO</th>
 
             </tr>
             </thead>
-            <tbody id="res_Container">
+            <tbody>
+            <tr>
+                <th>URL</th>
+                <th>URL</th>
+                <th>URL</th>
+                <th>URL</th>
+                <th>URL</th>
+                <th>URL</th>
+            </tr>
+            <tr id="res_Container"></tr>
+            <tr>
+                <th>Count</th>
+                <th>Count</th>
+                <th>Count</th>
+                <th>Count</th>
+                <th>Count</th>
+                <th>Count</th>
+            </tr>
+            <tr id="Count"></tr>
+            <tr id="Image"></tr>
+            <tr id="ImageUrl"></tr>
             </tbody>
         </table>
     </div>
@@ -98,20 +117,30 @@
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
-            $.post('/api/image', {url : $('#url').val()}, function (data) {
-                console.log(data);
-                if (data.result =="true") {
+            $.post('/api/image', {url : $('#url').val()}, function (Json_data) {
+                console.log(Json_data);
+                if (Json_data.result==true) {
                     let str = '';
-
+                    let str1='';
+                    let str2='';
+                    let str3='';
+                    let data=Json_data.data;
                     $.each(data, function (n, value) {
-                        str += `<tr>
-                               <td class="text-center" style=" ">data.geo</td>
-                               <td class="text-center" style=" ">data.url</td>
-                                </tr>`
+                        str += `
+                               <td class="text-center" style=" ">${value.url}</td>
+
+                              `
+                        str1+= `<td class="text-center" style=" ">${value.total}</td>`;
+                        let ImageUrl=value.list;
+                        console.log(ImageUrl);
+//                        ImageUrl.forEach((i,ImageValue)=>{
+//                            str2+=`<td class="text-center"><img src="${ImageValue}" alt="ImageUrl" class="ext-thumb"></td>`
+//                        });
+                        str3+= `<td class="text-center" style=" ">${value.list}</td>`
                     })
-
-
                     $('#res_Container').html(str);
+                    $('#Count').html(str1);
+                    $('#Image').html(str2);
                 }
             });
         } else {
