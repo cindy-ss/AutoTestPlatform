@@ -9,6 +9,7 @@ body {
 ul,li{
   marign:0;
   padding:0;
+  list-style-type: none;
 }
 
 /*
@@ -96,7 +97,7 @@ ul,li{
   to {width: 200px;}
 }
 @keyframes hide {
-  from {width: 200px}
+  from {width: 300px}
   to {width: 0;}
 }
 .navslid-show {
@@ -106,7 +107,7 @@ ul,li{
   animation-name: hide;
   animation-duration: 1s;
   width: 0;
-  margin-left:-200px;
+  margin-left:-300px;
 }
 /*
  * Main content
@@ -174,3 +175,10 @@ ul,li{
 .red {
   color : red;
 }
+/*Image.html*/
+.ImageStyle>td>ul li{
+  border-bottom:1px solid #ccc;
+  width:200px;
+  overflow: auto;
+}
+

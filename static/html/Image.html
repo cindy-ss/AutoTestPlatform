@@ -53,25 +53,44 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th>URL</th>
-                <th>URL</th>
-                <th>URL</th>
-                <th>URL</th>
-                <th>URL</th>
-                <th>URL</th>
-            </tr>
+            <!--<tr>-->
+                <!--<th>URL</th>-->
+                <!--<th>URL</th>-->
+                <!--<th>URL</th>-->
+                <!--<th>URL</th>-->
+                <!--<th>URL</th>-->
+                <!--<th>URL</th>-->
+            <!--</tr>-->
             <tr id="res_Container"></tr>
-            <tr>
-                <th>Count</th>
-                <th>Count</th>
-                <th>Count</th>
-                <th>Count</th>
-                <th>Count</th>
-                <th>Count</th>
-            </tr>
+            <!--<tr>-->
+                <!--<th>Count</th>-->
+                <!--<th>Count</th>-->
+                <!--<th>Count</th>-->
+                <!--<th>Count</th>-->
+                <!--<th>Count</th>-->
+                <!--<th>Count</th>-->
+            <!--</tr>-->
             <tr id="Count"></tr>
-            <tr id="Image"></tr>
+            <tr class="ImageStyle">
+                <td>
+                    <ul id="ImageUS"></ul>
+                </td>
+                <td>
+                    <ul id="ImageCN"></ul>
+                </td>
+                <td>
+                    <ul id="ImageHK"></ul>
+                </td>
+                <td>
+                    <ul id="ImageHKEN"></ul>
+                </td>
+                <td>
+                    <ul id="ImageTW"></ul>
+                </td>
+                <td>
+                    <ul id="ImageMO"></ul>
+                </td>
+            </tr>
             <tr id="ImageUrl"></tr>
             </tbody>
         </table>
@@ -124,6 +143,10 @@
                     let str1='';
                     let str2='';
                     let str3='';
+                    let str4='';
+                    let str5='';
+                    let str6='';
+                    let str7='';
                     let data=Json_data.data;
                     $.each(data, function (n, value) {
                         str += `
@@ -132,15 +155,70 @@
                               `
                         str1+= `<td class="text-center" style=" ">${value.total}</td>`;
                         let ImageUrl=value.list;
-                        console.log(ImageUrl);
-//                        ImageUrl.forEach((i,ImageValue)=>{
-//                            str2+=`<td class="text-center"><img src="${ImageValue}" alt="ImageUrl" class="ext-thumb"></td>`
-//                        });
-                        str3+= `<td class="text-center" style=" ">${value.list}</td>`
+                        if(value.geo=='us'){
+                             ImageUrl.forEach((ImageValue,i)=>{
+                                str2+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                        });
+                        }
+                        if(value.geo=='/cn/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str3+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/hk/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str4+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/hk/en/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str5+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/tw/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str6+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/mo/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str7+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                       // str3+= `<td class="text-center" style=" ">${value.list}</td>`
                     })
                     $('#res_Container').html(str);
                     $('#Count').html(str1);
-                    $('#Image').html(str2);
+                    $('#ImageUS').html(str2);
+                    $('#ImageCN').html(str3);
+                    $('#ImageHK').html(str4);
+                    $('#ImageHKEN').html(str5);
+                    $('#ImageTW').html(str6);
+                    $('#ImageMO').html(str7);
+
                 }
             });
         } else {
