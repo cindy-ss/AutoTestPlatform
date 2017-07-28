@@ -22,24 +22,24 @@
       "server": "WWW"
     },
     {
-      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff1",
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff",
       "geo": "cn",
-      "type": "woff1",
-      "name": "SF Pro SC - WOFF1 - Online",
+      "type": "woff",
+      "name": "SF Pro SC - woff - Online",
       "server": "WWW"
     },
     {
-      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff1",
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
       "geo": "hk",
-      "type": "woff1",
-      "name": "SF Pro HK - WOFF1 - Online",
+      "type": "woff",
+      "name": "SF Pro HK - woff - Online",
       "server": "WWW"
     },
     {
-      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff1",
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff",
       "geo": "tw",
-      "type": "woff1",
-      "name": "SF Pro TC - WOFF1 - Online",
+      "type": "woff",
+      "name": "SF Pro TC - woff - Online",
       "server": "WWW"
     },
     {
@@ -64,25 +64,26 @@
       "server": "UAT"
     },
     {
-      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff1",
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff",
       "geo": "cn",
-      "type": "woff1",
-      "name": "SF Pro SC - WOFF1 - UAT",
+      "type": "woff",
+      "name": "SF Pro SC - woff - UAT",
       "server": "UAT"
     },
     {
-      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff1",
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
       "geo": "hk",
-      "type": "woff1",
-      "name": "SF Pro HK - WOFF1 - UAT",
+      "type": "woff",
+      "name": "SF Pro HK - woff - UAT",
       "server": "UAT"
     },
     {
-      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff1",
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff",
       "geo": "tw",
-      "type": "woff1",
-      "name": "SF Pro TC - WOFF1 - UAT",
+      "type": "woff",
+      "name": "SF Pro TC - woff - UAT",
       "server": "UAT"
     }
-  ]
+  ],
+  "avoid" : ["f8ff"]
 }

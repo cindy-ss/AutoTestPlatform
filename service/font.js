@@ -9,16 +9,8 @@ const q = require('./query'),
     path = require('path'),
     cheerio = require('cheerio');
 
-const metrics = [
-        {
-            url: 'SF-Pro-SC/v1/PingFangSC-Regular.woff2',
-            geo: 'cn',
-            type: 'woff2',
-            name: 'SF Pro SC - WOFF2 - Online',
-            server : 'WWW'
-        }
-    ],
-    prefix = '/wss/fonts/';
+let metrics, avoid;
+const prefix = '/wss/fonts/', params = ['geo', 'name', 'type', 'server'];
 
 const getAvailableFontType = () => {
     // return metrics.map(({name}) => {return name;});
@@ -26,9 +18,15 @@ const getAvailableFontType = () => {
 };
 
 const init = (cb) => {
+    let rawConf = fs.readFileSync('./font/conf.json', 'utf-8');
+    let conf = JSON.parse(rawConf);
+    metrics = conf['font'];
+    metrics = conf['font'];
+
     async.each(metrics, (item, callback) => {
-        q.bareQuery(`http://www.apple.com${prefix}${item.url}`, (err, res, data) => {
-            fs.writeFileSync(`./font/${path.basename(item.url)}`, data);
+        q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'http://webfonts.iapps.apple.com/'}${prefix}${item.url}`, (err, res, data) => {
+            fs.writeFileSync(`./font/${item.server}-${path.basename(item.url)}`, data);
+            if(err){console.log(err);}
             callback(err);
         }, {}, {
             encoding: null
@@ -39,17 +37,19 @@ const init = (cb) => {
 };
 
 const check = (data, option) => {
+    option = option || {};
+    option['server'] = "WWW";
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
     let res = {};
     let srcArr = [];
     if (option) {
         let filter = [];
-        for (let i of metrics[0]) {
+        for (let i of params) {
             if (option[i]) {
                 filter.push(i);
             }
         }
-        metrics.forEach((item, index) => {
+        metrics.forEach(item => {
             let flag = true;
             for (let i of filter) {
                 flag = flag && (item[i] === option[i]);
@@ -62,15 +62,18 @@ const check = (data, option) => {
         srcArr = metrics;
     }
 
-    srcArr.forEach((item, index) => {
+    srcArr.forEach(item => {
         res[item.name] = [];
-        const font = fontkit.openSync(`./font/${path.basename(item.url)}`);
+        console.log(`./font/${item.server}-${path.basename(item.url)}`);
+        const font = fontkit.openSync(`./font/${item.server}-${path.basename(item.url)}`);
 
         for (let i of data) {
-            if (font.characterSet.indexOf(i.charCodeAt(0)) === -1) {
+            const code = i.charCodeAt(0);
+            const codeStr = i.charCodeAt(0).toString(16);
+            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && [].indexOf(codeStr) === -1) {
                 res[item.name].push({
                     word: i,
-                    code: i.charCodeAt(0).toString(16)
+                    code: codeStr
                 });
             }
         }
