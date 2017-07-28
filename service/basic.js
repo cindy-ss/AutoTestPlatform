@@ -2,15 +2,8 @@
  * Created by edel.ma on 7/10/17.
  */
 
-let odUser, odPass;
+const font = require('./font');
 
-//Init with your OD user name and password.
-const init = (option) => {
-    option = option || {};
-    this.odUser = option.odUser || undefined;
-    this.odPass = option.odPass || undefined;
+exports.init = (cb) => {
+    font.init(cb);
 };
-
-exports.init = init;
-exports.odUser = this.odUser;
-exports.odPass = this.odPass;

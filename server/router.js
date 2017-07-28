@@ -5,8 +5,9 @@
 const express = require('express');
 const router = express.Router();
 
-const trans = require('./trans');
-const ic = require('./image_checker');
+const trans = require('./trans'),
+    ic = require('./image_checker'),
+    font = require('./font');
 
 router.route('/init')
     .post((req, res) => {
@@ -59,6 +60,28 @@ router.route('/trans2xls')
 
 router.route('/font/url')
     .post((req, res) => {
+        const urls = req.body.urls;
+        const options = req.body.option;
+        if (urls) {
+            font.checkByUrl(urls, req.session.od, options, (err, data) => {
+                if (!err) {
+                    res.json({
+                        result: true,
+                        data: data
+                    })
+                } else {
+                    res.json({
+                        result: false,
+                        message: 'Err'
+                    })
+                }
+            })
+        }else{
+            res.json({
+                result : false,
+                message : 'No URLs Provided'
+            })
+        }
     });
 
 router.route('/font/text')
@@ -72,28 +95,24 @@ router.route('/font/options')
 router.route('/image')
     .post((req, res) => {
         const url = req.body.url;
-        console.log(req.body.url);
-        if(url){
+        if (url) {
             ic.check(url, req.session.od, (err, data) => {
-                if(!err){
-                    console.log("succcccc");
+                if (!err) {
                     res.json({
-                        result : true,
-                        data : data
+                        result: true,
+                        data: data
                     })
-                }else{
-                    console.log("errrr");
+                } else {
                     res.json({
-                        result : false,
-                        message : 'Err'
+                        result: false,
+                        message: 'Err'
                     })
                 }
             })
-        }else{
-
+        } else {
             res.json({
-                result : false,
-                message : 'No URL Provided'
+                result: false,
+                message: 'No URL Provided'
             })
         }
     });

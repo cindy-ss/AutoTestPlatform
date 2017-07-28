@@ -6,16 +6,16 @@ const q = require('./query'),
     fontkit = require('fontkit'),
     fs = require('fs'),
     async = require('async'),
-    path = require('path');
+    path = require('path'),
+    cheerio = require('cheerio');
 
 const metrics = [
         {
-            url : 'SF-Pro-SC/v1/PingFangSC-Regular.woff2',
-            geo : 'cn',
-            type : 'woff2',
-            name : 'SF_SC_WOFF2',
-            weight : 400,
-            path : './font/PingFangSC-Regular.woff2'
+            url: 'SF-Pro-SC/v1/PingFangSC-Regular.woff2',
+            geo: 'cn',
+            type: 'woff2',
+            name: 'SF_SC_WOFF2',
+            cate: 'sf'
         }
     ],
     prefix = '/wss/fonts/';
@@ -28,7 +28,7 @@ const getAvailableFontType = () => {
 const init = (cb) => {
     async.each(metrics, (item, callback) => {
         q.bareQuery(`http://www.apple.com${prefix}${item.url}`, (err, res, data) => {
-            fs.writeFileSync(item.path, data);
+            fs.writeFileSync(`./font/${path.basename(item.url)}`, data);
             callback(err);
         }, {}, {
             encoding: null
@@ -42,35 +42,35 @@ const check = (data, option) => {
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
     let res = {};
     let srcArr = [];
-    if(option){
+    if (option) {
         let filter = [];
-        for(let i of metrics[0]){
-            if(option[i]){
+        for (let i of metrics[0]) {
+            if (option[i]) {
                 filter.push(i);
             }
         }
         metrics.forEach((item, index) => {
             let flag = true;
-            for(let i of filter){
+            for (let i of filter) {
                 flag = flag && (item[i] === option[i]);
             }
-            if(flag){
+            if (flag) {
                 srcArr.push(item)
             }
         });
-    }else{
+    } else {
         srcArr = metrics;
     }
 
     srcArr.forEach((item, index) => {
         res[item.name] = [];
-        const font = fontkit.openSync(item.path);
+        const font = fontkit.openSync(`./font/${path.basename(item.url)}`);
 
         for (let i of data) {
             if (font.characterSet.indexOf(i.charCodeAt(0)) === -1) {
                 res[item.name].push({
-                    word : i,
-                    code : i.charCodeAt(0).toString(16)
+                    word: i,
+                    code: i.charCodeAt(0).toString(16)
                 });
             }
         }
@@ -79,13 +79,13 @@ const check = (data, option) => {
     return res;
 };
 
-const checkByUrl = (url, option, cb) => {
+const checkByUrl = (url, auth, option, cb) => {
     q.query(url, (err, data) => {
         const $ = cheerio.load(data);
         const text = $("body").text();
 
         cb(err, check(text, option));
-    })
+    }, auth)
 };
 
 exports.init = init;
