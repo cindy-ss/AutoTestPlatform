@@ -14,8 +14,8 @@ const metrics = [
             url: 'SF-Pro-SC/v1/PingFangSC-Regular.woff2',
             geo: 'cn',
             type: 'woff2',
-            name: 'SF_SC_WOFF2',
-            cate: 'sf'
+            name: 'SF Pro SC - WOFF2 - Online',
+            server : 'WWW'
         }
     ],
     prefix = '/wss/fonts/';

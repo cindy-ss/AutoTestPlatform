@@ -1,0 +1,88 @@
+{
+  "font": [
+    {
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff2",
+      "geo": "cn",
+      "type": "woff2",
+      "name": "SF Pro SC - WOFF2 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff2",
+      "geo": "hk",
+      "type": "woff2",
+      "name": "SF Pro HK - WOFF2 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff2",
+      "geo": "tw",
+      "type": "woff2",
+      "name": "SF Pro TC - WOFF2 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff1",
+      "geo": "cn",
+      "type": "woff1",
+      "name": "SF Pro SC - WOFF1 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff1",
+      "geo": "hk",
+      "type": "woff1",
+      "name": "SF Pro HK - WOFF1 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff1",
+      "geo": "tw",
+      "type": "woff1",
+      "name": "SF Pro TC - WOFF1 - Online",
+      "server": "WWW"
+    },
+    {
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff2",
+      "geo": "cn",
+      "type": "woff2",
+      "name": "SF Pro SC - WOFF2 - UAT",
+      "server": "UAT"
+    },
+    {
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff2",
+      "geo": "hk",
+      "type": "woff2",
+      "name": "SF Pro HK - WOFF2 - UAT",
+      "server": "UAT"
+    },
+    {
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff2",
+      "geo": "tw",
+      "type": "woff2",
+      "name": "SF Pro TC - WOFF2 - UAT",
+      "server": "UAT"
+    },
+    {
+      "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff1",
+      "geo": "cn",
+      "type": "woff1",
+      "name": "SF Pro SC - WOFF1 - UAT",
+      "server": "UAT"
+    },
+    {
+      "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff1",
+      "geo": "hk",
+      "type": "woff1",
+      "name": "SF Pro HK - WOFF1 - UAT",
+      "server": "UAT"
+    },
+    {
+      "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff1",
+      "geo": "tw",
+      "type": "woff1",
+      "name": "SF Pro TC - WOFF1 - UAT",
+      "server": "UAT"
+    }
+  ]
+}
