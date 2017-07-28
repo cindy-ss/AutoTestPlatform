@@ -53,23 +53,9 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr>-->
-                <!--<th>URL</th>-->
-                <!--<th>URL</th>-->
-                <!--<th>URL</th>-->
-                <!--<th>URL</th>-->
-                <!--<th>URL</th>-->
-                <!--<th>URL</th>-->
-            <!--</tr>-->
+
             <tr id="res_Container"></tr>
-            <!--<tr>-->
-                <!--<th>Count</th>-->
-                <!--<th>Count</th>-->
-                <!--<th>Count</th>-->
-                <!--<th>Count</th>-->
-                <!--<th>Count</th>-->
-                <!--<th>Count</th>-->
-            <!--</tr>-->
+
             <tr id="Count"></tr>
             <tr class="ImageStyle">
                 <td>
@@ -153,7 +139,7 @@
                                <td class="text-center" style=" ">${value.url}</td>
 
                               `
-                        str1+= `<td class="text-center" style=" ">${value.total}</td>`;
+                        str1+= `<td class="text-left" style=" ">Count：${value.total}</td>`;
                         let ImageUrl=value.list;
                         if(value.geo=='us'){
                              ImageUrl.forEach((ImageValue,i)=>{
