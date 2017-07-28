@@ -64,7 +64,6 @@ const check = (data, option) => {
 
     srcArr.forEach(item => {
         res[item.name] = [];
-        console.log(`./font/${item.server}-${path.basename(item.url)}`);
         const font = fontkit.openSync(`./font/${item.server}-${path.basename(item.url)}`);
 
         for (let i of data) {

@@ -60,7 +60,7 @@ router.route('/trans2xls')
 
 router.route('/font/url')
     .post((req, res) => {
-        const urls = req.body.urls;
+        const urls = req.body.urls.split('`');
         const options = req.body.option;
         if (urls) {
             font.checkByUrl(urls, req.session.od, options, (err, data) => {

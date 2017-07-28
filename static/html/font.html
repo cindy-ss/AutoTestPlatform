@@ -103,8 +103,8 @@
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
-            console.log([$('#url').val()]);
-            $.post('api/font/url', {urls:[$('#url').val()],option:undefined}, function (Json_data) {
+            const arr = [$('#url').val()].join('`');
+            $.post('api/font/url', {urls:arr,option:undefined}, function (Json_data) {
                 console.log(Json_data);
                 if (Json_data.result==true) {
                     let str = '';
@@ -119,7 +119,6 @@
                     $.each(data, function (n, value) {
                         str += `
                                <td class="text-center" style=" ">${value.url}</td>
-
                               `
                         str1+= `<td class="text-left" style=" ">Count：${value.data}</td>`;
 
@@ -162,58 +161,4 @@
             $(".trans-side").addClass("navslid-hide");
         }
     });
-
-    /*var app = new Vue({
-     el: '#trans',
-     data: {
-     arr: [],
-     urls: "",
-     excelUrl: "",
-     excelName: ""
-     },
-     methods: {
-     quest: function () {
-     if(this.urls.length > 5){
-     var that = this;
-     $.post('/api/wechat', {urls: this.urls}, function (data) {
-     console.log(data);
-     that.arr = data;
-     });
-     }else{
-     console.log("null");
-     }
-     },
-     getExcel: function () {
-     if(this.arr.length > 0){
-     var that = this;
-     $.post('/api/wechat2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
-     console.log(data);
-     that.excelName = data;
-     that.excelUrl = `../data/${data}`;
-     });
-     }else{
-     console.log('cant');
-     }
-     },
-     importTxt: function () {
-     var that = this;
-     var fileInput = document.querySelector("#fileInput");
-     if(fileInput.files.length >= 1){
-     var file = document.querySelector("#fileInput").files[0];
-     var reader = new FileReader();
-     reader.onload = function () {
-     console.log(this.result);
-     that.urls += this.result;
-     fileInput.value = "";
-     };
-     reader.readAsText(file);
-     }
-     },
-     clear:function() {
-     $("#urls").val('');
-     }
-     }
-     });*/
 </script>
-</body>
-</html>
