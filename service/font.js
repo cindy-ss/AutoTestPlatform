@@ -21,7 +21,7 @@ const init = (cb) => {
     let rawConf = fs.readFileSync('./font/conf.json', 'utf-8');
     let conf = JSON.parse(rawConf);
     metrics = conf['font'];
-    metrics = conf['font'];
+    avoid = conf['avoid'];
 
     async.each(metrics, (item, callback) => {
         q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'http://webfonts.iapps.apple.com/'}${prefix}${item.url}`, (err, res, data) => {
@@ -70,7 +70,7 @@ const check = (data, option) => {
         for (let i of data) {
             const code = i.charCodeAt(0);
             const codeStr = i.charCodeAt(0).toString(16);
-            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && [].indexOf(codeStr) === -1) {
+            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && avoid.indexOf(codeStr) === -1) {
                 res[item.name].push({
                     word: i,
                     code: codeStr

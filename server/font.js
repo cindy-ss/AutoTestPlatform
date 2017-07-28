@@ -6,8 +6,22 @@ const async = require('async');
 
 const font = require('../service/font');
 
-exports.checkByUrl = (url, auth, option, cb) => {
-    font.checkByUrl(url, auth, option, cb);
+exports.checkByUrl = (urls, auth, option, cb) => {
+    let res = [];
+    async.each(urls, (item, callback) => {
+        font.checkByUrl(item, auth, option, (err, data) => {
+            if(!err){
+                res.push({
+                    url : item,
+                    data : data
+                });
+            }
+            callback(err);
+        });
+    }, err => {
+        cb(err, res);
+    });
+
 };
 
 exports.check = (content, option) => {
