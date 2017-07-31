@@ -4,7 +4,7 @@
 
 const GEO = ['/cn/', '/hk/en/', '/hk/', '/mo/', '/tw/'];
 
-const GEO_PROP = ['cn', 'hktc', 'hken', 'tw', 'mo'];
+const GEO_PROP = ['cn', 'hktc', 'hken', 'mo', 'tw'];
 
 const GEO_OBJ = {
     'cn' : '/cn/',
@@ -58,11 +58,23 @@ const isGEO = (str) => {
     return flag;
 };
 
+const getGEO = str => {
+    let res = 'US';
+    for(let item of GEO_PROP){
+        if(str.indexOf(GEO_OBJ[item]) !== -1){
+            res = item.toUpperCase();
+            break;
+        }
+    }
+    return res;
+};
+
 const us2geoByUrl = (str) => {
     let res = [];
     for(let item of GEO_PROP){
         let obj = {
-            geo : GEO_OBJ[item],
+            geo : item,
+            prefix : GEO_OBJ[item],
             url : str.replace('apple.com/', `apple.com${GEO_OBJ[item]}`)
         };
         res.push(obj);
@@ -74,3 +86,4 @@ exports.us2geoByUrl = us2geoByUrl;
 exports.us2geo = us2geo;
 exports.geo2us = geo2us;
 exports.isGEO = isGEO;
+exports.getGEO = getGEO;

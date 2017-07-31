@@ -4,16 +4,23 @@
 
 const async = require('async');
 
-const font = require('../service/font');
+const font = require('../service/font'),
+    gh = require('../service/geo_helper');
 
 exports.checkByUrl = (urls, auth, option, cb) => {
     let res = [];
     async.each(urls, (item, callback) => {
+        let geo = gh.getGEO(item);
+        if(geo === 'MO'){
+            geo = 'TW';
+        }
+        option = option || {};
+        option['geo'] = option['geo'].toLowerCase() || geo.toLowerCase();
         font.checkByUrl(item, auth, option, (err, data) => {
-            if(!err){
+            if (!err) {
                 res.push({
-                    url : item,
-                    data : data
+                    url: item,
+                    data: data
                 });
             }
             callback(err);
@@ -21,7 +28,6 @@ exports.checkByUrl = (urls, auth, option, cb) => {
     }, err => {
         cb(err, res);
     });
-
 };
 
 exports.check = (content, option) => {

@@ -1,0 +1,30 @@
+{
+  "image-checker" : {
+    "filter" : [
+      "iphone7_large.svg",
+      "iphone7_large.png",
+      "iphone6s_large.svg",
+      "iphone6s_large.png",
+      "iphonese_large.svg",
+      "iphonese_large.png",
+      "iphone_ios_large.svg",
+      "iphone_ios_large.png",
+      "iphone_acc_large.svg",
+      "iphone_acc_large.png",
+      "iphone_comp_large.svg",
+      "iphone_comp_large.png",
+      "iphone7_dark_large.svg",
+      "iphone7_dark_large.png",
+      "iphone6s_dark_large.svg",
+      "iphone6s_dark_large.png",
+      "iphonese_dark_large.svg",
+      "iphonese_dark_large.png",
+      "iphone_ios_dark_large.svg",
+      "iphone_ios_dark_large.png",
+      "iphone_acc_dark_large.svg",
+      "iphone_acc_dark_large.png",
+      "iphone_comp_dark_large.svg",
+      "iphone_comp_dark_large.png"
+    ]
+  }
+}

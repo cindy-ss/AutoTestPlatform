@@ -7,7 +7,7 @@ const async = require('async');
 const q = require('./query'),
     adapter = require('./adapter');
 
-const check = (url, auth, cb) => {
+const getImagesByURL = (url, auth, cb, filter) => {
     if (url) {
         q.query(url, (err, data) => {
             if (!err) {
@@ -34,7 +34,7 @@ const check = (url, auth, cb) => {
                     } else {
                         cb(err, []);
                     }
-                });
+                }, filter);
             } else {
                 cb(err, []);
             }
@@ -44,4 +44,4 @@ const check = (url, auth, cb) => {
     }
 };
 
-exports.check = check;
+exports.getImagesByURL = getImagesByURL;

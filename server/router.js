@@ -92,11 +92,36 @@ router.route('/font/options')
     .get((req, res) => {
     });
 
-router.route('/image')
+router.route('/image/getUSImage')
     .post((req, res) => {
         const url = req.body.url;
         if (url) {
-            ic.check(url, req.session.od, (err, data) => {
+            ic.getUSImages(url, req.session.od, (err, data) => {
+                if (!err) {
+                    res.json({
+                        result: true,
+                        data: data
+                    })
+                } else {
+                    res.json({
+                        result: false,
+                        message: 'Err'
+                    })
+                }
+            })
+        } else {
+            res.json({
+                result: false,
+                message: 'No URL Provided'
+            })
+        }
+    });
+
+router.route('/image/compare')
+    .post((req, res) => {
+        const url = req.body.url;
+        if (url) {
+            ic.compareImageByURL(url, req.session.od, (err, data) => {
                 if (!err) {
                     res.json({
                         result: true,

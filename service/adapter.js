@@ -3,7 +3,8 @@
  */
 
 const cheerio = require('cheerio'),
-    URL = require('url');
+    URL = require('url'),
+fs = require('fs');
 
 const REG = {
     MP4: new RegExp(/\.mp4$/)
@@ -69,7 +70,8 @@ const imageHandler = (content, cb) => {
     cb(null, res);
 };
 
-const cssHandler = (content, url, cb) => {
+const cssHandler = (content, url, cb, filter) => {
+    filter = filter || [];
     let res = [];
     const $ = cheerio.load(content);
 
@@ -79,10 +81,13 @@ const cssHandler = (content, url, cb) => {
         if (item.attribs && item.attribs.href) {
             let tempUrl = item.attribs.href;
             if (tempUrl.indexOf('ac-globalnav.built.css') === -1 && tempUrl.indexOf('ac-globalfooter.built.css') === -1 && tempUrl.indexOf('ac-localnav.built.css') === -1 && tempUrl.indexOf('fonts?') === -1) {
-                res.push({
-                    tag: 'css',
-                    url: URL.resolve(url, tempUrl)
-                });
+                const tempResolvedUrl = URL.resolve(url, tempUrl);
+                if(filter.indexOf(tempResolvedUrl) === -1){
+                    res.push({
+                        tag: 'css',
+                        url: tempResolvedUrl
+                    });
+                }
             }
         }
     });
