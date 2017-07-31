@@ -11,7 +11,7 @@ let conf;
 exports.init = (cb) => {
     font.init(cb);
 
-    conf = JSON.parse(fs.readFileSync('../server/conf.json', "utf-8"));
+    conf = JSON.parse(fs.readFileSync('./server/conf.json', "utf-8"));
 };
 
 exports.conf = conf;
