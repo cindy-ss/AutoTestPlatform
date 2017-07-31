@@ -38,11 +38,11 @@
                 HTML
             </label>
         </p>
-        <p class="col-md-4 exbutton">
+        <p class="col-md-2 exbutton">
             <button id="getExcel" class="btn btn-primary">Export</button>
 
         </p>
-        <p class="col-md-5 exbutton">
+        <p class="col-md-3 exbutton">
             <button id="clearres" class="btn btn-primary">Clear Result</button>
         </p>
         <table class="table table-striped table-bordered">
@@ -71,13 +71,13 @@
 
             </tr>
             </thead>
-            <tbody>
+            <tbody id="res_Container">
 
-            <tr id="res_Container"></tr>
 
-            <tr id="Count"></tr>
 
-            <tr id="ImageUrl"></tr>
+            <!--<tr id="Count"></tr>-->
+
+            <!--<tr id="ImageUrl"></tr>-->
             </tbody>
         </table>
     </div>
@@ -161,20 +161,43 @@
                 console.log(Json_data);
                 if (Json_data.result == true) {
                     let str = '';
-
                     let data = Json_data.data;
                     data.forEach((item, index) => {
                         str += `<tr>
                                 <td>${item.name}</td>
-                                <td><a href="${item.US}" target="_blank">${item.US}</a></td>
-                                <td><a href="${item.CN}" target="_blank">${item.CN}</a></td>
-                                <td><a href="${item.HKEN}" target="_blank">${item.HKEN}</a></td>
-                                <td><a href="${item.HKTC}" target="_blank">${item.HKTC}</a></td>
-                                <td><a href="${item.MO}" target="_blank">${item.MO}</a></td>
-                                <td><a href="${item.TW}" target="_blank">${item.TW}</a></td>
-                                </tr>`
-
-
+                                <td>
+                                <img class="ext-thumb" src="${item.US}" alt="${item.US}"><br>
+                                <a href="${item.US}" target="_blank">${item.US}</a>
+                                </td>
+                                <td>
+                                <img class="ext-thumb" src="${item.CN}" alt="${item.CN}"><br>
+                                <a href="${item.CN}" target="_blank">${item.CN}</a><br>
+                                <button id="CompCN"></button>
+                                </td>
+                                <td>
+                                <img class="ext-thumb" src="${item.HKEN}" alt="${item.HKEN}"><br>
+                                <a href="${item.HKEN}" target="_blank">${item.HKEN}</a><br>
+                                <button id="CompHKEN"></button>
+                                </td>
+                                <td>
+                                <img class="ext-thumb" src="${item.HKTC}" alt="${item.HKTC}"><br>
+                                <a href="${item.HKTC}" target="_blank">${item.HKTC}</a><br>
+                                <button id="CompHKTC"></button>
+                                </td>
+                                <td>
+                                <img class="ext-thumb" src="${item.MO}" alt="${item.MO}"><br>
+                                <a href="${item.MO}" target="_blank">${item.MO}</a>
+                                <br>
+                                <button id="CompMO"></button>
+                                </td>
+                                <td>
+                                <img class="ext-thumb" src="${item.TW}" alt="${item.TW}"><br>
+                                <a href="${item.TW}" target="_blank">${item.TW}</a>
+                                <br>
+                                <button id="CompTW"></button>
+                                </td>
+                                </tr>
+                                `
                     });
 
                    $('#res_Container').html(str);
@@ -213,6 +236,11 @@
             $(".trans-side").addClass("navslid-hide");
         }
     });
+//    $("#CompCN").click(()=>{
+//      $(this).attr("a")
+//    },()=>{
+//
+//    })
 
     /*var app = new Vue({
      el: '#trans',
