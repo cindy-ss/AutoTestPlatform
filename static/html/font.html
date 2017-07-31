@@ -13,10 +13,10 @@
             </div>
         </div>
         <p>URL Input (One URL only)</p>
-        <p>(eg:https://www.apple.com/iphone)</p>
+        <p>(eg:https://www.apple.com/cn/iphone)</p>
         <p>
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
-            <input type="text" id="url" name="url" placeholder="请输入" />
+            <input type="text" id="url" name="url" placeholder="Please input URL"/>
         </p>
 
         <button id="btn_Quest" class="btn btn-primary">Query</button>
@@ -46,26 +46,16 @@
             <tr>
                 <th>URL</th>
                 <th>Geos</th>
-                <th>Missing words</th>
+
 
 
             </tr>
             </thead>
             <tbody>
-
             <tr id="res_Container"></tr>
-
-            <tr id="Count"></tr>
-            <tr class="ImageStyle">
-                <td>
-                    <ul id="ImageUS"></ul>
-                </td>
-                <td>
-                    <ul id="ImageCN"></ul>
-                </td>
-
-            </tr>
-            <tr id="ImageUrl"></tr>
+            <th>Missing words</th>
+            <!--<tr id="Words"><td><ul id="Misword"></ul></td></tr>-->
+            <td><ul id="Misword"></ul></td>
             </tbody>
         </table>
     </div>
@@ -99,42 +89,49 @@
     });
 
 
-
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
             const arr = [$('#url').val()].join('`');
-            $.post('api/font/url', {urls:arr,option:undefined}, function (Json_data) {
+            $.post('api/font/url', {urls: arr, option: undefined}, function (Json_data) {
                 console.log(Json_data);
-                if (Json_data.result==true) {
+                if (Json_data.result == true) {
                     let str = '';
-                    let str1='';
-                    let str2='';
-                    let str3='';
-                    let str4='';
-                    let str5='';
-                    let str6='';
-                    let str7='';
-                    let data=Json_data.data;
+                    let str1 = '';
+
+                    let data = Json_data.data;
                     $.each(data, function (n, value) {
                         str += `
-                               <td class="text-center" style=" ">${value.url}</td>
-                              `
-                        str1+= `<td class="text-left" style=" ">Count：${value.data}</td>`;
+                               <td class="text-left" style=" ">${value.url} </td>
+                               <td class="text-left" style=" ">CN</td>`
 
 
+                        let FontURL = value.data;
+
+                        $.each(FontURL, function (key, val) {
+                            console.log(FontURL[key]);
+                            $.each(FontURL[key], function (n, val) {
+
+                            str1 += ` <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li>`
+
+
+                            });
+
+                        });
+
+
+                        $('#res_Container').html(str);
+                        $('#Misword').html(str1);
                     })
-                    $('#res_Container').html(str);
-                    $('#Count').html(str1);
-
-
-
                 }
-            });
+
+
+            })
         } else {
-            console.log("null");
+            console.log("null")
         }
     });
+
     $("#getExcel").click(() => {
         if ($("#urls_").val().length > 0) {
             const arr = $("#res_Container").html();
