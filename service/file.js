@@ -5,7 +5,7 @@
 const query = require('./query'),
     sizeOf = require('image-size');
 
-const getImageSizeByUrl = (url, cb) => {
+const getImageSizeByUrl = (url, cb, auth) => {
     let obj = {};
 
     query.bareQuery(url, (err, data, res) => {
@@ -15,7 +15,7 @@ const getImageSizeByUrl = (url, cb) => {
         }
 
         cb(err, obj);
-    }, {}, {encoding : null});
+    }, auth, {encoding : null});
 };
 
 exports.getImageSizeByUrl = getImageSizeByUrl;

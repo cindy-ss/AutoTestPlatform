@@ -34,27 +34,17 @@ const fetchTrans = (url, auth, cb) => {
                 title,
             };
 
-            let p = URL.parse(url);
-
             async.parallel([
                 callback => {
                     file.getImageSizeByUrl(ogImage, (err, ogSize) => {
                         callback(err, ogSize)
-                    });
+                    }, auth);
                 },
                 callback => {
                     adapter.wechatHandler(res, (err, res) => {
                         if (!err) {
                             if (res) {
-                                console.log("aaa");
-                                console.log(res);
-
-                                console.log("cccc");
-                                console.log(url);
-
                                 const wechat_url = URL.resolve(url, res);
-                                console.log("dddd");
-                                console.log(wechat_url);
 
                                 file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
                                     if (!err) {
@@ -81,7 +71,6 @@ const fetchTrans = (url, auth, cb) => {
                     })
                 }
             ], function (err, results) {
-                //console.log(results);
                 if (!err) {
                     if (results) {
                         obj.wechat = {
@@ -94,7 +83,6 @@ const fetchTrans = (url, auth, cb) => {
                 } else {
                     cb(err, obj);
                 }
-                // cb(err, results);
             });
         } else {
             let obj = {
