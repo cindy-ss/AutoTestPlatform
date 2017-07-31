@@ -16,7 +16,7 @@
         <p>(eg:https://www.apple.com/iphone)</p>
         <p>
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
-            <input type="text" id="url" name="url" placeholder="Please input URL"/>
+            <input type="text" id="url" name="url" placeholder="Please input URL" />
         </p>
 
         <button id="btn_Usquery" class="btn btn-primary">US Counts</button>
@@ -40,7 +40,6 @@
         </p>
         <p class="col-md-4 exbutton">
             <button id="getExcel" class="btn btn-primary">Export</button>
-            <button id="clearres" class="btn btn-primary">Clear Result</button>
         </p>
         <table class="table table-striped table-bordered">
             <thead>
@@ -58,13 +57,12 @@
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
-                <th>Image Name</th>
                 <th>US</th>
                 <th>CN</th>
+                <th>HK</th>
                 <th>HKEN</th>
-                <th>HKTC</th>
-                <th>MO</th>
                 <th>TW</th>
+                <th>MO</th>
 
             </tr>
             </thead>
@@ -73,7 +71,26 @@
             <tr id="res_Container"></tr>
 
             <tr id="Count"></tr>
-
+            <tr class="ImageStyle">
+                <td>
+                    <ul id="ImageUS"></ul>
+                </td>
+                <td>
+                    <ul id="ImageCN"></ul>
+                </td>
+                <td>
+                    <ul id="ImageHK"></ul>
+                </td>
+                <td>
+                    <ul id="ImageHKEN"></ul>
+                </td>
+                <td>
+                    <ul id="ImageTW"></ul>
+                </td>
+                <td>
+                    <ul id="ImageMO"></ul>
+                </td>
+            </tr>
             <tr id="ImageUrl"></tr>
             </tbody>
         </table>
@@ -106,74 +123,129 @@
     $('#btn_Clear').click(() => {
         $("#url").val('');
     });
-    $('#clearres').click(() => {
-        window.location.reload();
-    });
 
-
-    //    [  {geo: 'us', url: 'https://ic12.apple.com/retail/business/', total: 74,
-    //        list: [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
-    //                'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg' ] },
-    //        {geo: '/cn/', url: 'https://ic12.apple.com/cn/retail/business/', total: 92, list:
-    //              [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
-    //                  'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg']
-    //        }
-    //    ]
+//    [  {geo: 'us', url: 'https://ic12.apple.com/retail/business/', total: 74,
+//        list: [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
+//                'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg' ] },
+//        {geo: '/cn/', url: 'https://ic12.apple.com/cn/retail/business/', total: 92, list:
+//              [ 'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_large.svg',
+//                  'https://ic12.apple.com/v/retail/business/d/built/assets/ac-footer/buystrip/asa/icon_dark_large.svg']
+//        }
+//    ]
     $('#btn_Usquery').click(() => {
         if ($("#url").val().length > 5) {
             $('#USres_Container').html('');
-            $.post('api/image/getUSImage', {url: $('#url').val()}, function (USJson_data) {
+            $.post('api/image/getUSImage', {url : $('#url').val()}, function (USJson_data) {
                 if (USJson_data.result == true) {
                     let str = '';
-                    let str1 = '';
-                    let str2 = '';
+                    let str1='';
+                    let str2='';
                     console.log(USJson_data);
                     str += `<td class="text-left" style=" ">${USJson_data.data.url}</td> `;
                     str1 += `<td class="text-left" style=" ">Count：${USJson_data.data.total}</td>`;
                     let ImageUrl = USJson_data.data.list;
 
-                    ImageUrl.forEach((ImageValue, i) => {
-                        str2 += `<li class="text-center">
+                        ImageUrl.forEach((ImageValue, i) => {
+                            str2 += `<li class="text-center">
                                        <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
                                        <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
                                         </li>`
-                    });
+                        });
 
                     $('#USres_Container').html(str);
                     $('#USCount').html(str1);
                     $('#USImageUrl').html(str2);
                 }
             })
-        } else {
+        }else {
             console.log("null");
-        }
-    });
+        }});
 
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
-            $.post('api/image/compare', {url: $('#url').val()}, function (Json_data) {
+            $.post('api/image/compare', {url : $('#url').val()}, function (Json_data) {
                 console.log(Json_data);
-                if (Json_data.result == true) {
+                if (Json_data.result==true) {
                     let str = '';
+                    let str1='';
+                    let str2='';
+                    let str3='';
+                    let str4='';
+                    let str5='';
+                    let str6='';
+                    let str7='';
+                    let data=Json_data.data;
+                    $.each(data, function (n, value) {
+                        str += `
+                               <td class="text-center" style=" ">${value.url}</td>
 
-                    let data = Json_data.data;
-                    data.forEach((item, index) => {
-                        str += `<tr>
-                                <td>${item.name}</td>
-                                <td><a href="${item.US}" target="_blank">${item.US}</a></td>
-                                <td><a href="${item.CN}" target="_blank">${item.CN}</a></td>
-                                <td><a href="${item.HKEN}" target="_blank">${item.HKEN}</a></td>
-                                <td><a href="${item.HKTC}" target="_blank">${item.HKTC}</a></td>
-                                <td><a href="${item.MO}" target="_blank">${item.MO}</a></td>
-                                <td><a href="${item.TW}" target="_blank">${item.TW}</a></td>
-                                </tr>`
-
-
-                    });
-
-                   $('#res_Container').html(str);
-
+                              `
+                        str1+= `<td class="text-left" style=" ">Count：${value.total}</td>`;
+                        let ImageUrl=value.list;
+                        if(value.geo=='us'){
+                             ImageUrl.forEach((ImageValue,i)=>{
+                                str2+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                        });
+                        }
+                        if(value.geo=='/cn/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str3+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/hk/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str4+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/hk/en/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str5+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/tw/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str6+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                        if(value.geo=='/mo/'){
+                            ImageUrl.forEach((ImageValue,i)=>{
+                                //console.log(ImageValue);
+                                str7+=`<li class="text-center">
+                                       <img src="${ImageValue}" alt="ImageUrl" class="ext-thumb">
+                                       <div class="ImageAddress"><a href="${ImageValue}">${ImageValue}</a></div>
+                                        </li>`
+                            });
+                        }
+                       // str3+= `<td class="text-center" style=" ">${value.list}</td>`
+                    })
+                    $('#res_Container').html(str);
+                    $('#Count').html(str1);
+                    $('#ImageUS').html(str2);
+                    $('#ImageCN').html(str3);
+                    $('#ImageHK').html(str4);
+                    $('#ImageHKEN').html(str5);
+                    $('#ImageTW').html(str6);
+                    $('#ImageMO').html(str7);
 
                 }
             });

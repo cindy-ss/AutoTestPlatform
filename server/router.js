@@ -98,6 +98,8 @@ router.route('/image/getUSImage')
         if (url) {
             ic.getUSImages(url, req.session.od, (err, data) => {
                 if (!err) {
+                    console.log("111");
+                    console.log(data);
                     res.json({
                         result: true,
                         data: data
@@ -123,6 +125,8 @@ router.route('/image/compare')
         if (url) {
             ic.compareImageByURL(url, req.session.od, (err, data) => {
                 if (!err) {
+                    console.log("1111");
+                    console.log(data);
                     res.json({
                         result: true,
                         data: data
