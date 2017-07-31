@@ -64,13 +64,14 @@ const check = (data, option) => {
 
     srcArr.forEach(item => {
         res[item.name] = [];
+        let tempArr = res[item.name];
         const font = fontkit.openSync(`./font/${item.server}-${path.basename(item.url)}`);
 
         for (let i of data) {
             const code = i.charCodeAt(0);
             const codeStr = i.charCodeAt(0).toString(16);
-            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && avoid.indexOf(codeStr) === -1) {
-                res[item.name].push({
+            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && avoid.indexOf(codeStr) === -1 && !tempArr.find(item => {return item.word === i})) {
+                tempArr.push({
                     word: i,
                     code: codeStr
                 });
