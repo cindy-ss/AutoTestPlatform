@@ -4,7 +4,10 @@
 
 const cheerio = require('cheerio'),
     URL = require('url'),
-fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
+
+const basic = require('./basic');
 
 const REG = {
     MP4: new RegExp(/\.mp4$/)
@@ -39,10 +42,14 @@ const bgHandler = (content, url, cb) => {
     let res = [];
     if (content) {
         let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
-        if(matched){
+        if (matched) {
             matched.forEach(item => {
                 const tempUrl = item.substr(5, item.length - 7);
-                res.push(URL.resolve(url, tempUrl));
+
+                let filter = (basic.conf['image-checker'] || {})['filter'] || [];
+                if (filter.indexOf(path.basename(tempUrl)) === -1){
+                    res.push(URL.resolve(url, tempUrl));
+                }
             });
         }
         cb(null, res);
@@ -82,7 +89,7 @@ const cssHandler = (content, url, cb, filter) => {
             let tempUrl = item.attribs.href;
             if (tempUrl.indexOf('ac-globalnav.built.css') === -1 && tempUrl.indexOf('ac-globalfooter.built.css') === -1 && tempUrl.indexOf('ac-localnav.built.css') === -1 && tempUrl.indexOf('fonts?') === -1) {
                 const tempResolvedUrl = URL.resolve(url, tempUrl);
-                if(filter.indexOf(tempResolvedUrl) === -1){
+                if (filter.indexOf(tempResolvedUrl) === -1) {
                     res.push({
                         tag: 'css',
                         url: tempResolvedUrl
