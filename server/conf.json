@@ -25,6 +25,18 @@
       "iphone_acc_dark_large.png",
       "iphone_comp_dark_large.svg",
       "iphone_comp_dark_large.png"
+    ],
+    "filterRegs" : [
+      "icon",
+      "logo"
+    ]
+  },
+  "css-checker" : {
+    "filterRegs" : [
+      "ac-globalnav.built.css",
+      "ac-globalfooter.built.css",
+      "ac-localnav.built.css",
+      "fonts?"
     ]
   }
 }
