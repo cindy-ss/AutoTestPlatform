@@ -15,7 +15,7 @@ exports.checkByUrl = (urls, auth, option, cb) => {
             geo = 'TW';
         }
         option = option || {};
-        option['geo'] = option['geo'].toLowerCase() || geo.toLowerCase();
+        option['geo'] = (option['geo'] || geo).toLowerCase();
         font.checkByUrl(item, auth, option, (err, data) => {
             if (!err) {
                 res.push({

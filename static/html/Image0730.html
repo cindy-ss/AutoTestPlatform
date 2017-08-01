@@ -1,4 +1,4 @@
-<h2 class="page-header">Image Checker</h2>
+<h2 class="page-header">Image Checker Test</h2>
 <div id="trans" class="row">
     <div class="col-md-4 navslid trans-side navslid-show">
         <div style="display:none;">
@@ -40,6 +40,7 @@
         </p>
         <p class="col-md-4 exbutton">
             <button id="getExcel" class="btn btn-primary">Export</button>
+            <button id="open" >Open</button>
         </p>
         <table class="table table-striped table-bordered">
             <thead>
@@ -54,7 +55,7 @@
             </tbody>
         </table>
 
-        <table class="table table-striped table-bordered">
+        <table id="comptable" class="table table-striped table-bordered">
             <thead>
             <tr>
                 <th>US</th>
@@ -65,9 +66,15 @@
                 <th>MO</th>
 
             </tr>
+
             </thead>
             <tbody>
-
+            <tr><td>text</td><td>word</td><td>video</td><td>html</td><td>font</td><td>image</td></tr>
+            <tr><td>text2</td><td>word2</td><td>video2</td>
+            <td>
+                <img class="ext-thumb" src="https://images.apple.com/v/iphone/home/v/images/home/accessories_large_2x.jpg" alt=""><br>
+                <a href="https://images.apple.com/v/iphone/home/v/images/home/accessories_large_2x.jpg" target="_blank">https://images.apple.com/v/iphone/home/v/images/home/accessories_large_2x.jpg</a>
+            </td></tr>
             <tr id="res_Container"></tr>
 
             <tr id="Count"></tr>
@@ -279,6 +286,18 @@
         else {
             $(".trans-side").addClass("navslid-hide");
         }
+    });
+
+    $("#open").click(()=>{
+
+        var mytable = document.getElementById("comptable");
+
+        var inhtml = mytable.rows[2].cells[3].innerHTML;
+
+        //mytable.rows[2][3].innerText
+
+            alert(inhtml);
+
     });
 
     /*var app = new Vue({
