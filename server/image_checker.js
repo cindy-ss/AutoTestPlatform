@@ -21,7 +21,7 @@ const compareImageByURL = (url, auth, cb) => {
         'MO': []
     };
 
-    getFilterCssArr(url, filter => {
+    getFilterCssArr(url, (filter, res) => {
         async.map(arr, (item, callback) => {
             ic.getImagesByURL(item.url, auth, (err, data) => {
                 if (!err) {
@@ -31,7 +31,7 @@ const compareImageByURL = (url, auth, cb) => {
                 callback(null);
             }, filter)
         }, (err, result) => {
-            resFormatter(midObj, cb);
+            resFormatter(midObj, res, cb);
         });
     }, auth);
 };
@@ -43,12 +43,27 @@ const getFilterCssArr = (url, cb, auth) => {
                 return url;
             });
 
-            cb(filter);
+            async.reduce(usCssArr, [], (memo, item, callback) => {
+                q.query(item.url, (err, content) => {
+                    adapter.bgHandler(content, item.url, (err, arr) => {
+                        if (!err) {
+                            callback(null, memo.concat(arr));
+                        } else {
+                            console.log(item.url);
+                            callback(err);
+                        }
+                    })
+                }, auth)
+            }, (err, res) => {
+                cb(filter, res);
+            });
+
+
         });
     }, auth);
 };
 
-const resFormatter = (midObj, cb) => {
+const resFormatter = (midObj, usArr, cb) => {
     let res = [], entry = [];
 
     for(let geo in midObj){
@@ -64,7 +79,10 @@ const resFormatter = (midObj, cb) => {
                     };
 
                     obj[geo] = item;
-                    obj['US'] = gh.geo2us(item);
+
+                    obj['US'] = usArr.find(usItem => {
+                        return path.parse(usItem)['name'] === fileName;
+                    });
 
                     entry.push(fileName);
 
