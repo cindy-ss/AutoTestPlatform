@@ -167,24 +167,24 @@
                                 <td>
                                 <img class="ext-thumb" src="${item.HKEN}" alt="${item.HKEN}"><br>
                                 <a href="${item.HKEN}" target="_blank">${item.HKEN}</a><br>
-                                <button id="CompHKEN" ONCLICK=btnActionHKEN(3)>vs</button>
+                                <button id="CompHKEN" ONCLICK=btnActionHKEN(${index})>vs</button>
                                 </td>
                                 <td>
                                 <img class="ext-thumb" src="${item.HKTC}" alt="${item.HKTC}"><br>
                                 <a href="${item.HKTC}" target="_blank">${item.HKTC}</a><br>
-                                <button id="CompHKTC" ONCLICK=btnActionHKTC(3)>vs</button>
+                                <button id="CompHKTC" ONCLICK=btnActionHKTC(${index})>vs</button>
                                 </td>
                                 <td>
                                 <img class="ext-thumb" src="${item.MO}" alt="${item.MO}"><br>
                                 <a href="${item.MO}" target="_blank">${item.MO}</a>
                                 <br>
-                                <button id="CompMO" ONCLICK=btnActionHKMO(3)>vs</button>
+                                <button id="CompMO" ONCLICK=btnActionMO(${index})>vs</button>
                                 </td>
                                 <td>
                                 <img class="ext-thumb" src="${item.TW}" alt="${item.TW}"><br>
                                 <a href="${item.TW}" target="_blank">${item.TW}</a>
                                 <br>
-                                <button id="CompTW" ONCLICK=btnActionTW(3)>vs</button>
+                                <button id="CompTW" ONCLICK=btnActionTW(${index})>vs</button>
                                 </td>
                                 </tr>
                                 `
@@ -242,6 +242,47 @@
         window.open(cnurl, "CN","_blank");
         window.open(usurl, "US","_parent");
     };
+    function btnActionHKEN(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[3].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let hkenurl=inner.substring(0,inner.length-2);
+
+        window.open(hkenurl, "HKEN","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionHKTC(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[4].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let hktcurl=inner.substring(0,inner.length-2);
+
+        window.open(hktcurl, "HKTC","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionMO(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[5].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let mourl=inner.substring(0,inner.length-2);
+
+        window.open(mourl, "MO","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionTW(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[6].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let twurl=inner.substring(0,inner.length-2);
+
+        window.open(twurl, "MO","_blank");
+        window.open(usurl, "US","_parent");
+    };
+
 
     /*var app = new Vue({
      el: '#trans',
