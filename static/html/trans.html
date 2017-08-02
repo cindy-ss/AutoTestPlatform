@@ -118,7 +118,7 @@
                     type: document.querySelector("input[name=optionsRadios]:checked").value
                 },
                 (data) => {
-                    $.fileDownload(`/api/trans2xls?id=${data}`);
+                    $.fileDownload(`/api/trans2xls?id=${data}&type=${document.querySelector("input[name=optionsRadios]:checked").value}`);
                 })
         }
     })

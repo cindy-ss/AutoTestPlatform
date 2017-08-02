@@ -43,16 +43,11 @@ router.route('/trans2xls')
             type: req.body.type
         };
         trans.export2Xls(obj, (err, exPath) => {
-            // if(req.body.type === 'html'){
             res.end(exPath.toString());
-            // }else{
-            //     res.end(exPath);
-            // }
-
         });
     })
     .get((req, res) => {
-        const path = `./static/data/report-${req.query.id}.html`;
+        const path = `./static/data/report-${req.query.id}.${req.query.type}`;
         res.download(path, (err) => {
             console.log(err);
         });
