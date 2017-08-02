@@ -175,10 +175,14 @@ ul,li{
 .red {
   color : red;
 }
-/*Image.html*/
-.ImageStyle>td>ul li{
-  border-bottom:1px solid #ccc;
-  width:200px;
-  overflow: auto;
+/*Image0730.html*/
+/*.ImageStyle>td>ul li{*/
+  /*border-bottom:1px solid #ccc;*/
+  /*width:200px;*/
+  /*overflow: auto;*/
+/*}*/
+.ImageStyle>tr>td {
+border-bottom:1px solid #ccc;
+width:200px;
+overflow: auto;
 }
-
