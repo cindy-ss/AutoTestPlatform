@@ -86,6 +86,19 @@ router.route('/font/url')
 
 router.route('/font/text')
     .post((req, res) => {
+        const text = req.body.text;
+        const options = req.body.option;
+        if (text) {
+            res.json({
+                result : true,
+                data : font.check(text, options)
+            });
+        }else{
+            res.json({
+                result : false,
+                message : 'No Text Provided'
+            })
+        }
     });
 
 router.route('/font/options')
