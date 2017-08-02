@@ -24,12 +24,16 @@ const init = (cb) => {
     avoid = conf['avoid'];
 
     async.each(metrics, (item, callback) => {
-        q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'http://webfonts.iapps.apple.com/'}${prefix}${item.url}`, (err, res, data) => {
+        q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'https://webfonts.iapps.apple.com'}${prefix}${item.url}`, (err, res, data) => {
             fs.writeFileSync(`./font/${item.server}-${path.basename(item.url)}`, data);
             if(err){console.log(err);}
             callback(err);
         }, {}, {
-            encoding: null
+            encoding: null,
+            headers : {
+                referer : 'https://www.apple.com/hk/index.html',
+                origin : 'https://www.apple.com/hk/index.html'
+            }
         });
     }, err => {
         cb(err);
@@ -38,7 +42,7 @@ const init = (cb) => {
 
 const check = (data, option) => {
     option = option || {};
-    option['server'] = "WWW";
+    // option['server'] = "WWW";
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
     let res = {};
     let srcArr = [];

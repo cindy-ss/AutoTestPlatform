@@ -68,7 +68,7 @@ const fetchTrans = (url, auth, cb) => {
                         } else {
                             callback(err, null);
                         }
-                    })
+                    }, auth)
                 }
             ], function (err, results) {
                 if (!err) {
