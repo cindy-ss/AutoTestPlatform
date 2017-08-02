@@ -10,7 +10,9 @@ app.use(body_parser.urlencoded({extended: false}));
 app.use(session({
     secret: 'imyourfather',
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        resave: false,
+        saveUninitialized: true
     }
 }));
 
