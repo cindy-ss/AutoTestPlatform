@@ -53,7 +53,7 @@
                 <th>WeChat URL</th>
             </tr>
             </thead>
-            <tbody id="resContainer">
+            <tbody id="resContainer" class="metaStyle">
             </tbody>
         </table>
     </div>
@@ -88,18 +88,25 @@
                     let str = '';
                     data.forEach((item, index) => {
                         str += `<tr>
-                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-                                    <td>${item.title}</td>
-                                    <td${item.desc&&(item.desc.length > 150||item.desc.length<100) ? " class='red'" : ""}>${item.desc}</td>
-                                    <td>${item.ogTitle}</td>
-                                    <td${item.ogDesc&&(item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td>
-                                    <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
-                                     Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
-                                    <td>${item.ogImage.url} </td>
-                                    <td class="text-center"><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
-                                     <br>
-                                      Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
-                                    <td>${item.wechat.url}</td>
+                                    <td><ul><li><a href="${item.url}" target="_blank">${item.url}</a></li></ul></td>
+
+                                    <td><ul><li>${item.title}</li></ul></td>
+
+                                    <td${item.desc&&(item.desc.length > 150||item.desc.length<100) ? " class='red'" : ""}><ul><li>${item.desc}</li></ul></td>
+
+                                    <td><ul><li>${item.ogTitle}</li></ul></td>
+
+                                    <td${item.ogDesc&&(item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><ul><li>${item.ogDesc}</li></ul></td>
+
+                                    <td class="text-center"><ul><li><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
+                                     Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</li></ul></td>
+
+                                    <td><ul><li><a href="${item.ogImage.url}" target="_blank">${item.ogImage.url}</a></li></ul> </td>
+
+                                    <td class="text-center"><ul><li><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                                      Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</li></ul> </td>
+
+                                    <td><ul><li><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></li></ul></td>
                                 </tr>`
                     });
                     $('#resContainer').html(str);

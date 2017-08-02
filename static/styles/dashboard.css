@@ -183,4 +183,10 @@ ul,li{
   /*overflow: auto;*/
   word-wrap: break-word
 }
-
+.metaStyle>tr>td>ul li{
+  /*border-bottom:1px solid #ccc;*/
+  width:150px;
+  height:100px;
+  /*overflow: auto;*/
+  word-wrap: break-word
+}
