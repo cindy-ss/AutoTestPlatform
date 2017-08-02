@@ -72,7 +72,7 @@
 
             </tr>
             </thead>
-            <tbody id="res_Container">
+            <tbody id="res_Container" class="ImageStyle">
 
 
             <!--<tr id="Count"></tr>-->
@@ -154,37 +154,61 @@
                     data.forEach((item, index) => {
 
                         str += `<tr>
-                                <td>${item.name}</td>
+                                    <td>
+                                        <ul>
+                                          <li>${item.name}</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                          <li><img class="ext-thumb" src="${item.US}" alt="${item.US}"><br>
+                                            <a href="${item.US}" target="_blank">${item.US}</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                            <img class="ext-thumb" src="${item.CN}" alt="${item.CN}"><br>
+                                            <a href="${item.CN}" target="_blank">${item.CN}</a><br>
+                                          <!--<button id="CompCN" ONCLICK=btnActionCN(${index})>vs</button>-->
+                                            </li>
+                                        </ul>
+
+                               </td>
                                 <td>
-                                <img class="ext-thumb" src="${item.US}" alt="${item.US}"><br>
-                                <a href="${item.US}" target="_blank">${item.US}</a>
-                                </td>
-                                <td>
-                                <img class="ext-thumb" src="${item.CN}" alt="${item.CN}"><br>
-                                <a href="${item.CN}" target="_blank">${item.CN}</a><br>
-                                <button id="CompCN" ONCLICK=btnActionCN(${index})>vs</button>
-                                </td>
-                                <td>
-                                <img class="ext-thumb" src="${item.HKEN}" alt="${item.HKEN}"><br>
+                                <ul>
+                                <li><img class="ext-thumb" src="${item.HKEN}" alt="${item.HKEN}"><br>
                                 <a href="${item.HKEN}" target="_blank">${item.HKEN}</a><br>
-                                <button id="CompHKEN" ONCLICK=btnActionHKEN(${index})>vs</button>
+                                <!--<button id="CompHKEN" ONCLICK=btnActionHKEN(${index})>vs</button>-->
+                                </li>
+                                </ul>
+
                                 </td>
                                 <td>
-                                <img class="ext-thumb" src="${item.HKTC}" alt="${item.HKTC}"><br>
+                                <ul>
+                                <li><img class="ext-thumb" src="${item.HKTC}" alt="${item.HKTC}"><br>
                                 <a href="${item.HKTC}" target="_blank">${item.HKTC}</a><br>
-                                <button id="CompHKTC" ONCLICK=btnActionHKTC(${index})>vs</button>
+                                <!--<button id="CompHKTC" ONCLICK=btnActionHKTC(${index})>vs</button></li>-->
+                                </ul>
+
                                 </td>
                                 <td>
-                                <img class="ext-thumb" src="${item.MO}" alt="${item.MO}"><br>
+                                <ul>
+                                <li><img class="ext-thumb" src="${item.MO}" alt="${item.MO}"><br>
                                 <a href="${item.MO}" target="_blank">${item.MO}</a>
                                 <br>
-                                <button id="CompMO" ONCLICK=btnActionMO(${index})>vs</button>
+                                <!--<button id="CompMO" ONCLICK=btnActionMO(${index})>vs</button></li>-->
+                                </ul>
+
                                 </td>
                                 <td>
-                                <img class="ext-thumb" src="${item.TW}" alt="${item.TW}"><br>
+                                <ul>
+                                <li><img class="ext-thumb" src="${item.TW}" alt="${item.TW}"><br>
                                 <a href="${item.TW}" target="_blank">${item.TW}</a>
                                 <br>
-                                <button id="CompTW" ONCLICK=btnActionTW(${index})>vs</button>
+                                <!--<button id="CompTW" ONCLICK=btnActionTW(${index})>vs</button></li>-->
+                                </ul>
                                 </td>
                                 </tr>
                                 `
@@ -239,8 +263,9 @@
       let usurl=  comptable.rows[index+1].cells[1].innerText;
        let cnurl=inner.substring(0,inner.length-2);
 
-        window.open(cnurl, "CN","_blank");
-        window.open(usurl, "US","_parent");
+        window.open(cnurl,"_self");
+        window.open(usurl,"_self");
+        window.event.returnValue = false;
     };
     function btnActionHKEN(index) {
 
