@@ -3,7 +3,8 @@
  */
 
 const request = require('request'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 const getHeaders = (url) => {
     return {
@@ -30,7 +31,7 @@ const getOptions = (headers, auth) => {
 
 //todo argument sort.
 const query = (url, cb, auth, opt) => {
-    if (! path.parse(url).ext) {
+    if (!path.parse(url).ext) {
         if (url.charAt(url.length - 1) !== "/") {
             url += '/';
         }
@@ -77,5 +78,20 @@ const bareQuery = (url, cb, auth, opt) => {
     });
 };
 
+const pngQuery = (url, cb, auth, opt) => {
+    let options = opt || {};
+
+    if (url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1) {
+        const headers = getHeaders(url);
+        options = getOptions(headers, auth);
+    }
+
+    const fileName = new Date().getTime() + path.extname(url);
+    request(url, options).pipe(fs.createWriteStream(`./${fileName}`)).on('close', data => {
+        cb(fileName);
+    });
+};
+
 exports.query = query;
 exports.bareQuery = bareQuery;
+exports.pngQuery = pngQuery;
