@@ -10,8 +10,11 @@ const getImageSizeByUrl = (url, cb, auth) => {
 
     query.bareQuery(url, (err, data, res) => {
         if(data && data.statusCode === 200){
-            obj = sizeOf(res);
-            // console.log("size="+obj);
+            if(Buffer.isBuffer(res)){
+                obj = sizeOf(res);
+            }else{
+                // obj = {}
+            }
         }
 
         cb(err, obj);
