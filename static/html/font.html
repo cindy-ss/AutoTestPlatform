@@ -121,7 +121,11 @@
 
 
                         $('#res_Container').html(str);
+                        if (str1==""){
+                            $('#Misword').html("No missing words!");
+                        }else{
                         $('#Misword').html(str1);
+                        }
                     })
                 }
 

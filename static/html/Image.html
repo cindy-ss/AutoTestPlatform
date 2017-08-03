@@ -152,25 +152,53 @@
                     let str = '';
                     let data = Json_data.data;
                     data.forEach((item, index) => {
+                        let imgus="";
+                        let imgcn="";
+                        let imghktc="";
+                        let imghken="";
+                        let imgtw="";
+                        let imgmo="";
+                        if (item.US) {
+                            imgus=item.US;
+                        }else{
+                            imgus="No Corresponding image";
+                        };
+                        if (item.CN) {
+                            imgcn=item.CN;
+                        }else{
+                            imgcn="No Corresponding image";
+                        };
+                        if (item.HKEN) {
+                            imghken=item.HKEN;
+                        }else{
+                            imghken="No Corresponding image";
+                        };
+                        if (item.HKTC) {
+                            imghktc=item.HKTC;
+                        }else{
+                            imghktc="No Corresponding image";
+                        };
+                        if (item.TW) {
+                            imgtw=item.TW;
+                        }else{
+                            imgtw="No Corresponding image";
+                        };
+                        if (item.MO) {
+                            imgmo=item.MO;
+                        }else{
+                            imgmo="No Corresponding image";
+                        };
 
-                        str += `<tr>
-                                    <td>
-                                        <ul>
-                                          <li>${item.name}</li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                          <li><img class="ext-thumb" src="${item.US}" alt="${item.US}"><br>
-                                            <a href="${item.US}" target="_blank">${item.US}</a>
-                                            </li>
+                        str += `<tr><td><ul><li>${item.name}</li></ul></td>
+                                    <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
+                                            <a href="${imgus}" target="_blank">${imgus}</a></li>
                                         </ul>
                                     </td>
                                     <td>
                                         <ul>
                                             <li>
-                                            <img class="ext-thumb" src="${item.CN}" alt="${item.CN}"><br>
-                                            <a href="${item.CN}" target="_blank">${item.CN}</a><br>
+                                            <img class="ext-thumb" src="${imgcn}" alt="${imgcn}"><br>
+                                            <a href="${imgcn}" target="_blank">${imgcn}</a><br>
                                           <!--<button id="CompCN" ONCLICK=btnActionCN(${index})>vs</button>-->
                                             </li>
                                         </ul>
@@ -178,8 +206,8 @@
                                </td>
                                 <td>
                                 <ul>
-                                <li><img class="ext-thumb" src="${item.HKEN}" alt="${item.HKEN}"><br>
-                                <a href="${item.HKEN}" target="_blank">${item.HKEN}</a><br>
+                                <li><img class="ext-thumb" src="${imghken}" alt="${imghken}"><br>
+                                <a href="${imghken}" target="_blank">${imghken}</a><br>
                                 <!--<button id="CompHKEN" ONCLICK=btnActionHKEN(${index})>vs</button>-->
                                 </li>
                                 </ul>
@@ -187,16 +215,16 @@
                                 </td>
                                 <td>
                                 <ul>
-                                <li><img class="ext-thumb" src="${item.HKTC}" alt="${item.HKTC}"><br>
-                                <a href="${item.HKTC}" target="_blank">${item.HKTC}</a><br>
+                                <li><img class="ext-thumb" src="${imghktc}" alt="${imghktc}"><br>
+                                <a href="${imghktc}" target="_blank">${imghktc}</a><br>
                                 <!--<button id="CompHKTC" ONCLICK=btnActionHKTC(${index})>vs</button></li>-->
                                 </ul>
 
                                 </td>
                                 <td>
                                 <ul>
-                                <li><img class="ext-thumb" src="${item.MO}" alt="${item.MO}"><br>
-                                <a href="${item.MO}" target="_blank">${item.MO}</a>
+                                <li><img class="ext-thumb" src="${imgmo}" alt="${imgmo}"><br>
+                                <a href="${imgmo}" target="_blank">${imgmo}</a>
                                 <br>
                                 <!--<button id="CompMO" ONCLICK=btnActionMO(${index})>vs</button></li>-->
                                 </ul>
@@ -204,8 +232,8 @@
                                 </td>
                                 <td>
                                 <ul>
-                                <li><img class="ext-thumb" src="${item.TW}" alt="${item.TW}"><br>
-                                <a href="${item.TW}" target="_blank">${item.TW}</a>
+                                <li><img class="ext-thumb" src="${imgtw}" alt="${imgtw}"><br>
+                                <a href="${imgtw}" target="_blank">${imgtw}</a>
                                 <br>
                                 <!--<button id="CompTW" ONCLICK=btnActionTW(${index})>vs</button></li>-->
                                 </ul>
