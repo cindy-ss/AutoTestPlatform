@@ -20,7 +20,7 @@
         </p>
 
         <button id="btn_Usquery" class="btn btn-primary">US Counts</button>
-        <!--<button id="btn_Quest" class="btn btn-primary">Query</button>-->
+        <button id="btn_Quest" class="btn btn-primary">Query</button>
         <button id="btn_Clear" class="btn btn-primary">Clear</button>
 
     </div>
@@ -59,21 +59,20 @@
             </tbody>
         </table>
 
-        <select class="sel_mask" id="geos" name="geos">
-            <option value="">Please Select Geo</option>
-            <option value="CN">CN</option>
-            <option value="HK">HK</option>
-            <option value="HKEN">HKEN</option>
-            <option value="TW">TW</option>
-            <option value="MO">MO</option>
-            <option value="GC">GC Geos</option>
-        </select>
-        <button id="btn_Quest" class="btn btn-primary">Query</button>
-        <button id="check" class="btn btn-primary">check</button>
+
+
         <table id="comptable" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Image Name</th>
+                <th>US</th>
+                <th>CN</th>
+                <th>HKEN</th>
+                <th>HKTC</th>
+                <th>MO</th>
+                <th>TW</th>
 
-            <thead id="res_header">
-
+            </tr>
             </thead>
             <tbody id="res_Container" class="ImageStyle">
 
@@ -114,20 +113,16 @@
         $('#USCount').html('');
         $('#USImageUrl').html('');
     });
-    $('#check').click(() => {
-       alert($('#geos option:selected') .val());
-    });
+
 
     $('#btn_Usquery').click(() => {
         if ($("#url").val().length > 5) {
             $('#USres_Container').html('');
             $.post('api/image/getUSImage', {url: $('#url').val()}, function (USJson_data) {
-
                 if (USJson_data.result == true) {
                     let str = '';
                     let str1 = '';
                     let str2 = '';
-
                     console.log(USJson_data);
                     str += `<td class="text-left" style=" ">${USJson_data.data.url}</td> `;
                     str1 += `<td class="text-left" style=" ">Count：${USJson_data.data.total}</td>`;
@@ -150,15 +145,13 @@
         }
     });
 
-    let nuinfo ="No Corresponding image";
-
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
             $.post('api/image/compare', {url: $('#url').val()}, function (Json_data) {
+                console.log(Json_data);
                 if (Json_data.result == true) {
                     let str = '';
-                    let str0 ='';
                     let data = Json_data.data;
                     data.forEach((item, index) => {
                         let imgus="";
@@ -197,89 +190,60 @@
                         }else{
                             imgmo="No Corresponding image";
                         };
-                        if($('#geos option:selected').val()=="GC") {
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>CN</th>
-                                      <th>HK</th>
-                                      <th>HKEN</th>
-                                      <th>TW</th>
-                                      <th>MO</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgcn}" alt="${imgcn}"><br>
-                                            <a href="${imgcn}" target="_blank">${imgcn}</a><br></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imghken}" alt="${imghken}"><br>
-                                   <a href="${imghken}" target="_blank">${imghken}</a><br></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imghktc}" alt="${imghktc}"><br>
-                                   <a href="${imghktc}" target="_blank">${imghktc}</a><br></ul> </td>
-                                <td><ul><li><img class="ext-thumb" src="${imgmo}" alt="${imgmo}"><br>
-                                   <a href="${imgmo}" target="_blank">${imgmo}</a><br></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgtw}" alt="${imgtw}"><br>
-                                <a href="${imgtw}" target="_blank">${imgtw}</a><br></ul></td>
-                                </tr> `
-                        }
-                        else if($('#geos option:selected').val()=="CN"){
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>CN</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgcn}" alt="${imgcn}"><br>
-                                            <a href="${imgcn}" target="_blank">${imgcn}</a><br></li></ul></td>
 
-                                </tr> `
-                        }else if($('#geos option:selected').val()=="HKEN"){
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>HKEN</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imghken}" alt="${imghken}"><br>
-                                   <a href="${imghken}" target="_blank">${imghken}</a><br></li></ul></td>
-                                </tr> `
-                        }else if($('#geos option:selected').val()=="HK"){
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>HK</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imghktc}" alt="${imghktc}"><br>
-                                   <a href="${imghktc}" target="_blank">${imghktc}</a><br></ul> </td>
-                                </tr> `
-                        }else if($('#geos option:selected').val()=="TW"){
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>TW</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                 <td><ul><li><img class="ext-thumb" src="${imgtw}" alt="${imgtw}"><br>
-                                <a href="${imgtw}" target="_blank">${imgtw}</a><br></ul></td>
-                                </tr> `
-                        }else if($('#geos option:selected').val()=="MO"){
-                            str0=`<tr><th>Image Name</th>
-                                      <th>US</th>
-                                      <th>MO</th>
-                                       </tr>`;
-                            str += `<tr><td><ul><li>${item.name}</li></ul></td>
-                                <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
-                                      <a href="${imgus}" target="_blank">${imgus}</a></li></ul></td>
-                                 <td><ul><li><img class="ext-thumb" src="${imgmo}" alt="${imgmo}"><br>
-                                   <a href="${imgmo}" target="_blank">${imgmo}</a><br></ul></td>
-                                </tr> `
-                        }
+                        str += `<tr><td><ul><li>${item.name}</li></ul></td>
+                                    <td><ul><li><img class="ext-thumb" src="${imgus}" alt="${imgus}"><br>
+                                            <a href="${imgus}" target="_blank">${imgus}</a></li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li>
+                                            <img class="ext-thumb" src="${imgcn}" alt="${imgcn}"><br>
+                                            <a href="${imgcn}" target="_blank">${imgcn}</a><br>
+                                          <!--<button id="CompCN" ONCLICK=btnActionCN(${index})>vs</button>-->
+                                            </li>
+                                        </ul>
+
+                               </td>
+                                <td>
+                                <ul>
+                                <li><img class="ext-thumb" src="${imghken}" alt="${imghken}"><br>
+                                <a href="${imghken}" target="_blank">${imghken}</a><br>
+                                <!--<button id="CompHKEN" ONCLICK=btnActionHKEN(${index})>vs</button>-->
+                                </li>
+                                </ul>
+
+                                </td>
+                                <td>
+                                <ul>
+                                <li><img class="ext-thumb" src="${imghktc}" alt="${imghktc}"><br>
+                                <a href="${imghktc}" target="_blank">${imghktc}</a><br>
+                                <!--<button id="CompHKTC" ONCLICK=btnActionHKTC(${index})>vs</button></li>-->
+                                </ul>
+
+                                </td>
+                                <td>
+                                <ul>
+                                <li><img class="ext-thumb" src="${imgmo}" alt="${imgmo}"><br>
+                                <a href="${imgmo}" target="_blank">${imgmo}</a>
+                                <br>
+                                <!--<button id="CompMO" ONCLICK=btnActionMO(${index})>vs</button></li>-->
+                                </ul>
+
+                                </td>
+                                <td>
+                                <ul>
+                                <li><img class="ext-thumb" src="${imgtw}" alt="${imgtw}"><br>
+                                <a href="${imgtw}" target="_blank">${imgtw}</a>
+                                <br>
+                                <!--<button id="CompTW" ONCLICK=btnActionTW(${index})>vs</button></li>-->
+                                </ul>
+                                </td>
+                                </tr>
+                                `
                     });
-                    $('#res_header').html(str0);
+
                     $('#res_Container').html(str);
 
 
@@ -316,6 +280,63 @@
             $(".trans-side").addClass("navslid-hide");
         }
     });
+//    $("#CompCN").click(() => {
+//        var imgurl = $(this).attr("alt");
+//
+//        window.open(imgurl, "toolbar=no,scrollbars=no,menubar=no");
+//    });
+
+    function btnActionCN(index) {
+
+       var comptable = document.getElementById("comptable");
+      let inner = comptable.rows[index+1].cells[2].innerText;
+      let usurl=  comptable.rows[index+1].cells[1].innerText;
+       let cnurl=inner.substring(0,inner.length-2);
+
+        window.open(cnurl,"_self");
+        window.open(usurl,"_self");
+        window.event.returnValue = false;
+    };
+    function btnActionHKEN(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[3].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let hkenurl=inner.substring(0,inner.length-2);
+
+        window.open(hkenurl, "HKEN","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionHKTC(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[4].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let hktcurl=inner.substring(0,inner.length-2);
+
+        window.open(hktcurl, "HKTC","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionMO(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[5].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let mourl=inner.substring(0,inner.length-2);
+
+        window.open(mourl, "MO","_blank");
+        window.open(usurl, "US","_parent");
+    };
+    function btnActionTW(index) {
+
+        var comptable = document.getElementById("comptable");
+        let inner = comptable.rows[index+1].cells[6].innerText;
+        let usurl=  comptable.rows[index+1].cells[1].innerText;
+        let twurl=inner.substring(0,inner.length-2);
+
+        window.open(twurl, "MO","_blank");
+        window.open(usurl, "US","_parent");
+    };
 
 
     /*var app = new Vue({
