@@ -9,7 +9,7 @@ const fs = require('fs');
 const dirList = ['./static/data/'];
 
 exports.init = (cb) => {
-    // font.init(cb);
+    font.init(cb);
 
     dirList.forEach(url => {
         try {
