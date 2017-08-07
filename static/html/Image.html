@@ -115,13 +115,15 @@
         $('#USImageUrl').html('');
     });
     $('#check').click(() => {
-       alert($('#geos option:selected') .val());
+        alert($('#geos option:selected').val());
     });
 
     $('#btn_Usquery').click(() => {
         if ($("#url").val().length > 5) {
             $('#USres_Container').html('');
+            $("#bg_loading").show();
             $.post('api/image/getUSImage', {url: $('#url').val()}, function (USJson_data) {
+                $("#bg_loading").hide();
 
                 if (USJson_data.result == true) {
                     let str = '';
@@ -150,7 +152,7 @@
         }
     });
 
-    let nuinfo ="No Corresponding image";
+    let nuinfo = "No Corresponding image";
 
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
@@ -158,47 +160,53 @@
             $.post('api/image/compare', {url: $('#url').val()}, function (Json_data) {
                 if (Json_data.result == true) {
                     let str = '';
-                    let str0 ='';
+                    let str0 = '';
                     let data = Json_data.data;
                     data.forEach((item, index) => {
-                        let imgus="";
-                        let imgcn="";
-                        let imghktc="";
-                        let imghken="";
-                        let imgtw="";
-                        let imgmo="";
+                        let imgus = "";
+                        let imgcn = "";
+                        let imghktc = "";
+                        let imghken = "";
+                        let imgtw = "";
+                        let imgmo = "";
                         if (item.US) {
-                            imgus=item.US;
-                        }else{
-                            imgus="No Corresponding image";
-                        };
+                            imgus = item.US;
+                        } else {
+                            imgus = "No Corresponding image";
+                        }
+                        ;
                         if (item.CN) {
-                            imgcn=item.CN;
-                        }else{
-                            imgcn="No Corresponding image";
-                        };
+                            imgcn = item.CN;
+                        } else {
+                            imgcn = "No Corresponding image";
+                        }
+                        ;
                         if (item.HKEN) {
-                            imghken=item.HKEN;
-                        }else{
-                            imghken="No Corresponding image";
-                        };
+                            imghken = item.HKEN;
+                        } else {
+                            imghken = "No Corresponding image";
+                        }
+                        ;
                         if (item.HKTC) {
-                            imghktc=item.HKTC;
-                        }else{
-                            imghktc="No Corresponding image";
-                        };
+                            imghktc = item.HKTC;
+                        } else {
+                            imghktc = "No Corresponding image";
+                        }
+                        ;
                         if (item.TW) {
-                            imgtw=item.TW;
-                        }else{
-                            imgtw="No Corresponding image";
-                        };
+                            imgtw = item.TW;
+                        } else {
+                            imgtw = "No Corresponding image";
+                        }
+                        ;
                         if (item.MO) {
-                            imgmo=item.MO;
-                        }else{
-                            imgmo="No Corresponding image";
-                        };
-                        if($('#geos option:selected').val()=="GC") {
-                            str0=`<tr><th>Image Name</th>
+                            imgmo = item.MO;
+                        } else {
+                            imgmo = "No Corresponding image";
+                        }
+                        ;
+                        if ($('#geos option:selected').val() == "GC") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>CN</th>
                                       <th>HK</th>
@@ -221,8 +229,8 @@
                                 <a href="${imgtw}" target="_blank">${imgtw}</a><br></ul></td>
                                 </tr> `
                         }
-                        else if($('#geos option:selected').val()=="CN"){
-                            str0=`<tr><th>Image Name</th>
+                        else if ($('#geos option:selected').val() == "CN") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>CN</th>
                                        </tr>`;
@@ -233,8 +241,8 @@
                                             <a href="${imgcn}" target="_blank">${imgcn}</a><br></li></ul></td>
 
                                 </tr> `
-                        }else if($('#geos option:selected').val()=="HKEN"){
-                            str0=`<tr><th>Image Name</th>
+                        } else if ($('#geos option:selected').val() == "HKEN") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>HKEN</th>
                                        </tr>`;
@@ -244,8 +252,8 @@
                                 <td><ul><li><img class="ext-thumb" src="${imghken}" alt="${imghken}"><br>
                                    <a href="${imghken}" target="_blank">${imghken}</a><br></li></ul></td>
                                 </tr> `
-                        }else if($('#geos option:selected').val()=="HK"){
-                            str0=`<tr><th>Image Name</th>
+                        } else if ($('#geos option:selected').val() == "HK") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>HK</th>
                                        </tr>`;
@@ -255,8 +263,8 @@
                                 <td><ul><li><img class="ext-thumb" src="${imghktc}" alt="${imghktc}"><br>
                                    <a href="${imghktc}" target="_blank">${imghktc}</a><br></ul> </td>
                                 </tr> `
-                        }else if($('#geos option:selected').val()=="TW"){
-                            str0=`<tr><th>Image Name</th>
+                        } else if ($('#geos option:selected').val() == "TW") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>TW</th>
                                        </tr>`;
@@ -266,8 +274,8 @@
                                  <td><ul><li><img class="ext-thumb" src="${imgtw}" alt="${imgtw}"><br>
                                 <a href="${imgtw}" target="_blank">${imgtw}</a><br></ul></td>
                                 </tr> `
-                        }else if($('#geos option:selected').val()=="MO"){
-                            str0=`<tr><th>Image Name</th>
+                        } else if ($('#geos option:selected').val() == "MO") {
+                            str0 = `<tr><th>Image Name</th>
                                       <th>US</th>
                                       <th>MO</th>
                                        </tr>`;
@@ -316,57 +324,4 @@
             $(".trans-side").addClass("navslid-hide");
         }
     });
-
-
-    /*var app = new Vue({
-     el: '#trans',
-     data: {
-     arr: [],
-     urls: "",
-     excelUrl: "",
-     excelName: ""
-     },
-     methods: {
-     quest: function () {
-     if(this.urls.length > 5){
-     var that = this;
-     $.post('/api/wechat', {urls: this.urls}, function (data) {
-     console.log(data);
-     that.arr = data;
-     });
-     }else{
-     console.log("null");
-     }
-     },
-     getExcel: function () {
-     if(this.arr.length > 0){
-     var that = this;
-     $.post('/api/wechat2xls', {xls: JSON.stringify(this.arr), type: document.querySelector("input[name=optionsRadios]:checked").value}, function (data) {
-     console.log(data);
-     that.excelName = data;
-     that.excelUrl = `../data/${data}`;
-     });
-     }else{
-     console.log('cant');
-     }
-     },
-     importTxt: function () {
-     var that = this;
-     var fileInput = document.querySelector("#fileInput");
-     if(fileInput.files.length >= 1){
-     var file = document.querySelector("#fileInput").files[0];
-     var reader = new FileReader();
-     reader.onload = function () {
-     console.log(this.result);
-     that.urls += this.result;
-     fileInput.value = "";
-     };
-     reader.readAsText(file);
-     }
-     },
-     clear:function() {
-     $("#urls").val('');
-     }
-     }
-     });*/
 </script>

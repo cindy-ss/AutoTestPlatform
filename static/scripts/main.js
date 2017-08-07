@@ -19,27 +19,30 @@ $(() =>{
         sideBar.find('a').click(loadTarget);
         main.load('../html/main.html')
     });
+    $("#bg_loading").show();
     $.get('/api/init', data => {
+        $("#bg_loading").hide();
         const {odUser, odPass} = data;
         console.log(odUser);
 
+        let odAuth = localStorage.getItem('odAuth');
+        if(odAuth){
+            odAuth = JSON.parse(odAuth);
+            txtOdUser.val(odAuth.odUser);
+            txtOdPass.val(odAuth.odPass);
+        }
+
         if(!(odUser && odPass)){
-            let odAuth = localStorage.getItem('odAuth');
-
             $('#odConfirm').modal();
-
-            if(odAuth){
-                odAuth = JSON.parse(odAuth);
-                txtOdUser.val(odAuth.odUser);
-                txtOdPass.val(odAuth.odPass);
-            }
         }else{
             $("#userName").text(odUser);
         }
     });
 
     $('#btnSubmit').click(() => {
+        $("#bg_loading").show();
         $.post('/api/init', {odUser : txtOdUser.val(), odPass : txtOdPass.val()}, function(data){
+            $("#bg_loading").hide();
             console.log(data);
             if(data && data.odPass && data.odUser){
                 $("#odConfirm").modal('hide');
