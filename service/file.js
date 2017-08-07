@@ -16,9 +16,9 @@ const getImageSizeByUrl = (url, cb, auth) => {
                 cb(err, obj);
             } else {
                 query.pngQuery(url, (fileName) => {
-                    obj = sizeOf(`./${fileName}`);
+                    obj = sizeOf(`./static/data/${fileName}`);
 
-                    fs.unlinkSync(`./${fileName}`);
+                    fs.unlinkSync(`./static/data/${fileName}`);
 
                     cb(err, obj);
                 });

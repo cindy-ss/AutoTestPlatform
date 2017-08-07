@@ -87,7 +87,7 @@ const pngQuery = (url, cb, auth, opt) => {
     }
 
     const fileName = new Date().getTime() + path.extname(url);
-    request(url, options).pipe(fs.createWriteStream(`./${fileName}`)).on('close', data => {
+    request(url, options).pipe(fs.createWriteStream(`./static/data/${fileName}`)).on('close', data => {
         cb(fileName);
     });
 };
