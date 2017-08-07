@@ -10,7 +10,8 @@ const cheerio = require('cheerio'),
 
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
-    file = require('../service/file');
+    file = require('../service/file'),
+    exporter = require('../service/exporter');
 
 const fetchTrans = (url, auth, cb) => {
     query.query(url, (err, res) => {
@@ -168,34 +169,14 @@ const dealHTML = (content, cb) => {
 };
 
 const dealExcel = (content, cb) => {
-    const exportTime = new Date().getTime();
-    const title = `report-${exportTime}`;
-    const fileName = `${title}.xlsx`;
-    const exportPath = `./static/data/${fileName}`;
-
-    let data = {
-        sheets: [
-            {
-                header: {
-                    url: 'URL',
-                    desc: 'Description',
-                    ogDesc: 'OG Description',
-                    title: 'Title',
-                    ogTitle: 'OG Title',
-                },
-                items: [],
-                sheetName: 'Report',
-            }
-        ],
-        filepath: exportPath
+    const headers = {
+        url: 'URL',
+        desc: 'Description',
+        ogDesc: 'OG Description',
+        title: 'Title',
+        ogTitle: 'OG Title',
     };
-
-    data.sheets[0].items = content;
-
-    excel.j2e(data, function (err) {
-        console.log('finish');
-        cb(err, fileName);
-    });
+    exporter.dealExcel(headers, content, cb);
 };
 
 const export2Xls = (obj, cb) => {

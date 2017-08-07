@@ -147,7 +147,15 @@ router.route('/image/compare')
     });
 
 router.route('/image/export/:type')
-    .post((req, res) => {});
+    .post((req, res) => {
+        let obj = {
+            data: JSON.parse(req.body.data),
+            type: req.params.type
+        };
+        ic.exportHTML(obj, (err, exPath) => {
+            res.end(exPath.toString());
+        });
+    });
 
 router.route('/files/:fileName')
     .get((req, res) => {
