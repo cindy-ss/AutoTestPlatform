@@ -6,7 +6,8 @@ const cheerio = require('cheerio'),
     async = require('async'),
     fs = require('fs'),
     excel = require('json2excel'),
-    URL = require('url');
+    URL = require('url'),
+    path = require('path');
 
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
@@ -14,6 +15,15 @@ const query = require('../service/query'),
     exporter = require('../service/exporter');
 
 const fetchTrans = (url, auth, cb) => {
+    if (!path.parse(url).ext) {
+        if (url.charAt(url.length - 1) !== "/") {
+            url += '/';
+        }
+    }
+
+    if (!URL.parse(url).protocol) {
+        url = 'https://' + url;
+    }
     query.query(url, (err, res) => {
         if (!err) {
             const $ = cheerio.load(res);
@@ -46,6 +56,9 @@ const fetchTrans = (url, auth, cb) => {
                         if (!err) {
                             if (res) {
                                 const wechat_url = URL.resolve(url, res);
+                                console.log(wechat_url);
+                                console.log(url);
+                                console.log(res);
 
                                 file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
                                     if (!err) {
@@ -72,6 +85,7 @@ const fetchTrans = (url, auth, cb) => {
                     }, auth)
                 }
             ], function (err, results) {
+                console.log(`parallel finish ${err}`);
                 if (!err) {
                     if (results) {
                         obj.wechat = {
@@ -102,6 +116,7 @@ const runTask = (urlArr, auth, cb) => {
     async.map(urlArr, (item, callback) => {
         fetchTrans(item, auth, callback)
     }, (err, res) => {
+        console.log(err);
         cb(res);
     });
 };

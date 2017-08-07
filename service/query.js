@@ -4,7 +4,8 @@
 
 const request = require('request'),
     path = require('path'),
-    fs = require('fs');
+    fs = require('fs'),
+    URL = require('url');
 
 const getHeaders = (url) => {
     return {
@@ -35,6 +36,10 @@ const query = (url, cb, auth, opt) => {
         if (url.charAt(url.length - 1) !== "/") {
             url += '/';
         }
+    }
+
+    if(!URL.parse(url).protocol){
+        url = 'https://' + url;
     }
 
     let options = opt || {};
