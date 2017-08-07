@@ -24,7 +24,15 @@ $(() =>{
         console.log(odUser);
 
         if(!(odUser && odPass)){
+            let odAuth = localStorage.getItem('odAuth');
+
             $('#odConfirm').modal();
+
+            if(odAuth){
+                odAuth = JSON.parse(odAuth);
+                txtOdUser.val(odAuth.odUser);
+                txtOdPass.val(odAuth.odPass);
+            }
         }else{
             $("#userName").text(odUser);
         }
@@ -37,6 +45,8 @@ $(() =>{
                 $("#odConfirm").modal('hide');
 
                 $("#userName").text(data.odUser);
+
+                localStorage.setItem('odAuth', JSON.stringify(data));
             }
         })
     });
