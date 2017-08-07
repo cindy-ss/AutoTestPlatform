@@ -9,8 +9,6 @@ const fs = require('fs');
 const dirList = ['./static/data/'];
 
 exports.init = (cb) => {
-    font.init(cb);
-
     dirList.forEach(url => {
         try {
             fs.statSync(url)
@@ -20,10 +18,15 @@ exports.init = (cb) => {
         }
     });
 
-
     this.conf = JSON.parse(fs.readFileSync('./server/conf.json', "utf-8"));
 
+    font.init();
+
     cb();
+};
+
+exports.log = function (obj) {
+    console.log(obj);
 };
 
 exports.conf = this.conf;

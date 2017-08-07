@@ -7,7 +7,10 @@ const q = require('./query'),
     fs = require('fs'),
     async = require('async'),
     path = require('path'),
-    cheerio = require('cheerio');
+    cheerio = require('cheerio'),
+    later = require('later');
+
+let basic = require('./basic');
 
 let metrics, avoid;
 const prefix = '/wss/fonts/', params = ['geo', 'name', 'type', 'server'];
@@ -17,26 +20,60 @@ const getAvailableFontType = () => {
     return metrics;
 };
 
-const init = (cb) => {
+const init = () => {
+    basic.log('[ √ ] : Start font checking.');
     let rawConf = fs.readFileSync('./font/conf.json', 'utf-8');
     let conf = JSON.parse(rawConf);
     metrics = conf['font'];
     avoid = conf['avoid'];
 
     async.each(metrics, (item, callback) => {
+        try {
+            fs.statSync(`./font/${item.server}-${path.basename(item.url)}`);
+            callback(null);
+        }
+        catch (e) {
+            q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'https://webfonts.iapps.apple.com'}${prefix}${item.url}`, (err, res, data) => {
+                fs.writeFileSync(`./font/${item.server}-${path.basename(item.url)}`, data);
+                if (err) {
+                    console.log(err);
+                }
+                callback(err);
+            }, {}, {
+                encoding: null,
+                headers: {
+                    referer: 'https://www.apple.com/hk/index.html',
+                    origin: 'https://www.apple.com/hk/index.html'
+                }
+            });
+        }
+    }, err => {
+        basic.log('[ √ ] : Font files checked.');
+    });
+
+    let textSched = later.parse.recur().every(1).dayOfMonth();
+    const timer = later.setInterval(fetch, textSched);
+};
+
+const fetch = () => {
+    basic.log('[ √ ] : Loading font files from server.');
+
+    async.each(metrics, (item, callback) => {
         q.bareQuery(`${item.server === 'WWW' ? 'http://www.apple.com' : 'https://webfonts.iapps.apple.com'}${prefix}${item.url}`, (err, res, data) => {
             fs.writeFileSync(`./font/${item.server}-${path.basename(item.url)}`, data);
-            if(err){console.log(err);}
+            if (err) {
+                console.log(err);
+            }
             callback(err);
         }, {}, {
             encoding: null,
-            headers : {
-                referer : 'https://www.apple.com/hk/index.html',
-                origin : 'https://www.apple.com/hk/index.html'
+            headers: {
+                referer: 'https://www.apple.com/hk/index.html',
+                origin: 'https://www.apple.com/hk/index.html'
             }
         });
     }, err => {
-        cb(err);
+        basic.log('[ √ ] : Font files load complete.');
     });
 };
 
@@ -74,7 +111,9 @@ const check = (data, option) => {
         for (let i of data) {
             const code = i.charCodeAt(0);
             const codeStr = i.charCodeAt(0).toString(16);
-            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && avoid.indexOf(codeStr) === -1 && !tempArr.find(item => {return item.word === i})) {
+            if (font.characterSet.indexOf(code) === -1 && codeStr.length > 2 && avoid.indexOf(codeStr) === -1 && !tempArr.find(item => {
+                    return item.word === i
+                })) {
                 tempArr.push({
                     word: i,
                     code: codeStr

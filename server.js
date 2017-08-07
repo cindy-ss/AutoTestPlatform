@@ -26,6 +26,6 @@ app.use('/api', router);
 basic.init(() => {
     app.set('port', (process.env.PORT || 2333));
     http.listen(app.get('port'), () => {
-        console.log(`QA Test Platform starts on ${app.get('port')}!`)
+        console.log(`[ √ ] : QA Test Platform starts on ${app.get('port')}!`)
     });
 });

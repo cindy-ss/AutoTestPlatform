@@ -9,11 +9,13 @@ const trans = require('./trans'),
     ic = require('./image_checker'),
     font = require('./font');
 
+router.use((req, res, next) => {
+    console.log(`[ * ] : ${req.session.od ? (req.session.od.odUser || 'Anonymous') : 'Anonymous'} is querying for ${req.path}`);
+    next();
+});
+
 router.route('/init')
     .post((req, res) => {
-        console.log(req.body.odUser);
-        console.log(req.body.odPass);
-
         if (req.body.odUser && req.body.odPass) {
             req.session.od = {
                 odUser: req.body.odUser,
