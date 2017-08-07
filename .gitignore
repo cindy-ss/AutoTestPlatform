@@ -61,4 +61,6 @@ typings/
 
 #files created by the code.
 static/data/*
-test/*
+*.woff
+*.woff2
+.idea/*
