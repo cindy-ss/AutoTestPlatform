@@ -25,6 +25,8 @@ $(() =>{
 
         if(!(odUser && odPass)){
             $('#odConfirm').modal();
+        }else{
+            $("#userName").text(odUser);
         }
     });
 
@@ -33,8 +35,13 @@ $(() =>{
             console.log(data);
             if(data && data.odPass && data.odUser){
                 $("#odConfirm").modal('hide');
+
+                $("#userName").text(data.odUser);
             }
         })
     });
 
+    $("#btnUserName").click(() => {
+        $('#odConfirm').modal();
+    });
 });
