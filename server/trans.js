@@ -108,7 +108,8 @@ const runTask = (urlArr, auth, cb) => {
 const dealHTML = (content, cb) => {
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
-    const exportPath = `./static/data/${title}.html`;
+    const fileName = `${title}.html`;
+    const exportPath = `./static/data/${fileName}`;
 
     let finalStr = `
 <!DOCTYPE html>
@@ -129,21 +130,18 @@ const dealHTML = (content, cb) => {
 </head>
 <body class="container-fluid">
     <table class="table table-bordered table-striped table-hover">
-    <tr>
-                <th>URL</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>OG Title</th>
-                <th>OG Description</th>
-                <th>OG Img</th>
-                <th>OG Img URL</th>
-                <th>WeChat Img</th>
-                <th>WeChat URL</th>
-            </tr>
-    `;
-
-    content.forEach(item => {
-        finalStr += `
+        <tr>
+            <th>URL</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>OG Title</th>
+            <th>OG Description</th>
+            <th>OG Img</th>
+            <th>OG Img URL</th>
+            <th>WeChat Img</th>
+            <th>WeChat URL</th>
+        </tr>
+        ${content.map(item => `
             <tr>
                 <td><a href="${item.url}" target="_blank">${item.url}</a></td>
                 <td>${item.title}</td>
@@ -158,23 +156,23 @@ const dealHTML = (content, cb) => {
                 Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
                 <td>${item.wechat.url}</td>
             </tr>
-            `;
-    });
-
-    finalStr += `</table>
+        `).join('')}
+    </table>
 </body>
 </html>
-`;
+    `;
 
     fs.writeFileSync(exportPath, finalStr, 'utf-8');
 
-    cb(null, exportTime);
+    cb(null, fileName);
 };
 
 const dealExcel = (content, cb) => {
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
-    const exportPath = `./static/data/${title}.xlsx`;
+    const fileName = `${title}.xlsx`;
+    const exportPath = `./static/data/${fileName}`;
+
     let data = {
         sheets: [
             {
@@ -196,7 +194,7 @@ const dealExcel = (content, cb) => {
 
     excel.j2e(data, function (err) {
         console.log('finish');
-        cb(err, exportTime);
+        cb(err, fileName);
     });
 };
 

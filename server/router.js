@@ -36,20 +36,14 @@ router.route('/trans')
         });
     });
 
-router.route('/trans2xls')
+router.route('/trans/export/:type')
     .post((req, res) => {
         let obj = {
             xls: JSON.parse(req.body.xls),
-            type: req.body.type
+            type: req.params.type
         };
         trans.export2Xls(obj, (err, exPath) => {
             res.end(exPath.toString());
-        });
-    })
-    .get((req, res) => {
-        const path = `./static/data/report-${req.query.id}.${req.query.type}`;
-        res.download(path, (err) => {
-            console.log(err);
         });
     });
 
@@ -71,10 +65,10 @@ router.route('/font/url')
                     })
                 }
             })
-        }else{
+        } else {
             res.json({
-                result : false,
-                message : 'No URLs Provided'
+                result: false,
+                message: 'No URLs Provided'
             })
         }
     });
@@ -85,13 +79,13 @@ router.route('/font/text')
         const options = req.body.option;
         if (text) {
             res.json({
-                result : true,
-                data : font.check(text, options)
+                result: true,
+                data: font.check(text, options)
             });
-        }else{
+        } else {
             res.json({
-                result : false,
-                message : 'No Text Provided'
+                result: false,
+                message: 'No Text Provided'
             })
         }
     });
@@ -150,6 +144,17 @@ router.route('/image/compare')
                 message: 'No URL Provided'
             })
         }
+    });
+
+router.route('/image/export/:type')
+    .post((req, res) => {});
+
+router.route('/files/:fileName')
+    .get((req, res) => {
+        const path = `./static/data/${req.params.fileName}`;
+        res.download(path, (err) => {
+            console.log(err);
+        });
     });
 
 exports.router = router;

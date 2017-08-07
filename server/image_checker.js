@@ -66,16 +66,16 @@ const getFilterCssArr = (url, cb, auth) => {
 const resFormatter = (midObj, usArr, cb) => {
     let res = [], entry = [];
 
-    for(let geo in midObj){
-        if(midObj.hasOwnProperty(geo)){
+    for (let geo in midObj) {
+        if (midObj.hasOwnProperty(geo)) {
             let tempArr = midObj[geo];
 
             tempArr.forEach(item => {
                 const fileName = path.parse(item)['name'];
 
-                if(entry.indexOf(fileName) === -1){
+                if (entry.indexOf(fileName) === -1) {
                     let obj = {
-                        name : fileName,
+                        name: fileName,
                     };
 
                     obj[geo] = item;
@@ -87,7 +87,7 @@ const resFormatter = (midObj, usArr, cb) => {
                     entry.push(fileName);
 
                     res.push(obj);
-                }else{
+                } else {
                     let tempObj = res.find((item) => {
                         return item['name'] === fileName
                     });
@@ -119,5 +119,68 @@ const getUSImages = (url, auth, cb) => {
     })
 };
 
+const exportHTML = (content, cb) => {
+    const exportTime = new Date().getTime();
+    const title = `report-${exportTime}`;
+    const fileName = `${title}.html`;
+    const exportPath = `./static/data/${fileName}`;
+
+    let finalStr = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        .red {
+            color : red;
+        }
+        .ext-thumb {
+            width : 60px;
+            height : 60px
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>URL</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>OG Title</th>
+            <th>OG Description</th>
+            <th>OG Img</th>
+            <th>OG Img URL</th>
+            <th>WeChat Img</th>
+            <th>WeChat URL</th>
+        </tr>
+        ${content.map(item => `
+            <tr>
+                <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                <td>${item.title}</td>
+                <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
+                <td>${item.ogTitle}</td>
+                <td>${item.ogDesc}</td>
+                <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
+                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
+                <td>${item.ogImage.url} </td>
+                <td class="text-center"><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                <br>
+                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
+                <td>${item.wechat.url}</td>
+            </tr>
+        `).join('')}
+    </table>
+</body>
+</html>
+    `;
+
+    fs.writeFileSync(exportPath, finalStr, 'utf-8');
+
+    cb(null, fileName);
+};
+
 exports.compareImageByURL = compareImageByURL;
 exports.getUSImages = getUSImages;
+exports.exportHTML = exportHTML;

@@ -120,12 +120,11 @@
         if ($("#urls").val().length > 0) {
             const arr = $("#resContainer").text();
             console.log(storedData);
-            $.post('/api/trans2xls', {
-                    xls: JSON.stringify(storedData),
-                    type: document.querySelector("input[name=optionsRadios]:checked").value
+            $.post(`/api/trans/export/${document.querySelector("input[name=optionsRadios]:checked").value}`, {
+                    xls: JSON.stringify(storedData)
                 },
                 (data) => {
-                    $.fileDownload(`/api/trans2xls?id=${data}&type=${document.querySelector("input[name=optionsRadios]:checked").value}`);
+                    $.fileDownload(`/api/files/${data}`);
                 })
         }
     })
@@ -143,34 +142,4 @@
             $(".trans-side").addClass("navslid-hide");
         }
     });
-
-    //            getExcel: function () {
-    //                if (this.arr.length > 0) {
-    //                    var that = this;
-    //                    $.post('/api/trans2xls', {
-    //                        xls: JSON.stringify(this.arr),
-    //                        type: document.querySelector("input[name=optionsRadios]:checked").value
-    //                    }, fonsole.log(data);
-    //                        thunction (data) {
-    //                        cat.excelName = data;
-    //                        that.excelUrl = `../data/${data}`;
-    //                    });
-    //                } else {
-    //                    console.log('cant');
-    //                }
-    //            },
-    //            importTxt: function () {
-    //                var that = this;
-    //                var fileInput = document.querySelector("#fileInput");
-    //                if (fileInput.files.length >= 1) {
-    //                    var file = document.querySelector("#fileInput").files[0];
-    //                    var reader = new FileReader();
-    //                    reader.onload = function () {
-    //                        console.log(this.result);
-    //                        that.urls += this.result;
-    //                        fileInput.value = "";
-    //                    };
-    //                    reader.readAsText(file);
-    //                }
-    //            },
 </script>
