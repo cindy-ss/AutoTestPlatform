@@ -58,18 +58,22 @@
 </div>
 
 <script>
-    let _image = {
+    var _image = {
         url: $("#url"),
         data: null,
         res: $("#res"),
         res_out: $("#res_out")
     };
+    $("#image_us_res_out").hide();
+    $("#image_gc_res_out").hide();
     $('#btn_query_us').click(() => {
         if (_image.url.val().length > 5) {
             _image.res.empty();
             $("#bg_loading").show();
             $.post('api/image/getUSImage', {url: _image.url.val()}, function (data) {
                 $("#bg_loading").hide();
+                $("#image_us_res_out").show();
+                $("#image_gc_res_out").hide();
 
                 if (data && data.result === true) {
                     _image.data = data.data;
@@ -96,6 +100,8 @@
             $("#bg_loading").show();
             $.post('api/image/compare', {url: $('#url').val()}, function (data) {
                 $("#bg_loading").hide();
+                $("#image_us_res_out").hide();
+                $("#image_gc_res_out").show();
 
                 if (data && data.result === true) {
                     _image.data = data.data;
