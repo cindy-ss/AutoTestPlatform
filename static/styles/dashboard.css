@@ -228,3 +228,8 @@ thead {
     background: rgba(0, 0, 0, 0.2);
     z-index: 999;
 }
+
+#image_gc_res_out td {
+    /*word-wrap: break-word;*/
+    word-break: break-all;
+}

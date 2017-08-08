@@ -119,13 +119,17 @@ const getUSImages = (url, auth, cb) => {
     })
 };
 
-const exportHTML = (content, cb) => {
+const exportHTML = (obj, cb) => {
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
     const fileName = `${title}.html`;
     const exportPath = `./static/data/${fileName}`;
- console.log(content);
-    let finalStr = `
+
+    let finalStr ='';
+
+    switch (obj.type){
+        case 'us':
+            finalStr = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,20 +148,78 @@ const exportHTML = (content, cb) => {
 </head>
 <body class="container-fluid">
     <table class="table table-bordered table-striped table-hover">
-       
-        ${content.map(item => 
-        `<tr><th>US Image</th>`
-        `
+       <table id="usimg" class="table table-striped table-bordered">
+            <thead id="US_header">
+
+            </thead>
+            <tbody>
+            <tr id="USres_Container"></tr>
+            <tr id="USCount"></tr>
+            <tr id="USImageUrl"></tr>
+            </tbody>
+        </table>
+        ${obj.data.map(item =>
+                `<tr><th>US Image</th>
             <tr>
                 <td>${item.data.url}</td>
                 <td>${item.data.total}</td>
-                
             </tr>
         `).join('')}
     </table>
 </body>
 </html>
     `;
+            break;
+        case 'gc':
+            finalStr = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        .red {
+            color : red;
+        }
+        .ext-thumb {
+            width : 60px;
+            height : 60px
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+    <table class="table table-bordered table-striped table-hover">
+    </table>
+</body>
+</html>
+    `;
+            break;
+        default:
+            finalStr = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${title}</title>
+    <style>
+        .red {
+            color : red;
+        }
+        .ext-thumb {
+            width : 60px;
+            height : 60px
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+    <table class="table table-bordered table-striped table-hover">
+    </table>
+</body>
+</html>
+    `;
+    }
 
     fs.writeFileSync(exportPath, finalStr, 'utf-8');
 

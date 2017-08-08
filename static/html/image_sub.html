@@ -1,0 +1,126 @@
+<div>
+    <div class="form-inline">
+        URL:
+        <input type="text" id="url" class="form-control" placeholder="For US URL Only"/>
+        <button type="button" class="btn btn-primary" id="btn_query_us">US Image</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btn_query_gc">GC Compare</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)">CN</a></li>
+                <li><a href="javascript:void(0)">HK</a></li>
+                <li><a href="javascript:void(0)">HKEN</a></li>
+                <li><a href="javascript:void(0)">MO</a></li>
+                <li><a href="javascript:void(0)">TW</a></li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary">Export</button>
+    </div>
+    <br/>
+    <div>
+        <div class="row">
+            <div class="col-md-6" id="image_us_res_out">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                    <tr id="image_us_geo_title">
+                        <td colspan="2">US</td>
+                    </tr>
+                    </thead>
+                    <tbody id="image_us_res">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12" id="image_gc_res_out">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                    <tr id="image_gc_geo_title">
+                        <td>Name</td>
+                        <td colspan="2">US</td>
+                        <td colspan="2">CN</td>
+                        <td colspan="2">HK</td>
+                        <td colspan="2">HKEN</td>
+                        <td colspan="2">TW</td>
+                        <td colspan="2">MO</td>
+                    </tr>
+                    </thead>
+                    <tbody id="image_gc_res">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let _image = {
+        url: $("#url"),
+        data: null,
+        res: $("#res"),
+        res_out: $("#res_out")
+    };
+    $('#btn_query_us').click(() => {
+        if (_image.url.val().length > 5) {
+            _image.res.empty();
+            $("#bg_loading").show();
+            $.post('api/image/getUSImage', {url: _image.url.val()}, function (data) {
+                $("#bg_loading").hide();
+
+                if (data && data.result === true) {
+                    _image.data = data.data;
+
+                    $("#res").html(`
+                                <tr>
+                                    <td class="text-left">${data.data.url}</td>
+                                    <td class="text-left">${data.data.total}</td>
+                                </tr>
+                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}">${item}</a></td></tr>`).join('')}
+                                `);
+                } else {
+                    console.log(data);
+                }
+            })
+        } else {
+            alert('The URL length is too short!')
+        }
+    });
+
+    $('#btn_query_gc').click(() => {
+        if ($("#url").val().length > 5) {
+            _image.res.empty();
+            $("#bg_loading").show();
+            $.post('api/image/compare', {url: $('#url').val()}, function (data) {
+                $("#bg_loading").hide();
+
+                if (data && data.result === true) {
+                    _image.data = data.data;
+                    console.log(data);
+
+                    $("#image_gc_res").html(`${data.data.map(item => `
+                    <tr>
+                                <td>
+                                ${item.name}
+</td>
+${['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => `
+    <td>
+<img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" />
+</td>
+<td>
+<a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a>
+</td>`
+                    ).join('')}
+</tr>
+                    `).join('')}
+                    `);
+                }
+            });
+        } else {
+            alert('The URL length is too short!');
+        }
+    });
+</script>
