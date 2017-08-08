@@ -82,7 +82,9 @@
     $('#btnQuest').click(() => {
         if ($("#urls").val().length > 5) {
             $('#resContainer').html('');
+            $("#bg_loading").show();
             $.post('/api/trans', {urls: $("#urls").val()}, function (data) {
+                $("#bg_loading").hide();
                 if (data) {
                     storedData = data;
                     let str = '';

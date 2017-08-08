@@ -141,11 +141,18 @@ const dealHTML = (content, cb) => {
             width : 60px;
             height : 60px
         }
+        .metaStyle > tr > td > div {
+           width: 200px;
+           height: 150px;
+           list-style:none;
+         word-wrap: break-word
+}
     </style>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
     <table class="table table-bordered table-striped table-hover">
+    <tbody class="metaStyle">
         <tr>
             <th>URL</th>
             <th>Title</th>
@@ -159,20 +166,22 @@ const dealHTML = (content, cb) => {
         </tr>
         ${content.map(item => `
             <tr>
-                <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-                <td>${item.title}</td>
-                <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
-                <td>${item.ogTitle}</td>
-                <td>${item.ogDesc}</td>
-                <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
-                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
-                <td>${item.ogImage.url} </td>
-                <td class="text-center"><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
+                <td><div>${item.title}</div></td>
+                <td${item.desc&&(item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</div></td>
+               
+                <td><div>${item.ogTitle}</div></td>
+                <td${item.ogDesc&&(item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
+                <td class="text-center"><div><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
+                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</div></td>
+                <td><div><a href="${item.ogImage.url}" target="_blank">${item.ogImage.url} </div></td>
+                <td class="text-center"><div><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
                 <br>
-                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
-                <td>${item.wechat.url}</td>
+                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</div></td>
+                <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</div></td>
             </tr>
         `).join('')}
+        </tbody>
     </table>
 </body>
 </html>

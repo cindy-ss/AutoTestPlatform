@@ -124,7 +124,7 @@ const exportHTML = (content, cb) => {
     const title = `report-${exportTime}`;
     const fileName = `${title}.html`;
     const exportPath = `./static/data/${fileName}`;
-
+ console.log(content);
     let finalStr = `
 <!DOCTYPE html>
 <html lang="en">
@@ -144,31 +144,14 @@ const exportHTML = (content, cb) => {
 </head>
 <body class="container-fluid">
     <table class="table table-bordered table-striped table-hover">
-        <tr>
-            <th>URL</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>OG Title</th>
-            <th>OG Description</th>
-            <th>OG Img</th>
-            <th>OG Img URL</th>
-            <th>WeChat Img</th>
-            <th>WeChat URL</th>
-        </tr>
-        ${content.map(item => `
+       
+        ${content.map(item => 
+        `<tr><th>US Image</th>`
+        `
             <tr>
-                <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-                <td>${item.title}</td>
-                <td${item.desc && item.desc.length > 150 ? " class='red'" : ""}>${item.desc}</td>
-                <td>${item.ogTitle}</td>
-                <td>${item.ogDesc}</td>
-                <td class="text-center"><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
-                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</td>
-                <td>${item.ogImage.url} </td>
-                <td class="text-center"><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
-                <br>
-                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</td>
-                <td>${item.wechat.url}</td>
+                <td>${item.data.url}</td>
+                <td>${item.data.total}</td>
+                
             </tr>
         `).join('')}
     </table>
@@ -180,6 +163,7 @@ const exportHTML = (content, cb) => {
 
     cb(null, fileName);
 };
+
 
 exports.compareImageByURL = compareImageByURL;
 exports.getUSImages = getUSImages;

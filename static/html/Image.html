@@ -22,43 +22,8 @@
         <button id="btn_Usquery" class="btn btn-primary">US Counts</button>
         <!--<button id="btn_Quest" class="btn btn-primary">Query</button>-->
         <button id="btn_Clear" class="btn btn-primary">Clear</button>
-
-    </div>
-    <div>
-        <button class="sideIcon">&lt;</button>
-    </div>
-    <div class="col-md-7">
-        <p class="col-md-4">
-            <label>
-                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-                Excel
-            </label>
-            <label>
-                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-                HTML
-            </label>
-        </p>
-        <p class="col-md-2 exbutton">
-            <button id="getExcel" class="btn btn-primary">Export</button>
-
-        </p>
-        <p class="col-md-3 exbutton">
-            <button id="clearres" class="btn btn-primary">Clear Result</button>
-
-        </p>
-        <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th>US Images</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr id="USres_Container"></tr>
-            <tr id="USCount"></tr>
-            <tr id="USImageUrl"></tr>
-            </tbody>
-        </table>
-
+        <br>
+        <br>
         <select class="sel_mask" id="geos" name="geos">
             <option value="">Please Select Geo</option>
             <option value="CN">CN</option>
@@ -68,8 +33,45 @@
             <option value="MO">MO</option>
             <option value="GC">GC Geos</option>
         </select>
-        <button id="btn_Quest" class="btn btn-primary">Query</button>
-        <button id="check" class="btn btn-primary">check</button>
+        <br>
+        <br>
+        <button id="btn_Quest" class="btn btn-primary">Compare Query</button>
+    </div>
+    <div>
+        <button class="sideIcon">&lt;</button>
+    </div>
+    <div class="col-md-7">
+        <p class="col-md-4">
+            <label>
+                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" >
+                Excel
+            </label>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdHTML" value="html" checked>
+                HTML
+            </label>
+        </p>
+        <p class="col-md-2 exbutton">
+            <button id="getExcel" class="btn btn-primary" style="font-size:10px">Export US</button>
+        </p>
+        <p class="col-md-4 exbutton">
+            <button id="getExcelComp" class="btn btn-primary" style="font-size:10px">Export Compare</button>
+        </p>
+        <p class="col-md-2 exbutton">
+            <button id="clearres" class="btn btn-primary" style="font-size:10px">Clear Result</button>
+        </p>
+        <table id="usimg" class="table table-striped table-bordered">
+            <thead id="US_header">
+
+            </thead>
+            <tbody>
+            <tr id="USres_Container"></tr>
+            <tr id="USCount"></tr>
+            <tr id="USImageUrl"></tr>
+            </tbody>
+        </table>
+
+
         <table id="comptable" class="table table-striped table-bordered">
 
             <thead id="res_header">
@@ -92,8 +94,6 @@
 
     //$('#geos option[value=""]').attr('selected', true);
 
-    //    const url_Input = $("#urls_");
-    //const res_Container = $('#res_Container');
     $("#import_Txt").click(() => {
         if ($("#file_Input")[0].files.length >= 1) {
             const file = $("#file_Input")[0].files[0];
@@ -111,13 +111,17 @@
     });
     $('#clearres').click(() => {
         $('#USres_Container').html('');
+        $('#US_header').html('');
         $('#USCount').html('');
         $('#USImageUrl').html('');
-    });
-    $('#check').click(() => {
-        alert($('#geos option:selected').val());
-    });
+        $('#res_header').html('');
+        $('#res_Container').html('');
 
+    });
+//    $('#check').click(() => {
+//        alert($('#geos option:selected').val());
+//    });
+    var usstoredData,storedData;
     $('#btn_Usquery').click(() => {
         if ($("#url").val().length > 5) {
             $('#USres_Container').html('');
@@ -126,11 +130,14 @@
                 $("#bg_loading").hide();
 
                 if (USJson_data.result == true) {
+                    usstoredData = USJson_data.data;
+
                     let str = '';
                     let str1 = '';
                     let str2 = '';
-
-                    console.log(USJson_data);
+                    let str0 = '';
+                    str0 = `<tr><th>US Images</th></tr>`;
+                    //console.log(USJson_data);
                     str += `<td class="text-left" style=" ">${USJson_data.data.url}</td> `;
                     str1 += `<td class="text-left" style=" ">Count：${USJson_data.data.total}</td>`;
                     let ImageUrl = USJson_data.data.list;
@@ -143,6 +150,7 @@
                     });
 
                     $('#USres_Container').html(str);
+                    $('#US_header').html(str0);
                     $('#USCount').html(str1);
                     $('#USImageUrl').html(str2);
                 }
@@ -155,8 +163,11 @@
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
+            $("#bg_loading").show();
             $.post('api/image/compare', {url: $('#url').val()}, function (Json_data) {
+                $("#bg_loading").hide();
                 if (Json_data.result == true) {
+                    storedData = Json_data.data;
                     let str = '';
                     let str0 = '';
                     let data = Json_data.data;
@@ -295,19 +306,32 @@
             console.log("null");
         }
     });
+
     $("#getExcel").click(() => {
-        if ($("#urls_").val().length > 0) {
-            const arr = $("#res_Container").html();
-            $.post('/api/trans2xls', {
-                xls: JSON.stringify(arr),
-                type: document.querySelector("input[name=optionsRadios]:checked").value
-            }, function (data) {
-                $(this).text('../data/${data}');
-
-            })
+        if ($("#url").val().length > 0) {
+            const arr = $("#USres_Containe").text();
+            console.log(usstoredData);
+            $.post(`/api/image/export/${document.querySelector("input[name=optionsRadios]:checked").value}`, {
+                    data: JSON.stringify(usstoredData)
+                },
+                (data) => {
+                    $.fileDownload(`/api/files/${data}`);
+                })
         }
-
     });
+    $("#getExcelComp").click(() => {
+        if ($("#url").val().length > 0) {
+            const arr = $("#res_Containe").text();
+            console.log(storedData);
+            $.post(`/api/image/export/${document.querySelector("input[name=optionsRadios]:checked").value}`, {
+                    data: JSON.stringify(storedData)
+                },
+                (data) => {
+                    $.fileDownload(`/api/files/${data}`);
+                })
+        }
+    });
+
     $(".sideIcon").click(() => {
         if ($(".trans-side").hasClass("navslid-hide")) {
             $(".trans-side").addClass("navslid-show");
