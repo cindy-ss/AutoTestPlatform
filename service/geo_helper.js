@@ -69,15 +69,24 @@ const getGEO = str => {
     return res;
 };
 
-const us2geoByUrl = (str) => {
+const us2geoByUrl = (str, geo) => {
     let res = [];
-    for(let item of GEO_PROP){
+    if(geo && geo !== 'gc'){
         let obj = {
-            geo : item,
-            prefix : GEO_OBJ[item],
-            url : str.replace('apple.com/', `apple.com${GEO_OBJ[item]}`)
+            geo : geo,
+            prefix : GEO_OBJ[geo],
+            url : str.replace('apple.com/', `apple.com${GEO_OBJ[geo]}`)
         };
         res.push(obj);
+    }else{
+        for(let item of GEO_PROP){
+            let obj = {
+                geo : item,
+                prefix : GEO_OBJ[item],
+                url : str.replace('apple.com/', `apple.com${GEO_OBJ[item]}`)
+            };
+            res.push(obj);
+        }
     }
     return res;
 };

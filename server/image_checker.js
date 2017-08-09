@@ -10,8 +10,8 @@ const ic = require('../service/image-checker'),
     q = require('../service/query'),
     adapter = require('../service/adapter');
 
-const compareImageByURL = (url, auth, cb) => {
-    const arr = gh.us2geoByUrl(url);
+const compareImageByURL = (url, geo, auth, cb) => {
+    const arr = gh.us2geoByUrl(url, geo);
 
     let midObj = {
         'CN': [],

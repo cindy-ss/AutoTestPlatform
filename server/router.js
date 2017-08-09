@@ -121,11 +121,11 @@ router.route('/image/getUSImage')
         }
     });
 
-router.route('/image/compare')
+router.route('/image/compare/:geo')
     .post((req, res) => {
         const url = req.body.url;
         if (url) {
-            ic.compareImageByURL(url, req.session.od, (err, data) => {
+            ic.compareImageByURL(url, req.params.geo, req.session.od, (err, data) => {
                 if (!err) {
                     console.log("1111");
                     console.log(data);

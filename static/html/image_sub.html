@@ -11,11 +11,11 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu">
-                <li><a href="javascript:void(0)">CN</a></li>
-                <li><a href="javascript:void(0)">HK</a></li>
-                <li><a href="javascript:void(0)">HKEN</a></li>
-                <li><a href="javascript:void(0)">MO</a></li>
-                <li><a href="javascript:void(0)">TW</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_cn">CN</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_hktc">HK</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_hken">HKEN</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_mo">MO</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_tw">TW</a></li>
             </ul>
         </div>
         <button type="button" class="btn btn-primary">Export</button>
@@ -46,12 +46,12 @@
                         <!--<td colspan="2">HKEN</td>-->
                         <!--<td colspan="2">TW</td>-->
                         <!--<td colspan="2">MO</td>-->
-                        <td>US</td>
-                        <td>CN</td>
-                        <td>HK</td>
-                        <td>HKEN</td>
-                        <td>TW</td>
-                        <td>MO</td>
+                        <td id="image_td_us_title">US</td>
+                        <td id="image_td_cn_title">CN</td>
+                        <td id="image_td_hktc_title">HK</td>
+                        <td id="image_td_hken_title">HKEN</td>
+                        <td id="image_td_tw_title">TW</td>
+                        <td id="image_td_mo_title">MO</td>
                     </tr>
                     </thead>
                     <tbody id="image_gc_res">
@@ -103,10 +103,34 @@
     });
 
     $('#btn_query_gc').click(() => {
+        get_compare_data('gc');
+    });
+
+    $('#btn_query_cn').click(() => {
+        get_compare_data('cn');
+    });
+
+    $('#btn_query_hktc').click(() => {
+        get_compare_data('hktc');
+    });
+
+    $('#btn_query_hken').click(() => {
+        get_compare_data('hken');
+    });
+
+    $('#btn_query_mo').click(() => {
+        get_compare_data('mo');
+    });
+
+    $('#btn_query_tw').click(() => {
+        get_compare_data('tw');
+    });
+
+    var get_compare_data = (geo) => {
         if ($("#url").val().length > 5) {
             _image.res.empty();
             $("#bg_loading").show();
-            $.post('api/image/compare', {url: $('#url').val()}, function (data) {
+            $.post(`api/image/compare/${geo}`, {url: $('#url').val()}, function (data) {
                 $("#bg_loading").hide();
                 $("#image_us_res_out").hide();
                 $("#image_gc_res_out").show();
@@ -115,18 +139,36 @@
                     _image.data = data.data;
                     console.log(data);
 
+                    let arr = ['US'];
+
+                    if(geo === 'gc'){
+                        arr = ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO']
+                    }else{
+                        arr.push(geo.toUpperCase());
+                    }
+
+                    console.log(arr);
+
+                    ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].forEach(item => {
+                        $(`#image_td_${item.toLowerCase()}_title`).hide();
+                    });
+
+                    arr.forEach(item => {
+                        $(`#image_td_${item.toLowerCase()}_title`).show();
+                    });
+
                     let str = "";
 
                     data.data.map(item => {
                         str += `<tr><td rowspan="2">${item.name}</td>`;
 
-                        ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => {
+                        arr.map(geo => {
                             str += `<td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
                         });
 
                         str += `</tr><tr>`;
 
-                        ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => {
+                        arr.map(geo => {
                             str += `<td><a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a></td>`;
                         });
 
@@ -139,5 +181,5 @@
         } else {
             alert('The URL length is too short!');
         }
-    });
+    };
 </script>
