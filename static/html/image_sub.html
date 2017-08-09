@@ -18,7 +18,7 @@
                 <li><a href="javascript:void(0)" id="btn_query_tw">TW</a></li>
             </ul>
         </div>
-        <button type="button" class="btn btn-primary">Export</button>
+        <button type="button" class="btn btn-primary" id="btn_image_export">Export</button>
     </div>
     <br/>
     <div>
@@ -40,12 +40,6 @@
                     <thead class="text-center">
                     <tr id="image_gc_geo_title">
                         <td>Name</td>
-                        <!--<td colspan="2">US</td>-->
-                        <!--<td colspan="2">CN</td>-->
-                        <!--<td colspan="2">HK</td>-->
-                        <!--<td colspan="2">HKEN</td>-->
-                        <!--<td colspan="2">TW</td>-->
-                        <!--<td colspan="2">MO</td>-->
                         <td id="image_td_us_title">US</td>
                         <td id="image_td_cn_title">CN</td>
                         <td id="image_td_hktc_title">HK</td>
@@ -68,12 +62,14 @@
         url: $("#url"),
         data: null,
         res: $("#res"),
-        res_out: $("#res_out")
+        res_out: $("#res_out"),
+        type: ''
     };
     $("#image_us_res_out").hide();
     $("#image_gc_res_out").hide();
     $('#btn_query_us').click(() => {
         if (_image.url.val().length > 5) {
+            _image.type = 'us';
             _image.res.empty();
             $("#bg_loading").show();
             $.post('api/image/getUSImage', {url: _image.url.val()}, function (data) {
@@ -141,9 +137,11 @@
 
                     let arr = ['US'];
 
-                    if(geo === 'gc'){
+                    if (geo === 'gc') {
+                        _image.type = 'gc';
                         arr = ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO']
-                    }else{
+                    } else {
+                        _image.type = geo;
                         arr.push(geo.toUpperCase());
                     }
 
@@ -182,4 +180,13 @@
             alert('The URL length is too short!');
         }
     };
+
+    $("#btn_image_export").click(() => {
+        $.post(`/api/image/export/${_image.type}`, {
+                data: JSON.stringify(_image.data)
+            },
+            (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
+    });
 </script>

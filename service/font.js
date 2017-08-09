@@ -20,7 +20,7 @@ const getAvailableFontType = () => {
     return metrics;
 };
 
-const init = () => {
+const init = (cb) => {
     basic.log('[ √ ] : Start font checking.');
     let rawConf = fs.readFileSync('./font/conf.json', 'utf-8');
     let conf = JSON.parse(rawConf);
@@ -49,6 +49,7 @@ const init = () => {
         }
     }, err => {
         basic.log('[ √ ] : Font files checked.');
+        cb();
     });
 
     let textSched = later.parse.recur().every(1).dayOfMonth();
@@ -136,5 +137,6 @@ const checkByUrl = (url, auth, option, cb) => {
 
 exports.init = init;
 exports.check = check;
+exports.fetch = fetch;
 exports.checkByUrl = checkByUrl;
 exports.getAvailableFontType = getAvailableFontType;

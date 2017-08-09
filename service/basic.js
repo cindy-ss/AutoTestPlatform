@@ -20,9 +20,11 @@ exports.init = (cb) => {
 
     this.conf = JSON.parse(fs.readFileSync('./server/conf.json', "utf-8"));
 
-    font.init();
+    font.init(() => {
+        cb();
+    });
 
-    cb();
+
 };
 
 exports.log = function (obj) {

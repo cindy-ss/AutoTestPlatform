@@ -3,7 +3,8 @@
  */
 
 const async = require('async'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 const ic = require('../service/image-checker'),
     gh = require('../service/geo_helper'),
@@ -125,9 +126,9 @@ const exportHTML = (obj, cb) => {
     const fileName = `${title}.html`;
     const exportPath = `./static/data/${fileName}`;
 
-    let finalStr ='';
+    let finalStr = '';
 
-    switch (obj.type){
+    switch (obj.type) {
         case 'us':
             finalStr = `
 <!DOCTYPE html>
@@ -136,39 +137,33 @@ const exportHTML = (obj, cb) => {
     <meta charset="UTF-8">
     <title>${title}</title>
     <style>
-        .red {
-            color : red;
-        }
         .ext-thumb {
-            width : 60px;
-            height : 60px
+            max-width : 60px;
+            max-height : 60px
         }
     </style>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
-    <table class="table table-bordered table-striped table-hover">
-       <table id="usimg" class="table table-striped table-bordered">
-            <thead id="US_header">
-
-            </thead>
-            <tbody>
-            <tr id="USres_Container"></tr>
-            <tr id="USCount"></tr>
-            <tr id="USImageUrl"></tr>
-            </tbody>
-        </table>
-        ${obj.data.map(item =>
-                `<tr><th>US Image</th>
-            <tr>
-                <td>${item.data.url}</td>
-                <td>${item.data.total}</td>
-            </tr>
+    <table class="table table-bordered">
+        <thead class="text-center">
+        <tr id="image_us_geo_title">
+            <td colspan="2">US</td>
+        </tr>
+        </thead>
+        <tbody id="image_us_res">
+        <tr>
+            <td class="text-left">${obj.data.url}</td>
+            <td class="text-left">${obj.data.total}</td>
+        </tr>
+        ${obj.data.list.map(item => `
+        <tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}">${item}</a></td></tr>
         `).join('')}
-    </table>
-</body>
-</html>
-    `;
+                </tbody>
+            </table>
+        </body>
+        </html>
+`;
             break;
         case 'gc':
             finalStr = `
@@ -178,18 +173,42 @@ const exportHTML = (obj, cb) => {
     <meta charset="UTF-8">
     <title>${title}</title>
     <style>
-        .red {
-            color : red;
-        }
         .ext-thumb {
-            width : 60px;
-            height : 60px
+            max-width : 60px;
+            max-height : 60px
+        }
+        table td {
+            word-break: break-all;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
+        <thead class="text-center">
+        <tr>
+            <td>Name</td>
+            <td id="image_td_us_title">US</td>
+            <td id="image_td_cn_title">CN</td>
+            <td id="image_td_hktc_title">HK</td>
+            <td id="image_td_hken_title">HKEN</td>
+            <td id="image_td_tw_title">TW</td>
+            <td id="image_td_mo_title">MO</td>
+        </tr>
+        </thead>
+        <tbody>
+        ${obj.data.map(item => `
+            <tr><td rowspan="2">${item.name}</td>
+            ${['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => `
+                <td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>
+            `).join('')}
+            </tr><tr>
+            ${['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => `
+                <td><a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a></td>
+            `).join('')}
+            </tr>
+        `).join('')}
+        </tbody>
     </table>
 </body>
 </html>
@@ -203,22 +222,42 @@ const exportHTML = (obj, cb) => {
     <meta charset="UTF-8">
     <title>${title}</title>
     <style>
-        .red {
-            color : red;
-        }
         .ext-thumb {
-            width : 60px;
-            height : 60px
+            max-width : 60px;
+            max-height : 60px
+        }
+        table td {
+            word-break: break-all;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered">
+        <thead class="text-center">
+        <tr>
+            <td>Name</td>
+            <td>US</td>
+            <td>${obj.type}</td>
+        </tr>
+        </thead>
+        <tbody id="image_gc_res">
+        ${obj.data.map(item => `
+            <tr><td rowspan="2">${item.name}</td>
+            ${['US', obj.type.toUpperCase()].map(geo => `
+                <td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>
+            `).join('')}
+            </tr><tr>
+            ${['US', obj.type.toUpperCase()].map(geo => `
+                <td><a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a></td>
+            `).join('')}
+            </tr>
+        `).join('')}
+        </tbody>
     </table>
 </body>
 </html>
-    `;
+`;
     }
 
     fs.writeFileSync(exportPath, finalStr, 'utf-8');
