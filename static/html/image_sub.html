@@ -40,12 +40,18 @@
                     <thead class="text-center">
                     <tr id="image_gc_geo_title">
                         <td>Name</td>
-                        <td colspan="2">US</td>
-                        <td colspan="2">CN</td>
-                        <td colspan="2">HK</td>
-                        <td colspan="2">HKEN</td>
-                        <td colspan="2">TW</td>
-                        <td colspan="2">MO</td>
+                        <!--<td colspan="2">US</td>-->
+                        <!--<td colspan="2">CN</td>-->
+                        <!--<td colspan="2">HK</td>-->
+                        <!--<td colspan="2">HKEN</td>-->
+                        <!--<td colspan="2">TW</td>-->
+                        <!--<td colspan="2">MO</td>-->
+                        <td>US</td>
+                        <td>CN</td>
+                        <td>HK</td>
+                        <td>HKEN</td>
+                        <td>TW</td>
+                        <td>MO</td>
                     </tr>
                     </thead>
                     <tbody id="image_gc_res">
@@ -75,10 +81,12 @@
                 $("#image_us_res_out").show();
                 $("#image_gc_res_out").hide();
 
+                console.log(data);
+
                 if (data && data.result === true) {
                     _image.data = data.data;
 
-                    $("#res").html(`
+                    $("#image_us_res").html(`
                                 <tr>
                                     <td class="text-left">${data.data.url}</td>
                                     <td class="text-left">${data.data.total}</td>
@@ -107,22 +115,25 @@
                     _image.data = data.data;
                     console.log(data);
 
-                    $("#image_gc_res").html(`${data.data.map(item => `
-                    <tr>
-                                <td>
-                                ${item.name}
-</td>
-${['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => `
-    <td>
-<img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" />
-</td>
-<td>
-<a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a>
-</td>`
-                    ).join('')}
-</tr>
-                    `).join('')}
-                    `);
+                    let str = "";
+
+                    data.data.map(item => {
+                        str += `<tr><td rowspan="2">${item.name}</td>`;
+
+                        ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => {
+                            str += `<td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
+                        });
+
+                        str += `</tr><tr>`;
+
+                        ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].map(geo => {
+                            str += `<td><a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a></td>`;
+                        });
+
+                        str += `</tr>`;
+                    });
+
+                    $("#image_gc_res").html(str);
                 }
             });
         } else {
