@@ -2,6 +2,9 @@
  * Created by edel.ma on 8/7/17.
  */
 
+
+const excel = require('json2excel');
+
 const dealExcel = (headers, content, cb) => {
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
