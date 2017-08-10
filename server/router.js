@@ -185,7 +185,6 @@ router.route('/image/export/:type')
     });
 
 router.route('/video')
-    // .use(validUrl)
     .post((req, res) => {
         video.getVideo(req.body.url, req.session.od, (err, data) => {
             if (!err) {
