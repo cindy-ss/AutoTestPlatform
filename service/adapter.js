@@ -50,7 +50,10 @@ const bgHandler = (content, url, cb) => {
                 const filterArr = (basic.conf['image-checker'] || {})['filterRegs'] || [];
 
                 let filter = (basic.conf['image-checker'] || {})['filter'] || [];
-                if (filter.indexOf(path.basename(tempUrl)) === -1  && util.filter(path.basename(tempUrl), filterArr)) {
+
+                let filterPathArr = (basic.conf['image-checker'] || {})['filterPathRegs'] || [];
+
+                if (filter.indexOf(path.basename(tempUrl)) === -1  && util.filter(path.basename(tempUrl), filterArr) && util.filter(tempUrl, filterPathArr)) {
                     res.push(URL.resolve(url, tempUrl));
                 }else{
                     console.log(`we popped a url : ${tempUrl}`);

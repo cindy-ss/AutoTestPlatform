@@ -1,6 +1,6 @@
 {
-  "image-checker" : {
-    "filter" : [
+  "image-checker": {
+    "filter": [
       "iphone7_large.svg",
       "iphone7_large.png",
       "iphone6s_large.svg",
@@ -26,14 +26,16 @@
       "iphone_comp_dark_large.svg",
       "iphone_comp_dark_large.png"
     ],
-    "filterRegs" : [
+    "filterRegs": [
       "icon",
-      "logo",
+      "logo"
+    ],
+    "filterPathRegs": [
       "ac/flags/"
     ]
   },
-  "css-checker" : {
-    "filterRegs" : [
+  "css-checker": {
+    "filterRegs": [
       "ac-globalnav.built.css",
       "ac-globalfooter.built.css",
       "ac-localnav.built.css",
