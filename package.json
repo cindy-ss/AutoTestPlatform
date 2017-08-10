@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/edel-ma/lab#readme",
   "dependencies": {
+    "archiver": "^2.0.0",
     "async": "^2.5.0",
     "body-parser": "^1.17.2",
     "bootstrap": "^3.3.7",

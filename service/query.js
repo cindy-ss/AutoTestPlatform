@@ -97,6 +97,29 @@ const pngQuery = (url, cb, auth, opt) => {
     });
 };
 
+const downQuery = (url, target, cb, auth) => {
+    let options = {encoding: null};
+
+    if (url.indexOf('http://ic') !== -1 || url.indexOf('https://ic') !== -1) {
+        const headers = getHeaders(url);
+        options = getOptions(headers, auth);
+    }
+
+    try {
+        fs.statSync(path.dirname(target))
+    }
+    catch (e) {
+        fs.mkdirSync(path.dirname(target))
+    }
+
+    request(url, options).pipe(fs.createWriteStream(target)).on('close', data => {
+        cb(null);
+    }).on('error', err => {
+        cb(err);
+    });
+};
+
 exports.query = query;
 exports.bareQuery = bareQuery;
 exports.pngQuery = pngQuery;
+exports.downQuery = downQuery;

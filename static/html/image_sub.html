@@ -19,6 +19,7 @@
             </ul>
         </div>
         <button type="button" class="btn btn-primary" id="btn_image_export">Export</button>
+        <button type="button" class="btn btn-primary" id="btn_image_download">Download</button>
     </div>
     <br/>
     <div>
@@ -188,5 +189,17 @@
             (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })
+    });
+
+    $("#btn_image_download").click(() => {
+        if (_image.type === 'us') {
+            $.post(`/api/image/download`, {
+                    data: JSON.stringify(_image.data)
+                },
+                (data) => {
+                    $.fileDownload(`/api/files/tmp/${data}`);
+                })
+        }
+
     });
 </script>
