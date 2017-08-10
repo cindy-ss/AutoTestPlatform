@@ -6,7 +6,7 @@ const font = require('./font');
 
 const fs = require('fs');
 
-const dirList = ['./static/data/'];
+const dirList = ['./static/data/', './tmp/'];
 
 exports.init = (cb) => {
     dirList.forEach(url => {
