@@ -28,7 +28,8 @@
     ],
     "filterRegs" : [
       "icon",
-      "logo"
+      "logo",
+      "ac/flags/"
     ]
   },
   "css-checker" : {
