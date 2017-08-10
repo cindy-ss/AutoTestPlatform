@@ -7,7 +7,20 @@ const router = express.Router();
 
 const trans = require('./trans'),
     ic = require('./image_checker'),
-    font = require('./font');
+    font = require('./font'),
+    video = require('./video');
+
+const validUrl = (req, res, next) => {
+    const url = req.body.url;
+    if (url) {
+        next();
+    } else {
+        res.json({
+            result: false,
+            message: 'No URL Provided'
+        })
+    }
+};
 
 router.use((req, res, next) => {
     if ((req.session.od && req.session.od !== {}) || req.path === '/init') {
@@ -168,6 +181,25 @@ router.route('/image/export/:type')
         };
         ic.exportHTML(obj, (err, exPath) => {
             res.end(exPath.toString());
+        });
+    });
+
+router.route('/video')
+    .use(validUrl)
+    .post((req, res) => {
+        video.getVideo(req.body.url, req.session.od, (err, data) => {
+            if (!err) {
+                console.log(data);
+                res.json({
+                    result: true,
+                    data: data
+                })
+            } else {
+                res.json({
+                    result: false,
+                    message: err
+                })
+            }
         });
     });
 
