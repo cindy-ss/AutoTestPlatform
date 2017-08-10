@@ -143,8 +143,7 @@ const dealHTML = (content, cb) => {
         }
         .metaStyle > tr > td > div {
            width: 200px;
-           height: 150px;
-           list-style:none;
+           height: 200px;
          word-wrap: break-word
 }
     </style>

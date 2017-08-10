@@ -210,10 +210,10 @@ thead {
     word-wrap: break-word
 }
 
-.metaStyle > tr > td > ul li {
+.metaStyle > tr > td > div {
     /*border-bottom:1px solid #ccc;*/
     width: 200px;
-    height: 150px;
+    height: 200px;
     /*overflow: auto;*/
     word-wrap: break-word
 }

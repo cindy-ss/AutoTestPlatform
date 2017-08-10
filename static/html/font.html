@@ -45,15 +45,12 @@
             <thead>
             <tr>
                 <th>URL</th>
-                <th>Geos</th>
-
             </tr>
             </thead>
             <tbody>
             <tr id="res_Container"></tr>
-            <th>Missing words</th>
-            <!--<tr id="Words"><td><ul id="Misword"></ul></td></tr>-->
-            <td><ul id="Misword"></ul></td>
+
+            <th><ul id="Misword"></ul></th>
             </tbody>
         </table>
     </div>
@@ -101,8 +98,8 @@
                     $.each(data, function (n, value) {
                         str += `
                                <td class="text-left" style=" ">${value.url} </td>
-                               <td class="text-left" style=" ">CN</td>`
 
+                               `
 
                         let FontURL = value.data;
 
@@ -110,7 +107,7 @@
                             console.log(FontURL[key]);
                             $.each(FontURL[key], function (n, val) {
 
-                            str1 += ` <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li>`
+                            str1 += `<td> <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li></td>`
 
 
                             });

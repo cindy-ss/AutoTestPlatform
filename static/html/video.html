@@ -84,10 +84,10 @@
 
                     $("#image_us_res").html(`
                                 <tr>
-                                    <td class="text-left" >${data.data.url}</td>
+                                    <td class="text-left">${data.data.url}</td>
                                     <td class="text-left">${data.data.total}</td>
                                 </tr>
-                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}" target="_blank">${item}</a></td></tr>`).join('')}
+                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}">${item}</a></td></tr>`).join('')}
                                 `);
                 } else {
                     console.log(data);
