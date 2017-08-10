@@ -51,7 +51,7 @@ const getFilterCssArr = (url, cb, auth) => {
                             callback(null, memo.concat(arr));
                         } else {
                             console.log(item.url);
-                            callback(err);
+                            callback(null, memo);
                         }
                     })
                 }, auth)
