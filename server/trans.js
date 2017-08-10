@@ -112,7 +112,8 @@ const fetchTrans = (url, auth, cb) => {
     }, auth);
 };
 
-const runTask = (urlArr, auth, cb) => {
+const runTask = (urlStr, auth, cb) => {
+    let urlArr = urlStr.split('\n');
     async.map(urlArr, (item, callback) => {
         fetchTrans(item, auth, callback)
     }, (err, res) => {

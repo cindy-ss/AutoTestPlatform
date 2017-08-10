@@ -19,8 +19,8 @@ const getImagesByURL = (url, auth, cb, filter) => {
                                     if (!err) {
                                         callback(null, memo.concat(arr));
                                     } else {
-                                        console.log(item.url);
-                                        callback(err);
+                                        console.log(`[ X ] : We encountered an error while dealing with ${item.url}`);
+                                        callback(null, memo);
                                     }
                                 })
                             }, auth)

@@ -10,8 +10,14 @@ const trans = require('./trans'),
     font = require('./font');
 
 router.use((req, res, next) => {
-    console.log(`[ * ] : ${req.session.od ? (req.session.od.odUser || 'Anonymous') : 'Anonymous'} is querying for ${req.path}`);
-    next();
+    if ((req.session.od && req.session.od !== {}) || req.path === '/init') {
+        console.log(`[ * ] : ${req.session.od ? (req.session.od.odUser || 'Anonymous') : 'Anonymous'} is querying for ${req.path}`);
+
+        next();
+    } else {
+        console.log(`[ * ] : ${req.session.od ? (req.session.od.odUser || 'Anonymous') : 'Anonymous'} is rejected for querying ${req.path}`);
+        res.sendStatus(403);
+    }
 });
 
 router.route('/init')
@@ -20,9 +26,15 @@ router.route('/init')
             req.session.od = {
                 odUser: req.body.odUser,
                 odPass: req.body.odPass
-            }
+            };
+            res.json(req.session.od);
+        } else {
+            res.json({
+                result: false,
+                message: 'Username & Password should provided in pair.'
+            })
         }
-        res.json(req.session.od);
+
     })
     .get((req, res) => {
         if (!req.session.od) {
@@ -33,7 +45,7 @@ router.route('/init')
 
 router.route('/trans')
     .post((req, res) => {
-        trans.runTask(req.body.urls.split('\n'), req.session.od, data => {
+        trans.runTask(req.body.urls, req.session.od, data => {
             res.json(data);
         });
     });
