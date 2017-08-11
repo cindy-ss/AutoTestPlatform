@@ -91,7 +91,11 @@ const pngQuery = (url, cb, auth, opt) => {
         options = getOptions(headers, auth);
     }
 
-    const fileName = new Date().getTime() + path.extname(url);
+    let pureUrl = URL.parse(url);
+    pureUrl.search = '';
+    pureUrl.hash = '';
+    pureUrl = URL.format(pureUrl);
+    const fileName = new Date().getTime() + path.extname(pureUrl);
     request(url, options).pipe(fs.createWriteStream(`./static/data/${fileName}`)).on('close', data => {
         cb(fileName);
     });

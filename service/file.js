@@ -22,7 +22,7 @@ const getImageSizeByUrl = (url, cb, auth) => {
                     fs.unlinkSync(`./static/data/${fileName}`);
 
                     cb(err, obj);
-                });
+                }, auth);
             }
         }else{
             console.log(`\t[ X ] : Fetching image - '${url}' - failed. code is ${data.statusCode || '000'}`);
