@@ -5,7 +5,6 @@
 const cheerio = require('cheerio'),
     async = require('async'),
     fs = require('fs'),
-    excel = require('json2excel'),
     URL = require('url'),
     path = require('path');
 
@@ -113,9 +112,13 @@ const fetchTrans = (url, auth, cb) => {
 const runTask = (urlStr, auth, cb) => {
     let urlArr = urlStr.split('\n');
     async.map(urlArr, (item, callback) => {
-        fetchTrans(item, auth, callback)
+        fetchTrans(item, auth, (err, data) => {
+            if(err){
+                console.log(`\t[ X ] : Doing meta check failed on ${item}`);
+            }
+            callback(null, data);
+        })
     }, (err, res) => {
-        console.log(err);
         cb(res);
     });
 };
