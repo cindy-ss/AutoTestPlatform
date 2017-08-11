@@ -30,8 +30,15 @@ const fetchTrans = (url, auth, cb) => {
             let desc = $("meta[name='Description']").attr('content');
             let ogDesc = $("meta[property='og:description']").attr('content');
             let ogTitle = $("meta[property='og:title']").attr('content');
-            let ogImage = $("meta[property='og:image']").attr('content');
+            let ogImagestr = $("meta[property='og:image']").attr('content');
             let title = $("title").text();
+
+            let p = URL.parse(ogImagestr);
+            let ogpath=p.path;
+            const ogImage = URL.resolve(url, ogpath);
+            console.log(ogImage);
+
+
 
             let obj = {
                 url,

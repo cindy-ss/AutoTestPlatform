@@ -18,10 +18,33 @@
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
             <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
         </p>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btn_font_gc">Select Geo</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
 
-        <button id="btn_Quest" class="btn btn-primary">Query</button>
-        <button id="btn_Clear" class="btn btn-primary">Clear</button>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" id="btn_font_cn">CN</a></li>
+                <li><a href="javascript:void(0)" id="btn_font_hktc">HK</a></li>
+                <li><a href="javascript:void(0)" id="btn_font_hken">HKEN</a></li>
+                <li><a href="javascript:void(0)" id="btn_font_mo">MO</a></li>
+                <li><a href="javascript:void(0)" id="btn_font_tw">TW</a></li>
+            </ul>
+            <button type="button" class="btn btn-primary" id="btn_font_server">Select Server</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" id="btn_font_uat">UAT</a></li>
+                <li><a href="javascript:void(0)" id="btn_font_www">WWW</a></li>
+            </ul>
 
+            <button id="btn_Quest" class="btn btn-primary">Query</button>
+            <button id="btn_Clear" class="btn btn-primary">Clear</button>
+        </div>
     </div>
     <div>
         <button class="sideIcon">&lt;</button>
@@ -50,7 +73,9 @@
             <tbody>
             <tr id="res_Container"></tr>
 
-            <th><ul id="Misword"></ul></th>
+            <th>
+                <ul id="Misword"></ul>
+            </th>
             </tbody>
         </table>
     </div>
@@ -107,7 +132,7 @@
                             console.log(FontURL[key]);
                             $.each(FontURL[key], function (n, val) {
 
-                            str1 += `<td> <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li></td>`
+                                str1 += `<td> <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li></td>`
 
 
                             });
@@ -116,10 +141,10 @@
 
 
                         $('#res_Container').html(str);
-                        if (str1==""){
+                        if (str1 == "") {
                             $('#Misword').html("No missing words!");
-                        }else{
-                        $('#Misword').html(str1);
+                        } else {
+                            $('#Misword').html(str1);
                         }
                     })
                 }

@@ -2,7 +2,7 @@
     <div class="form-inline">
         URL:
         <input type="text" id="url" class="form-control" placeholder="For US URL Only"/>
-        <button type="button" class="btn btn-primary" id="btn_query_us">US Image</button>
+        <button type="button" class="btn btn-primary" id="btn_query_us">US Video</button>
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="btn_query_gc">GC Compare</button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
@@ -19,6 +19,7 @@
             </ul>
         </div>
         <button type="button" class="btn btn-primary" id="btn_image_export">Export</button>
+        <button type="button" class="btn btn-primary" id="btn_image_download">Download</button>
     </div>
     <br/>
     <div>
@@ -72,7 +73,7 @@
             _image.type = 'us';
             _image.res.empty();
             $("#bg_loading").show();
-            $.post('api/image/getUSImage', {url: _image.url.val()}, function (data) {
+            $.post('api/video', {url: _image.url.val()}, function (data) {
                 $("#bg_loading").hide();
                 $("#image_us_res_out").show();
                 $("#image_gc_res_out").hide();
@@ -84,10 +85,10 @@
 
                     $("#image_us_res").html(`
                                 <tr>
-                                    <td class="text-left">${data.data.url}</td>
+                                    <td class="text-left" >${data.data.url}</td>
                                     <td class="text-left">${data.data.total}</td>
                                 </tr>
-                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}">${item}</a></td></tr>`).join('')}
+                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}" target="_blank">${item}</a></td></tr>`).join('')}
                                 `);
                 } else {
                     console.log(data);
@@ -188,5 +189,17 @@
             (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })
+    });
+
+    $("#btn_image_download").click(() => {
+        if (_image.type === 'us') {
+            $.post(`/api/image/download`, {
+                    data: JSON.stringify(_image.data)
+                },
+                (data) => {
+                    $.fileDownload(`/api/files/tmp/${data}`);
+                })
+        }
+
     });
 </script>
