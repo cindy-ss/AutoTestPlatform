@@ -56,9 +56,6 @@ const fetchTrans = (url, auth, cb) => {
                         if (!err) {
                             if (res) {
                                 const wechat_url = URL.resolve(url, res);
-                                console.log(wechat_url);
-                                console.log(url);
-                                console.log(res);
 
                                 file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
                                     if (!err) {
@@ -85,7 +82,6 @@ const fetchTrans = (url, auth, cb) => {
                     }, auth)
                 }
             ], function (err, results) {
-                console.log(`parallel finish ${err}`);
                 if (!err) {
                     if (results) {
                         obj.wechat = {
@@ -96,10 +92,12 @@ const fetchTrans = (url, auth, cb) => {
                     }
                     cb(err, obj);
                 } else {
+                    console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
                     cb(err, obj);
                 }
             });
         } else {
+            console.log(`\t[ X ] : Querying data from ${url} failed, with an error of ${err.message}`);
             let obj = {
                 url,
                 desc: "Bad Link",

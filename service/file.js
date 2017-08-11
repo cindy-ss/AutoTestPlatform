@@ -15,6 +15,7 @@ const getImageSizeByUrl = (url, cb, auth) => {
                 obj = sizeOf(res);
                 cb(err, obj);
             } else {
+                console.log(`\t[ X ] : image - '${url}' - not a buffer, start downloading.`);
                 query.pngQuery(url, (fileName) => {
                     obj = sizeOf(`./static/data/${fileName}`);
 
@@ -23,6 +24,9 @@ const getImageSizeByUrl = (url, cb, auth) => {
                     cb(err, obj);
                 });
             }
+        }else{
+            console.log(`\t[ X ] : Fetching image - '${url}' - failed. code is ${data.statusCode || '000'}`);
+            cb(err, obj);
         }
 
 
