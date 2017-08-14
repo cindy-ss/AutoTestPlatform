@@ -18,30 +18,19 @@
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
             <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
         </p>
-        <div class="btn-group">
-            <button type="button" class="btn btn-primary" id="btn_font_gc">Select Geo</button>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="caret"></span>
 
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="javascript:void(0)" id="btn_font_cn">CN</a></li>
-                <li><a href="javascript:void(0)" id="btn_font_hktc">HK</a></li>
-                <li><a href="javascript:void(0)" id="btn_font_hken">HKEN</a></li>
-                <li><a href="javascript:void(0)" id="btn_font_mo">MO</a></li>
-                <li><a href="javascript:void(0)" id="btn_font_tw">TW</a></li>
-            </ul>
-            <button type="button" class="btn btn-primary" id="btn_font_server">Select Server</button>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li><a href="javascript:void(0)" id="btn_font_uat">UAT</a></li>
-                <li><a href="javascript:void(0)" id="btn_font_www">WWW</a></li>
-            </ul>
-
+        <div class="dropdown">
+            <select  id="geoid" >
+                <option value="cn" selected>CN</option>
+                <option value="hk">HK</option>
+                <option value="hken">HKEN</option>
+                <option value="tw">TW</option>
+                <option value="mo">MO</option>
+            </select>
+            <select id="server" >
+                <option value="cn" selected>WWW</option>
+                <option value="hk">UAT</option>
+            </select>
             <button id="btn_Quest" class="btn btn-primary">Query</button>
             <button id="btn_Clear" class="btn btn-primary">Clear</button>
         </div>
@@ -88,6 +77,7 @@
 <!--<script src="../../node_modules/jquery/dist/jquery.js"></script>-->
 <script>
 
+
     //$('#geos option[value=""]').attr('selected', true);
 
     //    const url_Input = $("#urls_");
@@ -113,7 +103,10 @@
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
             const arr = [$('#url').val()].join('`');
-            $.post('api/font/url', {urls: arr, option: undefined}, function (Json_data) {
+           let geoname= $("#geoid").find("option:selected").text();
+           let servername=$("#server").find("option:selected").text();
+
+            $.post('api/font/url', {urls: arr, option : {geo:geoname, server:servername}}, function (Json_data) {
                 console.log(Json_data);
                 if (Json_data.result == true) {
                     let str = '';
