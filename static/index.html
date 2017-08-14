@@ -13,15 +13,22 @@
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid col-md-12">
-        <div class="col-md-2">
+    <div class="container-fluid">
+        <div>
             <a class="navbar-brand" href="#">QA Test Platform</a>
         </div>
-        <div class="col-md-9" id="sidebar"></div>
-        <div class="col-md-1">
-            <button type="button" class="btn btn-default" id="btnUserName">
-                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span id="userName"></span>
-            </button>
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav" id="sidebar">
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <button type="button" class="btn btn-default" id="btnUserName">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span> <span id="userName"></span>
+                    </button>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
