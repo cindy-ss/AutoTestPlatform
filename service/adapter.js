@@ -53,9 +53,9 @@ const bgHandler = (content, url, cb) => {
 
                 let filterPathArr = (basic.conf['image-checker'] || {})['filterPathRegs'] || [];
 
-                if (filter.indexOf(path.basename(tempUrl)) === -1  && util.filter(path.basename(tempUrl), filterArr) && util.filter(tempUrl, filterPathArr)) {
+                if (filter.indexOf(path.basename(tempUrl)) === -1 && util.filter(path.basename(tempUrl), filterArr) && util.filter(tempUrl, filterPathArr)) {
                     res.push(URL.resolve(url, tempUrl));
-                }else{
+                } else {
                     console.log(`we popped a url : ${tempUrl}`);
                 }
             });
@@ -68,103 +68,129 @@ const bgHandler = (content, url, cb) => {
 
 const imageHandler = (content, cb) => {
     let res = [];
-    const $ = cheerio.load(content);
+    try {
+        const $ = cheerio.load(content);
 
-    const arr = $("img");
+        const arr = $("img");
 
-    arr.each((i, item) => {
-        if (item.attribs && item.attribs.src) {
-            let tempUrl = item.attribs.src;
-            res.push({
-                tag: 'img',
-                url: tempUrl
-            });
-        }
-    });
+        arr.each((i, item) => {
+            if (item.attribs && item.attribs.src) {
+                let tempUrl = item.attribs.src;
+                res.push({
+                    tag: 'img',
+                    url: tempUrl
+                });
+            }
+        });
 
-    cb(null, res);
+        cb(null, res);
+    }
+    catch (e) {
+        cb(e, res);
+    }
+
+
 };
 
 const cssHandler = (content, url, cb, filter) => {
     filter = filter || [];
     let res = [];
-    const $ = cheerio.load(content);
+    try {
+        const $ = cheerio.load(content);
 
-    const arr = $("link[rel='stylesheet']");
+        const arr = $("link[rel='stylesheet']");
 
-    arr.each((i, item) => {
-        if (item.attribs && item.attribs.href) {
-            let tempUrl = item.attribs.href;
+        arr.each((i, item) => {
+            if (item.attribs && item.attribs.href) {
+                let tempUrl = item.attribs.href;
 
-            const filterArr = (basic.conf['css-checker'] || {})['filterRegs'] || [];
+                const filterArr = (basic.conf['css-checker'] || {})['filterRegs'] || [];
 
-            if (util.filter(tempUrl, filterArr)) {
-                const tempResolvedUrl = URL.resolve(url, tempUrl);
-                if (filter.indexOf(tempResolvedUrl) === -1) {
-                    res.push({
-                        tag: 'css',
-                        url: tempResolvedUrl
-                    });
+                if (util.filter(tempUrl, filterArr)) {
+                    const tempResolvedUrl = URL.resolve(url, tempUrl);
+                    if (filter.indexOf(tempResolvedUrl) === -1) {
+                        res.push({
+                            tag: 'css',
+                            url: tempResolvedUrl
+                        });
+                    }
                 }
             }
-        }
-    });
+        });
+        cb(null, res);
+    }
+    catch (e) {
+        cb(e, res);
+    }
 
-    cb(null, res);
+
 };
 
 const fontHandler = (content, cb) => {
     let res = [];
-    const $ = cheerio.load(content);
+    try {
+        const $ = cheerio.load(content);
 
-    const arr = $("video");
+        const arr = $("video");
 
-    arr.each((i, item) => {
-        console.log(item);
-    });
+        arr.each((i, item) => {
+            console.log(item);
+        });
+        cb(null, res);
+    }
+    catch (e) {
+        cb(e, res);
+    }
 
-    cb(null, res);
+
 };
 
 const wechatHandler = (content, cb) => {
-    const $ = cheerio.load(content);
+    try {
+        const $ = cheerio.load(content);
 
-    const div = $('body > div');
+        const div = $('body > div');
 
-    let url = null;
+        let url = null;
 
-    if (div && div.css('display') === 'none') {
-        const img_wechat = $('body > div > img')[0];
-        const img_first = $('img')[0];
+        if (div && div.css('display') === 'none') {
+            const img_wechat = $('body > div > img')[0];
+            const img_first = $('img')[0];
 
-        if (
-            img_wechat && img_wechat.attribs
-            &&
-            img_first && img_first.attribs
-            &&
-            img_wechat.attribs.src === img_first.attribs.src
-        ) {
-            url = img_wechat.attribs.src;
+            if (
+                img_wechat && img_wechat.attribs
+                &&
+                img_first && img_first.attribs
+                &&
+                img_wechat.attribs.src === img_first.attribs.src
+            ) {
+                url = img_wechat.attribs.src;
+            }
         }
+        cb(null, url);
+    } catch (e) {
+        cb(e, null);
     }
 
-    cb(null, url);
+
 };
 
 const linkHandler = (content, cb) => {
-    const $ = cheerio.load(content);
-    const linkArr = $("a");
-
     let res = [];
+    try {
+        const $ = cheerio.load(content);
+        const linkArr = $("a");
 
-    linkArr.each(function (i, item) {
-        if (item.attribs && item.attribs.href) {
-            let tempUrl = item.attribs.href;
-            res.push(tempUrl);
-        }
-    });
-
-    cb(null, res);
+        linkArr.each(function (i, item) {
+            if (item.attribs && item.attribs.href) {
+                let tempUrl = item.attribs.href;
+                res.push(tempUrl);
+            }
+        });
+        cb(null, res);
+    } catch (e) {
+        cb(e, res);
+    }
 };
 
 exports.videoHandler = videoHandler;

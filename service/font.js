@@ -128,10 +128,14 @@ const check = (data, option) => {
 
 const checkByUrl = (url, auth, option, cb) => {
     q.query(url, (err, data) => {
-        const $ = cheerio.load(data);
-        const text = $("body").text();
-
-        cb(err, check(text, option));
+        try {
+            const $ = cheerio.load(data);
+            const text = $("body").text();
+            cb(err, check(text, option));
+        }
+        catch (e) {
+            cb(e);
+        }
     }, auth)
 };
 
