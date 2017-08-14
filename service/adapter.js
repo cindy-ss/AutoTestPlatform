@@ -30,7 +30,7 @@ const videoHandler = (content, cb) => {
 const mp4Handler = (content, cb) => {
     let res = [];
 
-    let matched = content.match(/[a-z0-9A-Z_\:\/\.\-]*\.mp4/g);
+    let matched = content.match(/[a-z0-9A-Z_\:\/\.\-]*\.mp4/g) || [];
 
     matched.forEach(item => {
         res.push(item);
