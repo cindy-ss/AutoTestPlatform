@@ -16,17 +16,11 @@
         <p>(eg:https://www.apple.com/cn/iphone)</p>
         <p>
             <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
-            <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
+            <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL" size="50"/>
         </p>
 
         <div class="dropdown">
-            <select  id="geoid" >
-                <option value="cn" selected>CN</option>
-                <option value="hk">HK</option>
-                <option value="hken">HKEN</option>
-                <option value="tw">TW</option>
-                <option value="mo">MO</option>
-            </select>
+
             <select id="server" >
                 <option value="cn" selected>WWW</option>
                 <option value="hk">UAT</option>
@@ -103,10 +97,10 @@
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
             const arr = [$('#url').val()].join('`');
-           let geoname= $("#geoid").find("option:selected").text();
+           //let geoname= $("#geoid").find("option:selected").text();
            let servername=$("#server").find("option:selected").text();
            let _option = JSON.stringify({
-               geo:geoname,
+
                server:servername
            });
            console.log(_option);
@@ -130,7 +124,7 @@
                             console.log(FontURL[key]);
                             $.each(FontURL[key], function (n, val) {
 
-                                str1 += `<td> <li class="text-center">Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}</li></td>`
+                                str1 += `<td> <li>Code:${FontURL[key][n].code},Word:${FontURL[key][n].word}<br></li></td>`
 
 
                             });
