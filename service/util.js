@@ -2,7 +2,9 @@
  * Created by edel.ma on 8/1/17.
  */
 
-const fs = require("fs");
+const fs = require("fs"),
+    path = require("path"),
+    URL = require("url");
 
 const filter = (str, arr) => {
     let flag = true;
@@ -30,5 +32,20 @@ const deleteFolder = path => {
     }
 };
 
+const urlNormalize = url => {
+    if (!path.parse(url).ext) {
+        if (url.charAt(url.length - 1) !== "/") {
+            url += '/';
+        }
+    }
+
+    if (!URL.parse(url).protocol) {
+        url = 'https://' + url;
+    }
+
+    return url;
+};
+
 exports.filter = filter;
 exports.deleteFolder = deleteFolder;
+exports.urlNormalize = urlNormalize;

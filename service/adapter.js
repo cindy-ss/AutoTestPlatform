@@ -151,6 +151,22 @@ const wechatHandler = (content, cb) => {
     cb(null, url);
 };
 
+const linkHandler = (content, cb) => {
+    const $ = cheerio.load(content);
+    const linkArr = $("a");
+
+    let res = [];
+
+    linkArr.each(function (i, item) {
+        if (item.attribs && item.attribs.href) {
+            let tempUrl = item.attribs.href;
+            res.push(tempUrl);
+        }
+    });
+
+    cb(null, res);
+};
+
 exports.videoHandler = videoHandler;
 exports.imageHandler = imageHandler;
 exports.fontHandler = fontHandler;
@@ -158,3 +174,4 @@ exports.mp4Handler = mp4Handler;
 exports.wechatHandler = wechatHandler;
 exports.bgHandler = bgHandler;
 exports.cssHandler = cssHandler;
+exports.linkHandler = linkHandler;

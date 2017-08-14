@@ -233,3 +233,8 @@ thead {
     /*word-wrap: break-word;*/
     word-break: break-all;
 }
+
+.ext-video {
+    max-width: 300px;
+    max-height: 300px;
+}

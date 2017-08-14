@@ -1,11 +1,23 @@
 const adapter = require('../service/adapter'),
-    q = require('../service/query');
+    q = require('../service/query'),
+util = require("../service/util");
+
+const URL = require('url');
 
 const getVideo = (url, auth, cb) => {
+    url = util.urlNormalize(url);
     q.query(url, (err, res) => {
         if(!err){
-            adapter.videoHandler(res, (err, data) => {
-                cb(err, data);
+            adapter.mp4Handler(res, (err, data) => {
+                let res = {
+                    url,
+                    total : data.length,
+                    list : []
+                };
+                data.forEach(item => {
+                    res.list.push(URL.resolve(url, item));
+                });
+                cb(err, res);
             });
         }else{
             cb(err, []);
