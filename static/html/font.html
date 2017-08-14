@@ -105,8 +105,13 @@
             const arr = [$('#url').val()].join('`');
            let geoname= $("#geoid").find("option:selected").text();
            let servername=$("#server").find("option:selected").text();
+           let _option = JSON.stringify({
+               geo:geoname,
+               server:servername
+           });
+           console.log(_option);
 
-            $.post('api/font/url', {urls: arr, option : {geo:geoname, server:servername}}, function (Json_data) {
+            $.post('api/font/url', {urls: arr, option : _option}, function (Json_data) {
                 console.log(Json_data);
                 if (Json_data.result == true) {
                     let str = '';

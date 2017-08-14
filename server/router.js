@@ -78,7 +78,7 @@ router.route('/trans/export/:type')
 router.route('/font/url')
     .post((req, res) => {
         const urls = req.body.urls.split('`');
-        const options = req.body.option;
+        const options = JSON.parse(req.body.option || {}) || {};
         if (urls) {
             font.checkByUrl(urls, req.session.od, options, (err, data) => {
                 if (!err) {
