@@ -20,16 +20,15 @@
         </p>
 
         <div class="dropdown">
-            <select  id="geoid" >
-                <option value="cn" selected>CN</option>
-                <option value="hk">HK</option>
-                <option value="hken">HKEN</option>
-                <option value="tw">TW</option>
-                <option value="mo">MO</option>
+            <select id="typeId">
+                <option value="all" selected>ALL</option>
+                <option value="woff">WOFF</option>
+                <option value="woff2">WOFF2</option>
             </select>
-            <select id="server" >
-                <option value="cn" selected>WWW</option>
-                <option value="hk">UAT</option>
+            <select id="server">
+                <option value="all">ALL</option>
+                <option value="WWW" selected>WWW</option>
+                <option value="UAT">UAT</option>
             </select>
             <button id="btn_Quest" class="btn btn-primary">Query</button>
             <button id="btn_Clear" class="btn btn-primary">Clear</button>
@@ -69,19 +68,7 @@
         </table>
     </div>
 </div>
-</div>
-</div>
-</div>
-
-<!--<script src="../../node_modules/vue/dist/vue.js"></script>-->
-<!--<script src="../../node_modules/jquery/dist/jquery.js"></script>-->
 <script>
-
-
-    //$('#geos option[value=""]').attr('selected', true);
-
-    //    const url_Input = $("#urls_");
-    //const res_Container = $('#res_Container');
     $("#import_Txt").click(() => {
         if ($("#file_Input")[0].files.length >= 1) {
             const file = $("#file_Input")[0].files[0];
@@ -102,18 +89,23 @@
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
-            const arr = [$('#url').val()].join('`');
-           let geoname= $("#geoid").find("option:selected").text();
-           let servername=$("#server").find("option:selected").text();
-           let _option = JSON.stringify({
-               geo:geoname,
-               server:servername
-           });
-           console.log(_option);
+            const url = $('#url').val();
+            let queryObj = {};
+            let typeName = $("#typeId").find("option:selected").val();
+            let serverName = $("#server").find("option:selected").val();
 
-            $.post('api/font/url', {urls: arr, option : _option}, function (Json_data) {
+            if (typeName !== 'all') {
+                queryObj['type'] = typeName;
+            }
+            if (serverName !== 'all') {
+                queryObj['server'] = serverName;
+            }
+
+            let _option = JSON.stringify(queryObj);
+
+            $.post('api/font/url', {urls: url, option: _option}, function (Json_data) {
                 console.log(Json_data);
-                if (Json_data.result == true) {
+                if (Json_data.result === true) {
                     let str = '';
                     let str1 = '';
 
