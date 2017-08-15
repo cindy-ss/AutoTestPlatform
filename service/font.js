@@ -104,6 +104,8 @@ const check = (data, option) => {
         srcArr = metrics;
     }
 
+    console.log(srcArr);
+
     srcArr.forEach(item => {
         res[item.name] = [];
         let tempArr = res[item.name];

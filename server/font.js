@@ -2,31 +2,21 @@
  * Created by edel.ma on 7/28/17.
  */
 
-const async = require('async');
-
 const font = require('../service/font'),
     gh = require('../service/geo_helper');
 
-exports.checkByUrl = (urls, auth, option, cb) => {
-    let res = [];
-    async.each(urls, (item, callback) => {
-        let geo = gh.getGEO(item);
-        if(geo === 'MO'){
-            geo = 'TW';
-        }
-        option = option || {};
-        option['geo'] = (option['geo'] || geo).toLowerCase();
-        font.checkByUrl(item, auth, option, (err, data) => {
-            if (!err) {
-                res.push({
-                    url: item,
-                    data: data
-                });
-            }
-            callback(err);
+exports.checkByUrl = (url, auth, option, cb) => {
+    let geo = gh.getGEO(url);
+    if (geo === 'MO') {
+        geo = 'TW';
+    }
+    option = option || {};
+    option['geo'] = (option['geo'] || geo).toLowerCase();
+    font.checkByUrl(url, auth, option, (err, data) => {
+        cb(err, {
+            url: url,
+            data: data
         });
-    }, err => {
-        cb(err, res);
     });
 };
 

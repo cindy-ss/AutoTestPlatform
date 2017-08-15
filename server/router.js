@@ -77,7 +77,7 @@ router.route('/trans/export/:type')
 
 router.route('/font/url')
     .post((req, res) => {
-        const urls = req.body.urls.split('`');
+        const urls = req.body.urls;
         const options = JSON.parse(req.body.option || {}) || {};
         if (urls) {
             font.checkByUrl(urls, req.session.od, options, (err, data) => {
@@ -87,9 +87,10 @@ router.route('/font/url')
                         data: data
                     })
                 } else {
+                    console.log(`[ X ] : query from ${req.session.od.odUser} error, msg ; ${err}`);
                     res.json({
                         result: false,
-                        message: 'Err'
+                        message: err.message
                     })
                 }
             })
