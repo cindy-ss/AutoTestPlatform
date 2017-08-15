@@ -31,7 +31,9 @@
       "logo"
     ],
     "filterPathRegs": [
-      "ac/flags/"
+      "ac/flags/",
+      "ac/ac-films/4/assets/ac-video/"
+
     ]
   },
   "css-checker": {

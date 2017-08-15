@@ -238,3 +238,5 @@ thead {
     max-width: 300px;
     max-height: 300px;
 }
+
+#loading{z-index:1;padding:5px 0 5px 9px; background:#c44;left:0;top:0;width:90px; color:#fff;position:fixed}
