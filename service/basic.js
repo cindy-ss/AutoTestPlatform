@@ -23,8 +23,6 @@ exports.init = (cb) => {
     font.init(() => {
         cb();
     });
-
-
 };
 
 exports.log = function (obj) {
