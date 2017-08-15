@@ -9,7 +9,8 @@ const trans = require('./trans'),
     ic = require('./image_checker'),
     font = require('./font'),
     video = require('./video'),
-    down = require('../service/downloader');
+    down = require('../service/downloader'),
+    link = require('./link');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -191,14 +192,14 @@ router.route('/image/download')
             down.downZip(obj && obj.list, req.session.od, (err, filePath) => {
                 if (!err) {
                     res.end(filePath.toString());
-                }else{
+                } else {
                     res.json({
                         result: false,
                         message: err
                     })
                 }
             });
-        }else{
+        } else {
             res.json({
                 result: false,
                 message: 'No URL Provided'
@@ -211,6 +212,32 @@ router.route('/video')
         const url = req.body.url;
         if (url) {
             video.getVideo(req.body.url, req.session.od, (err, data) => {
+                if (!err) {
+                    console.log(data);
+                    res.json({
+                        result: true,
+                        data: data
+                    })
+                } else {
+                    res.json({
+                        result: false,
+                        message: err
+                    })
+                }
+            });
+        } else {
+            res.json({
+                result: false,
+                message: 'No URL Provided'
+            })
+        }
+    });
+
+router.route('/link')
+    .post((req, res) => {
+        const url = req.body.url;
+        if (url) {
+            link.getLinks(req.body.url, req.session.od, (err, data) => {
                 if (!err) {
                     console.log(data);
                     res.json({

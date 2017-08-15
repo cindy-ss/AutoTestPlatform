@@ -4,7 +4,7 @@
 
 const GEO = ['/cn/', '/hk/en/', '/hk/', '/mo/', '/tw/'];
 
-const GEO_PROP = ['cn', 'hktc', 'hken', 'mo', 'tw'];
+const GEO_PROP = ['cn', 'hken', 'hktc', 'mo', 'tw'];
 
 const GEO_OBJ = {
     'cn' : '/cn/',
@@ -50,11 +50,17 @@ const geo2us = str => {
     return res;
 };
 
-const isGEO = (str) => {
+const isGEO = (str, geo) => {
     let flag = false;
-    for(let item of GEO){
-        flag = flag || str.indexOf(item) !== -1;
+
+    if(geo){
+        flag = str.indexOf(GEO_OBJ[geo.toLowerCase()]) !== -1;
+    }else{
+        for(let item of GEO){
+            flag = flag || str.indexOf(item) !== -1;
+        }
     }
+
     return flag;
 };
 

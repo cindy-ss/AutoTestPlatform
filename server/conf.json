@@ -41,5 +41,20 @@
       "ac-localnav.built.css",
       "fonts?"
     ]
+  },
+  "link-checker": {
+    "filter": [
+      "www.icloud.com1"
+    ],
+    "deformity": [
+      "locate.apple.com",
+      "www.miibeian.gov.cn",
+      "support.apple.com",
+      "www.apple.com/jobs"
+    ],
+    "hostDiff" : [
+      "itunes.apple.com",
+      "appleid.apple.com"
+    ]
   }
 }
