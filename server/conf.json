@@ -96,10 +96,6 @@
       "/shop":{
         "hktc":"/hk-zh/shop",
         "hken":"/hk/shop"
-      },
-      "itunes.apple.com":{
-        "hktc":"/hk/app/",
-        "hken":"/hk/app/"
       }
     },
     "hostDiff" : [
@@ -109,7 +105,7 @@
     "filterRegs":[
       "www.icloud.com",
       "www.appstore.com",
-      "www.apple.com/iphone/LTE",
+      "apple.com/iphone/LTE",
       "www.apple.com/choose-your-country",
       ".pdf"
     ]

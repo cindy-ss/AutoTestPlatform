@@ -1,51 +1,63 @@
 <h2 class="page-header">Meta Checker</h2>
-
-<div class="row">
-    <div class="col-md-3">
+<div id="trans" class="row">
+    <div class="col-md-4 navslid trans-side navslid-show">
         <p>
             URL Import(.txt only)
         </p>
-
-        <input class="form-control" type="file" id="fileInput">
-        <span class="input-group-btn">
+        <div class="input-group">
+            <input class="form-control" type="file" id="fileInput">
+            <span class="input-group-btn">
              <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
               </span>
+        </div>
 
-    </div>
-    <div class="col-md-4">
-        <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
-
-        <textarea rows="5" id="urls" class="form-control"></textarea>
-
+        <p>URL Input</p>
+        <p>(eg:https://www.apple.com/cn/iphone)</p>
+        <p>
+            <textarea rows="5" id="urls" class="form-control"></textarea>
+        </p>
 
         <button id="btnQuest" class="btn btn-primary">Query</button>
         <button id="btnClear" class="btn btn-primary">Clear</button>
     </div>
-
-
-    <p class="col-md-2">
-        <label>
-            <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-            Excel
-        </label>
-        <label>
-            <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-            HTML
-        </label>
-    </p>
-
-        <button id="btnExport" class="btn btn-primary">Export</button>
-
+    <div>
+        <button class="sideIcon">&lt;</button>
+    </div>
+    <div class="col-md-7 showValue">
+        <p class="col-md-4">
+            <label>
+                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
+                Excel
+            </label>
+            <label>
+                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
+                HTML
+            </label>
+        </p>
+        <p class="col-md-4 exbutton">
+            <button id="btnExport" class="btn btn-primary">Export</button>
+        </p>
+    </div>
+    <div class="col-md-7 showValue">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>URL</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>OG Title</th>
+                <th>OG Description</th>
+                <th>OG Img</th>
+                <th>OG Img URL</th>
+                <th>WeChat Img</th>
+                <th>WeChat URL</th>
+            </tr>
+            </thead>
+            <tbody id="resContainer" class="metaStyle">
+            </tbody>
+        </table>
+    </div>
 </div>
-<div class="col-md-7 showValue">
-    <table class="table table-striped table-bordered">
-        <thead>
-        </thead>
-        <tbody id="resContainer" class="metaStyle">
-        </tbody>
-    </table>
-</div>
-
 
 <script>
     //const fileInput = $("#fileInput");
@@ -75,29 +87,18 @@
                 $("#bg_loading").hide();
                 if (data) {
                     storedData = data;
-                    let str = ``;
-                    str += `<tr>
-                <th>URL</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>OG Title</th>
-                <th>OG Description</th>
-                <th>OG Img</th>
-                <th>OG Img URL</th>
-                <th>WeChat Img</th>
-                <th>WeChat URL</th>
-            </tr>`
+                    let str = '';
                     data.forEach((item, index) => {
                         str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
                                     <td><div>${item.title}</li></div>
 
-                                    <td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</li></div>
+                                    <td${item.desc&&(item.desc.length > 150||item.desc.length<100) ? " class='red'" : ""}><div>${item.desc}</li></div>
 
                                     <td><div>${item.ogTitle}</li></div>
 
-                                    <td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
+                                    <td${item.ogDesc&&(item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
 
                                     <td class="text-center"><div><img src="${item.ogImage ? item.ogImage.url : ''}" alt="ogImage" class="ext-thumb"><br>
                                      Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''}</div></td>
@@ -128,6 +129,19 @@
                     $.fileDownload(`/api/files/${data}`);
                 })
         }
-    });
+    })
+    $(".sideIcon").click(()=> {
+        if ($(".trans-side").hasClass("navslid-hide")) {
+            $(".trans-side").addClass("navslid-show");
+            $(".trans-side").removeClass("navslid-hide");
 
+        }
+        else if ($(".trans-side").hasClass("navslid-show")) {
+            $(".trans-side").addClass("navslid-hide");
+            $(".trans-side").removeClass("navslid-show");
+        }
+        else {
+            $(".trans-side").addClass("navslid-hide");
+        }
+    });
 </script>
