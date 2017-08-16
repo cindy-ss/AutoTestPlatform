@@ -51,11 +51,13 @@
   },
   "link-checker": {
     "filter": [
+      "https://applemusic.com/carpoolkaraoke"
+
     ],
     "deformity": {
       "locate.apple.com" : {
         "cn" : "cn/zh",
-        "hktc" : "hk-zh",
+        "hktc" : "hk/zh",
         "hken" : "",
         "tw" : "",
         "mo" : ""
@@ -69,26 +71,35 @@
       },
       "support.apple.com" : {
         "cn" : "zh-cp",
-        "hktc" : "hk-zh",
+        "hktc" : "zh-hk",
         "hken" : "",
         "tw" : "",
         "mo" : ""
       },
       "www.apple.com/jobs" : {
         "cn" : "jobs/cn",
-        "hktc" : "hk-zh",
+        "hktc" : "jobs/hk",
         "hken" : "",
         "tw" : "",
         "mo" : ""
       },
-      " /shop/goto":{
-        "hktc":"/hk-zh/shop",
-        "hken":"/hk/shop"
+      "/shop/goto" : {
+        "hktc" : "/hk-zh/shop",
+        "hken": "/hk/shop"
 
       },
-      "/search":{
-        "hktc":"/hk-zh/search",
-        "hken":"/hk/search"
+      "/search" : {
+        "hktc" : "/hk-zh/search",
+        "hken" : "/hk/search"
+
+      },
+      "/shop":{
+        "hktc":"/hk-zh/shop",
+        "hken":"/hk/shop"
+      },
+      "itunes.apple.com":{
+        "hktc":"/hk/app/",
+        "hken":"/hk/app/"
 
       }
     },
