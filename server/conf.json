@@ -55,31 +55,41 @@
     "deformity": {
       "locate.apple.com" : {
         "cn" : "cn/zh",
-        "hktc" : "",
+        "hktc" : "hk-zh",
         "hken" : "",
         "tw" : "",
         "mo" : ""
       },
       "www.miibeian.gov.cn" : {
         "cn" : "www.miibeian.gov.cn",
-        "hktc" : "",
+        "hktc" : "hk-zh",
         "hken" : "",
         "tw" : "",
         "mo" : ""
       },
       "support.apple.com" : {
         "cn" : "zh-cp",
-        "hktc" : "",
+        "hktc" : "hk-zh",
         "hken" : "",
         "tw" : "",
         "mo" : ""
       },
       "www.apple.com/jobs" : {
         "cn" : "jobs/cn",
-        "hktc" : "",
+        "hktc" : "hk-zh",
         "hken" : "",
         "tw" : "",
         "mo" : ""
+      },
+      " /shop/goto":{
+        "hktc":"/hk-zh/shop",
+        "hken":"/hk/shop"
+
+      },
+      "/search":{
+        "hktc":"/hk-zh/search",
+        "hken":"/hk/search"
+
       }
     },
     "hostDiff" : [
@@ -90,7 +100,8 @@
       "www.icloud.com",
       "www.appstore.com",
       "www.apple.com/iphone/LTE",
-      "www.apple.com/choose-your-country"
+      "www.apple.com/choose-your-country",
+      ".pdf"
     ]
   }
 }
