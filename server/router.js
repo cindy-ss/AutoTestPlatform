@@ -239,7 +239,6 @@ router.route('/link')
         if (url) {
             link.getLinks(req.body.url, req.session.od, (err, data) => {
                 if (!err) {
-                    console.log(data);
                     res.json({
                         result: true,
                         data: data
@@ -247,7 +246,7 @@ router.route('/link')
                 } else {
                     res.json({
                         result: false,
-                        message: err
+                        message: 'Something went wrong'
                     })
                 }
             });

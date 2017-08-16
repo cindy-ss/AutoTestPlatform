@@ -42,16 +42,45 @@ const judgeUrl = (origin, url, geo) => {
 
     const conf = basic.conf['link-checker'] || {};
     const filter = conf['filter'] || [];
-    const deformity = conf['deformity'] || [];
+    const filterRegs = conf['filterRegs'] || [];
+    const deformity = conf['deformity'] || {};
+    let deformityList = [];
+    for(let d in deformity){
+        if (deformity.hasOwnProperty(d)) {
+            deformityList.push(d);
+        }
+    }
     const hostDiff = conf['hostDiff'] || [];
+    let tempDeformity = deformityList.find(item => {return tempUrl.indexOf(item) !== -1});
 
-    if (!util.filter(host, filter)) {
+    if(filter.indexOf(tempUrl) !== -1){
+
         obj.type = 'blacklist';
         obj.status = 'omit';
-    } else if (!util.filter(host, deformity)) {
-        obj.type = 'deformity';
+
+    }else if (!util.filter(tempUrl, filterRegs)) {
+
+        obj.type = 'blacklist';
         obj.status = 'omit';
+
+    } else if (tempDeformity) {
+
+        obj.type = 'deformity';
+        if(deformity[tempDeformity][geo.toLowerCase()]){
+            let regStr = deformity[tempDeformity][geo.toLowerCase()];
+
+            if(tempUrl.indexOf(regStr) !== -1){
+                obj.status = 'pass';
+            }else{
+                obj.status = 'failed';
+                obj.message = `No GEO String ${regStr} Required for ${url}`;
+            }
+        }else{
+            obj.status = 'omit';
+        }
+
     } else if (!util.filter(host, hostDiff)) {
+
         obj.type = 'hostDiff';
         if (gh.isGEO(tempUrl, geo)) {
             obj.status = 'pass';
@@ -59,7 +88,9 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'failed';
             obj.message = `No GEO string ${geo} Required for ${url}`;
         }
+
     } else {
+
         obj.type = 'normal';
         if (gh.isGEO(tempUrl, geo)) {
             obj.status = 'pass';
@@ -67,6 +98,11 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'failed';
             obj.message = `No GEO string ${geo} Required for ${url}`;
         }
+
+    }
+
+    if(obj.type !== 'normal'){
+        console.log(obj);
     }
 
     return obj;

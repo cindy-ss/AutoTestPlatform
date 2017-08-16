@@ -16,6 +16,16 @@ const filter = (str, arr) => {
     return flag;
 };
 
+const filterVersa = (str, arr) => {
+    let flag = true;
+
+    flag = arr.reduce((memo, item) => {
+        return memo && item.indexOf(str) === -1;
+    }, flag);
+
+    return flag;
+};
+
 const deleteFolder = path => {
     let files = [];
     if (fs.existsSync(path)) {
@@ -47,5 +57,6 @@ const urlNormalize = url => {
 };
 
 exports.filter = filter;
+exports.filterVersa = filterVersa;
 exports.deleteFolder = deleteFolder;
 exports.urlNormalize = urlNormalize;

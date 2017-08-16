@@ -51,24 +51,46 @@
   },
   "link-checker": {
     "filter": [
-      "https://www.icloud.com/"
-
-
     ],
-    "deformity": [
-      "locate.apple.com",
-      "www.miibeian.gov.cn",
-      "support.apple.com",
-      "www.apple.com/jobs"
-    ],
+    "deformity": {
+      "locate.apple.com" : {
+        "cn" : "cn/zh",
+        "hktc" : "",
+        "hken" : "",
+        "tw" : "",
+        "mo" : ""
+      },
+      "www.miibeian.gov.cn" : {
+        "cn" : "www.miibeian.gov.cn",
+        "hktc" : "",
+        "hken" : "",
+        "tw" : "",
+        "mo" : ""
+      },
+      "support.apple.com" : {
+        "cn" : "zh-cp",
+        "hktc" : "",
+        "hken" : "",
+        "tw" : "",
+        "mo" : ""
+      },
+      "www.apple.com/jobs" : {
+        "cn" : "jobs/cn",
+        "hktc" : "",
+        "hken" : "",
+        "tw" : "",
+        "mo" : ""
+      }
+    },
     "hostDiff" : [
       "itunes.apple.com",
       "appleid.apple.com"
     ],
     "filterRegs":[
-      "www.apple.com/choose-your-country/",
-      "www.apple.com/iphone/LTE/",
-      "www.appstore.com/"
+      "www.icloud.com",
+      "www.appstore.com",
+      "www.apple.com/iphone/LTE",
+      "www.apple.com/choose-your-country"
     ]
   }
 }
