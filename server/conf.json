@@ -51,7 +51,9 @@
   },
   "link-checker": {
     "filter": [
-      "www.icloud.com"
+      "https://www.icloud.com/"
+
+
     ],
     "deformity": [
       "locate.apple.com",
@@ -62,6 +64,11 @@
     "hostDiff" : [
       "itunes.apple.com",
       "appleid.apple.com"
+    ],
+    "filterRegs":[
+      "www.apple.com/choose-your-country/",
+      "www.apple.com/iphone/LTE/",
+      "www.appstore.com/"
     ]
   }
 }
