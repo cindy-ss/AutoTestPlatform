@@ -96,6 +96,11 @@
       "/shop":{
         "hktc":"/hk-zh/shop",
         "hken":"/hk/shop"
+      },
+      "itunes.apple.com":{
+        "hktc":"/hk/app/",
+        "hken":"/hk/app/"
+
       }
     },
     "hostDiff" : [

@@ -73,7 +73,7 @@ const judgeUrl = (origin, url, geo) => {
                 obj.status = 'pass';
             }else{
                 obj.status = 'failed';
-                obj.message = `No GEO String ${regStr} Required for ${url}`;
+                obj.message = `No GEO String ,${regStr} Required for ${url}`;
             }
         }else{
             obj.status = 'omit';
@@ -86,7 +86,7 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string ${geo} Required for ${url}`;
+            obj.message = `No GEO string ,${geo} Required for ${url}`;
         }
 
     } else {
@@ -96,7 +96,7 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string ${geo} Required for ${url}`;
+            obj.message = `No GEO string , ${geo} Required for ${url}`;
         }
 
     }
