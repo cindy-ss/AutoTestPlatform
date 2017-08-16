@@ -3,7 +3,9 @@ const q = require('./query'),
     async = require("async"),
     path = require("path"),
     fs = require("fs"),
-    util = require("./util");
+    util = require("./util"),
+    makeDir = require('make-dir'),
+    URL = require('url');
 
 const MAX_LIMIT = 5;
 
@@ -17,8 +19,9 @@ const downZip = (src, auth, cb) => {
     let t = new Date().getTime();
     let arr = [];
     async.eachLimit(src, MAX_LIMIT, (url, callback) => {
-        down(url, `./tmp/${t}/${path.basename(url)}`, auth, err => {
-            arr.push(`./tmp/${t}/${path.basename(url)}`);
+        makeDir.sync(`./tmp/${t}${URL.parse(url).pathname.replace(path.basename(url), '')}`);
+        down(url, `./tmp/${t}${URL.parse(url).pathname}`, auth, err => {
+            arr.push(`./tmp/${t}${URL.parse(url).pathname}`);
             callback(err);
         })
     }, err => {
