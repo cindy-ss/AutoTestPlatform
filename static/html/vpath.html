@@ -1,0 +1,207 @@
+<div>
+    <div class="form-inline">
+        URL:
+        <input type="text" id="url" class="form-control" placeholder="For US URL Only" size="50"/>
+        <button type="button" class="btn btn-primary" id="btn_query_us">V path</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btn_query_gc">GC Compare</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0)" id="btn_query_cn">CN</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_hktc">HK</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_hken">HKEN</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_mo">MO</a></li>
+                <li><a href="javascript:void(0)" id="btn_query_tw">TW</a></li>
+            </ul>
+        </div>
+        <button type="button" class="btn btn-primary" id="btn_image_export">Export</button>
+        <button type="button" class="btn btn-primary" id="btn_image_download">Download</button>
+    </div>
+    <br/>
+    <div>
+        <div class="row">
+            <div class="col-md-6" id="image_us_res_out">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                    <tr id="image_us_geo_title">
+                        <td colspan="2">US</td>
+                    </tr>
+                    </thead>
+                    <tbody id="image_us_res">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-12" id="image_gc_res_out">
+                <table class="table table-bordered">
+                    <thead class="text-center">
+                    <tr id="image_gc_geo_title">
+                        <td>Name</td>
+                        <td id="image_td_us_title">US</td>
+                        <td id="image_td_cn_title">CN</td>
+                        <td id="image_td_hktc_title">HK</td>
+                        <td id="image_td_hken_title">HKEN</td>
+                        <td id="image_td_tw_title">TW</td>
+                        <td id="image_td_mo_title">MO</td>
+                    </tr>
+                    </thead>
+                    <tbody id="image_gc_res">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var _image = {
+        url: $("#url"),
+        data: null,
+        res: $("#res"),
+        res_out: $("#res_out"),
+        type: ''
+    };
+    $("#image_us_res_out").hide();
+    $("#image_gc_res_out").hide();
+    $('#btn_query_us').click(() => {
+        if (_image.url.val().length > 5) {
+            _image.type = 'us';
+            _image.res.empty();
+            $("#bg_loading").show();
+            $.post('api/image/getUSImage', {url: _image.url.val()}, function (data) {
+                $("#bg_loading").hide();
+                $("#image_us_res_out").show();
+                $("#image_gc_res_out").hide();
+
+                console.log(data);
+
+                if (data && data.result === true) {
+                    _image.data = data.data;
+
+                    $("#image_us_res").html(`
+                                <tr>
+                                    <td class="text-left" >${data.data.url}</td>
+                                    <td class="text-left">${data.data.total}</td>
+                                </tr>
+                                ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}" target="_blank">${item}</a></td></tr>`).join('')}
+                                `);
+                } else {
+                    console.log(data);
+                }
+            })
+        } else {
+            alert('The URL length is too short!')
+        }
+    });
+
+    $('#btn_query_gc').click(() => {
+        get_compare_data('gc');
+    });
+
+    $('#btn_query_cn').click(() => {
+        get_compare_data('cn');
+    });
+
+    $('#btn_query_hktc').click(() => {
+        get_compare_data('hktc');
+    });
+
+    $('#btn_query_hken').click(() => {
+        get_compare_data('hken');
+    });
+
+    $('#btn_query_mo').click(() => {
+        get_compare_data('mo');
+    });
+
+    $('#btn_query_tw').click(() => {
+        get_compare_data('tw');
+    });
+
+    var get_compare_data = (geo) => {
+        if ($("#url").val().length > 5) {
+            _image.res.empty();
+            $("#bg_loading").show();
+            $.post(`api/image/compare/${geo}`, {url: $('#url').val()}, function (data) {
+                $("#bg_loading").hide();
+                $("#image_us_res_out").hide();
+                $("#image_gc_res_out").show();
+
+                if (data && data.result === true) {
+                    _image.data = data.data;
+                    console.log(data);
+
+                    let arr = ['US'];
+
+                    if (geo === 'gc') {
+                        _image.type = 'gc';
+                        arr = ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO']
+                    } else {
+                        _image.type = geo;
+                        arr.push(geo.toUpperCase());
+                    }
+
+                    console.log(arr);
+
+                    ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].forEach(item => {
+                        $(`#image_td_${item.toLowerCase()}_title`).hide();
+                    });
+
+                    arr.forEach(item => {
+                        $(`#image_td_${item.toLowerCase()}_title`).show();
+                    });
+
+                    let str = "";
+
+                    data.data.map(item => {
+                        str += `<tr><td rowspan="2">${item.name}</td>`;
+
+                        arr.map(geo => {
+                            str += `<td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
+                        });
+
+                        str += `</tr><tr>`;
+
+                        arr.map(geo => {
+                            str += `<td><a href="${item[geo] || ''}" target="_blank">${item[geo] || ''}</a></td>`;
+                        });
+
+                        str += `</tr>`;
+                    });
+
+                    $("#image_gc_res").html(str);
+                }
+            });
+        } else {
+            alert('The URL length is too short!');
+        }
+    };
+
+    $("#btn_image_export").click(() => {
+        $.post(`/api/image/export/${_image.type}`, {
+                data: JSON.stringify(_image.data)
+            },
+            (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
+    });
+
+    $("#btn_image_download").click(() => {
+        $("#bg_loading").show();
+        if (_image.type === 'us') {
+            $.post(`/api/image/download`, {
+                    data: JSON.stringify(_image.data)
+                },
+                (data) => {
+                    $("#bg_loading").hide();
+                    $.fileDownload(`/api/files/tmp/${data}`);
+                })
+        }
+
+    });
+</script>

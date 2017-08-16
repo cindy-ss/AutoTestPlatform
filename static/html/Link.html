@@ -76,6 +76,7 @@
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
+            $('#res_Containererr').html('');
             const url = $('#url').val();
 
             $("#bg_loading").show();
