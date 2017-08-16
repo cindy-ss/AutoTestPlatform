@@ -72,7 +72,7 @@ const fetchTrans = (url, auth, cb) => {
                                             size: {}
                                         })
                                     }
-                                })
+                                }, auth);
                             } else {
                                 callback(err, {
                                     url: null,
