@@ -29,39 +29,33 @@
         <button class="sideIcon">&lt;</button>
     </div>
     <div class="col-md-7">
-        <!--<p class="col-md-4">-->
-            <!--<label>-->
-                <!--<input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>-->
-                <!--Excel-->
-            <!--</label>-->
-            <!--<label>-->
-                <!--<input type="radio" name="optionsRadios" id="rdHTML" value="html">-->
-                <!--HTML-->
-            <!--</label>-->
-        <!--</p>-->
-        <!--<p class="col-md-4 exbutton">-->
-            <!--<button id="getExcel" class="btn btn-primary">Export</button>-->
-        <!--</p>-->
+        Show:
+        <input id="radioerr" name="criteria" type="radio" value="failure" onchange ="change();" >Failures
+        <input id="radioall" name="criteria" type="radio" value="all" onchange ="change();">all
+
 
         <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <td>URL</td>
-                <td>Status</td>
-                <td>Message</td>
-            </tr>
-            </thead>
+        <tbody id="res_Containererr">
+        </tbody>
 
-
+        </table>
+        <table class="table table-striped table-bordered" id="corTable">
             <tbody id="res_Container">
-
             </tbody>
-
 
         </table>
     </div>
 </div>
 <script>
+    function change(){
+        var val=$('input:radio[name="criteria"]:checked').val();
+         if(val=="failure"){
+             $("#corTable").hide();
+        }else if (val=="all"){
+             $("#corTable").show();
+         }
+
+    }
     $("#import_Txt").click(() => {
         if ($("#file_Input")[0].files.length >= 1) {
             const file = $("#file_Input")[0].files[0];
@@ -87,17 +81,29 @@
             $("#bg_loading").show();
             $.post('api/link', {url: url}, function (Jsondata) {
                 $("#bg_loading").hide();
-
+                console.log(Jsondata);
                 if (Jsondata && Jsondata.result === true) {
                     let str1 = ``;
-                    let linkdata=Jsondata.data;
+                    let strerr = ``;
+                    let linkdata = Jsondata.data;
                     console.log(linkdata);
+                    strerr+=`<tr><td>URL</td><td>Status</td><td>Error Message</td></tr>`;
+                    str1+=`<tr><td>URL</td><td>Status</td></tr>`;
                     $.each(linkdata, function (n, value) {
-                        str1+=`<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status==="failed" ) ? " class='red'" : ""}>${value.status}</td><td>${value.message}</td></tr>`;
-                        $('#res_Container').html(str1);
+                        if (value.status === "failed") {
+
+                            strerr += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.status}</td>
+                                    <td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.message}</td></tr>`;
+                            $('#res_Containererr').html(strerr);
+
+                        } else {
+                            str1 += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td >${value.status}</td>
+                                   </tr>`;
+                            $('#res_Container').html(str1);
+                        }
                     })
 
-                }else {
+                } else {
                     console.log(Jsondata);
                 }
 

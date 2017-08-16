@@ -112,12 +112,10 @@
                     str1+=`<tr><td>${Json_data.data.url}</td></tr>`;
                     let data = Json_data.data.data;
 
-
-
                     $.each(data, function (n, value) {
                        str1+=`<tr><td><font size="2" color="blue">${n}</td></tr>`;
                         $.each(value, function (n, valueinter) {
-                           console.log(valueinter);
+                            //console.log(valueinter);
                            str1+=`<tr><td class="text-left" style=" ">Word:${valueinter.word},Code:${valueinter.code} </td></tr>`;
                         })
 

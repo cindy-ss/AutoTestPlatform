@@ -192,11 +192,13 @@
     });
 
     $("#btn_image_download").click(() => {
+        $("#bg_loading").show();
         if (_image.type === 'us') {
             $.post(`/api/image/download`, {
                     data: JSON.stringify(_image.data)
                 },
                 (data) => {
+                    $("#bg_loading").hide();
                     $.fileDownload(`/api/files/tmp/${data}`);
                 })
         }
