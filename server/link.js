@@ -29,48 +29,44 @@ const getLinks = (url, auth, cb) => {
 };
 
 const judgeUrl = (origin, url, geo) => {
+    let tempUrl = URL.resolve(origin, url);
     let obj = {
         type: null,
-        href: URL.resolve(origin, url),
+        href: tempUrl,
         status: null,
         message: null,
         rawLink: url
     };
-    let urlObj = URL.parse(url);
-    let host = urlObj.host;
+
+    let host = URL.parse(tempUrl).hostname;
 
     const conf = basic.conf['link-checker'] || {};
     const filter = conf['filter'] || [];
     const deformity = conf['deformity'] || [];
     const hostDiff = conf['hostDiff'] || [];
 
-    if (host) {
-        if (!util.filter(host, filter)) {
-            obj.type = 'blacklist';
-            obj.status = 'omit';
-        } else if (!util.filter(host, deformity)) {
-            obj.type = 'deformity';
-            obj.status = 'omit';
-        } else if (!util.filter(host, hostDiff)) {
-            obj.type = 'hostDiff';
-            if(gh.isGEO(url, geo)){
-                obj.status = 'pass';
-            }else{
-                obj.status = 'failed';
-                obj.message = `No GEO string ${geo} Required for ${url}`;
-            }
+    if (!util.filter(host, filter)) {
+        obj.type = 'blacklist';
+        obj.status = 'omit';
+    } else if (!util.filter(host, deformity)) {
+        obj.type = 'deformity';
+        obj.status = 'omit';
+    } else if (!util.filter(host, hostDiff)) {
+        obj.type = 'hostDiff';
+        if (gh.isGEO(tempUrl, geo)) {
+            obj.status = 'pass';
         } else {
-            obj.type = 'normal';
-            if(gh.isGEO(url, geo)){
-                obj.status = 'pass';
-            }else{
-                obj.status = 'failed';
-                obj.message = `No GEO string ${geo} Required for ${url}`;
-            }
+            obj.status = 'failed';
+            obj.message = `No GEO string ${geo} Required for ${url}`;
         }
     } else {
-        obj.type = 'anchor';
-        obj.status = 'pass';
+        obj.type = 'normal';
+        if (gh.isGEO(tempUrl, geo)) {
+            obj.status = 'pass';
+        } else {
+            obj.status = 'failed';
+            obj.message = `No GEO string ${geo} Required for ${url}`;
+        }
     }
 
     return obj;
