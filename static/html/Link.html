@@ -1,4 +1,4 @@
-<h2 class="page-header">Font Checker</h2>
+<h2 class="page-header">Link Checker</h2>
 <div id="trans" class="row">
     <div class="col-md-4 navslid trans-side navslid-show">
         <div style="display:none;">
@@ -29,24 +29,26 @@
         <button class="sideIcon">&lt;</button>
     </div>
     <div class="col-md-7">
-        <p class="col-md-4">
-            <label>
-                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-                Excel
-            </label>
-            <label>
-                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-                HTML
-            </label>
-        </p>
-        <p class="col-md-4 exbutton">
-            <button id="getExcel" class="btn btn-primary">Export</button>
-        </p>
+        <!--<p class="col-md-4">-->
+            <!--<label>-->
+                <!--<input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>-->
+                <!--Excel-->
+            <!--</label>-->
+            <!--<label>-->
+                <!--<input type="radio" name="optionsRadios" id="rdHTML" value="html">-->
+                <!--HTML-->
+            <!--</label>-->
+        <!--</p>-->
+        <!--<p class="col-md-4 exbutton">-->
+            <!--<button id="getExcel" class="btn btn-primary">Export</button>-->
+        <!--</p>-->
 
         <table class="table table-striped table-bordered">
             <thead>
             <tr>
                 <td>URL</td>
+                <td>Status</td>
+                <td>Message</td>
             </tr>
             </thead>
 
@@ -81,38 +83,22 @@
         if ($("#url").val().length > 5) {
             $('#res_Container').html('');
             const url = $('#url').val();
-            let queryObj = {};
-            let typeName = $("#typeId").find("option:selected").val();
-            let serverName = $("#server").find("option:selected").val();
 
-            if (typeName !== 'all') {
-                queryObj['type'] = typeName;
-            }
-            if (serverName !== 'all') {
-                queryObj['server'] = serverName;
-            }
+            $("#bg_loading").show();
+            $.post('api/link', {url: url}, function (Jsondata) {
+                $("#bg_loading").hide();
 
-            let _option = JSON.stringify(queryObj);
-
-            $.post('api/font/url', {urls: url, option: _option}, function (Json_data) {
-               // console.log(Json_data);
-                if (Json_data.result === true) {
+                if (Jsondata && Jsondata.result === true) {
                     let str1 = ``;
-                    str1+=`<tr><td>${Json_data.data.url}</td></tr>`;
-                    let data = Json_data.data.data;
-
-
-
-                    $.each(data, function (n, value) {
-                       str1+=`<tr><td><font size="2" color="blue">${n}</td></tr>`;
-                        $.each(value, function (n, valueinter) {
-                           console.log(valueinter);
-                           str1+=`<tr><td class="text-left" style=" ">Word:${valueinter.word},Code:${valueinter.code} </td></tr>`;
-                        })
-
-                      $('#res_Container').html(str1);
-
+                    let linkdata=Jsondata.data;
+                    console.log(linkdata);
+                    $.each(linkdata, function (n, value) {
+                        str1+=`<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status==="failed" ) ? " class='red'" : ""}>${value.status}</td><td>${value.message}</td></tr>`;
+                        $('#res_Container').html(str1);
                     })
+
+                }else {
+                    console.log(Jsondata);
                 }
 
 

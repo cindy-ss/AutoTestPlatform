@@ -51,7 +51,7 @@
   },
   "link-checker": {
     "filter": [
-      "www.icloud.com1"
+      "www.icloud.com"
     ],
     "deformity": [
       "locate.apple.com",
