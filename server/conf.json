@@ -72,9 +72,9 @@
       "support.apple.com" : {
         "cn" : "zh-cn",
         "hktc" : "zh-hk",
-        "hken" : "",
-        "tw" : "",
-        "mo" : ""
+        "hken" : "en-hk",
+        "tw" : "zh-tw",
+        "mo" : "zh-mo"
       },
       "www.apple.com/jobs" : {
         "cn" : "jobs/cn",
@@ -92,11 +92,8 @@
         "hktc" : "/hk-zh/search",
         "hken" : "/hk/search"
 
-      },
-      "/shop":{
-        "hktc":"/hk-zh/shop",
-        "hken":"/hk/shop"
       }
+
     },
     "hostDiff" : [
       "itunes.apple.com",
@@ -106,8 +103,10 @@
       "www.icloud.com",
       "www.appstore.com",
       "apple.com/iphone/LTE",
+      "apple.com/ipad/LTE",
       "www.apple.com/choose-your-country",
       ".pdf"
+
     ]
   }
 }

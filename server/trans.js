@@ -200,10 +200,12 @@ const dealHTML = (content, cb) => {
 const dealExcel = (content, cb) => {
     const headers = {
         url: 'URL',
-        desc: 'Description',
-        ogDesc: 'OG Description',
         title: 'Title',
+        desc: 'Description',
         ogTitle: 'OG Title',
+        ogDesc: 'OG Description',
+
+
     };
     exporter.dealExcel(headers, content, cb);
 };
