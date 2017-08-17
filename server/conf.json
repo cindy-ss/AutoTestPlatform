@@ -83,7 +83,7 @@
         "tw" : "",
         "mo" : ""
       },
-      "/shop/goto" : {
+      "/shop/" : {
         "hktc" : "/hk-zh/shop",
         "hken": "/hk/shop"
       },

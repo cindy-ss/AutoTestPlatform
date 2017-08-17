@@ -34,7 +34,7 @@
         </label>
     </p>
 
-        <button id="btnExport" class="btn btn-primary">Export</button>
+    <button id="btnExport" class="btn btn-primary">Export</button>
 
 </div>
 <div class="col-md-7 showValue">
@@ -68,11 +68,17 @@
         $("#urls").val('');
     });
     $('#btnQuest').click(() => {
+
+
         if ($("#urls").val().length > 5) {
             $('#resContainer').html('');
             $("#bg_loading").show();
-            $.post('/api/trans', {urls: $("#urls").val()}, function (data) {
+
+
+            $.post('/api/trans', {urls: $("#urls").val().trim()}, function (data) {
+
                 $("#bg_loading").hide();
+console.log(data);
                 if (data) {
                     storedData = data;
                     let str = ``;
@@ -88,6 +94,7 @@
                 <th>WeChat URL</th>
             </tr>`
                     data.forEach((item, index) => {
+                        if(item.desc!="Bad Link"){
                         str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
@@ -109,9 +116,13 @@
 
                                     <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></div></td>
                                 </tr>`
+                    }else if (item.desc==="Bad Link") {
+                    str += `<tr><td>${item.url}</td><td>Bad Link</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`
+                        }
                     });
                     $('#resContainer').html(str);
                 }
+
             });
         } else {
             console.log("null");

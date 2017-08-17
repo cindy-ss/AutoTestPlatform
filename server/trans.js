@@ -108,7 +108,8 @@ const fetchTrans = (url, auth, cb) => {
                     desc: "Bad Link",
                     ogDesc: "NA",
                     title: 'NA',
-                    ogTitle: 'NA'
+                    ogTitle:'NA'
+
                 };
                 cb(null, obj);
             }
@@ -119,7 +120,9 @@ const fetchTrans = (url, auth, cb) => {
                 desc: "Bad Link",
                 ogDesc: "NA",
                 title: 'NA',
-                ogTitle: 'NA'
+                ogTitle:'NA'
+
+
             };
             cb(null, obj);
         }

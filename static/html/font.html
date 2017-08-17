@@ -1,7 +1,7 @@
 <h2 class="page-header">Font Checker</h2>
 <div id="trans" class="row">
     <div class="col-md-4 navslid trans-side navslid-show">
-        <div style="display:none;">
+        <div>
             <p>
                 URL Import(.txt only)
             </p>
@@ -11,13 +11,10 @@
                 <input type="button" class="btn btn-primary" value="Import" id="import_Txt"/>
             </span>
             </div>
+            <p>(eg:https://www.apple.com/cn/iphone)</p>
+            <textarea rows="5" id="urls" class="form-control"></textarea>
         </div>
-        <p>URL Input (One URL only)</p>
-        <p>(eg:https://www.apple.com/cn/iphone)</p>
-        <p>
-            <!--<t rows="5" id="url" v-model="urls" class="form-control"></t> -->
-            <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
-        </p>
+
 
         <div class="dropdown">
             <select id="typeId">
@@ -82,15 +79,15 @@
     });
 
     $('#btn_Clear').click(() => {
-        $("#url").val('');
+        $("#urls").val('');
     });
 
 
     $('#btn_Quest').click(() => {
-        if ($("#url").val().length > 5) {
+        if ($("#urls").val().length > 5) {
             $("#bg_loading").show();
             $('#res_Container').html('');
-            const url = $('#url').val();
+            //const urls = $('#urls').val();
             let queryObj = {};
             let typeName = $("#typeId").find("option:selected").val();
             let serverName = $("#server").find("option:selected").val();
@@ -103,23 +100,27 @@
             }
 
             let _option = JSON.stringify(queryObj);
+            var tarea = document.getElementById('urls');
+            var value = tarea.value;
+            var urls = value.split("\n");
 
-            $.post('api/font/url', {urls: url, option: _option}, function (Json_data) {
+            console.log(urls);
+            $.post('api/font/url', {urls: urls, option: _option}, function (Json_data) {
                 $("#bg_loading").hide();
-               // console.log(Json_data);
+                console.log(Json_data);
                 if (Json_data.result === true) {
                     let str1 = ``;
-                    str1+=`<tr><td>${Json_data.data.url}</td></tr>`;
+                    str1 += `<tr><td>${Json_data.data.url}</td></tr>`;
                     let data = Json_data.data.data;
                     console.log(data);
                     $.each(data, function (n, value) {
-                       str1+=`<tr><td><font size="2" color="blue">${n}</td></tr>`;
+                        str1 += `<tr><td><font size="2" color="blue">${n}</td></tr>`;
                         $.each(value, function (n, valueinter) {
                             console.log(valueinter);
-                           str1+=`<tr><td class="text-left" style=" ">Font:${valueinter.word},Code:${valueinter.code} </td></tr>`;
+                            str1 += `<tr><td class="text-left" style=" ">Font:${valueinter.word},Code:${valueinter.code} </td></tr>`;
                         })
 
-                      $('#res_Container').html(str1);
+                        $('#res_Container').html(str1);
 
                     })
                 }
