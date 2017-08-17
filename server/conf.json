@@ -50,9 +50,9 @@
     ]
   },
   "link-checker": {
-    "filter": [
-      "https://applemusic.com/carpoolkaraoke"
-
+    "ext-filter": [
+      "support.apple.com",
+      "locate.apple.com"
     ],
     "deformity": {
       "locate.apple.com" : {
@@ -86,27 +86,17 @@
       "/shop/goto" : {
         "hktc" : "/hk-zh/shop",
         "hken": "/hk/shop"
-
       },
       "/search" : {
         "hktc" : "/hk-zh/search",
         "hken" : "/hk/search"
-
       }
-
     },
-    "hostDiff" : [
-      "itunes.apple.com",
-      "appleid.apple.com"
-    ],
-    "filterRegs":[
-      "www.icloud.com",
-      "www.appstore.com",
+    "filter":[
       "apple.com/iphone/LTE",
       "apple.com/ipad/LTE",
-      "www.apple.com/choose-your-country",
+      "apple.com/choose-your-country",
       ".pdf"
-
     ]
   }
 }

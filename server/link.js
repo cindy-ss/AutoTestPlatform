@@ -39,10 +39,11 @@ const judgeUrl = (origin, url, geo) => {
     };
 
     let host = URL.parse(tempUrl).hostname;
+    let originHost = URL.parse(origin).hostname;
 
     const conf = basic.conf['link-checker'] || {};
     const filter = conf['filter'] || [];
-    const filterRegs = conf['filterRegs'] || [];
+    const extFilter = conf['ext-filter'] || [];
     const deformity = conf['deformity'] || {};
     let deformityList = [];
     for(let d in deformity){
@@ -50,18 +51,17 @@ const judgeUrl = (origin, url, geo) => {
             deformityList.push(d);
         }
     }
-    const hostDiff = conf['hostDiff'] || [];
     let tempDeformity = deformityList.find(item => {return tempUrl.indexOf(item) !== -1});
 
-    if(filter.indexOf(tempUrl) !== -1){
+    if(host !== originHost && extFilter.indexOf(host) === -1){
+
+        obj.type = 'external';
+        obj.status = 'pass';
+
+    }else if (!util.filter(tempUrl, filter)) {
 
         obj.type = 'blacklist';
-        obj.status = 'omit';
-
-    }else if (!util.filter(tempUrl, filterRegs)) {
-
-        obj.type = 'blacklist';
-        obj.status = 'omit';
+        obj.status = 'pass';
 
     } else if (tempDeformity) {
 
@@ -76,17 +76,7 @@ const judgeUrl = (origin, url, geo) => {
                 obj.message = `No GEO String ,${regStr} Required for ${url}`;
             }
         }else{
-            obj.status = 'omit';
-        }
-
-    } else if (!util.filter(host, hostDiff)) {
-
-        obj.type = 'hostDiff';
-        if (gh.isGEO(tempUrl, geo)) {
             obj.status = 'pass';
-        } else {
-            obj.status = 'failed';
-            obj.message = `No GEO string ,${geo} Required for ${url}`;
         }
 
     } else {
