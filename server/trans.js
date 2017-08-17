@@ -109,7 +109,6 @@ const fetchTrans = (url, auth, cb) => {
                     ogDesc: "NA",
                     title: 'NA',
                     ogTitle:'NA'
-
                 };
                 cb(null, obj);
             }
