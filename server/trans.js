@@ -24,7 +24,7 @@ const fetchTrans = (url, auth, cb) => {
         url = 'https://' + url;
     }
     query.query(url, (err, res) => {
-        if (!err) {
+        if (!err && res) {
             const $ = cheerio.load(res);
 
             let desc = $("meta[name='Description']").attr('content');
