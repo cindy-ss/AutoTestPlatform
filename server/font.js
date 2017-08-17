@@ -33,7 +33,9 @@ exports.checkByUrl = (url, auth, option, cb) => {
                 url: item,
                 data: data
             });
-            console.log(`\t[ X ] : error while parsing ${item}`);
+            if(err){
+                console.log(`\t[ X ] : error while parsing ${item}`);
+            }
             callback(null);
         });
     }, (err) => {

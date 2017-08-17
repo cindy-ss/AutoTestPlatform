@@ -54,7 +54,12 @@ const isGEO = (str, geo) => {
     let flag = false;
 
     if(geo){
-        flag = str.indexOf(GEO_OBJ[geo.toLowerCase()]) !== -1;
+        if(geo.toLowerCase() === 'hktc'){
+            flag = str.indexOf(GEO_OBJ['hktc']) !== -1 && str.indexOf(GEO_OBJ['hken']) === -1;
+        }else{
+            flag = str.indexOf(GEO_OBJ[geo.toLowerCase()]) !== -1;
+        }
+
     }else{
         for(let item of GEO){
             flag = flag || str.indexOf(item) !== -1;
