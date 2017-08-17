@@ -52,8 +52,8 @@ const init = (cb) => {
         cb();
     });
 
-    let textSched = later.parse.recur().every(1).dayOfMonth();
-    const timer = later.setInterval(fetch, textSched);
+    // let textSched = later.parse.recur().every(1).dayOfMonth();
+    // const timer = later.setInterval(fetch, textSched);
 };
 
 const fetch = () => {
@@ -103,8 +103,6 @@ const check = (data, option) => {
     } else {
         srcArr = metrics;
     }
-
-    console.log(srcArr);
 
     srcArr.forEach(item => {
         res[item.name] = [];

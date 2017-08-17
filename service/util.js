@@ -56,7 +56,15 @@ const urlNormalize = url => {
     return url;
 };
 
+const isArray = object => {
+    return  object && typeof object==='object' &&
+        typeof object.length==='number' &&
+        typeof object.splice==='function' &&
+        !(object.propertyIsEnumerable('length'));
+};
+
 exports.filter = filter;
 exports.filterVersa = filterVersa;
 exports.deleteFolder = deleteFolder;
 exports.urlNormalize = urlNormalize;
+exports.isArray = isArray;

@@ -24,7 +24,7 @@ const fetchTrans = (url, auth, cb) => {
         url = 'https://' + url;
     }
     query.query(url, (err, res) => {
-        if (!err && res) {
+        if (!err) {
             try {
                 const $ = cheerio.load(res);
 
