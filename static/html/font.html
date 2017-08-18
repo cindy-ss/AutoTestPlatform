@@ -5,12 +5,10 @@
             <p>
                 URL Import(.txt only)
             </p>
-            <div class="input-group">
-                <input class="form-control" type="file" id="file_Input">
-                <span class="input-group-btn">
-                <input type="button" class="btn btn-primary" value="Import" id="import_Txt"/>
-            </span>
-            </div>
+            <input class="form-control" type="file" id="fileInput">
+            <span class="input-group-btn">
+             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+              </span>
             <p>(eg:https://www.apple.com/cn/iphone)</p>
             <textarea rows="5" id="urls" class="form-control"></textarea>
         </div>
@@ -66,13 +64,13 @@
     </div>
 </div>
 <script>
-    $("#import_Txt").click(() => {
-        if ($("#file_Input")[0].files.length >= 1) {
-            const file = $("#file_Input")[0].files[0];
+    $("#btnImport").click(() => {
+        if ($("#fileInput")[0].files.length >= 1) {
+            const file = $("#fileInput")[0].files[0];
             let reader = new FileReader();
             reader.onload = function () {
-                $("#file_Input").val(this.result);
-                $("#file_Input").val("");
+                $("#urls").val(this.result);
+                $("#fileInput").val("");
             };
             reader.readAsText(file);
         }
@@ -102,25 +100,38 @@
             let _option = JSON.stringify(queryObj);
             const urls = $('#urls').val();
 
-            console.log(urls);
             $.post('api/font/url', {urls: urls, option: _option}, function (Json_data) {
                 $("#bg_loading").hide();
-                console.log(Json_data);
+                //console.log(Json_data);
                 if (Json_data.result === true) {
                     let str1 = ``;
-                    str1 += `<tr><td>${Json_data.data.url}</td></tr>`;
-                    let data = Json_data.data.data;
-                    console.log(data);
-                    $.each(data, function (n, value) {
-                        str1 += `<tr><td><font size="2" color="blue">${n}</td></tr>`;
-                        $.each(value, function (n, valueinter) {
-                            console.log(valueinter);
-                            str1 += `<tr><td class="text-left" style=" ">Font:${valueinter.word},Code:${valueinter.code} </td></tr>`;
+                    let arrdata=Json_data.data;
+
+                    $.each(arrdata, function (m, value){
+
+                        str1 += `<tr><td><font  size="4" color="DarkBlue">${value.url}</font></td></tr>`;
+                        $.each(value.data, function (n, valueinter){
+
+                            str1 += `<tr><td><font  color="DarkBlue">${n}</font></td></tr>`;
+                            var x;
+                            for (x in valueinter){
+                                console.log(valueinter[x].word,valueinter[x].code);
+                                str1 += `<tr><td class="text-left" style=" ">Font:${valueinter[x].word},Code:${valueinter[x].code} </td></tr>`;
+                            }
                         })
-
                         $('#res_Container').html(str1);
-
                     })
+
+//                    $.each(data, function (n, value) {
+//                        str1 += `<tr><td><font size="2" color="blue">${n}</td></tr>`;
+//                        $.each(value, function (n, valueinter) {
+//                            console.log(valueinter);
+//                            str1 += `<tr><td class="text-left" style=" ">Font:${valueinter.word},Code:${valueinter.code} </td></tr>`;
+//                        })
+//
+//                        $('#res_Container').html(str1);
+//
+//                    })
                 }
 
 

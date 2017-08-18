@@ -85,11 +85,17 @@
       },
       "/shop/" : {
         "hktc" : "/hk-zh/shop",
-        "hken": "/hk/shop"
+        "hken": "/hk/shop",
+        "tw":"/tw/shop",
+        "mo":"/mo/shop",
+        "cn":"/cn/shop"
       },
       "/search" : {
         "hktc" : "/hk-zh/search",
-        "hken" : "/hk/search"
+        "hken" : "/hk/search",
+        "tw":"",
+        "mo":"",
+        "cn":""
       }
     },
     "filter":[

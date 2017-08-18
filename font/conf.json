@@ -25,21 +25,21 @@
       "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff",
       "geo": "cn",
       "type": "woff",
-      "name": "SF Pro SC - woff - Online",
+      "name": "SF Pro SC - WOFF - Online",
       "server": "WWW"
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
       "geo": "hk",
       "type": "woff",
-      "name": "SF Pro HK - woff - Online",
+      "name": "SF Pro HK - WOFF - Online",
       "server": "WWW"
     },
     {
       "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff",
       "geo": "tw",
       "type": "woff",
-      "name": "SF Pro TC - woff - Online",
+      "name": "SF Pro TC - WOFF - Online",
       "server": "WWW"
     },
     {
@@ -67,23 +67,23 @@
       "url": "SF-Pro-SC/v1/PingFangSC-Regular.woff",
       "geo": "cn",
       "type": "woff",
-      "name": "SF Pro SC - woff - UAT",
+      "name": "SF Pro SC - WOFF - UAT",
       "server": "UAT"
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
       "geo": "hk",
       "type": "woff",
-      "name": "SF Pro HK - woff - UAT",
+      "name": "SF Pro HK - WOFF - UAT",
       "server": "UAT"
     },
     {
       "url": "SF-Pro-TC/v1/PingFangTC-Regular.woff",
       "geo": "tw",
       "type": "woff",
-      "name": "SF Pro TC - woff - UAT",
+      "name": "SF Pro TC - WOFF - UAT",
       "server": "UAT"
     }
   ],
-  "avoid" : ["f8ff","2122","","2020","2013"]
+  "avoid" : ["f8ff","2122","2011","2020","2013","2028","2014","200b","192"]
 }
