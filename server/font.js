@@ -8,16 +8,7 @@ const font = require('../service/font'),
     util = require("../service/util");
 
 exports.checkByUrl = (url, auth, option, cb) => {
-    if (!util.isArray(url)) {
-        try {
-            url = JSON.parse(url);
-        } catch (e) {
-            cb(e, {
-                url: url,
-                data: []
-            })
-        }
-    }
+    url = url.split('\n');
 
     let res = [];
 

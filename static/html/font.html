@@ -100,9 +100,7 @@
             }
 
             let _option = JSON.stringify(queryObj);
-            var tarea = document.getElementById('urls');
-            var value = tarea.value;
-            var urls = value.split("\n");
+            const urls = $('#urls').val();
 
             console.log(urls);
             $.post('api/font/url', {urls: urls, option: _option}, function (Json_data) {
