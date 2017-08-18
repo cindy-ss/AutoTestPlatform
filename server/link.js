@@ -53,7 +53,7 @@ const judgeUrl = (origin, url, geo) => {
     }
     let tempDeformity = deformityList.find(item => {return tempUrl.indexOf(item) !== -1});
 
-    if(host !== originHost && extFilter.indexOf(host) === -1){
+    if(host !== originHost && host.indexOf('apple.com') === -1 && extFilter.indexOf(host) === -1){
 
         obj.type = 'external';
         obj.status = 'pass';
