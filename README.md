@@ -26,6 +26,12 @@ How to Use it:
 --Image Checker:
 ![image](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/Image.png)
 --Font Checker:
+![font]()
 --Link Checker:
+Only Check if the links are localized  on this url page ,localization is pass ,not localization is failed.
+![link]()
 --Mp4 Checker:
+Only list all mp4 files on this url page,url only be us link.
+![mp4]
+![]
 --V path Checker:
