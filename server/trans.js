@@ -67,7 +67,7 @@ const fetchTrans = (url, auth, cb) => {
                     callback => {
                         adapter.wechatHandler(res, (err, wechat_url) => {
                             if (!err && wechat_url) {
-                                const wechat_url = URL.resolve(url, wechat_url);
+                                wechat_url = URL.resolve(url, wechat_url);
 
                                 file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
                                     obj.wechat = {
