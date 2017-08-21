@@ -29,7 +29,7 @@ const fetchTrans = (url, auth, cb) => {
             }
 
             if ($) {
-                let desc = $("meta[name='Description']").attr('content');
+                let desc = $("meta[name='Description']").attr('content')||$("meta[name='description']").attr('content');
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage = $("meta[property='og:image']").attr('content');
