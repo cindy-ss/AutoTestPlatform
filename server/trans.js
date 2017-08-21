@@ -11,34 +11,37 @@ const cheerio = require('cheerio'),
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
     file = require('../service/file'),
-    exporter = require('../service/exporter');
+    exporter = require('../service/exporter'),
+    util = require('../service/util');
 
 const fetchTrans = (url, auth, cb) => {
-    if (!path.parse(url).ext) {
-        if (url.charAt(url.length - 1) !== "/") {
-            url += '/';
-        }
-    }
+    url = util.urlNormalize(url);
 
-    if (!URL.parse(url).protocol) {
-        url = 'https://' + url;
-    }
     query.query(url, (err, res) => {
         if (!err) {
+            let $, obj;
             try {
-                const $ = cheerio.load(res);
+                $ = cheerio.load(res);
+            }
+            catch (e) {
+                console.log(`\t[ X ] : Querying data from ${url} failed, with an exception of ${e.message}`);
+                $ = null;
+            }
 
+            if ($) {
                 let desc = $("meta[name='Description']").attr('content');
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage = $("meta[property='og:image']").attr('content');
                 let title = $("title").text();
 
-                let ogURLObj = URL.parse(ogImage);
-                ogURLObj.host = URL.parse(url).host;
-                ogImage = URL.format(ogURLObj);
+                if (ogImage) {
+                    let ogURLObj = URL.parse(ogImage);
+                    ogURLObj.host = URL.parse(url).host;
+                    ogImage = URL.format(ogURLObj);
+                }
 
-                let obj = {
+                obj = {
                     url,
                     desc: desc,
                     ogDesc,
@@ -51,64 +54,50 @@ const fetchTrans = (url, auth, cb) => {
 
                 async.parallel([
                     callback => {
-                        file.getImageSizeByUrl(ogImage, (err, ogSize) => {
-                            callback(err, ogSize)
-                        }, auth);
+                        if (ogImage) {
+                            file.getImageSizeByUrl(ogImage, (err, ogSize) => {
+                                obj.ogImage.size = err ? {} : ogSize;
+                                callback(err)
+                            }, auth);
+                        } else {
+                            obj.ogImage.size = {};
+                            callback(null);
+                        }
                     },
                     callback => {
-                        adapter.wechatHandler(res, (err, res) => {
-                            if (!err) {
-                                if (res) {
-                                    const wechat_url = URL.resolve(url, res);
+                        adapter.wechatHandler(res, (err, wechat_url) => {
+                            if (!err && wechat_url) {
+                                const wechat_url = URL.resolve(url, wechat_url);
 
-                                    file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
-                                        if (!err) {
-                                            callback(err, {
-                                                url: wechat_url,
-                                                size: wechat_size
-                                            });
-                                        } else {
-                                            callback(null, {
-                                                url: wechat_url,
-                                                size: {}
-                                            })
-                                        }
-                                    }, auth);
-                                } else {
-                                    callback(err, {
-                                        url: null,
-                                        size: {}
-                                    })
-                                }
+                                file.getImageSizeByUrl(wechat_url, (err, wechat_size) => {
+                                    obj.wechat = {
+                                        url: wechat_url,
+                                        size: err ? {} : wechat_size
+                                    };
+                                    callback(err);
+                                }, auth);
                             } else {
-                                callback(err, null);
+                                obj.wechat = {
+                                    url: null,
+                                    size: {}
+                                };
+                                callback(err);
                             }
                         }, auth)
                     }
-                ], function (err, results) {
-                    if (!err) {
-                        if (results) {
-                            obj.wechat = {
-                                url: results[1].url,
-                                size: results[1].size
-                            };
-                            obj.ogImage.size = results[0];
-                        }
-                        cb(err, obj);
-                    } else {
+                ], function (err) {
+                    if (err) {
                         console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
-                        cb(err, obj);
                     }
+                    cb(err, obj);
                 });
-            }
-            catch (e) {
-                console.log(`\t[ X ] : Querying data from ${url} failed, with an error of ${e.message}`);
-                let obj = {
+            } else {
+                obj = {
                     url,
                     desc: "Bad Link",
                     ogDesc: "NA",
                     title: 'NA',
-                    ogTitle:'NA'
+                    ogTitle: 'NA'
                 };
                 cb(null, obj);
             }
@@ -119,9 +108,7 @@ const fetchTrans = (url, auth, cb) => {
                 desc: "Bad Link",
                 ogDesc: "NA",
                 title: 'NA',
-                ogTitle:'NA'
-
-
+                ogTitle: 'NA'
             };
             cb(null, obj);
         }
