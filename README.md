@@ -25,7 +25,14 @@ How to Use it:
 ![meta](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/meta.png)
 --Image Checker:
 ![image](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/Image.png)
+![image1](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/image1.png)
 --Font Checker:
+![font](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/Font.png)
 --Link Checker:
+Only Check if the links are localized  on this url page ,localization is pass ,not localization is failed.
+![link](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/link.png)
 --Mp4 Checker:
+Only list all mp4 files on this url page,url only be us link.
+
 --V path Checker:
+Not Avaliable now ..
