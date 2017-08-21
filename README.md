@@ -22,9 +22,9 @@ You could fork and create pull request, and you could also apply as a contributo
 ---
 How to Use it:
 --Meta Checker:可以用来导出Title,Description,OG Title,OG Description,OG Img,OG Img URL,WeChat Img,WeChat URL
-![image](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/meta.png)
+![meta](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/meta.png)
 --Image Checker:
-
+![image](https://raw.githubusercontent.com/edel-ma/AutoTestPlatform/master/Readimg/Image.png)
 --Font Checker:
 --Link Checker:
 --Mp4 Checker:
