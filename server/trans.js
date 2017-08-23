@@ -24,7 +24,7 @@ const fetchTrans = (url, auth, cb) => {
                 $ = cheerio.load(res);
             }
             catch (e) {
-                console.log(`\t[ X ] : Querying data from ${url} failed, with an exception of ${e.message}`);
+                console.log(`\t[ X ] : Load response from ${url} failed, messages: ${e.message}`);
                 $ = null;
             }
 

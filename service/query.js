@@ -50,18 +50,18 @@ const query = (url, cb, auth, opt) => {
     }
 
     request(url, options, (err, data, res) => {
-        if (!err && data && data.statusCode === 200) {
+        if (!err) {
             if (data) {
                 if (data.statusCode === 200) {
                     cb(null, res);
                 } else {
                     cb({
-                        msg: `Status Code Err, return ${data.statusCode}!`
+                        message: `Status Code Err, return ${data.statusCode}!`
                     }, null);
                 }
             } else {
                 cb({
-                    msg: 'Data is Null!'
+                    message: 'Data is Null!'
                 }, null);
             }
         } else {
