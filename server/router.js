@@ -10,7 +10,8 @@ const trans = require('./trans'),
     font = require('./font'),
     video = require('./video'),
     down = require('../service/downloader'),
-    link = require('./link');
+    link = require('./link'),
+vPath = require('./vpath');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -262,7 +263,7 @@ router.route('/vpath/url')
     .post((req, res) => {
         const urls = req.body.urls;
         if (urls) {
-            font.checkByUrl(urls, req.session.od, (err, data) => {
+            vPath.runMultiTasks(urls, req.session.od, (err, data) => {
                 if (!err) {
                     res.json({
                         result: true,
