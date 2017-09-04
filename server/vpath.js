@@ -23,7 +23,7 @@ const getVPaths = (url, auth, cb) => {
 };
 
 const runMultiTasks = (arr, auth, cb) => {
-    // let urlArr = urlStr.split('\n');
+    arr = arr.split('\n');
     let obj = {};
     async.map(arr, (item, callback) => {
         obj[item] = {
