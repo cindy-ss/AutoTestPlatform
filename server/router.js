@@ -258,6 +258,32 @@ router.route('/link')
         }
     });
 
+router.route('/vpath/url')
+    .post((req, res) => {
+        const urls = req.body.urls;
+        if (urls) {
+            font.checkByUrl(urls, req.session.od, (err, data) => {
+                if (!err) {
+                    res.json({
+                        result: true,
+                        data: data
+                    })
+                } else {
+                    console.log(`[ X ] : query from ${req.session.od.odUser} error, msg ; ${err}`);
+                    res.json({
+                        result: false,
+                        message: err.message
+                    })
+                }
+            })
+        } else {
+            res.json({
+                result: false,
+                message: 'No URLs Provided'
+            })
+        }
+    });
+
 router.route('/files/:fileName')
     .get((req, res) => {
         const path = `./static/data/${req.params.fileName}`;

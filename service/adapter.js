@@ -4,15 +4,10 @@
 
 const cheerio = require('cheerio'),
     URL = require('url'),
-    fs = require('fs'),
     path = require('path');
 
 const basic = require('./basic'),
     util = require('./util');
-
-const REG = {
-    MP4: new RegExp(/\.mp4$/)
-};
 
 const videoHandler = (content, cb) => {
     let res = [];
@@ -88,8 +83,6 @@ const imageHandler = (content, cb) => {
     catch (e) {
         cb(e, res);
     }
-
-
 };
 
 const cssHandler = (content, url, cb, filter) => {
@@ -122,27 +115,46 @@ const cssHandler = (content, url, cb, filter) => {
     catch (e) {
         cb(e, res);
     }
-
-
 };
 
-const fontHandler = (content, cb) => {
+// const attachHandler = (content, cb) => {
+//     let res = [];
+//     try {
+//         const $ = cheerio.load(content);
+//
+//         const cssArr = $("link[rel='stylesheet']");
+//
+//         cssArr.each((i, item) => {
+//             if (item.attribs && item.attribs.href && item.attribs.href.indexOf('/v/') !== -1) {
+//                 res.push(item.attribs.href);
+//             }
+//         });
+//
+//         const jsArr = $("script");
+//
+//         jsArr.each((i, item) => {
+//             if (item.attribs && item.attribs.src && item.attribs.src.indexOf('/v/') !== -1) {
+//                 res.push(item.attribs.src);
+//             }
+//         });
+//
+//         cb(null, res);
+//     }
+//     catch (e) {
+//         cb(e, res);
+//     }
+// };
+
+const attachHandler = (content, cb) => {
     let res = [];
-    try {
-        const $ = cheerio.load(content);
 
-        const arr = $("video");
+    let matched = content.match(/.*\/v\/.*/g) || [];
 
-        arr.each((i, item) => {
-            console.log(item);
-        });
-        cb(null, res);
-    }
-    catch (e) {
-        cb(e, res);
-    }
+    matched.forEach(item => {
+        res.push(item);
+    });
 
-
+    cb(null, res);
 };
 
 const wechatHandler = (content, cb) => {
@@ -195,7 +207,7 @@ const linkHandler = (content, cb) => {
 
 exports.videoHandler = videoHandler;
 exports.imageHandler = imageHandler;
-exports.fontHandler = fontHandler;
+exports.attachHandler = attachHandler;
 exports.mp4Handler = mp4Handler;
 exports.wechatHandler = wechatHandler;
 exports.bgHandler = bgHandler;

@@ -36,12 +36,12 @@ const us2geo = (str, geoStr) => {
 };
 
 //replace GEO2US
-const geo2us = str => {
+const geo2us = (str, isV) => {
     let res;
     if(str.indexOf('/v/') === -1){
         for(let item of GEO){
             if(str.indexOf(item) !== -1){
-                res = str.replace(item, '/v/');
+                res = str.replace(item, isV ? '/' : '/v/');
                 break;
             }
         }
