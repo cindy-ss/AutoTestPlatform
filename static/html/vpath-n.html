@@ -15,7 +15,7 @@
     <div class="col-md-4">
         <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
 
-        <textarea rows="5" id="urls" class="form-control"></textarea>
+        <textarea rows="5" id="urls" class="form-control" placeholder="Don't input US URL"></textarea>
 
 
         <button id="btnQuest" class="btn btn-primary">Query</button>
@@ -72,23 +72,20 @@
                     storedData = data.data;
                     str += `<tr><th>URL</th><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
                     $.each(storedData, function (n, value) {
-                        str += `<tr><td>${n}</td></tr>`;
-                        let arrlen='';
-                        if(value.origin.length>value.us.length){
-                            arrlen=value.origin.length;
+                        str += `<tr><td><a href="${n}" target="_blank">${n}</a></td><td>`;
+                        $.each(value.origin, function (index, obj) {
+                           str += `${html_encode(obj)}<br>`;
+                           str += `<hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />`;
+                        });
+                        str +=`</td><td>`
+                        $.each(value.us, function (index, usobj) {
+                            str += `${html_encode(usobj)}<br>`;
+                            str += `<hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />`;
+                        });
+                        str +=`</td><tr>`
+                        $('#resContainer').html(str);
 
-                        }else{
-                            arrlen=value.us.length;
-                        }
-                        console.log(arrlen);
-                        for(var i=0;i<arrlen;i++){
-                            str += `<tr>
-                                         <td></td>
-                                         <td ${value.origin[i] && (html_encode(value.us[i])!= html_encode(value.origin[i])) ? " class='red'" : ""}>${html_encode(value.origin[i])}</td>
-                                         <td>${html_encode(value.us[i])}</td></tr>`;
 
-                            $('#resContainer').html(str);
-                        };
 
                     })
             }else{
@@ -97,18 +94,17 @@
                 );
         }
     });
-    function html_encode(str1)
-    {var s = "";
-        if(str1){
-
-        if (str1.length == 0) return "";
-        s = str1.replace(/&/g, "&gt;");
+    function html_encode(str)
+    {
+        var s = "";
+        if (str.length == 0) return "";
+        s = str.replace(/&/g, "&gt;");
         s = s.replace(/</g, "&lt;");
         s = s.replace(/>/g, "&gt;");
         s = s.replace(/ /g, "&nbsp;");
         s = s.replace(/\'/g, "&#39;");
         s = s.replace(/\"/g, "&quot;");
-        s = s.replace(/\n/g, "<br>");}
+        s = s.replace(/\n/g, "<br>");
         return s;
     }
 

@@ -30,12 +30,14 @@ const getLinks = (url, auth, cb) => {
 
 const judgeUrl = (origin, url, geo) => {
     let tempUrl = URL.resolve(origin, url);
+
     let obj = {
         type: null,
         href: tempUrl,
         status: null,
         message: null,
         rawLink: url
+
     };
 
     let host = URL.parse(tempUrl).hostname;

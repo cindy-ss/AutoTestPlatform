@@ -14,16 +14,13 @@
     </div>
     <div class="col-md-4">
         <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
-
         <textarea rows="5" id="urls" class="form-control"></textarea>
-
-
-        <button id="btnQuest" class="btn btn-primary">Query</button>
-        <button id="btnClear" class="btn btn-primary">Clear</button>
     </div>
 
-
+ <div>
     <p class="col-md-2">
+        <button id="btnQuest" class="btn btn-primary">Query</button>
+        <button id="btnClear" class="btn btn-primary">Clear</button></br>
         <label>
             <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
             Excel
@@ -32,10 +29,11 @@
             <input type="radio" name="optionsRadios" id="rdHTML" value="html">
             HTML
         </label>
+        <br>
+        <button id="btnExport" class="btn btn-primary">Export</button>
     </p>
 
-    <button id="btnExport" class="btn btn-primary">Export</button>
-
+ </div>
 </div>
 <div class="col-md-7 showValue">
     <table class="table table-striped table-bordered">

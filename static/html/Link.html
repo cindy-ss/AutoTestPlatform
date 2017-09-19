@@ -87,10 +87,11 @@
                     let str1 = ``;
                     let strerr = ``;
                     let linkdata = Jsondata.data;
-                    console.log(linkdata);
+
                     strerr+=`<tr><td>URL</td><td>Status</td><td>Error Message</td></tr>`;
                     str1+=`<tr><td>URL</td><td>Status</td></tr>`;
                     $.each(linkdata, function (n, value) {
+
                         if (value.status === "failed") {
 
                             strerr += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.status}</td>
