@@ -59,6 +59,13 @@ router.route('/init')
         res.json(req.session.od);
     });
 
+router.route('/viewport')
+    .post((req, res) => {
+        trans.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
+
 router.route('/trans')
     .post((req, res) => {
         trans.runTask(req.body.urls, req.session.od, data => {
