@@ -23,7 +23,9 @@ const fetchTrans = (url, auth, cb) => {
             }
 
             if ($) {
-                let viewport = $("meta[property='og:viewport']").attr('content');
+                let viewport = $("meta[name='viewport']").attr('content');
+
+                console.log(viewport);
 
                 let obj = {
                     url,
