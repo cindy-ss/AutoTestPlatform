@@ -22,6 +22,10 @@ const videoHandler = (content, cb) => {
     cb(null, res);
 };
 
+const viewportHandler = (content) => {
+    return content.indexOf('viewport-fit=cover') !== -1;
+};
+
 const mp4Handler = (content, cb) => {
     let res = [];
 
@@ -213,3 +217,4 @@ exports.wechatHandler = wechatHandler;
 exports.bgHandler = bgHandler;
 exports.cssHandler = cssHandler;
 exports.linkHandler = linkHandler;
+exports.viewportHandler = viewportHandler;
