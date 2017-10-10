@@ -29,14 +29,16 @@ const fetchTrans = (url, auth, cb) => {
 
                 let obj = {
                     url,
-                    flag : viewport === 'width=device-width, initial-scale=1, viewport-fit=cover'
+                    flag : viewport === 'width=device-width, initial-scale=1, viewport-fit=cover',
+                    viewport
                 };
 
                 cb(null, obj);
             } else {
                 obj = {
                     url,
-                    flag : false
+                    flag : false,
+                    viewport : ''
                 };
                 cb(null, obj);
             }
@@ -44,7 +46,8 @@ const fetchTrans = (url, auth, cb) => {
             console.log(`\t[ X ] : Querying data from ${url} failed, with an error of ${err.message}`);
             let obj = {
                 url,
-                flag : false
+                flag : false,
+                viewport: ''
             };
             cb(null, obj);
         }
