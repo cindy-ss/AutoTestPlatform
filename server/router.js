@@ -11,7 +11,8 @@ const trans = require('./trans'),
     video = require('./video'),
     down = require('../service/downloader'),
     link = require('./link'),
-vPath = require('./vpath');
+vPath = require('./vpath'),
+viewport = require('./viewport');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -61,7 +62,7 @@ router.route('/init')
 
 router.route('/viewport')
     .post((req, res) => {
-        trans.runTask(req.body.urls, req.session.od, data => {
+        viewport.runTask(req.body.urls, req.session.od, data => {
             res.json(data);
         });
     });
