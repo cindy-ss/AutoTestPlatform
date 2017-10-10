@@ -33,6 +33,7 @@ const fetchTrans = (url, auth, cb) => {
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage = $("meta[property='og:image']").attr('content');
+                let ogImage1= $("meta[property='og:image']").attr('content');
                 let title = $("title").text();
 
                 if (ogImage) {
@@ -48,8 +49,10 @@ const fetchTrans = (url, auth, cb) => {
                     ogTitle,
                     ogImage: {
                         url: ogImage
+
                     },
                     title,
+                    oglab: ogImage1
                 };
 
                 async.parallel([
@@ -167,7 +170,8 @@ const dealHTML = (content, cb) => {
             <th>OG Title</th>
             <th>OG Description</th>
             <th>OG Img</th>
-            <th>OG Img URL</th>
+            <th>OG Img label</th>
+            <th>OG Img URL Server</th>
             <th>WeChat Img</th>
             <th>WeChat URL</th>
         </tr>
@@ -181,6 +185,7 @@ const dealHTML = (content, cb) => {
                 <td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
                 <td class="text-center"><div><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
                 Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</div></td>
+                <td><div><a href="${item.oglab}" target="_blank">${item.oglab}</a></div></td>
                 <td><div><a href="${item.ogImage.url}" target="_blank">${item.ogImage.url} </div></td>
                 <td class="text-center"><div><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
                 <br>
