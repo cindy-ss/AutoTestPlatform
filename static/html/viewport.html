@@ -1,7 +1,7 @@
 <h2 class="page-header">Viewport Checker</h2>
 
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4 navslid trans-side navslid-show">
         <p>
             URL Import(.txt only)
         </p>
@@ -11,48 +11,47 @@
              <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
               </span>
 
-    </div>
-    <div class="col-md-4">
+
         <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
         <textarea rows="5" id="urls" class="form-control"></textarea>
-    </div>
 
- <div>
-    <p class="col-md-4">
-        <br>
         <br>
         <button id="btnQuest" class="btn btn-primary">Query</button>
         <button id="btnClear" class="btn btn-primary">Clear</button>
-        <br>
-       <br>
-        <label>
-            <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-            Excel
-        </label>
-        <label>
-            <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-            HTML
-        </label>
-        <br>
-        <button id="btnExport" class="btn btn-primary">Export</button>
-    </p>
 
- </div>
-</div>
-<div class="col-md-7 showValue">
+
+    </div>
+
+    <div class="col-md-7 showValue">
+    Show:
+    <input id="radioerr" name="criteria" type="radio" value="failure" onchange ="change();" >Failures
+    <input id="radioall" name="criteria" type="radio" value="all" onchange ="change();">all
+
     <table class="table table-striped table-bordered">
-        <thead>
-        </thead>
-        <tbody id="resContainer" >
+        <tbody id="res_Containererr">
         </tbody>
     </table>
+
+    <table class="table table-striped table-bordered" id="corTable">
+        <tbody id="res_Container">
+        </tbody>
+    </table>
+
+</div>
 </div>
 
 
 <script>
-    //const fileInput = $("#fileInput");
-    // const urlInput = $("#urls");
-    // const resContainer = $('#resContainer');
+
+    function change(){
+        var val=$('input:radio[name="criteria"]:checked').val();
+        if(val=="failure"){
+            $("#corTable").hide();
+        }else if (val=="all"){
+            $("#corTable").show();
+        }
+
+    };
     var storedData;
 
     $("#btnImport").click(() => {
@@ -73,7 +72,8 @@
 
 
         if ($("#urls").val().length > 5) {
-            $('#resContainer').html('');
+            $('#res_Container').html('');
+            $('#res_Containererr').html('');
             $("#bg_loading").show();
 
 
@@ -84,25 +84,42 @@
                 if (data) {
                     storedData = data;
                     let str = ``;
+                    let strerr=``;
                     str += `<tr>
                             <th>URL</th>
                             <th>ViewPort</th>
-                            </tr>`
+                            <th>Result</th>
+                            </tr>`;
+                    strerr += `<tr>
+                            <th>URL</th>
+                            <th>ViewPort</th>
+                            <th>Result</th>
+                            </tr>`;
 
                     data.forEach((item, index) => {
                         if(item){
-                        str += `<tr>
-                                    <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
-                                    <td${item.flag=='false' ? " class='red'" : ""}><div>${item.flag}</div></td>
+                            if (item.flag === false) {
+
+                                strerr += `<tr>
+                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                                    <td>${item.viewport}</td>
+
+                                    <td ${(item.flag == false ) ? " class='red'" : ""}>${item.flag}</td>
+                                </tr>`;
+                                $('#res_Containererr').html(strerr);
+
+                            } else {
+                                str += `<tr>
+                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                                    <td>${item.viewport}</td>
+
+                                    <td ${(item.flag == false ) ? " class='red'" : ""}>${item.flag}</td>
+                                </tr>`;
+                                $('#res_Container').html(str);
+                            }
 
 
-                                </tr>`
-                    }else {
-                    str += `<tr><td>${item.url}</td><td>Bad Link</td></tr>`
-                        }
-                    });
-                    $('#resContainer').html(str);
                 }
 
             });
@@ -110,17 +127,7 @@
             console.log("null");
         }
     });
-    $("#btnExport").click(() => {
-        if ($("#urls").val().length > 0) {
-            const arr = $("#resContainer").text();
-            console.log(storedData);
-            $.post(`/api/trans/export/${document.querySelector("input[name=optionsRadios]:checked").value}`, {
-                    xls: JSON.stringify(storedData)
-                },
-                (data) => {
-                    $.fileDownload(`/api/files/${data}`);
-                })
-        }
-    });
+        }});
+
 
 </script>
