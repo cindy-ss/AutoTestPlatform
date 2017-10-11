@@ -67,6 +67,13 @@ router.route('/viewport')
         });
     });
 
+router.route('/trans/export')
+    .post((req, res) => {
+        viewport.exporter(req.body.data, (err, exPath) => {
+            res.end(exPath.toString());
+        });
+    });
+
 router.route('/trans')
     .post((req, res) => {
         trans.runTask(req.body.urls, req.session.od, data => {
