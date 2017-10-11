@@ -9,7 +9,6 @@ $(() =>{
         $(el.target).parent().addClass('active');
         main.load(target);
     };
-
     const sideBar = $("#sidebar");
     const main = $("#content");
     const txtOdUser = $('#txtOdUser');
@@ -53,8 +52,15 @@ $(() =>{
             }
         })
     });
-
     $("#btnUserName").click(() => {
         $('#odConfirm').modal();
     });
 });
+function list(event){
+    event.preventDefault();
+    $("#Gp").children('ul').slideDown(100);
+}
+function listUp(event){
+    event.preventDefault();
+    $("#Gp").children('ul').slideUp(100);
+}
