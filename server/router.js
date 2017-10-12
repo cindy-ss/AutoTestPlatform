@@ -67,7 +67,7 @@ router.route('/viewport')
         });
     });
 
-router.route('/trans/export')
+router.route('/viewport/export')
     .post((req, res) => {
         viewport.exporter(req.body.data, (err, exPath) => {
             res.end(exPath.toString());
