@@ -6,7 +6,8 @@ const cheerio = require('cheerio'),
     async = require('async');
 
 const query = require('../service/query'),
-    util = require('../service/util');
+    util = require('../service/util'),
+    fs = require('fs');
 
 const fetchTrans = (url, auth, cb) => {
     url = util.urlNormalize(url);
@@ -69,6 +70,7 @@ const runTask = (urlStr, auth, cb) => {
 };
 
 const dealHTML = (content, cb) => {
+    content = JSON.parse(content);
     const exportTime = new Date().getTime();
     const title = `report-${exportTime}`;
     const fileName = `${title}.html`;
