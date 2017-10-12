@@ -101,32 +101,14 @@ const dealHTML = (content, cb) => {
     <tbody class="metaStyle">
         <tr>
             <th>URL</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>OG Title</th>
-            <th>OG Description</th>
-            <th>OG Img</th>
-            <th>OG Img label</th>
-            <th>OG Img URL Server</th>
-            <th>WeChat Img</th>
-            <th>WeChat URL</th>
+            <th>ViewPort</th>
+            <th>Result</th>
         </tr>
         ${content.map(item => `
             <tr>
-                <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
-                <td><div>${item.title}</div></td>
-                <td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</div></td>
-               
-                <td><div>${item.ogTitle}</div></td>
-                <td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
-                <td class="text-center"><div><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
-                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</div></td>
-                <td><div><a href="${item.oglab}" target="_blank">${item.oglab}</a></div></td>
-                <td><div><a href="${item.ogImage.url}" target="_blank">${item.ogImage.url} </div></td>
-                <td class="text-center"><div><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
-                <br>
-                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</div></td>
-                <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</div></td>
+               <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+               <td>${item.viewport}</td>
+               <td ${(item.flag == false ) ? " class='red'" : ""}>${item.flag}</td>
             </tr>
         `).join('')}
         </tbody>

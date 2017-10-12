@@ -80,7 +80,7 @@
             $.post('/api/trans', {urls: $("#urls").val().trim()}, function (data) {
 
                 $("#bg_loading").hide();
-console.log(data);
+                console.log(data);
                 if (data) {
                     storedData = data;
                     let str = ``;
@@ -92,7 +92,7 @@ console.log(data);
                 <th>OG Description</th>
                 <th>OG Img</th>
                 <th>OG Img label</th>
-                <th>OG Img URL Server</th>
+                <th>OG Img on Current Server</th>
                 <th>WeChat Img</th>
                 <th>WeChat URL</th>
             </tr>`

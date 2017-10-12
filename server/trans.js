@@ -171,7 +171,7 @@ const dealHTML = (content, cb) => {
             <th>OG Description</th>
             <th>OG Img</th>
             <th>OG Img label</th>
-            <th>OG Img URL Server</th>
+            <th>OG Img on Current Server</th>
             <th>WeChat Img</th>
             <th>WeChat URL</th>
         </tr>
