@@ -25,7 +25,7 @@ const getImageSizeByUrl = (url, cb, auth) => {
                 }, auth);
             }
         }else{
-            console.log(`\t[ X ] : Fetching image - '${url}' - failed. code is ${data.statusCode || '000'}`);
+            console.log(`\t[ X ] : Fetching image - '${url}' - failed. code is ${data&&data.statusCode ? data.statusCode : '000'}`);
             cb(err, obj);
         }
 
