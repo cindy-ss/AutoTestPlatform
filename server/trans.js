@@ -6,7 +6,8 @@ const cheerio = require('cheerio'),
     async = require('async'),
     fs = require('fs'),
     URL = require('url'),
-    path = require('path');
+    path = require('path'),
+    gh = require('../service/geo_helper');
 
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
@@ -29,11 +30,11 @@ const fetchTrans = (url, auth, cb) => {
             }
 
             if ($) {
-                let desc = $("meta[name='Description']").attr('content')||$("meta[name='description']").attr('content');
+                let desc = $("meta[name='Description']").attr('content') || $("meta[name='description']").attr('content');
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage = $("meta[property='og:image']").attr('content');
-                let ogImage1= $("meta[property='og:image']").attr('content');
+                let ogImage1 = $("meta[property='og:image']").attr('content');
                 let title = $("title").text();
 
                 if (ogImage) {
@@ -49,10 +50,10 @@ const fetchTrans = (url, auth, cb) => {
                     ogTitle,
                     ogImage: {
                         url: ogImage
-
                     },
                     title,
-                    oglab: ogImage1
+                    oglab: ogImage1,
+                    geo : gh.getGEO(url)
                 };
 
                 async.parallel([
@@ -100,7 +101,8 @@ const fetchTrans = (url, auth, cb) => {
                     desc: "Bad Link",
                     ogDesc: "NA",
                     title: 'NA',
-                    ogTitle: 'NA'
+                    ogTitle: 'NA',
+                    geo : gh.getGEO(url)
                 };
                 cb(null, obj);
             }
@@ -111,7 +113,8 @@ const fetchTrans = (url, auth, cb) => {
                 desc: "Bad Link",
                 ogDesc: "NA",
                 title: 'NA',
-                ogTitle: 'NA'
+                ogTitle: 'NA',
+                geo : gh.getGEO(url)
             };
             cb(null, obj);
         }
@@ -211,8 +214,6 @@ const dealExcel = (content, cb) => {
         desc: 'Description',
         ogTitle: 'OG Title',
         ogDesc: 'OG Description',
-
-
     };
     exporter.dealExcel(headers, content, cb);
 };

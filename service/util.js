@@ -63,8 +63,16 @@ const isArray = object => {
         !(object.propertyIsEnumerable('length'));
 };
 
+const getVersionNumber = str => {
+    let obj = str.match(/\d{7}/g);
+    let arr = [];
+    obj.forEach(item => {arr.push(parseInt(item))});
+    return arr.sort().join(' ');
+};
+
 exports.filter = filter;
 exports.filterVersa = filterVersa;
 exports.deleteFolder = deleteFolder;
 exports.urlNormalize = urlNormalize;
 exports.isArray = isArray;
+exports.getVersionNumber = getVersionNumber;
