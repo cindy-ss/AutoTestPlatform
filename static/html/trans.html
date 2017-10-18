@@ -98,10 +98,16 @@
             </tr>`
                     data.forEach((item, index) => {
                         if(item.desc!="Bad Link"){
+                            let geoname=ctitle(item.geo);
+                            let ptitle =item.title;
+                            let flag=ptitle.indexOf(geoname);
+
+                            console.log(flag);
+
                         str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
-                                    <td><div>${item.title}</div></td>
+                                    <td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td>
 
                                     <td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</div></td>
 
@@ -143,5 +149,18 @@
                 })
         }
     });
+    function ctitle(geo) {
+        let s = "";
+        switch (geo){
+            case "CN":s="中国";break;
+            case "HKTC":s="香港";break;
+            case "HKEN":s="HK";break;
+            case "TW":s="台灣";break;
+            case "MO":s="澳門";break;
+            default:s ="";
+        }
+
+        return s;
+    }
 
 </script>

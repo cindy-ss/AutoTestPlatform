@@ -33,25 +33,11 @@
         <button class="sideIcon">&lt;</button>
     </div>
     <div class="col-md-7">
-        <p class="col-md-4">
-            <label>
-                <input type="radio" name="optionsRadios" id="rdExcel" value="excel" checked>
-                Excel
-            </label>
-            <label>
-                <input type="radio" name="optionsRadios" id="rdHTML" value="html">
-                HTML
-            </label>
-        </p>
-        <p class="col-md-4 exbutton">
-            <button id="getExcel" class="btn btn-primary">Export</button>
-        </p>
+
 
         <table class="table table-striped table-bordered">
             <thead>
-            <tr>
-                <td>URL</td>
-            </tr>
+
             </thead>
 
 
@@ -109,10 +95,10 @@
 
                     $.each(arrdata, function (m, value){
 
-                        str1 += `<tr><td><font  size="4" color="DarkBlue">${value.url}</font></td></tr>`;
+                        str1 += `<tr><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
                         $.each(value.data, function (n, valueinter){
 
-                            str1 += `<tr><td><font  color="DarkBlue">${n}</font></td></tr>`;
+                            str1 += `<tr><td>${n}</td></tr>`;
                             var x;
                             for (x in valueinter){
                                 console.log(valueinter[x].word,valueinter[x].code);
@@ -122,16 +108,7 @@
                         $('#res_Container').html(str1);
                     })
 
-//                    $.each(data, function (n, value) {
-//                        str1 += `<tr><td><font size="2" color="blue">${n}</td></tr>`;
-//                        $.each(value, function (n, valueinter) {
-//                            console.log(valueinter);
-//                            str1 += `<tr><td class="text-left" style=" ">Font:${valueinter.word},Code:${valueinter.code} </td></tr>`;
-//                        })
-//
-//                        $('#res_Container').html(str1);
-//
-//                    })
+
                 }
 
 
