@@ -100,6 +100,7 @@ const dealHTML = (content, cb) => {
 </head>
 <body class="container-fluid">
     <table class="table table-bordered table-striped table-hover">
+    <caption align="top">ViewPort Report</caption> 
     <tbody class="metaStyle">
         <tr>
             <th>URL</th>
