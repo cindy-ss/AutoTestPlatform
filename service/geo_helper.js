@@ -30,6 +30,17 @@ const us2geo = (str, geoStr) => {
                 res.push(str.replace('/v/', item));
             })
         }
+    }else{
+        if (geoStr) {
+            if(GEO_OBJ[geoStr.toLowerCase()]){
+                res = str.replace('.com/', `.com${GEO_OBJ[geoStr.toLowerCase()]}`);
+            }
+        } else {
+            res = [];
+            GEO.forEach((item, index) => {
+                res.push(str.replace('.com/', `.com${item}`));
+            })
+        }
     }
 
     return res;
