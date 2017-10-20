@@ -15,6 +15,8 @@ const query = require('../service/query'),
     exporter = require('../service/exporter'),
     util = require('../service/util');
 
+let MAX_THREAD = 20;
+
 const fetchTrans = (url, auth, cb) => {
     url = util.urlNormalize(url);
 
@@ -123,7 +125,7 @@ const fetchTrans = (url, auth, cb) => {
 
 const runTask = (urlStr, auth, cb) => {
     let urlArr = urlStr.split('\n');
-    async.map(urlArr, (item, callback) => {
+    async.mapLimit(urlArr, MAX_THREAD, (item, callback) => {
         fetchTrans(item, auth, (err, data) => {
             if (err) {
                 console.log(`\t[ X ] : Doing meta check failed on ${item}`);
