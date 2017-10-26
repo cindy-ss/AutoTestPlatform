@@ -100,7 +100,12 @@
                         if(item.desc!="Bad Link"){
                             let geoname=ctitle(item.geo);
                             let ptitle =item.title;
-                            let flag=ptitle.indexOf(geoname);
+                            let flag="";
+                            if(item.geo=="US"){
+                                flag=1;
+                            }else{
+                                flag=ptitle.indexOf(geoname);}
+
 
                             console.log(flag);
 
