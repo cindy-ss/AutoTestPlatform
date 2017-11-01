@@ -209,6 +209,76 @@ const linkHandler = (content, cb) => {
     }
 };
 
+const footNoteHandler = content => {
+    let res = {
+        'irrelevance': [],
+        'data': []
+    };
+    try {
+        const $ = cheerio.load(content);
+        const supArr = $("sup");
+
+        const ulArr = $('.ac-gf-sosumi ul li');
+        const olArr = $('.ac-gf-sosumi ol li');
+
+        let footNoteObj = {};
+
+        ulArr.each((i, item) => {
+            let text = $(item).text();
+            let mark = null;
+            if (new RegExp(/\W/).test(text[0])) {
+                mark = text.split(' ')[0];
+                if (footNoteObj[mark]) {
+                    console.log(`[ ERR ]`);
+                } else {
+                    footNoteObj[mark] = {
+                        footnote : text,
+                        copy : [],
+                    }
+                }
+            } else {
+                res['irrelevance'].push(text)
+            }
+        });
+
+        olArr.each((index, item) => {
+            footNoteObj[index + 1] = {
+                footnote : $(item).text(),
+                copy : [],
+            };
+        });
+
+        supArr.each(function (i, item) {
+            let mark = $(item).text().replace(/footnote/g, '').replace(/ /g, '');
+            let text = $(item).parent().text();
+
+            if (new RegExp(/\d/).test(mark)) {
+                mark = parseInt(mark).toString();
+            }
+
+            footNoteObj[mark] = footNoteObj[mark] || {
+                footnote : '',
+                copy : []
+            };
+
+            footNoteObj[mark]['copy'].push(text);
+        });
+
+        for(let i in footNoteObj){
+            res['data'].push({
+                mark : i,
+                footnote : footNoteObj[i]['footnote'],
+                copy : footNoteObj[i]['copy']
+            })
+        }
+
+        return res;
+    } catch (e) {
+        console.log(`[ERR]:${e}`);
+        return res;
+    }
+};
+
 exports.videoHandler = videoHandler;
 exports.imageHandler = imageHandler;
 exports.attachHandler = attachHandler;
@@ -218,3 +288,4 @@ exports.bgHandler = bgHandler;
 exports.cssHandler = cssHandler;
 exports.linkHandler = linkHandler;
 exports.viewportHandler = viewportHandler;
+exports.footNoteHandler = footNoteHandler;
