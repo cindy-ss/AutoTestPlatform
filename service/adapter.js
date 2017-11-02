@@ -155,6 +155,7 @@ const attachHandler = (content, cb) => {
     let matched = content.match(/.*\/v\/.*/g) || [];
 
     matched.forEach(item => {
+        item = item.replace(/\t/g, '').replace(/\n/g, '');
         res.push(item);
     });
 

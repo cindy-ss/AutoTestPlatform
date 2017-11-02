@@ -13,6 +13,7 @@ let MAX_THREAD = 20;
 
 const fetchTrans = (url, auth, cb) => {
     url = util.urlNormalize(url);
+    url += '?vpcover';
 
     query.query(url, (err, res) => {
         if (!err) {
