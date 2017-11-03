@@ -7,6 +7,7 @@ const adapter = require('../service/adapter'),
 
 const query = require('../service/query'),
     util = require('../service/util'),
+    report = require('../service/report'),
     fs = require('fs');
 
 let MAX_THREAD = 20;
@@ -26,7 +27,7 @@ const deal = (url, auth, cb) => {
             console.log(`\t[ X ] : Querying data from ${url} failed, with an error of ${err.message}`);
             obj = {
                 url,
-                data : {}
+                data: {}
             };
         }
         cb(null, obj);
@@ -47,19 +48,15 @@ const runTask = (urlStr, auth, cb) => {
     });
 };
 
-const dealHTML = (content, cb) => {
-    content = JSON.parse(content);
-    const exportTime = new Date().getTime();
-    const title = `report-${exportTime}`;
-    const fileName = `${title}.html`;
-    const exportPath = `./static/data/${fileName}`;
+const exporter = data => {
+    let content = JSON.parse(data);
 
     let finalStr = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>${title}</title>
+    <title>report-${new Date().getTime()}</title>
     <style>
         .red {
             color : red;
@@ -98,13 +95,7 @@ const dealHTML = (content, cb) => {
 </html>
     `;
 
-    fs.writeFileSync(exportPath, finalStr, 'utf-8');
-
-    cb(null, fileName);
-};
-
-const exporter = (data, cb) => {
-    dealHTML(data, cb);
+    return report.create(finalStr);
 };
 
 exports.runTask = runTask;

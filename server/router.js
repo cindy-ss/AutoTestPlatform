@@ -84,9 +84,7 @@ router.route('/footnote')
 
 router.route('/footnote/export')
     .post((req, res) => {
-        footnote.exporter(req.body.data, (err, exPath) => {
-            res.end(exPath.toString());
-        });
+        res.end(footnote.exporter(req.body.data).toString());
     });
 
 router.route('/trans')
