@@ -11,8 +11,9 @@ const trans = require('./trans'),
     video = require('./video'),
     down = require('../service/downloader'),
     link = require('./link'),
-vPath = require('./vpath'),
-viewport = require('./viewport');
+    vPath = require('./vpath'),
+    viewport = require('./viewport'),
+    footnote = require('./footnote');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -70,6 +71,20 @@ router.route('/viewport')
 router.route('/viewport/export')
     .post((req, res) => {
         viewport.exporter(req.body.data, (err, exPath) => {
+            res.end(exPath.toString());
+        });
+    });
+
+router.route('/footnote')
+    .post((req, res) => {
+        footnote.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
+
+router.route('/footnote/export')
+    .post((req, res) => {
+        footnote.exporter(req.body.data, (err, exPath) => {
             res.end(exPath.toString());
         });
     });
