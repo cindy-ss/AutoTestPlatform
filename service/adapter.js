@@ -227,7 +227,7 @@ const footNoteHandler = content => {
         ulArr.each((i, item) => {
             let text = $(item).text();
             let mark = null;
-            if (new RegExp(/\W/).test(text[0])) {
+            if (new RegExp(/[*†]/).test(text[0])) {
                 mark = text.split(' ')[0];
                 if (footNoteObj[mark]) {
                     console.log(`[ ERR ]`);
