@@ -13,7 +13,8 @@ const trans = require('./trans'),
     link = require('./link'),
     vPath = require('./vpath'),
     viewport = require('./viewport'),
-    footnote = require('./footnote');
+    footnote = require('./footnote'),
+    report = require('./report');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -311,6 +312,16 @@ router.route('/vpath/url')
                 message: 'No URLs Provided'
             })
         }
+    });
+
+router.route('/export/')
+    .post((req, res) => {
+        let obj = {
+            content: JSON.parse(req.body.data),
+            title: req.body.title || `report - ${new Date().getTime()}`,
+            file : req.body.file
+        };
+        res.end(report.create(obj));
     });
 
 router.route('/files/:fileName')
