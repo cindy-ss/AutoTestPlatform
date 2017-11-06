@@ -4,7 +4,13 @@ let ejs = require('ejs'),
 const create = (obj) => {
     let file = obj['file'];
     let str = fs.readFileSync(`./server/templates/${file}.ejs`, 'utf-8');
-    let outStr = ejs.render(str, obj);
+    let outStr = '';
+    try{
+        outStr = ejs.render(str, obj);
+    }catch(e){
+        console.log('Creating report failed.');
+        outStr = '';
+    }
 
     const fileName = `report-${new Date().getTime()}.html`;
     const exportPath = `./static/data/${fileName}`;
