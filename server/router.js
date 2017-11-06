@@ -11,6 +11,7 @@ const trans = require('./trans'),
     video = require('./video'),
     down = require('../service/downloader'),
     link = require('./link'),
+    patLink = require('./pat_link'),
     vPath = require('./vpath'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
@@ -279,6 +280,29 @@ router.route('/link')
                         message: 'Something went wrong'
                     })
                 }
+            });
+        } else {
+            res.json({
+                result: false,
+                message: 'No URL Provided'
+            })
+        }
+    });
+
+router.route('/pat_link')
+    .post((req, res) => {
+        const url = req.body.url;
+        if (url) {
+            patLink.getLinks(req.body.url, req.session.od).then(data => {
+                res.json({
+                    result: true,
+                    data: data
+                })
+            }, err => {
+                res.json({
+                    result: false,
+                    message: 'Something went wrong'
+                })
             });
         } else {
             res.json({

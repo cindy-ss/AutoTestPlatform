@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/edel-ma/lab#readme",
   "dependencies": {
+    "@marcom/qa-pat-links": "^3.0.1",
     "angular": "^1.6.6",
     "angular-route": "^1.6.6",
     "archiver": "^2.0.0",
