@@ -1,0 +1,104 @@
+<h2 class="page-header">FootNotes Checker</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            URL Import(.txt only)
+        </p>
+
+        <input class="form-control" type="file" id="fileInput">
+        <span class="input-group-btn">
+             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+              </span>
+
+    </div>
+    <div class="col-md-4">
+        <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
+
+        <textarea rows="5" id="urls" class="form-control"></textarea>
+
+
+        <button id="btnQuest" class="btn btn-primary">Query</button>
+        <button id="btnClear" class="btn btn-primary">Clear</button>
+    </div>
+
+
+</div>
+<div>
+    <table class="table table-striped table-bordered">
+        <thead>
+        </thead>
+        <tbody id="resContainer">
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    //const fileInput = $("#fileInput");
+    // const urlInput = $("#urls");
+    // const resContainer = $('#resContainer');
+    var storedData;
+
+    $("#btnImport").click(() => {
+        if ($("#fileInput")[0].files.length >= 1) {
+            const file = $("#fileInput")[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                $("#urls").val(this.result);
+                $("#fileInput").val("");
+            };
+            reader.readAsText(file);
+        }
+    });
+    $('#btnClear').click(() => {
+        $("#urls").val('');
+    });
+    $('#btnQuest').click(() => {
+        if ($("#urls").val().length > 5) {
+            $('#resContainer').html('');
+            $("#bg_loading").show();
+            let str = ``;
+            $.post('/api/footnote', {urls: $("#urls").val().trim()}, function (data) {
+                    $("#bg_loading").hide();
+               // console.log(data);
+                    if (data) {
+                        let str1 = ``;
+                        storedData = data;
+
+                        str += `<tr><th>URL</th><th>FootNote</th><th>☞Copy</th></tr>`;
+                        $.each(storedData, function (n, value) {
+
+                            let footnotes =storedData[n].data.data;
+                            console.log(storedData[n].data);
+                            str += `<tr><td><a href="${storedData[n].url}" target="_blank">${storedData[n].url}</td><td></td><td></td>`;
+                            let arrlen =footnotes.length;
+
+                            str+=``;
+                            for (let i = 0; i < arrlen; i++) {
+
+                            str +=`<tr><td></td><td>${footnotes[i].mark}.${footnotes[i].footnote}</td>
+                                <td>${footnotes[i].copy}</td></tr>`;
+                            };
+                            str+=`<tr><td>Un-sorted</td><td colspan="2">`;
+
+                            let irrlen=storedData[n].data.irrelevance.length;
+                            let irr=storedData[n].data.irrelevance;
+                            for (let j = 0; j < irrlen; j++) {
+                                str+=`&#9829 ${irr[j]}<br>`;
+                            };
+
+str+=`</td></tr>`;
+
+                            $('#resContainer').html(str);
+                        })
+                    } else {
+                    }
+                }
+            );
+        }
+    });
+
+
+
+</script>

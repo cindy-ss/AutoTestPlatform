@@ -98,13 +98,14 @@
                         str1 += `<tr><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
                         $.each(value.data, function (n, valueinter){
 
-                            str1 += `<tr><td>${n}</td></tr>`;
+                            str1 += `<tr><td>${n}</td></tr><tr><td>`;
                             var x;
                             for (x in valueinter){
                                 console.log(valueinter[x].word,valueinter[x].code);
-                                str1 += `<tr><td class="text-left" style=" ">Font:${valueinter[x].word},Code:${valueinter[x].code} </td></tr>`;
+                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
                             }
-                        })
+                        });
+                        str1+=`</td></tr>`;
                         $('#res_Container').html(str1);
                     })
 

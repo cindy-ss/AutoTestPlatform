@@ -20,6 +20,7 @@
 
         <button id="btnQuest" class="btn btn-primary">Query</button>
         <button id="btnClear" class="btn btn-primary">Clear</button>
+        <button id="btnExport" class="btn btn-primary">Export</button>
     </div>
 
 
@@ -64,6 +65,7 @@
                     if (data && data.result === true) {
                         let str1 = ``;
                         storedData = data.data;
+                        console.log(storedData);
                         str += `<tr><th>URL</th><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
                         $.each(storedData, function (n, value) {
                             str += `<tr><td>${n}</td></tr>`;
@@ -74,10 +76,9 @@
                             } else {
                                 arrlen = value.us.length;
                             }
-                            console.log(arrlen);
+
                             for (let i = 0; i < arrlen; i++) {
-                                console.log(html_encode(value.us[i]));
-                                console.log(html_encode(value.origin[i]));
+
                                 str += `<tr>
                                          <td></td>
                                          <td ${value.origin[i] && (html_encode(value.us[i]) === html_encode(value.origin[i])) ? "" : " class='red'"}>${html_encode(value.origin[i])}</td>
@@ -91,6 +92,18 @@
                     }
                 }
             );
+        }
+    });
+    $("#btnExport").click(() => {
+        if ($("#urls").val().length > 0) {
+
+            $.post(`/api/export/`, {
+                data: JSON.stringify(storedData),
+                title : 'Vpath Report',
+                file : 'vpath'
+            }, (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
         }
     });
 
