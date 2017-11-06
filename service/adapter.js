@@ -229,11 +229,12 @@ const footNoteHandler = content => {
             let mark = null;
             if (new RegExp(/[*†]/).test(text[0])) {
                 mark = text.split(' ')[0];
+                let tempText = text.substr(mark.length);
                 if (footNoteObj[mark]) {
                     console.log(`[ ERR ]`);
                 } else {
                     footNoteObj[mark] = {
-                        footnote : text,
+                        footnote : tempText,
                         copy : [],
                     }
                 }
