@@ -34,15 +34,20 @@ const fetchTrans = (url, auth, cb) => {
             if ($) {
                 let desc = $("meta[name='Description']").attr('content') || $("meta[name='description']").attr('content');
                 let ogDesc = $("meta[property='og:description']").attr('content');
+                let ogUrl = $("meta[property='og:url']").attr('content');
+                let _ogImage = $("meta[property='og:image']").attr('content');
                 let ogTitle = $("meta[property='og:title']").attr('content');
-                let ogImage = $("meta[property='og:image']").attr('content');
-                let ogImage1 = $("meta[property='og:image']").attr('content');
+                let ogImage, ogImage1, ogImageUS = 'NA';
                 let title = $("title").text();
 
-                if (ogImage) {
-                    let ogURLObj = URL.parse(ogImage);
+                if (_ogImage) {
+                    _ogImage = _ogImage.split('?')[0];
+
+                    let ogURLObj = URL.parse(_ogImage);
                     ogURLObj.host = URL.parse(url).host;
                     ogImage = URL.format(ogURLObj);
+
+                    ogImage1 = _ogImage;
                 }
 
                 obj = {
@@ -55,7 +60,9 @@ const fetchTrans = (url, auth, cb) => {
                     },
                     title,
                     oglab: ogImage1,
-                    geo : gh.getGEO(url)
+                    geo : gh.getGEO(url),
+                    ogUrl,
+                    ogImageUS,
                 };
 
                 async.parallel([
@@ -90,6 +97,33 @@ const fetchTrans = (url, auth, cb) => {
                                 callback(err);
                             }
                         }, auth)
+                    },
+                    callback => {
+                        if(_ogImage){
+                            if(gh.getGEO(url) !== 'US'){
+                                let tempUrl = gh.geo2us(url, true);
+
+                                query.query(tempUrl, (err, data) => {
+                                    if(!err){
+                                        let $ = cheerio.load(data);
+                                        ogImageUS = $("meta[property='og:image']").attr('content');
+                                        if(ogImageUS){
+                                            ogImageUS = ogImageUS.split('?')[0];
+                                        }
+
+                                        obj['ogImageUS'] = ogImageUS;
+                                        callback(null);
+                                    }else{
+                                        callback(err);
+                                    }
+                                }, auth);
+                            }else{
+                                ogImageUS = _ogImage;
+                                callback(null);
+                            }
+                        }else{
+                            callback(null);
+                        }
                     }
                 ], function (err) {
                     if (err) {
@@ -104,6 +138,8 @@ const fetchTrans = (url, auth, cb) => {
                     ogDesc: "NA",
                     title: 'NA',
                     ogTitle: 'NA',
+                    ogUrl : 'NA',
+                    ogImageUS : 'NA',
                     geo : gh.getGEO(url)
                 };
                 cb(null, obj);
@@ -116,6 +152,8 @@ const fetchTrans = (url, auth, cb) => {
                 ogDesc: "NA",
                 title: 'NA',
                 ogTitle: 'NA',
+                ogUrl : 'NA',
+                ogImageUS : 'NA',
                 geo : gh.getGEO(url)
             };
             cb(null, obj);
