@@ -66,9 +66,9 @@
                         let str1 = ``;
                         storedData = data.data;
                         console.log(storedData);
-                        str += `<tr><th>URL</th><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
+                        str += `<tr><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
                         $.each(storedData, function (n, value) {
-                            str += `<tr><td>${n}</td></tr>`;
+                            str += `<tr><td colspan="3"><a href="${n}" target="_blank">${n}</td></tr>`;
                             let arrlen = '';
                             if (value.origin.length > value.us.length) {
                                 arrlen = value.origin.length;
@@ -80,7 +80,7 @@
                             for (let i = 0; i < arrlen; i++) {
 
                                 str += `<tr>
-                                         <td></td>
+
                                          <td ${value.origin[i] && (html_encode(value.us[i]) === html_encode(value.origin[i])) ? "" : " class='red'"}>${html_encode(value.origin[i])}</td>
                                          <td>${html_encode(value.us[i])}</td>
                                          </tr>`;

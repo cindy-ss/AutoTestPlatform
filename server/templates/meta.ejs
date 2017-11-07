@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .ext-thumb {
+            width: 60px;
+            height: 60px
+        }
+
+        .metaStyle > tr > td > div {
+            width: 200px;
+            height: 200px;
+            word-wrap: break-word
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<table class="table table-bordered table-striped table-hover">
+    <caption align="top">Meta Report</caption>
+
+   <%console.log(content)%>
+    <% for(var i = 0; i < content.length; i++) { %>
+    <tr><td bgcolor="#b8860b">URL</td><td bgcolor="#b8860b"><a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %> </td> </tr>
+    <tr><td>Title</td><td><%= content[i]['title'] %> </td> </tr>
+    <tr><td>Description</td><td><%= content[i]['desc'] %> </td> </tr>
+    <tr><td>OG Title</td><td><%= content[i]['ogTitle'] %> </td> </tr>
+    <tr><td>OG URL</td><td><a href="<%= content[i]['ogUrl'] %>" target="_blank"><%= content[i]['ogUrl'] %> </td> </tr>
+    <tr><td>OG Description</td><td><%= content[i]['ogDesc'] %> </td> </tr>
+    <tr><td>OG Image US</td><td><img src="<%=content[i]['ogImageUS']%>" alt="ogImage" class="ext-thumb"> </td> </tr>
+    <tr><td>OG Image </td><td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>
+            Width:<%=content[i]['ogImage']['size']['width'] %> Hight:<%=content[i]['ogImage']['size']['height'] %></td> </tr>
+    <tr><td>OG Image label:</td><td><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td> </tr>
+    <tr><td>OG Image Current Server:</td><td><a href="<%= content[i]['ogImage']['url'] %>" target="_blank"><%= content[i]['ogImage']['url'] %></a></td> </tr>
+    <tr><td>WeChat Image </td><td><img src="<%=content[i]['wechat']['url']%>" alt="wechatImage" class="ext-thumb"><br>
+            Width:<%=content[i]['wechat']['size']['width'] %> Hight:<%=content[i]['wechat']['size']['height'] %></td> </tr>
+    <%}%>
+
+
+    </tbody>
+</table>
+</body>
+</html>

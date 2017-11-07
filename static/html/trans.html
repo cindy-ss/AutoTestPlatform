@@ -43,7 +43,7 @@
     <table class="table table-striped table-bordered">
         <thead>
         </thead>
-        <tbody id="resContainer" class="metaStyle">
+        <tbody id="resContainer">
         </tbody>
     </table>
 </div>
@@ -84,18 +84,7 @@
                 if (data) {
                     storedData = data;
                     let str = ``;
-                    str += `<tr>
-                <th>URL</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>OG Title</th>
-                <th>OG Description</th>
-                <th>OG Img</th>
-                <th>OG Img label</th>
-                <th>OG Img on Current Server</th>
-                <th>WeChat Img</th>
-                <th>WeChat URL</th>
-            </tr>`
+
                     data.forEach((item, index) => {
                         if(item.desc!="Bad Link"){
                             let geoname=ctitle(item.geo);
@@ -109,7 +98,7 @@
 
                             console.log(flag);
 
-                        str += `<tr>
+                       /* str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
                                     <td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td>
@@ -117,11 +106,18 @@
                                     <td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</div></td>
 
                                     <td><div>${item.ogTitle}</div></td>
+                                    <td><div><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</div></td>
 
                                     <td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
 
+                                    <td class="text-center"><div><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"><br>
+                                     </div></td>
+
                                     <td class="text-center"><div><img src="${item.ogImage ? item.ogImage.url : ''}" alt="ogImage" class="ext-thumb"><br>
                                      Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''}</div></td>
+
+
+
                                     <td><div><a href="${item.oglab}" target="_blank">${item.oglab}</a></div></td>
                                     <td><div><a href="${item.ogImage ? item.ogImage.url : ''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a></div> </td>
 
@@ -129,7 +125,24 @@
                                       Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</div> </td>
 
                                     <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></div></td>
-                                </tr>`
+                                </tr>`*/
+
+                       str+=`<tr><td bgcolor="#b8860b"> URL:</td><td bgcolor="#b8860b"><a href="${item.url}" target="_blank" color> ${item.url}</a></td></tr>`;
+                       str+=`<tr><td>Title:</td><td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td></tr>`;
+                       str+=`<tr><td>Description:</td><td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td></tr>`;
+                       str+=`<tr><td>OG Title:</td><td>${item.ogTitle}</td></tr>`;
+                       str+=`<tr><td>OG URL:</td><td><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</td></tr>`;
+                       str+=`<tr><td>OG Description:</td><td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td></tr>`
+                       str+=`<tr><td>OG Image US:</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
+                       str+=`<tr><td>OG Image:</td>><td><img src="${item.ogImage ? item.ogImage.url : ''}" alt="ogImage" class="ext-thumb"><br>
+                                     Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''}</td></tr>`;
+                       str+=`<tr><td>OG Image lable:</td><td><a href="${item.oglab}" target="_blank">${item.oglab}</a></td></tr>`;
+                       str+=`<tr><td>OG Image Current Server:</td><td><a href="${item.ogImage ? item.ogImage.url : ''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a> </td></tr>`;
+                       str+=`<tr><td>WeChat Image:</td><td><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                                      Width:${item.wechat.size.width}.Hight:${item.wechat.size.height} </td></tr>`;
+                       str+=`<tr><td>WeChat URL:</td><td><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></td></tr>`;
+
+
                     }else if (item.desc==="Bad Link") {
                     str += `<tr><td>${item.url}</td><td>Bad Link</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>`
                         }
@@ -142,7 +155,7 @@
             console.log("null");
         }
     });
-    $("#btnExport").click(() => {
+ /*   $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
             const arr = $("#resContainer").text();
             console.log(storedData);
@@ -152,6 +165,19 @@
                 (data) => {
                     $.fileDownload(`/api/files/${data}`);
                 })
+        }
+    });*/
+
+    $("#btnExport").click(() => {
+        if ($("#urls").val().length > 0) {
+            console.log(storedData);
+            $.post(`/api/export/`, {
+                data: JSON.stringify(storedData),
+                title : 'Meta Report',
+                file : 'meta'
+            }, (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
         }
     });
     function ctitle(geo) {
