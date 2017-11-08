@@ -15,7 +15,8 @@ const trans = require('./trans'),
     vPath = require('./vpath'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
-    report = require('./report');
+    report = require('./report'),
+    copy = require('./copy');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -66,6 +67,13 @@ router.route('/init')
 router.route('/viewport')
     .post((req, res) => {
         viewport.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
+
+router.route('/copy')
+    .post((req, res) => {
+        copy.runTask(req.body.urls, req.session.od, data => {
             res.json(data);
         });
     });
@@ -343,7 +351,7 @@ router.route('/export/')
         let obj = {
             content: JSON.parse(req.body.data),
             title: req.body.title || `report - ${new Date().getTime()}`,
-            file : req.body.file
+            file: req.body.file
         };
         res.end(report.create(obj));
     });
