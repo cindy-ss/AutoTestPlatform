@@ -67,21 +67,21 @@
                         let str1 = ``;
                         storedData = data;
 
-                        str += `<tr><th>URL</th><th>FootNote</th><th>☞Copy</th></tr>`;
+                        str += `<tr>><th>Sort</th><th>FootNote</th><th>☞Copy</th></tr>`;
                         $.each(storedData, function (n, value) {
 
                             let footnotes =storedData[n].data.data;
-                            console.log(storedData[n].data);
-                            str += `<tr><td><a href="${storedData[n].url}" target="_blank">${storedData[n].url}</td><td></td><td></td>`;
+                            console.log(storedData[n]);
+                            str += `<tr><td colspan="2"><a href="${storedData[n].url}" target="_blank">${storedData[n].url}</td><td></td><td></td>`;
                             let arrlen =footnotes.length;
 
                             str+=``;
                             for (let i = 0; i < arrlen; i++) {
 
-                            str +=`<tr><td></td><td>${footnotes[i].mark}.${footnotes[i].footnote}</td>
-                                <td>${footnotes[i].copy}</td></tr>`;
+                            str +=`<tr><td></td><td ${footnotes[i].copy=="" ?"class='red'":""} >${footnotes[i].mark}.${footnotes[i].footnote}</td>
+                                <td ${footnotes[i].footnote=="" ?"class='red'":""}>${footnotes[i].copy}</td></tr>`;
                             };
-                            str+=`<tr><td>Un-sorted</td><td colspan="2">`;
+                            str+=`<tr><td>Un-sorted</td><td>`;
 
                             let irrlen=storedData[n].data.irrelevance.length;
                             let irr=storedData[n].data.irrelevance;
@@ -108,16 +108,16 @@ str+=`</td></tr>`;
             var arr = [];
             $.each(storedData, (n, value) => {
                 arr.push({
-                    url : n,
-                    origin : value['origin'],
-                    us : value['us']
+                    url : value.url,
+                    data:value.data,
+                    irrelevance:value.irrelevance
                 })
             });
 
             $.post(`/api/export/`, {
                 data: JSON.stringify(arr),
-                title : 'Vpath Report',
-                file : 'vpath'
+                title : 'FootNotes Report',
+                file : 'footnotes'
             }, (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })

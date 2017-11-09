@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <%= title %>
+    </title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .ext-thumb {
+            width: 60px;
+            height: 60px
+        }
+
+        .metaStyle > tr > td > div {
+            width: 200px;
+            height: 200px;
+            word-wrap: break-word
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<table class="table table-bordered table-striped table-hover">
+    <caption align="top">FootNotes Report</caption>
+    <tbody class="metaStyle">
+    <tr>
+        <th>Sort</th>
+        <th>FootNote</th>
+        <th>Copy</th>
+    </tr>
+    <% for(var i = 0; i < content.length; i++) { %>
+    <tr>
+        <td colspan="3" bgcolor="#b8860b">
+            <a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %></a>
+        </td>
+    </tr>
+
+       <% let footnotes =content[i].data.data%>
+        <% let arrlen =footnotes.length %>
+        <%for (let i = 0; i < arrlen; i++) { %>
+    <tr>
+        <td></td> <td><%=footnotes[i]['mark']%>,<%=footnotes[i]['footnote']%></td>
+            <td><%=footnotes[i]['copy']%></td></tr>
+
+    <%}%>
+
+    <tr><td>Un-sorted</td><td colspan="2">
+
+           <% let irrlen=content[i].data.irrelevance.length;%>
+           <% let irr=content[i].data.irrelevance;%>
+           <% for (let j = 0; j < irrlen; j++) {%>
+            ♥ <%= content[i].data.irrelevance[j]%><br>`;
+
+
+    <% }%>
+        </td></tr>
+
+    <%}%>
+    </tbody>
+</table>
+</body>
+</html>

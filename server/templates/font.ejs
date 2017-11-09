@@ -26,35 +26,22 @@
 </head>
 <body class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
-    <caption align="top">V-Path Report</caption>
-    <tr class="metaStyle">
-    <tr>
-
-        <th>Geo-Vpath</th>
-        <th>US-Vpath</th>
-    </tr>
+    <caption align="top">Font Report</caption>
+    <tbody class="metaStyle">
 
     <% for(var i = 0; i < content.length; i++) { %>
     <tr>
-        <td colspan="3">
-            <%= content[i]['url'] %>
-        </td> </tr>
-    <% let arrlen ="";%>
-   <% if (content[i]['origin'].length > content[i]['us'].length) {
-    arrlen = content[i]['origin'].length;
+        <td colspan="2"><%= content[i]['url'] %></td>
+    </tr>
 
-    } else {
-    arrlen = content[i]['us'].length;
-    } %>
 
-    <%for (let j = 0; j < arrlen; j++) {%>
-       <tr>
-          <td <%if (content[i]['us'][j] !== content[i]['origin'][j]){ %>
-                  class="red" <%}%> >
-              <%= content[i]['origin'][j]%></td>
-           <td><%= content[i]['us'][j]%></td>
-       </tr>
-    <% }} %>
+
+
+
+
+
+    <%}%>
+
     </tbody>
 </table>
 </body>
