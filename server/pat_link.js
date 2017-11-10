@@ -4,9 +4,15 @@ const PatLinks = require("@marcom/qa-pat-links"),
 const testsToRun = ["anchor", "geo", "imageSrc", "status"];
 
 const getLinks = (url, auth) => {
-    url = util.urlNormalize(url);
+    let urlArr = url.split('\n');
+    let arr = [];
 
-    const patLinks = new PatLinks(url, testsToRun, auth);
+    urlArr.map(item => {
+        arr.push(util.urlNormalize(item));
+    });
+    // url = util.urlNormalize(url);
+
+    const patLinks = new PatLinks(arr, testsToRun, auth);
 
     return patLinks.init().then(patLinks.run.bind(patLinks));
 };
