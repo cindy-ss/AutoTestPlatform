@@ -299,9 +299,9 @@ router.route('/link')
 
 router.route('/pat_link')
     .post((req, res) => {
-        const url = req.body.url;
+        const url = req.body.urls;
         if (url) {
-            patLink.getLinks(req.body.url, req.session.od).then(data => {
+            patLink.getLinks(req.body.urls, req.session.od).then(data => {
                 res.json({
                     result: true,
                     data: data
