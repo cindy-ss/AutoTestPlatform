@@ -72,16 +72,16 @@
 
                             let footnotes =storedData[n].data.data;
                             console.log(storedData[n]);
-                            str += `<tr><td colspan="2"><a href="${storedData[n].url}" target="_blank">${storedData[n].url}</td><td></td><td></td>`;
+                            str += `<tr><td colspan="3"><a href="${storedData[n].url}" target="_blank">${storedData[n].url}</td>`;
                             let arrlen =footnotes.length;
 
                             str+=``;
                             for (let i = 0; i < arrlen; i++) {
 
-                            str +=`<tr><td></td><td ${footnotes[i].copy=="" ?"class='red'":""} >${footnotes[i].mark}.${footnotes[i].footnote}</td>
+                            str +=`<tr><td></td><td ${footnotes[i].copy=="" ?"class='red'":""} >${footnotes[i].mark} ${isContainstar(footnotes[i].mark) ?" ":"."} ${footnotes[i].footnote}</td>
                                 <td ${footnotes[i].footnote=="" ?"class='red'":""}>${footnotes[i].copy}</td></tr>`;
                             };
-                            str+=`<tr><td>Un-sorted</td><td>`;
+                            str+=`<tr><td>Un-sorted</td><td colspan="2">`;
 
                             let irrlen=storedData[n].data.irrelevance.length;
                             let irr=storedData[n].data.irrelevance;
@@ -99,7 +99,16 @@ str+=`</td></tr>`;
             );
         }
     });
-
+    function isContainstar(str1) {
+        let flag = false;
+        if (str1) {
+            if (str1.length === 0) return flag;
+           if(str1.indexOf('*') >= 0){
+               flag=true;
+           }
+        }
+        return flag;
+    }
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
 

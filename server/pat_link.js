@@ -1,7 +1,7 @@
 const PatLinks = require("@marcom/qa-pat-links"),
     util = require('../service/util');
 
-const testsToRun = ["anchor", "geo", "imageSrc", "status"];
+const testsToRun = [ "geo", "status"];
 
 const getLinks = (url, auth) => {
     let urlArr = url.split('\n');

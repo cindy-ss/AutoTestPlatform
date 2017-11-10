@@ -32,15 +32,19 @@
     <% for(var i = 0; i < content.length; i++) { %>
     <tr>
         <td colspan="2"><%= content[i]['url'] %></td>
+
+        <td> <% for(var fd in content[i].data){%>
+
+            <%for (var sd in fd){%>
+            <%for (var j = 0; j < sd.length; j++) {%>
+
+             <%=j%>
+
+            <%}}}%>
+            </td>
     </tr>
+<%}%>
 
-
-
-
-
-
-
-    <%}%>
 
     </tbody>
 </table>

@@ -1,3 +1,4 @@
+
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
@@ -33,19 +34,33 @@ let compare = (url, auth, cb) => {
     });
 };
 
+// let _comp = (baseArr, targetArr) => {
+//     let oldArr = [], newArr = [];
+
+//     baseArr.forEach(item => {
+//         if (!targetArr.has(item)) {
+//             oldArr.push(item);
+//         }
+//     });
+
+//     targetArr.forEach(item => {
+//         if (!baseArr.has(item)) {
+//             newArr.push(item);
+//         }
+//     });
+
+//     return [oldArr, newArr];
+// };
+
 let _comp = (baseArr, targetArr) => {
     let oldArr = [], newArr = [];
 
     baseArr.forEach(item => {
-        if (!targetArr.has(item)) {
             oldArr.push(item);
-        }
     });
 
     targetArr.forEach(item => {
-        if (!baseArr.has(item)) {
             newArr.push(item);
-        }
     });
 
     return [oldArr, newArr];
@@ -54,7 +69,7 @@ let _comp = (baseArr, targetArr) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    let _text = $('html').text();
+    let _text = $('main').text();
 
     let textArr = _text.split('\n'), arr = new Set();
 
