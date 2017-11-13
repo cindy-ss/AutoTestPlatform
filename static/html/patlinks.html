@@ -64,12 +64,13 @@
                     $("#bg_loading").hide();
                     console.log(data);
                     if (data) {
-                        let str1 = ``;
+
                         storedData = data;
 
-                        str += `<tr>><th>Data</th><th>Revolved To</th><th>Line</th><th>Inner Text</th><th>Inner Text</th><th>State</th><th>Reason</th></tr>`;
+                        str += `<tr><th>Data</th><th>Revolved To</th><th>Line</th><th>Inner Text</th><th>Inner Text</th><th>State</th><th>Reason</th></tr>`;
+
                         for(var i=0;i<data.length;i++){
-                            str+=`<tr><td>${item._type}</td></tr>`;
+                            str+=`<tr><td>${item._type}</td><td>xxxxxxx</td><td></td></tr>`;
 
                             $('#resContainer').html(str);
                         }

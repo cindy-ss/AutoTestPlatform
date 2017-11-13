@@ -33,12 +33,20 @@
     <table class="table table-striped table-bordered">
         <thead>
         </thead>
-        <tbody id="resContainer">
+        <tbody id="resContainer" class="meta">
         </tbody>
     </table>
 </div>
 </div>
+<style>
+     .headline > a {
+        color:black;
 
+    }
+    .f1{
+        color: white;
+    }
+</style>
 <script>
     //const fileInput = $("#fileInput");
     // const urlInput = $("#urls");
@@ -70,11 +78,11 @@
             $.post('/api/trans', {urls: $("#urls").val().trim()}, function (data) {
 
                 $("#bg_loading").hide();
-                console.log(data);
+
                 if (data) {
                     storedData = data;
                     let str = ``;
-
+console.log(storedData);
                     data.forEach((item, index) => {
                         if(item.desc!="Bad Link"){
                             let geoname=ctitle(item.geo);
@@ -86,7 +94,7 @@
                                 flag=ptitle.indexOf(geoname);}
 
 
-                            console.log(flag);
+                                console.log(flag);
 
                        /* str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
@@ -117,20 +125,24 @@
                                     <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></div></td>
                                 </tr>`*/
 
-                       str+=`<tr><td bgcolor="#b8860b"> URL:</td><td bgcolor="#b8860b"><a href="${item.url}" target="_blank" color> ${item.url}</a></td></tr>`;
+                       str+=`<tr><td bgcolor="#175b96" class="f1">URL: </td><td class ="headline" bgcolor="#175b96"><a href="${item.url}" target="_blank"> ${item.url}</a></td></tr>`;
                        str+=`<tr><td>Title:</td><td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td></tr>`;
                        str+=`<tr><td>Description:</td><td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td></tr>`;
                        str+=`<tr><td>OG Title:</td><td>${item.ogTitle}</td></tr>`;
-                       str+=`<tr><td>OG URL:</td><td><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</td></tr>`;
+                       str+=`<tr><td>OG URL:</td><td ${item.ogUrl.indexOf('https')==-1 ?"class='red'":""} ><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</td></tr>`;
                        str+=`<tr><td>OG Description:</td><td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td></tr>`
                        str+=`<tr><td>OG Image US:</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
                        str+=`<tr><td>OG Image:</td>><td><img src="${item.ogImage ? item.ogImage.url : ''}" alt="ogImage" class="ext-thumb"><br>
                                      Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''}</td></tr>`;
                        str+=`<tr><td>OG Image lable:</td><td><a href="${item.oglab}" target="_blank">${item.oglab}</a></td></tr>`;
                        str+=`<tr><td>OG Image Current Server:</td><td><a href="${item.ogImage ? item.ogImage.url : ''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a> </td></tr>`;
-                       str+=`<tr><td>WeChat Image:</td><td><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
-                                      Width:${item.wechat.size.width}.Hight:${item.wechat.size.height} </td></tr>`;
+
+                            if (item.geo=="CN") {
+                                  str+=`<tr><td>WeChat Image:</td><td><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
+                            Width:${item.wechat.size.width}.Hight:${item.wechat.size.height} </td></tr>`;
                        str+=`<tr><td>WeChat URL:</td><td><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></td></tr>`;
+                            }
+
 
 
                     }else if (item.desc==="Bad Link") {
@@ -145,18 +157,7 @@
             console.log("null");
         }
     });
- /*   $("#btnExport").click(() => {
-        if ($("#urls").val().length > 0) {
-            const arr = $("#resContainer").text();
-            console.log(storedData);
-            $.post(`/api/trans/export/${document.querySelector("input[name=optionsRadios]:checked").value}`, {
-                    xls: JSON.stringify(storedData)
-                },
-                (data) => {
-                    $.fileDownload(`/api/files/${data}`);
-                })
-        }
-    });*/
+
 
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
@@ -170,6 +171,7 @@
             })
         }
     });
+
     function ctitle(geo) {
         let s = "";
         switch (geo){
@@ -182,6 +184,14 @@
         }
 
         return s;
+    }
+
+    function checkhttps(title){
+            var str=title.indexOf('https');
+        console.log(str);
+            return str;
+
+
     }
 
 </script>

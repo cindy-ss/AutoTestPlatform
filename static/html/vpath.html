@@ -65,7 +65,7 @@
                     if (data && data.result === true) {
                         let str1 = ``;
                         storedData = data.data;
-                        console.log(storedData);
+
                         str += `<tr><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
                         $.each(storedData, function (n, value) {
                             str += `<tr><td colspan="3"><a href="${n}" target="_blank">${n}</td></tr>`;
@@ -97,7 +97,7 @@
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
 
-            console.log(storedData);
+
 
             var arr = [];
             $.each(storedData, (n, value) => {
@@ -108,6 +108,7 @@
                 })
             });
 
+            console.log(storedData);
             $.post(`/api/export/`, {
                 data: JSON.stringify(arr),
                 title : 'Vpath Report',

@@ -34,6 +34,7 @@
         Show:
         <input id="radioerr" name="criteria" type="radio" value="failure" onchange ="change();" >Failures
         <input id="radioall" name="criteria" type="radio" value="all" onchange ="change();">all
+        <br>
         <button id="btnExport" class="btn btn-primary">Export</button>
 
 
@@ -147,10 +148,23 @@
         }
     });
     $("#btnExport").click(() => {
-        if ($("#urls").val().length > 0) {
+        if ($("#url").val().length > 0) {
+            console.log('3333');
             console.log(storedData);
+
+            var arr = [];
+            $.each(storedData, (n, value) => {
+                arr.push({
+                    href : value['href'],
+                    message : value['message'],
+                    rawLink : value['rawLink'],
+                    status:value['status'],
+                    type:value['type']
+                })
+            });
+
             $.post(`/api/export/`, {
-                data: JSON.stringify(storedData),
+                data: JSON.stringify(arr),
                 title : 'Link Report',
                 file : 'link'
             }, (data) => {
@@ -158,4 +172,5 @@
             })
         }
     });
+
 </script>
