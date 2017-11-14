@@ -133,7 +133,6 @@ console.log(storedData);
                        str+=`<tr><td>OG URL:</td><td ${item.ogUrl.indexOf('https')==-1 ?"class='red'":""} ><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</td></tr>`;
                        str+=`<tr><td>OG Description:</td><td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td></tr>`
                        str+=`<tr><td>OG Image US:</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
-
                       str+=`<tr><td>OG Image:</td><td><img src="${item.oglab}" alt="oglab" class="ext-thumb"><br>
                         <a href="${item.oglab}" target="_blank">${item.oglab}</a> </td></tr>`;
 
