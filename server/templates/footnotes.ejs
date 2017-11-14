@@ -35,7 +35,7 @@
     </tr>
     <% for(var i = 0; i < content.length; i++) { %>
     <tr>
-        <td colspan="3" bgcolor="#b8860b">
+        <td colspan="3">
             <a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %></a>
         </td>
     </tr>
@@ -44,17 +44,27 @@
         <% let arrlen =footnotes.length %>
         <%for (let i = 0; i < arrlen; i++) { %>
     <tr>
-        <td></td> <td><%=footnotes[i]['mark']%>,<%=footnotes[i]['footnote']%></td>
-            <td><%=footnotes[i]['copy']%></td></tr>
+        <td></td>
+        <td <%if(footnotes[i].copy=""){%>
+                class="red"
+                <% } %>
+        ><%=footnotes[i]['mark']%>.<%=footnotes[i]['footnote']%></td>
 
+        <td> <% for(var j = 0; j < footnotes[i].copy.length; i++) { %>
+         <%=footnotes[i].copy[j]%>
+            <%}%>
+        </td>
+
+    </tr>
     <%}%>
+
 
     <tr><td>Un-sorted</td><td colspan="2">
 
            <% let irrlen=content[i].data.irrelevance.length;%>
            <% let irr=content[i].data.irrelevance;%>
            <% for (let j = 0; j < irrlen; j++) {%>
-            ♥ <%= content[i].data.irrelevance[j]%><br>`;
+            ♥ <%= content[i].data.irrelevance[j]%><br>
 
 
     <% }%>

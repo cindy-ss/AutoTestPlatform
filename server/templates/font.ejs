@@ -38,8 +38,10 @@
     <tr>
         <td><%=fd%></td>
         <td><% for(var j = 0;j < content[i].data[fd].length; j++) { %>
+        <% if(content[i].data[fd].hasOwnProperty(j)) { %>
         <%=content[i].data[fd][j]["word"]%>[<%=content[i].data[fd][j]["code"]%>],
-        <%}%></td>
+        <%}}%>
+        </td>
     </tr>
 <%}%>
 <%}%>

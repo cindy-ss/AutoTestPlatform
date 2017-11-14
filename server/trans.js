@@ -63,6 +63,7 @@ const fetchTrans = (url, auth, cb) => {
                     geo : gh.getGEO(url),
                     ogUrl,
                     ogImageUS,
+
                 };
 
                 async.parallel([

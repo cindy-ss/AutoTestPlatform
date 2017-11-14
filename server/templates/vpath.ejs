@@ -26,19 +26,32 @@
 </head>
 <body class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
-    <caption align="top">ViewPort Report</caption>
+    <caption align="top">V-Path Report</caption>
     <tbody class="metaStyle">
     <tr>
-
         <th>Geo</th>
         <th>US</th>
     </tr>
     <% for(i in content){ %>
-    <tr><td><%=content[i].flag%>
+    <tr>
+        <td colspan="2"><%=i%></td>
+    </tr>
+    <% for(var j = 0;j < content[i].length; j++) { %>
+    <% if(content[i].hasOwnProperty(j)) { %>
+    <tr>
+        <td <%if(content[i][j].flag==false){%>
+                class="red"
+                <% } %>
+        ><%=content[i][j]["origin"]%></td>
+        <td <%if(content[i][j].flag==false){%>
+                class="red"
+                <% } %>
+        ><%=content[i][j]["us"]%></td>
 
-        </td><td></td></tr>
-    <tr><td>1</td><td>2</td></tr>
-    <% } %>
+    </tr>
+    <%}%>
+    <%}%>
+    <%}%>
     </tbody>
 </table>
 </body>
