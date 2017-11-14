@@ -31,18 +31,17 @@
 
     <% for(var i = 0; i < content.length; i++) { %>
     <tr>
-        <td colspan="2"><%= content[i]['url'] %></td>
-
-        <td> <% for(var fd in content[i].data){%>
-
-            <%for (var sd in fd){%>
-            <%for (var j = 0; j < sd.length; j++) {%>
-
-             <%=j%>
-
-            <%}}}%>
-            </td>
+        <td colspan="2"><a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %></a></td>
     </tr>
+    
+    <% for(var fd in content[i].data){ %>
+    <tr>
+        <td><%=fd%></td>
+        <td><% for(var j = 0;j < content[i].data[fd].length; j++) { %>
+        <%=content[i].data[fd][j]["word"]%>[<%=content[i].data[fd][j]["code"]%>],
+        <%}%></td>
+    </tr>
+<%}%>
 <%}%>
 
 

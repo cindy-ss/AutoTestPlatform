@@ -13,7 +13,7 @@
 
     </div>
     <div class="col-md-4">
-        <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
+        <p>URL Input (eg:https://webedit.apple.com/cn/apple-watch-series-3/)</p>
 
         <textarea rows="5" id="urls" class="form-control"></textarea>
 
@@ -62,31 +62,20 @@
             let str = ``;
             $.post('/api/vpath/url', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
-                    if (data && data.result === true) {
+                    if (data) {
                         let str1 = ``;
                         storedData = data.data;
+                       console.log(storedData);
 
                         str += `<tr><th>Geo-Vpath</th><th>US-Vpath</th></tr>`;
                         $.each(storedData, function (n, value) {
-                            str += `<tr><td colspan="3"><a href="${n}" target="_blank">${n}</td></tr>`;
-                            let arrlen = '';
-                            if (value.origin.length > value.us.length) {
-                                arrlen = value.origin.length;
-
-                            } else {
-                                arrlen = value.us.length;
+                            str += `<tr><td colspan="2"><a href="${n}" target="_blank">${n}</td></tr>`;
+                            for(var i=0;i<value.length;i++){
+                               str+=`<tr><td ${value[i].flag==true ? "" : "class='red'"}>${html_encode(value[i].origin)}</td><td ${value[i].flag==true ? "" : "class='red'"}>${html_encode(value[i].us)}</td></tr>`;
                             }
-
-                            for (let i = 0; i < arrlen; i++) {
-
-                                str += `<tr>
-
-                                         <td ${value.origin[i] && (html_encode(value.us[i]) === html_encode(value.origin[i])) ? "" : " class='red'"}>${html_encode(value.origin[i])}</td>
-                                         <td>${html_encode(value.us[i])}</td>
-                                         </tr>`;
 
                                 $('#resContainer').html(str);
-                            }
+
                         })
                     } else {
                     }
@@ -97,21 +86,9 @@
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
 
-
-
-            var arr = [];
-            $.each(storedData, (n, value) => {
-                arr.push({
-                    url : n,
-                    origin : value['origin'],
-                    us : value['us']
-                })
-            });
-
-            console.log(storedData);
             $.post(`/api/export/`, {
-                data: JSON.stringify(arr),
-                title : 'Vpath Report',
+                data: JSON.stringify(storedData),
+                title : 'vpath Report',
                 file : 'vpath'
             }, (data) => {
                 $.fileDownload(`/api/files/${data}`);
