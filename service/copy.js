@@ -69,7 +69,7 @@ let _comp = (baseArr, targetArr) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    let _text = $('main').text();
+    let _text = $('html:not(#apple-footer,#ac-globalnav)').text();
 
     let textArr = _text.split('\n'), arr = new Set();
 
