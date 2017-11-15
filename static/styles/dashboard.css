@@ -28,6 +28,8 @@ ul, li {
  */
 .navbar-fixed-top {
     border: 0;
+    position: fixed;
+
 }
 
 .nav-list > li > a {

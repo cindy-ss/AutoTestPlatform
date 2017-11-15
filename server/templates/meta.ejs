@@ -69,7 +69,7 @@
     <tr><td>Description</td><td <%if (content[i]['desc'].length>150||content[i]['desc'].length<100){ %>
                 class="red" <%}%> ><%= content[i]['desc'] %> </td> </tr>
     <tr><td>OG Title</td><td><%= content[i]['ogTitle'] %> </td> </tr>
-    <tr><td>OG URL</td><td><a href="<%= content[i]['ogUrl'] %>" target="_blank"><%= content[i]['ogUrl'] %></a> </td> </tr>
+    <tr><td>OG URL</td><td><a href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrl'] %></a> </td> </tr>
     <tr><td>OG Description</td><td <%if (content[i]['ogDesc'].length>150||content[i]['ogDesc'].length<100){ %>
                 class="red" <%}%> ><%= content[i]['ogDesc'] %> </td> </tr>
     <tr><td>OG Image US</td><td><img src="<%=content[i]['ogImageUS']%>" alt="ogImage" class="ext-thumb"> </td> </tr>
