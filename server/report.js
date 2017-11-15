@@ -8,6 +8,7 @@ const create = (obj) => {
     try{
         outStr = ejs.render(str, obj);
     }catch(e){
+        console.log(e);
         console.log('Creating report failed.');
         outStr = '';
     }
