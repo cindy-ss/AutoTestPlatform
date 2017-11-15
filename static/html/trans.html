@@ -125,7 +125,6 @@ console.log(storedData);
 
                                     <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</a></div></td>
                                 </tr>`*/
-
                        str+=`<tr><td bgcolor="#175b96" class="f1">URL: </td><td class ="headline" bgcolor="#175b96"><a href="${item.url}" target="_blank"> ${item.url}</a></td></tr>`;
                        str+=`<tr><td>Title:</td><td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td></tr>`;
                        str+=`<tr><td>Description:</td><td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td></tr>`;
