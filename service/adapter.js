@@ -252,7 +252,23 @@ const footNoteHandler = content => {
 
         supArr.each(function (i, item) {
             let mark = $(item).text().replace(/footnote/g, '').replace(/ /g, '');
-            let text = $(item).parent().text();
+            let text;
+            if($(item).parent().text().length < 10){
+                if($(item).parent().parent().text().length > 20){
+                    let parent = $(item).parent().text();
+                    let grandParent = $(item).parent().parent().text();
+
+                    let pos = grandParent.indexOf(parent) + parent.length;
+
+                    text = grandParent.substr(pos > 20 ? pos - 20 : 0, 20);
+                }else{
+                    text = $(item).parent().parent().text();
+                }
+            }else{
+                text = $(item).parent().text();
+            }
+
+            text = text.replace(/\t/g, '').replace(/\n/g, '');
 
             if (new RegExp(/\d/).test(mark)) {
                 mark = parseInt(mark).toString();
