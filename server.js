@@ -13,7 +13,8 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     },
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    url : 'https://att.usspk02.orchard.apple.com'
 }));
 
 const router = require('./server/router').router;
