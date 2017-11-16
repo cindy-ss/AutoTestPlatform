@@ -127,16 +127,28 @@ console.log(storedData);
                                 </tr>`*/
                        str+=`<tr><td bgcolor="#175b96" class="f1">URL: </td><td class ="headline" bgcolor="#175b96"><a href="${item.url}" target="_blank"> ${item.url}</a></td></tr>`;
                        str+=`<tr><td>Title:</td><td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td></tr>`;
+
+
                        str+=`<tr><td>Description:</td><td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td></tr>`;
+
+
                        str+=`<tr><td>OG Title:</td><td>${item.ogTitle}</td></tr>`;
-                       str+=`<tr><td>OG URL:</td><td ${item.ogUrl && (item.ogUrl.indexOf('https')==-1) ?"class='red'":""} ><a href="${item.ogUrl}" target="_blank">${item.ogUrl}</td></tr>`;
+
+
+                       // 验证
+                       str+=`<tr><td>OG URL:</td><td><a ${item.ogUrl && (item.ogUrl.indexOf('https')==-1) ?"class='red'":""}  href="${item.ogUrl}" target="_blank">${item.ogUrl}</a></td></tr>`;
+
+
                        str+=`<tr><td>OG Description:</td><td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td></tr>`
                        str+=`<tr><td>OG Image US:</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
+
+                       // 验证+1
                       str+=`<tr><td>OG Image:</td><td><img src="${item.oglab}" alt="oglab" class="ext-thumb"><br>
-                        <a href="${item.oglab}" target="_blank">${item.oglab}</a> </td></tr>`;
+                        <a ${item.ogUrl && (item.ogUrl.indexOf('https')==-1) ?"class='red'":""}  href="${item.oglab}" target="_blank">${item.oglab}</a> </td></tr>`;
+                        //验证+2
                       str+=`<tr><td>OG Image Current Server:</td><td><img src="${item.ogImage ? item.ogImage.url : ''}" alt="ogImage" class="ext-thumb"><br>
                                      Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''} <br>
-                                      <a href="${item.ogImage?item.ogImage.url:''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a>
+                                      <a ${item.ogUrl && (item.ogUrl.indexOf('https')==-1) ?"class='red'":""}  href="${item.ogImage?item.ogImage.url:''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a>
                                      </td></tr>`;
 
                        if (item.geo=="CN") {
