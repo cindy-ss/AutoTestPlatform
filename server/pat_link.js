@@ -1,5 +1,5 @@
-const PatLinks = require("@marcom/qa-pat-links"),
-    util = require('../service/util');
+// const PatLinks = require("@marcom/qa-pat-links"),
+const    util = require('../service/util');
 
 const testsToRun = [ "geo", "status"];
 
@@ -32,4 +32,6 @@ let run = (url, auth) => {
     return patLinks.init().then(patLinks.run.bind(patLinks));
 };
 
-exports.getLinks = getLinks;
+exports.getLinks = (url, auth) => {
+    return new Promise();
+};
