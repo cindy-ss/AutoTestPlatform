@@ -14,7 +14,7 @@ app.use(session({
     },
     resave: false,
     saveUninitialized: true,
-    url : 'https://att.usspk02.orchard.apple.com'
+    // url : 'https://att.usspk02.orchard.apple.com'
 }));
 
 const router = require('./server/router').router;
