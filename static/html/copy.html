@@ -62,21 +62,25 @@
             let str = ``;
             $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
-
-                var dateu=$("#urls").val();
-                data.unshift(dateu);
                 console.log(data);
                     if (data) {
                         let str1 = ``;
                         storedData = data;
 
-                        str += `<tr>><th>Copy-Branch</th><th>☞Copy Production</th></tr>`;
+                        str += `<tr><th>Copy-Branch</th><th>☞Copy Production</th></tr>`;
                         for(var i = 0;i < data.length; i++) {
-                            for (var j=0;j<data[i].length;j++){
-                                for(var x=0;x<data[i][j].length;x++){
-
-                                    str+=`<tr><td ${(data[i][1][x]!== data[i][0][x])? "class='red'" : ""}>${data[i][1][x]}</td><td>${data[i][0][x]}</td></tr>`
+//                            for (var j=1;j<data[i].length;j++){
+                                for(var x=0;x<data[i][1].length;x++){
+                                    str+=`<tr><td colspan="2">${data[i][1][x]}</td></tr>`
                                 }
+                                for(var x=0;x<data[i][2].length;x++){
+//                                    str+=`<tr><td ${(data[i][1][x]!== data[i][0][x])? "class='red'" : ""}>${data[i][1][x]}</td><td>${data[i][0][x]}</td></tr>`
+                                    str+=`<tr><td>&nbsp;</td><td>${data[i][2][x]}</td></tr>`
+                                }
+                                for(var x=0;x<data[i][3].length;x++){
+//                                    str+=`<tr><td ${(data[i][1][x]!== data[i][0][x])? "class='red'" : ""}>${data[i][1][x]}</td><td>${data[i][0][x]}</td></tr>`
+                                    str+=`<tr><td>${data[i][3][x]}</td><td>&nbsp;</td></tr>`
+//                                }
                             }
                         }
                         $('#resContainer').html(str);

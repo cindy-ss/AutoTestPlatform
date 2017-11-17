@@ -19,51 +19,41 @@ let compare = (url, auth, cb) => {
             query.query(url, callback, auth);
         }
     ], function (err, res) {
-        let arr = [];
+        let arr = [[], [], []];
 
         // err = err ||
 
-        if (err && res[0] && res[1]) {
-            console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
-        } else {
+        if (!err && res[0] && res[1]) {
             arr = _comp(_getContent(res[0]), _getContent(res[1]));
+        } else {
+            console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
             // console.log(`${online_url} missed:\n\t${arr[0].join('\n\t')}\n\n${url} added:\n\t${arr[1].join('\n\t')}`);
         }
+
+        arr.unshift(url);
 
         cb(err, arr);
     });
 };
 
-// let _comp = (baseArr, targetArr) => {
-//     let oldArr = [], newArr = [];
-
-//     baseArr.forEach(item => {
-//         if (!targetArr.has(item)) {
-//             oldArr.push(item);
-//         }
-//     });
-
-//     targetArr.forEach(item => {
-//         if (!baseArr.has(item)) {
-//             newArr.push(item);
-//         }
-//     });
-
-//     return [oldArr, newArr];
-// };
-
 let _comp = (baseArr, targetArr) => {
-    let oldArr = [], newArr = [];
+    let sameArr=[], oldArr = [], newArr = [];
 
     baseArr.forEach(item => {
+        if(targetArr.has(item)){
+            sameArr.push(item);
+        }else{
             oldArr.push(item);
+        }
     });
 
     targetArr.forEach(item => {
+        if (!baseArr.has(item)) {
             newArr.push(item);
+        }
     });
 
-    return [oldArr, newArr];
+    return [sameArr, oldArr, newArr];
 };
 
 let _getContent = (str) => {
