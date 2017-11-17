@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 
 const trans = require('./trans'),
+    fs = require('fs'),
     ic = require('./image_checker'),
     font = require('./font'),
     video = require('./video'),
@@ -360,7 +361,7 @@ router.route('/files/:fileName')
     .get((req, res) => {
         const path = `./static/data/${req.params.fileName}`;
         res.download(path, (err) => {
-            console.log(err);
+            fs.unlinkSync(path);
         });
     });
 
@@ -368,7 +369,7 @@ router.route('/files/tmp/:fileName')
     .get((req, res) => {
         const path = `./tmp/${req.params.fileName}`;
         res.download(path, (err) => {
-            console.log(err);
+            fs.unlinkSync(path);
         });
     });
 
