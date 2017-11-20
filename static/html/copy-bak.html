@@ -1,0 +1,177 @@
+<h2 class="page-header">Copy Checker</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <p>
+            URL Import(.txt only)
+        </p>
+
+        <input class="form-control" type="file" id="fileInput">
+        <span class="input-group-btn">
+             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+              </span>
+
+    </div>
+    <div class="col-md-4">
+        <p>URL Input(eg:https://www.apple.com/cn/iphone)</p>
+
+        <textarea rows="5" id="urls" class="form-control"></textarea>
+
+
+        <button id="btnQuest" class="btn btn-primary">Query</button>
+        <button id="btnClear" class="btn btn-primary">Clear</button>
+        <button id="btnExport" class="btn btn-primary">Export</button>
+    </div>
+
+
+</div>
+<div>
+    <table class="table table-striped table-bordered">
+        <thead>
+        </thead>
+        <tbody id="resContainer">
+        </tbody>
+    </table>
+</div>
+
+<div class="panel-group" id="accordion" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne">
+                    Click Me to See Equivalent.
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered" >
+                    <thead>
+                    </thead>
+                    <tbody id="resContainerequ">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    $("#accordion")[0].style.display = 'none';
+    var storedData;
+
+    $("#btnImport").click(() => {
+        if ($("#fileInput")[0].files.length >= 1) {
+            const file = $("#fileInput")[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                $("#urls").val(this.result);
+                $("#fileInput").val("");
+            };
+            reader.readAsText(file);
+        }
+    });
+    $('#btnClear').click(() => {
+        $("#urls").val('');
+    });
+    $('#btnQuest').click(() => {
+        if ($("#urls").val().length > 5) {
+            $('#resContainer').html('');
+            $("#bg_loading").show();
+            let str = ``;
+            let str1 = ``;
+            $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
+                    $("#bg_loading").hide();
+               $("#accordion").show();
+                console.log(data);
+                    if (data) {
+
+                        storedData = data;
+                        str1+=`<tr class="parent" id="row_01"><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
+                        for(var i = 0;i < data.length; i++) {
+
+
+                                str+=`<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
+                                str+=`<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
+                                for(var x=0;x<data[i][2].length;x++){
+                                    str+=`<tr><td class='red'>${data[i][2][x]}</td></tr>`;
+                                }
+
+                                    str+=`<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
+                                str += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
+                                for(var x=0;x<data[i][3].length;x++){
+                                    str+=`<tr><td class='red'>${data[i][3][x]}</td></tr>`;
+                                 }
+
+
+                                str1+=`<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
+                                <a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
+                                for(var x=0;x<data[i][1].length;x++){
+                                    str1+=`<tr class="child_row"><td>${data[i][1][x]}</td></tr>`;
+                                 }
+                        }
+                        $('#resContainer').html(str);
+                        $('#resContainerequ').html(str1);
+                    } else {
+                    }
+                }
+            );
+        }
+    });
+
+
+    $("#btnExport").click(() => {
+        if ($("#urls").val().length > 0) {
+
+            console.log(storedData);
+
+            var arr = [];
+            $.each(storedData, (n, value) => {
+                arr.push({
+                    url : value.url,
+                    data:value.data,
+                    irrelevance:value.irrelevance
+                })
+            });
+
+            $.post(`/api/export/`, {
+                data: JSON.stringify(arr),
+                title : 'FootNotes Report',
+                file : 'footnotes'
+            }, (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
+        }
+    });
+
+    function FormateURL(url){
+
+        var myURL = parseURL(url);
+
+        return "https://www.apple.com"+myURL.path;
+
+    };
+    function parseURL(url) {
+        var a =  document.createElement('a');
+        a.href = url;
+        return {
+            source: url,
+            protocol: a.protocol.replace(':',''),
+            host: a.hostname,
+            port: a.port,
+            query: a.search,
+
+            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+            hash: a.hash.replace('#',''),
+            path: a.pathname.replace(/^([^\/])/,'/$1'),
+            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+            segments: a.pathname.replace(/^\//,'').split('/')
+        };
+    }
+
+</script>
