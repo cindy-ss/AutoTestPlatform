@@ -23,9 +23,11 @@
         <button type="button" class="btn btn-primary" id="btn_image_download">Download</button>
     </div>
     <br/>
+
     <div>
         <div class="row">
             <div class="col-md-6" id="image_us_res_out">
+          
                 <table class="table table-bordered">
                     <thead class="text-center">
                     <tr id="image_us_geo_title">
@@ -89,6 +91,7 @@
                                     <td class="text-left" >${data.data.url}</td>
                                     <td class="text-left">${data.data.total}</td>
                                 </tr>
+
                                 ${data.data.list.map(item => `<tr><td><img src="${item}" alt="ImageUrl" class="ext-thumb"></td><td style="word-wrap:break-word"><a href="${item}" target="_blank">${item}</a></td></tr>`).join('')}
                                 `);
                 } else {
@@ -123,7 +126,6 @@
     $('#btn_query_tw').click(() => {
         get_compare_data('tw');
     });
-
     var get_compare_data = (geo) => {
         if ($("#url").val().length > 5) {
             _image.res.empty();
@@ -163,9 +165,8 @@
                         str += `<tr><td rowspan="2">${item.name}</td>`;
 
                         arr.map(geo => {
-                            str += `<td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
+                            str += `<td><img id="thumb_url" class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
                         });
-
                         str += `</tr><tr>`;
 
                         arr.map(geo => {
@@ -205,4 +206,33 @@
         }
 
     });
+    //滑入滑出固定大小
+     $("#image_gc_res").on("mouseover","#thumb_url",function(){
+         var tipimg="<div id='tipimg'><img height=600 width=600 src='"+this.src+"'></div>";
+         $("body").append(tipimg);
+         $("#tipimg").css({
+             "width":200+"px",
+             "height":200+"px",
+             "position":"fixed",
+             "top":"40%",
+             "left":"42%",
+             "margin-top":-200+"px",
+             "margin-left":-300+"px"
+         });
+     }).on("mouseout","#thumb_url",function(){
+         $("#tipimg").remove();
+     })
+    //点击大小不固定
+    /*$("#image_gc_res").on("click","#thumb_url",function(){
+        var tipimg="<div id='tipimg'><img src='"+this.src+"'></div>";
+        $("body").append(tipimg);
+        $("#tipimg").css({
+            "position":"fixed",
+            "top":"15%",
+            "left":"20%",
+        });
+    })
+    $("body").on("click","#tipimg",function(){
+        $("#tipimg").remove();
+    })*/
 </script>
