@@ -1,0 +1,197 @@
+<h1 class="page-header">GC Auto-Testing PlatForm</h1>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title> GC Auto Testing PlatForm v1.1 </title>
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <style>
+
+        body {
+            width: 750px;
+            margin: 40px auto;
+            font-family: 'trebuchet MS', 'Lucida sans', Arial;
+            font-size: 14px;
+            color: #444;
+        }
+
+        table {
+            border-collapse: collapse; /* IE7 and lower */
+            border-spacing: 0;
+            width: 100%;
+        }
+
+
+
+        /*----------------------*/
+
+        .zebra td, .zebra th {
+            padding: 10px;
+            border-bottom: 1px solid #f2f2f2;
+        }
+
+        .zebra tbody tr:nth-child(even) {
+            background: #f5f5f5;
+            -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+            -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
+            box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+        }
+
+        .zebra th {
+            text-align: left;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+            border-bottom: 1px solid #ccc;
+            background-color: #eee;
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#eee));
+            background-image: -webkit-linear-gradient(top, #f5f5f5, #eee);
+            background-image: -moz-linear-gradient(top, #f5f5f5, #eee);
+            background-image: -ms-linear-gradient(top, #f5f5f5, #eee);
+            background-image: -o-linear-gradient(top, #f5f5f5, #eee);
+            background-image: linear-gradient(top, #f5f5f5, #eee);
+        }
+
+        .zebra th:first-child {
+            -moz-border-radius: 6px 0 0 0;
+            -webkit-border-radius: 6px 0 0 0;
+            border-radius: 6px 0 0 0;
+        }
+
+        .zebra th:last-child {
+            -moz-border-radius: 0 6px 0 0;
+            -webkit-border-radius: 0 6px 0 0;
+            border-radius: 0 6px 0 0;
+        }
+
+        .zebra th:only-child{
+            -moz-border-radius: 6px 6px 0 0;
+            -webkit-border-radius: 6px 6px 0 0;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .zebra tfoot td {
+            border-bottom: 0;
+            border-top: 1px solid #fff;
+            background-color: #f1f1f1;
+        }
+
+        .zebra tfoot td:first-child {
+            -moz-border-radius: 0 0 0 6px;
+            -webkit-border-radius: 0 0 0 6px;
+            border-radius: 0 0 0 6px;
+        }
+
+        .zebra tfoot td:last-child {
+            -moz-border-radius: 0 0 6px 0;
+            -webkit-border-radius: 0 0 6px 0;
+            border-radius: 0 0 6px 0;
+        }
+
+        .zebra tfoot td:only-child{
+            -moz-border-radius: 0 0 6px 6px;
+            -webkit-border-radius: 0 0 6px 6px;
+            border-radius: 0 0 6px 6px
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<h2>Function Outline</h2>
+<table class="zebra">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Function Name</th>
+        <th>Function Intro</th>
+        <th>Batch/Single</th>
+        <th>Export Y/N</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <td> </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tfoot>
+    <tr>
+
+        <td>1</td>
+        <td>Meta Checker</td>
+        <td>Check Title,Description,OG,WeChat</td>
+        <td>Batch</td>
+        <td>Y</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Font Checker</td>
+        <td>缺字检查</td>
+        <td>Batch</td>
+        <td>Y</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Link Checker</td>
+        <td>Only Link Localization checking</td>
+        <td>Single</td>
+        <td>Y</td>
+    <tr>
+        <td>4</td>
+        <td>V-Path Checker</td>
+        <td>All path with “/v/” ,show result of comparing with US corresponding page.</td>
+
+        <td>Batch</td>
+        <td>Y</td>
+
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>ViewPort Checker</td>
+        <td>Only checking the meta of viewport</td>
+        <td>Batch</td>
+        <td>Y</td>
+    </tr>
+
+    <tr>
+        <td>6</td>
+        <td>FootNotes Checker</td>
+        <td>Check all footnotes on both of the copy and footer ,list them and find out the mismatch  </td>
+        <td>Batch</td>
+        <td>Y</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Copy Checker</td>
+        <td>Listed all copy on the page body ,and show the result of contrast with production </td>
+        <td>In Process</td>
+        <td></td>
+    </tr>
+
+
+    <tr>
+        <td>8</td>
+        <td>GP Tool - Image Checker  </td>
+        <td>Basing on a US URL to check corresponding GC pages ,list all images except logo, icon and
+            added download function to the search result </td>
+        <td>Single</td>
+        <td>Y</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>GP Tool - MP4 Checker</td>
+        <td>Check all mp4 files on one page ,except those mp4 which are generated dynamically.</td>
+        <td>Single</td>
+        <td>N</td>
+    </tr>
+
+
+</table>
+</body>
+</html>

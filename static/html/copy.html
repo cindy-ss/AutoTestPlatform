@@ -26,19 +26,59 @@
 
 </div>
 <div>
-    <table class="table table-striped table-bordered">
-        <thead>
-        </thead>
-        <tbody id="resContainer">
-        </tbody>
+
+    <table>
+        <tr>
+            <td  width="50%">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    </thead>
+                    <tbody id="resContainer">
+                    </tbody>
+                </table>
+            </td>
+            <td  width="50%">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                    </thead>
+                    <tbody id="resContainerbranch">
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+
     </table>
 </div>
 
+<div class="panel-group" id="accordion" >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion"
+                   href="#collapseOne">
+                    Click Me to See Equivalent.
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+                <table class="table table-striped table-bordered" >
+                    <thead>
+                    </thead>
+                    <tbody id="resContainerequ">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
 
 <script>
-    //const fileInput = $("#fileInput");
-    // const urlInput = $("#urls");
-    // const resContainer = $('#resContainer');
+    $("#accordion")[0].style.display = 'none';
     var storedData;
 
     $("#btnImport").click(() => {
@@ -60,30 +100,42 @@
             $('#resContainer').html('');
             $("#bg_loading").show();
             let str = ``;
+            let str1 = ``;
+            let strbran=``;
             $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
+               $("#accordion").show();
                 console.log(data);
                     if (data) {
-                        let str1 = ``;
-                        storedData = data;
 
-                        str += `<tr><th>Copy-Branch</th><th>☞Copy Production</th></tr>`;
+                        storedData = data;
+                        str1+=`<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
                         for(var i = 0;i < data.length; i++) {
-//                            for (var j=1;j<data[i].length;j++){
-                                for(var x=0;x<data[i][1].length;x++){
-                                    str+=`<tr><td colspan="2">${data[i][1][x]}</td></tr>`
-                                }
+
+
+                                str+=`<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
+                                str+=`<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
                                 for(var x=0;x<data[i][2].length;x++){
-//                                    str+=`<tr><td ${(data[i][1][x]!== data[i][0][x])? "class='red'" : ""}>${data[i][1][x]}</td><td>${data[i][0][x]}</td></tr>`
-                                    str+=`<tr><td>&nbsp;</td><td>${data[i][2][x]}</td></tr>`
+                                    str+=`<tr><td class='red'>${data[i][2][x]}</td></tr>`;
                                 }
+
+                            strbran+=`<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
+                            strbran += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
                                 for(var x=0;x<data[i][3].length;x++){
-//                                    str+=`<tr><td ${(data[i][1][x]!== data[i][0][x])? "class='red'" : ""}>${data[i][1][x]}</td><td>${data[i][0][x]}</td></tr>`
-                                    str+=`<tr><td>${data[i][3][x]}</td><td>&nbsp;</td></tr>`
-//                                }
-                            }
+                                    strbran+=`<tr><td class='red'>${data[i][3][x]}</td></tr>`;
+                                 }
+
+// Below table is Equivalent table;
+                                str1+=`<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
+                                <a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
+                                for(var x=0;x<data[i][1].length;x++){
+                                    str1+=`<tr><td>${data[i][1][x]}</td></tr>`;
+                                 }
                         }
                         $('#resContainer').html(str);
+                        $('#resContainerbranch').html(strbran);
+                        $('#resContainerequ').html(str1);
+
                     } else {
                     }
                 }
@@ -115,5 +167,30 @@
             })
         }
     });
+
+    function FormateURL(url){
+
+        var myURL = parseURL(url);
+
+        return "https://www.apple.com"+myURL.path;
+
+    };
+    function parseURL(url) {
+        var a =  document.createElement('a');
+        a.href = url;
+        return {
+            source: url,
+            protocol: a.protocol.replace(':',''),
+            host: a.hostname,
+            port: a.port,
+            query: a.search,
+
+            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+            hash: a.hash.replace('#',''),
+            path: a.pathname.replace(/^([^\/])/,'/$1'),
+            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+            segments: a.pathname.replace(/^\//,'').split('/')
+        };
+    }
 
 </script>
