@@ -165,7 +165,7 @@
                         str += `<tr><td rowspan="2">${item.name}</td>`;
 
                         arr.map(geo => {
-                            str += `<td><img id="thumb_url" class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
+                            str += `<td><img class="ext-thumb" src="${item[geo] || ''}" alt="${item[geo] || ''}" /></td>`;
                         });
                         str += `</tr><tr>`;
 
@@ -206,45 +206,20 @@
         }
 
     });
-    //滑入滑出固定大小
-     // $("#image_gc_res").on("mouseover","#thumb_url",function(){
-     //     var tipimg="<div id='tipimg'><img height=600 width=600 src='"+this.src+"'></div>";
-     //     $("body").append(tipimg);
-     //     $("#tipimg").css({
-     //         "width":200+"px",
-     //         "height":200+"px",
-     //         "position":"fixed",
-     //         "top":"40%",
-     //         "left":"42%",
-     //         "margin-top":-200+"px",
-     //         "margin-left":-300+"px"
-     //     });
-     // }).on("mouseout","#thumb_url",function(){
-     //     $("#tipimg").remove();
-     // })
-    //点击大小不固定
-    // $("#image_gc_res").on("click","#thumb_url",function(){
-    //     var tipimg="<div id='tipimg'><img src='"+this.src+"'></div>";
-    //     $("body").append(tipimg);
-    //     $("#tipimg").css({
-    //         "width":600+"px",
-    //         "height":600+"px",
-    //         "position":"fixed",
-    //         "top":"15%",
-    //         "left":"20%",
-    //         "overflow-y":"auto",
-    //         "overflow-x":"auto"
-    //     });
-    // })
-    //滚动条的
-    $("#image_gc_res").on("click","#thumb_url",function(){
-        var tipimg="<div id='tipimg'><img src='"+this.src+"'></div>";
+
+    $("#image_gc_res,#image_us_res").on("click",".ext-thumb",function(){
+        var tipimg="<div id='tipimg'><div id='mar_img'><img src='"+this.src+"'></div></div>";
         $("body").append(tipimg);
         $("#tipimg").css({
-            "width":600+"px",
-            "height":600+"px",
+            "width":100+"%",
+            "height":100+"%",
             "position":"fixed",
             "top":"15%",
+        });
+        $("#mar_img").css({
+            "width":800+"px",
+            "height":600+"px",
+            "position":"relative",
             "left":"20%",
             "overflow-y":"auto",
             "overflow-x":"auto",
