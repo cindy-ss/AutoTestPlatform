@@ -207,32 +207,52 @@
 
     });
     //滑入滑出固定大小
-     $("#image_gc_res").on("mouseover","#thumb_url",function(){
-         var tipimg="<div id='tipimg'><img height=600 width=600 src='"+this.src+"'></div>";
-         $("body").append(tipimg);
-         $("#tipimg").css({
-             "width":200+"px",
-             "height":200+"px",
-             "position":"fixed",
-             "top":"40%",
-             "left":"42%",
-             "margin-top":-200+"px",
-             "margin-left":-300+"px"
-         });
-     }).on("mouseout","#thumb_url",function(){
-         $("#tipimg").remove();
-     })
+     // $("#image_gc_res").on("mouseover","#thumb_url",function(){
+     //     var tipimg="<div id='tipimg'><img height=600 width=600 src='"+this.src+"'></div>";
+     //     $("body").append(tipimg);
+     //     $("#tipimg").css({
+     //         "width":200+"px",
+     //         "height":200+"px",
+     //         "position":"fixed",
+     //         "top":"40%",
+     //         "left":"42%",
+     //         "margin-top":-200+"px",
+     //         "margin-left":-300+"px"
+     //     });
+     // }).on("mouseout","#thumb_url",function(){
+     //     $("#tipimg").remove();
+     // })
     //点击大小不固定
-    /*$("#image_gc_res").on("click","#thumb_url",function(){
+    // $("#image_gc_res").on("click","#thumb_url",function(){
+    //     var tipimg="<div id='tipimg'><img src='"+this.src+"'></div>";
+    //     $("body").append(tipimg);
+    //     $("#tipimg").css({
+    //         "width":600+"px",
+    //         "height":600+"px",
+    //         "position":"fixed",
+    //         "top":"15%",
+    //         "left":"20%",
+    //         "overflow-y":"auto",
+    //         "overflow-x":"auto"
+    //     });
+    // })
+    //滚动条的
+    $("#image_gc_res").on("click","#thumb_url",function(){
         var tipimg="<div id='tipimg'><img src='"+this.src+"'></div>";
         $("body").append(tipimg);
         $("#tipimg").css({
+            "width":600+"px",
+            "height":600+"px",
             "position":"fixed",
             "top":"15%",
             "left":"20%",
+            "overflow-y":"auto",
+            "overflow-x":"auto",
+            "text-align":"center",
+            "line-height":600+"px"
         });
     })
     $("body").on("click","#tipimg",function(){
         $("#tipimg").remove();
-    })*/
+    })
 </script>
