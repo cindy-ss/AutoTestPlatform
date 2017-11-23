@@ -1,4 +1,3 @@
-
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
@@ -38,7 +37,8 @@ let compare = (url, auth, cb) => {
 
 let _comp = (baseArr, targetArr) => {
     let sameArr=[], oldArr = [], newArr = [];
-
+console.log(baseArr);
+console.log(targetArr);
     baseArr.forEach(item => {
         if(targetArr.has(item)){
             sameArr.push(item);
@@ -59,7 +59,7 @@ let _comp = (baseArr, targetArr) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    let _text = $('main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
+    let _text = $('#main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
 
     let textArr = _text.split('\n'), arr = new Set();
 
