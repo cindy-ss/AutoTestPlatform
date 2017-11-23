@@ -95,8 +95,6 @@ console.log(storedData);
                                 flag=ptitle.indexOf(geoname);}
 
 
-                                console.log(flag);
-
                        /* str += `<tr>
                                     <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
 
@@ -127,20 +125,23 @@ console.log(storedData);
                                 </tr>`*/
                        str+=`<tr><td bgcolor="#175b96" class="f1">URL: </td><td class ="headline" bgcolor="#175b96"><a href="${item.url}" target="_blank"> ${item.url}</a></td></tr>`;
                        str+=`<tr><td>Title:</td><td ${flag>0 ?"":"class='red'"}><div>${item.title}</div></td></tr>`;
-
+                       str+=`<tr><td>Title(US):</td><td><div>${item.titleUS}</div></td></tr>`;
 
                        str+=`<tr><td>Description:</td><td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}>${item.desc}</td></tr>`;
-
+                       str+=`<tr><td>Description(US):</td><td>${item.descUS}</td></tr>`;
 
                        str+=`<tr><td>OG Title:</td><td>${item.ogTitle}</td></tr>`;
-
+                       str+=`<tr><td>OG Title(US):</td><td>${item.ogTitleUS}</td></tr>`;
 
                        // 验证
                        str+=`<tr><td>OG URL:</td><td><a ${item.ogUrl && (item.ogUrl.indexOf('https')==-1) ?"class='red'":""}  href="${item.ogUrl}" target="_blank">${item.ogUrl}</a></td></tr>`;
+                       str+=`<tr><td>OG URL(US):</td><td><a  href="${item.ogUrlUS}" target="_blank">${item.ogUrlUS}</a></td></tr>`;
 
 
                        str+=`<tr><td>OG Description:</td><td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}>${item.ogDesc}</td></tr>`
-                       str+=`<tr><td>OG Image US:</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
+                            str+=`<tr><td>OG Description(US):</td><td>${item.ogDescUS}</td></tr>`
+
+                            str+=`<tr><td>OG Image(US):</td><td><img src="${item.ogImageUS}" alt="ogImageUS" class="ext-thumb"></td></tr>`;
 
                        // 验证+1
                       str+=`<tr><td>OG Image:</td><td><img src="${item.oglab}" alt="oglab" class="ext-thumb"><br>

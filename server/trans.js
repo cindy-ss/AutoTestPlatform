@@ -39,7 +39,7 @@ const fetchTrans = (url, auth, cb) => {
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage, ogImage1, ogImageUS = 'NA';
                 let title = $("title").text();
-
+                let descUS,ogDescUS,ogUrlUS,ogTitleUS,titleUS='NA';
                 if (_ogImage) {
                     _ogImage = _ogImage.split('?')[0];
 
@@ -63,6 +63,8 @@ const fetchTrans = (url, auth, cb) => {
                     geo : gh.getGEO(url),
                     ogUrl,
                     ogImageUS,
+                    descUS
+
 
                 };
 
@@ -125,7 +127,47 @@ const fetchTrans = (url, auth, cb) => {
                         }else{
                             callback(null);
                         }
-                    }
+                    },
+                    callback => {
+                        if(true){
+                            if(gh.getGEO(url) !== 'US'){
+                                let tempUrl = gh.geo2us(url, true);
+
+                                query.query(tempUrl, (err, data) => {
+                                    if(!err){
+                                        let $ = cheerio.load(data);
+                                        descUS = $("meta[name='Description']").attr('content');
+                                        ogDescUS=$("meta[property='og:description']").attr('content');
+                                        ogUrlUS=$("meta[property='og:url']").attr('content');
+                                        ogTitleUS=$("meta[property='og:title']").attr('content');
+                                        titleUS=$("title").text();
+
+                                        obj['descUS'] = descUS;
+                                        obj['ogDescUS']=ogDescUS;
+                                        obj['ogUrlUS']=ogUrlUS;
+                                        obj['ogTitleUS']=ogTitleUS;
+                                        obj['titleUS']=titleUS;
+                                        callback(null);
+                                    }else{
+                                        callback(err);
+                                    }
+                                }, auth);
+                            }else{
+                                descUS = desc;
+                                ogDescUS =ogDesc;
+                                ogUrlUS=ogUrl;
+                                ogTitleUS=ogTitle;
+                                titleUS=title;
+
+                                callback(null);
+                            }
+                        }else{
+                            callback(null);
+                        }
+                    },
+
+
+
                 ], function (err) {
                     if (err) {
                         console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
