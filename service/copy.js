@@ -69,7 +69,7 @@ let _getContent = (str) => {
 
     let textArr = _text.split('\n'), arr = new Array();
 
-    console.log(textArr);
+
     textArr.map(item => {
         let temp = item.replace(/\t/g, '');
         if (temp.length > 0 && temp.replace(/ /g, '').length > 0) {
