@@ -41,7 +41,7 @@ let compare = (url, auth, cb) => {
     function aa(){
         for (var i = 0; i < targetArr.length; i++) {
             if(baseArr.indexOf(targetArr[i])==-1){
-                oldArr.push(targetArr[i]);
+                newArr.push(targetArr[i]);
             }else{
                 sameArr.push(targetArr[i]);
             }
@@ -52,7 +52,7 @@ let compare = (url, auth, cb) => {
     function bb(){
         for (var i = 0; i < baseArr.length; i++) {
             if(targetArr.indexOf(baseArr[i])==-1){
-                newArr.push(baseArr[i]);
+                oldArr.push(baseArr[i]);
             }
         }
     } 
@@ -65,7 +65,7 @@ let compare = (url, auth, cb) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    let _text = $('#main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
+    let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
 
     let textArr = _text.split('\n'), arr = new Array();
 
