@@ -221,6 +221,10 @@
         "tw": "jobs/tw",
         "mo": "jobs/mo"
       },
+      "reserve-prime.apple.com":{
+        "cn":"CN/zh_CN",
+        "hk":"HK/zh_HK"
+      },
       "/shop/": {
         "hktc": "/hk-zh/shop",
         "hken": "/hk/shop",

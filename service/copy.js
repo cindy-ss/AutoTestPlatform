@@ -1,3 +1,4 @@
+
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
@@ -35,38 +36,44 @@ let compare = (url, auth, cb) => {
     });
 };
 
-let _comp = (baseArr, targetArr) => {
+    let _comp = (baseArr, targetArr) => {
     let sameArr=[], oldArr = [], newArr = [];
-console.log(baseArr);
-console.log(targetArr);
-    baseArr.forEach(item => {
-        if(targetArr.has(item)){
-            sameArr.push(item);
-        }else{
-            oldArr.push(item);
+    function aa(){
+        for (var i = 0; i < targetArr.length; i++) {
+            if(baseArr.indexOf(targetArr[i])==-1){
+                oldArr.push(targetArr[i]);
+            }else{
+                sameArr.push(targetArr[i]);
+            }
         }
-    });
+    }
+    aa();
 
-    targetArr.forEach(item => {
-        if (!baseArr.has(item)) {
-            newArr.push(item);
+    function bb(){
+        for (var i = 0; i < baseArr.length; i++) {
+            if(targetArr.indexOf(baseArr[i])==-1){
+                newArr.push(baseArr[i]);
+            }
         }
-    });
-
+    } 
+    bb();
     return [sameArr, oldArr, newArr];
 };
+
+
 
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
     let _text = $('#main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
 
-    let textArr = _text.split('\n'), arr = new Set();
+    let textArr = _text.split('\n'), arr = new Array();
 
+    console.log(textArr);
     textArr.map(item => {
         let temp = item.replace(/\t/g, '');
         if (temp.length > 0 && temp.replace(/ /g, '').length > 0) {
-            arr.add(temp);
+            arr.push(temp);
         }
     });
 
