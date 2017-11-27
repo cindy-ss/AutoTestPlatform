@@ -65,7 +65,7 @@ let compare = (url, auth, cb) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
+    let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();
 
     let textArr = _text.split('\n'), arr = new Array();
 
