@@ -13,5 +13,4 @@ const runTask = (urlStr, auth, cb) => {
         cb(res);
     });
 };
-
 exports.runTask = runTask;
