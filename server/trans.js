@@ -36,10 +36,11 @@ const fetchTrans = (url, auth, cb) => {
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogUrl = $("meta[property='og:url']").attr('content');
                 let _ogImage = $("meta[property='og:image']").attr('content');
+
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage, ogImage1, ogImageUS = 'NA';
                 let title = $("title").text();
-                let descUS,ogDescUS,ogUrlUS,ogTitleUS,titleUS='NA';
+                let descUS,ogDescUS,ogUrlUS,ogTitleUS,titleUS,ogImageUScur='NA';
                 if (_ogImage) {
                     _ogImage = _ogImage.split('?')[0];
 
@@ -62,8 +63,11 @@ const fetchTrans = (url, auth, cb) => {
                     oglab: ogImage1,
                     geo : gh.getGEO(url),
                     ogUrl,
+                    ogUrlUS,
                     ogImageUS,
-                    descUS
+                    descUS,
+                    ogImageUScur
+
 
 
                 };
@@ -112,9 +116,16 @@ const fetchTrans = (url, auth, cb) => {
                                         ogImageUS = $("meta[property='og:image']").attr('content');
                                         if(ogImageUS){
                                             ogImageUS = ogImageUS.split('?')[0];
+
+                                            /*add US image on current server*/
+                                            let ogURLObj1 = URL.parse(ogImageUS);
+                                            ogURLObj1.host = URL.parse(url).host;
+                                            ogImageUScur = URL.format(ogURLObj1);
                                         }
 
                                         obj['ogImageUS'] = ogImageUS;
+                                        obj['ogImageUScur']=ogImageUScur;
+
                                         callback(null);
                                     }else{
                                         callback(err);
