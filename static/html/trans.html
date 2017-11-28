@@ -122,7 +122,7 @@ console.log(storedData);
                        str+=`<td>${item.ogTitleUS}</td></tr>`;
 
                        // 验证
-                       str+=`<tr><td>OG URL:</td><td><a ${item.ogUrl && ((item.ogUrl.indexOf('https')==-1)||(item.ogUrl.indexOf(item.geo.toLowerCase()) == -1))?"class='red'":""}href="${item.ogUrl}" target="_blank">${item.ogUrl}</a></td>`;
+                       str+=`<tr><td>OG URL:</td><td><a ${item.ogUrl && ((item.ogUrl.indexOf('https')==-1)||(islocalized(item.ogUrl,item.geo)==false))?"class='red'":""}href="${item.ogUrl}" target="_blank">${item.ogUrl}</a></td>`;
                        str+=`<td><a  href="${item.ogUrlUS}" target="_blank">${item.ogUrlUS}</a></td></tr>`;
 
 
@@ -206,12 +206,26 @@ console.log(storedData);
         return s;
     }
 
-    function checkhttps(title){
-            var str=title.indexOf('https');
-        console.log(str);
-            return str;
+    function islocalized(url,geo){
+        let flag=false;
 
+        if (geo=="HKTC") {
+            if (url.indexOf("hk") !== -1 &&url.indexOf("/hk/en/") == -1){
+                flag=true;
+            }
 
+        }else
+        if(geo=="HKEN"){
+            if (url.indexOf("/hk/en/") !== -1){
+                flag=true;
+            }
+        }
+        else
+            if(url.indexOf(geo.toLowerCase()) !== -1)
+        {
+            flag=true;
+        }
+        return flag;
     }
 
 </script>
