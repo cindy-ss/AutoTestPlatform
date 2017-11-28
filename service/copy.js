@@ -21,7 +21,6 @@ let compare = (url, auth, cb) => {
     ], function (err, res) {
         let arr = [[], [], []];
 
-        // err = err ||
 
         if (!err && res[0] && res[1]) {
             arr = _comp(_getContent(res[0]), _getContent(res[1]));
