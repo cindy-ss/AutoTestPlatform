@@ -21,7 +21,7 @@
             word-wrap: break-word
         }
         .headline > a {
-            color:black;
+            color:white;
 
         }
         .f1{
@@ -61,37 +61,76 @@
    return s;
    }%>
 
-   <!-- 验证 -->
-    <%var htp = content[i]['ogUrl']%><%var http=htp.indexOf("https")%>
-   <tr><td bgcolor="#175b96" class="f1">URL</td><td class ="headline" bgcolor="#175b96"><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['url'] %></a> </td> </tr>
-    <tr><td>Title</td><td <%if (flag<0){%>
-                class="red" <%}%> ><%= content[i]['title'] %></td> </tr>
+  <tr>
+    <td bgcolor="#175b96" class="f1">URL</td>
+    <td colspan="2" class ="headline" bgcolor="#175b96"><a  href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['url'] %></a></td>
+  </tr>
 
-    <tr><td>Description</td><td <%if (content[i]['desc'].length>150||content[i]['desc'].length<100){ %>
-                class="red" <%}%> ><%= content[i]['desc'] %> </td> </tr>
-    <tr><td>OG Title</td><td><%= content[i]['ogTitle'] %> </td> </tr>
+  <tr>
+    <td></td>
+    <th>Geo</th>
+    <th>US</th>
+  </tr>
 
-    <tr><td>OG URL</td><td><a <%if(http==-1) { %>class="red"<% } %> href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrl'] %></a> </td> </tr>
-    <tr><td>OG Description</td><td <%if (content[i]['ogDesc'].length>150||content[i]['ogDesc'].length<100){ %>
-                class="red" <%}%> ><%= content[i]['ogDesc'] %> </td> </tr>
-    <tr><td>OG Image US</td><td><img src="<%=content[i]['ogImageUS']%>" alt="ogImage" class="ext-thumb"> </td> </tr>
-    <tr><td>OG Image </td><td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>
-            Width:<%=content[i]['ogImage']['size']['width'] %> Hight:<%=content[i]['ogImage']['size']['height'] %></td> </tr>
+  <tr>
+    <td>Title</td>
+    <td <%if (flag<0){%> class="red" <%}%> ><%= content[i]['title'] %></td>
+    <td <%if (flag<0){%> class="red" <%}%> ><%= content[i]['titleUS'] %></td>
+  </tr>
 
-    <tr><td>OG Image label:</td><td><a <%if(http==-1) { %>class="red"<% }%> href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td> </tr>
+  <tr>
+    <td>Description</td>
+    <td <%if (content[i]['desc'].length>150||content[i]['desc'].length<100){ %>
+                class="red" <%}%> ><%= content[i]['desc'] %> </td>
+    <td><%= content[i]['descUS'] %> </td> 
+  </tr>
 
-    <tr><td>OG Image Current Server:</td><td><a <%if(http==-1) { %>class="red"<% }%> href="<%= content[i]['ogImage']['url'] %>" target="_blank"><%= content[i]['ogImage']['url'] %></a></td> </tr>
+  <tr>
+    <td>OG Title</td>
+    <td><%= content[i]['ogTitle'] %> </td>
+    <td><%= content[i]['ogTitleUS'] %> </td>
+  </tr>
 
-    <%if (content[i]['ogImage']['geo']=="CN") {%>
-    <tr><td>WeChat Image </td><td><img src="<%=content[i]['wechat']['url']%>" alt="wechatImage" class="ext-thumb"><br>
-            Width:<%=content[i]['wechat']['size']['width'] %> Hight:<%=content[i]['wechat']['size']['height'] %></td> </tr>
-    <tr><td>WeChat URL:</td><td><a href="<%=content[i]['wechat']['url']%>" target="_blank"><%=content[i]['wechat']['url']%></a></td></tr>
+  <tr>
+    <td>OG URL</td>
+    <td><a <%content[i].ogUrl && ((content[i].ogUrl.indexOf('https')==-1) || (content[i].ogUrl.indexOf(content[i].geo.toLowerCase())==-1))?"class='red'":""%> href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrl'] %></a> </td>
+    <td><a href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrlUS'] %></a> </td> 
+  </tr>
 
+  <tr>
+    <td>OG Description</td>
+    <td <%if (content[i]['ogDesc'].length>150||content[i]['ogDesc'].length<100){ %>
+                class="red" <%}%> ><%= content[i]['ogDesc'] %> </td>
+    <td><%= content[i]['ogDescUS'] %> </td>
+  </tr>
+
+  <tr>
+    <td>OG Image </td>
+    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td>
+    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
+  </tr>
+
+  <tr>
+    <td>OG Image Current Server:</td>
+    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>Width:<%=content[i]['ogImage']['size']['width'] %> Hight:<%=content[i]['ogImage']['size']['height'] %><br><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td>
+    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
+  </tr>
+
+
+    <%if (content[i]['geo']=="CN") {%>
+  <tr>
+
+
+    <td>WeChat Image </td>
+    <td><img src="<%=content[i]['wechat']['url']%>" alt="wechatImage" class="ext-thumb"><br>
+            Width:<%=content[i]['wechat']['size']['width'] %> Hight:<%=content[i]['wechat']['size']['height'] %><br><a href="<%=content[i]['wechat']['url']%>" target="_blank"><%=content[i]['wechat']['url']%></a></td>
+            <td>NA</td>
+  </tr>
 
    <%}}%>
 
 
-    </tbody>
+  </tbody>
 </table>
 </body>
 

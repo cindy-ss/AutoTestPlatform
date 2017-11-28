@@ -45,19 +45,20 @@
         <%for (let i = 0; i < arrlen; i++) { %>
     <tr>
         <td></td>
-        <td<%if(footnotes[i].copy){%>
+        <td<%if(footnotes[i].copy==""){%>
                 class="red"
                 <% } %>
         >
         <%=footnotes[i]['mark']%>.<%=footnotes[i]['footnote']%>
         </td>
 
-        <td>
+        <td<%if(footnotes[i].footnote==""){%>
+                class="red"
+                <% } %>
+        >
             <% for(var j = 0; j < footnotes[i].copy.length; j++) { %>
          <%=footnotes[i]['copy'][j]%>
-            <%}%> 
-
-
+            <%}%>
         </td>
 
     </tr>
