@@ -149,20 +149,9 @@
 
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
-
             console.log(storedData);
-
-            var arr = [];
-            $.each(storedData, (n, value) => {
-                arr.push({
-                    url : value.url,
-                    data:value.data,
-                    irrelevance:value.irrelevance
-                })
-            });
-
             $.post(`/api/export/`, {
-                data: JSON.stringify(arr),
+                data: JSON.stringify(storedData),
                 title : 'Copy Report',
                 file : 'copy'
             }, (data) => {
