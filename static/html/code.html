@@ -104,40 +104,14 @@
             let str = ``;
             let str1 = ``;
             let strbran=``;
-            $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
+            $.post('/api/code', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
                $("#accordion").show();
                 $("#diff").show();
-                console.log(data);
+               console.log(data);
                     if (data) {
-
                         storedData = data;
-                        str1+=`<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
-                        for(var i = 0;i < data.length; i++) {
 
-
-                                str+=`<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
-                                str+=`<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
-                                for(var x=0;x<data[i][2].length;x++){
-                                    str+=`<tr><td class='red'>${data[i][2][x]}</td></tr>`;
-                                }
-
-                            strbran+=`<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
-                            strbran += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
-                                for(var x=0;x<data[i][3].length;x++){
-                                    strbran+=`<tr><td class='red'>${data[i][3][x]}</td></tr>`;
-                                 }
-
-// Below table is Equivalent table;
-                                str1+=`<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
-                                <a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
-                                for(var x=0;x<data[i][1].length;x++){
-                                    str1+=`<tr><td>${data[i][1][x]}</td></tr>`;
-                                 }
-                        }
-                        $('#resContainer').html(str);
-                        $('#resContainerbranch').html(strbran);
-                        $('#resContainerequ').html(str1);
 
                     } else {
                     }
@@ -163,8 +137,8 @@
 
             $.post(`/api/export/`, {
                 data: JSON.stringify(arr),
-                title : 'Copy Report',
-                file : 'copy'
+                title : 'FootNotes Report',
+                file : 'footnotes'
             }, (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })

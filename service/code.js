@@ -3,6 +3,7 @@ const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
     cheerio = require('cheerio');
+var fs=require('fs');
 
 let compare = (url, auth, cb) => {
     let ogURLObj = URL.parse(url);
@@ -36,27 +37,9 @@ let compare = (url, auth, cb) => {
 };
 
     let _comp = (baseArr, targetArr) => {
-    let sameArr=[], oldArr = [], newArr = [];
-    function aa(){
-        for (var i = 0; i < targetArr.length; i++) {
-            if(baseArr.indexOf(targetArr[i])==-1){
-                newArr.push(targetArr[i]);
-            }else{
-                sameArr.push(targetArr[i]);
-            }
-        }
-    }
-    aa();
 
-    function bb(){
-        for (var i = 0; i < baseArr.length; i++) {
-            if(targetArr.indexOf(baseArr[i])==-1){
-                oldArr.push(baseArr[i]);
-            }
-        }
-    } 
-    bb();
-    return [sameArr, oldArr, newArr];
+
+    return [baseArr, targetArr];
 };
 
 
@@ -64,20 +47,39 @@ let compare = (url, auth, cb) => {
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
+    //const codetext = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').html();
+    //const codetext = $('.ac-gallery-slidecontainer gold-aluminum-pink-sand-sport-loop-42').prop('data-casing-name');
+   // const codetext = $('#gold-aluminum-pink-sand-sport-loop-42').prop('data-casing-name');
 
-    let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();
+    var divChild = $(".ac-gallery-slidecontainer").children('div');
+   let arr=[];
+   console.log(divChild.find(""));
 
-    let textArr = _text.split('\n'), arr = new Array();
+    /*
+     divChild.map(item=>{
+     if(item.attr('data-casing-name')){
+     console.log("now:");
+     console.log(item.attr('data-casing-name'));
+     }
+     })
+     console.log(arr);
 
 
+    =====
+
+     let textArr = codetext.split('\n');
+    let arr=[];
     textArr.map(item => {
         let temp = item.replace(/\t/g, '');
         if (temp.length > 0 && temp.replace(/ /g, '').length > 0) {
             arr.push(temp);
         }
     });
+     console.log(arr);
+    */
 
-    return arr;
+
 };
+
 
 exports.compare = compare;

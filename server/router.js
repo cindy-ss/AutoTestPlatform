@@ -17,7 +17,8 @@ const trans = require('./trans'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
     report = require('./report'),
-    copy = require('./copy');
+    copy = require('./copy'),
+    code = require('./code');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -78,6 +79,13 @@ router.route('/copy')
             res.json(data);
         });
     });
+router.route('/code')
+    .post((req, res) => {
+        code.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
+
 
 router.route('/viewport/export')
     .post((req, res) => {
