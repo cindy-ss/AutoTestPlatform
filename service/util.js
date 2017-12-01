@@ -42,19 +42,26 @@ const deleteFolder = path => {
     }
 };
 
+
+String.prototype.lrtrim=function(){
+    return this.replace(/(^\s*)|(\s*$)/g, "");
+}
 const urlNormalize = url => {
     if (!path.parse(url).ext) {
         if (url.charAt(url.length - 1) !== "/") {
+            if(url.charAt(url.length -1 === " ")){
+                url = url.lrtrim();
+            }
             url += '/';
         }
     }
-
     if (!URL.parse(url).protocol) {
         url = 'https://' + url;
     }
 
     return url;
 };
+
 
 const isArray = object => {
     return  object && typeof object==='object' &&
