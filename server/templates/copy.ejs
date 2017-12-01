@@ -24,21 +24,59 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
+
 <body class="container-fluid">
+    <% for(var i = 0; i < content.length; i++){%>
 <table class="table table-bordered table-striped table-hover">
     <caption align="top">Copy Report</caption>
-    <tbody class="metaStyle">
     <tr>
-        <th>Branch</th>
-
-        <th>WWW</th>
+      <td width="50%">&diams;&#9785;&diams; Production &diams;&#9785;&diams;
+        <table class="table table-bordered table-striped table-hover">
+            <tbody>
+            <tr><td><a href=""><%=FormateURL(content[i][0])%></a></td></tr>
+            <% for(var x = 0; x < content[i][2].length; x++){%>
+            <tr>
+                <td class="red"><%=content[i][2][x]%></td>
+            </tr>
+            <%}%></tbody>
+        </table></td>
+        <td width="50%">&diams;&#9785;&diams; Branch &diams;&#9785;&diams;
+          <table class="table table-bordered table-striped table-hover">
+            <tbody>
+            <tr><td><a href="<%=content[i][0]%>"><%=content[i][0]%></a></td></tr>
+            <% for(var x = 0; x < content[i][3].length; x++){%>
+            <tr>
+                <td class="red"><%=content[i][3][x]%></td>
+            </tr>
+            <%}%></tbody>
+          </table></td>
     </tr>
-
-
-
-
-
-    </tbody>
 </table>
+
+<div>
+    <h4><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Equivalent</a></h4>
+    <table class="table table-bordered table-striped table-hover">
+        <tr><td><a href=""><%=FormateURL(content[i][0])%></a><br><a href="<%=content[i][0]%>"><%=content[i][0]%></a></td></tr>
+        <% for(var x = 0; x < content[i][1].length; x++){%>
+        <tr>
+            <td><%= content[i][1][x]%></td>
+        </tr>
+        <%}%>
+    </table>
+</div>
+
+<%}%>
+    <%function FormateURL(url){
+
+       var start=url.toString().indexOf('com');
+       var end=url.toString().length;
+       var arr=url.toString().substr(start+4,end);
+        return "https://www.apple.com/"+arr;
+
+    }; %>
+
+
+
+
 </body>
 </html>

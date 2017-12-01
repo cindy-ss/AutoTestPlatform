@@ -68,10 +68,18 @@ let _getContent = (str) => {
     //let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();
     if($(".section-buystrip-hero")){
         if($(".section-buystrip-hero").parent().is(".main")){
-            var _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
+            if($("main")){
+            if($("main").parent().is("main")){
+                var _text = $('#main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
+            }else{
+            var _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();}
+            }
+            else{
+                var _text = $('#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs');
+            }
         }else{
             var _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();
-        }
+             }
     }else{
         var _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
     }

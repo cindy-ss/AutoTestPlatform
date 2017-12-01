@@ -80,7 +80,7 @@
 
   <tr>
     <td>Description</td>
-    <td <%if (content[i]['desc'].length>150||content[i]['desc'].length<100){ %>
+    <td <%if (content[i]['desc'] && (content[i]['desc'].length > 150 || content[i]['desc'].length < 100)){ %>
                 class="red" <%}%> ><%= content[i]['desc'] %> </td>
     <td><%= content[i]['descUS'] %> </td> 
   </tr>
@@ -99,7 +99,7 @@
 
   <tr>
     <td>OG Description</td>
-    <td <%if (content[i]['ogDesc'].length>150||content[i]['ogDesc'].length<100){ %>
+    <td <%if (content[i]['ogDesc'] && (content[i]['ogDesc'].length > 150 || content[i]['ogDesc'].length < 100)){ %>
                 class="red" <%}%> ><%= content[i]['ogDesc'] %> </td>
     <td><%= content[i]['ogDescUS'] %> </td>
   </tr>

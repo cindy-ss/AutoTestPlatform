@@ -1,197 +1,193 @@
-<h1 class="page-header">GC Auto-Testing PlatForm</h1>
+<h2 class="page-header">Workflow Checker</h2>
+<style>
+    div.box{width:300px;padding:20px;margin:20px;border:4px dashed #ccc;}
+    div.box span{color:#999;font-style:italic;}
+    div.content{width:250px;margin:10px 0;padding:20px;border:2px solid #ff6666;}
+    input[type='checkbox']{margin:5px;}
+    input[type='button']{height:30px;margin:10px;padding:5px 10px;}
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title> GC Auto Testing PlatForm v1.1 </title>
-    <meta name="Generator" content="EditPlus">
-    <meta name="Author" content="">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
-    <style>
 
-        body {
-            width: 750px;
-            margin: 40px auto;
-            font-family: 'trebuchet MS', 'Lucida sans', Arial;
-            font-size: 14px;
-            color: #444;
+</style>
+
+<div id="trans" class="row">
+    <div class="col-md-4 navslid trans-side navslid-show">
+        <div>
+            <p>
+                URL Import(.txt only)
+            </p>
+            <input class="form-control" type="file" id="fileInput">
+            <span class="input-group-btn">
+             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
+              </span>
+            <p>URL Input (eg:https://webedit.apple.com/cn/macos/)</p>
+            <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
+        </div>
+
+
+        <div class="dropdown">
+           <!-- <select id="typeId"  multiple="multiple">
+                <option value="all" selected>ALL</option>
+                <option value="meta">Meta Checker</option>
+                <option value="font">Font Checker</option>
+                <option value="link">Link Checker</option>
+                <option value="vpath">V-Path Checker</option>
+                <option value="viewport">ViewPort Checker</option>
+                <option value="footnote">FootNote Checker</option>
+                <option value="copy">Copy Checker</option>
+            </select><br>-->
+            <div class="box">
+                <span>Please select which option you want to check or select All</span>
+                <div class="content">
+                    <input type="checkbox" name="checker" value="all"/>All <br>
+                    <input type="checkbox" name="checker" value="meta"/>Meta Checker <br>
+                    <input type="checkbox" name="checker" value="font"/>Font Checker <br>
+                    <input type="checkbox" name="checker" value="link"/>Link Checker <br>
+                    <input type="checkbox" name="checker" value="vpath"/>V-Path Checker <br>
+                    <input type="checkbox" name="checker" value="viewport"/>Viewport Checker <br>
+                    <input type="checkbox" name="checker" value="footnote"/>Footnote Checker <br>
+                    <input type="checkbox" name="checker" value="copy"/>Copy Checker<br>
+
+                </div>
+
+            </div>
+
+            <button id="btn_Quest" class="btn btn-primary">Query</button>
+            <button id="btn_Clear" class="btn btn-primary">Clear</button>
+
+        </div>
+    </div>
+
+    <div>
+        <button class="sideIcon">&lt;</button>
+    </div>
+    <div class="col-md-7">
+        <button id="btnExport" class="btn btn-primary">Export</button>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container">
+            <tr>
+
+            </tr>
+            </tbody>
+
+
+        </table>
+    </div>
+</div>
+<script>
+    $("#btnImport").click(() => {
+        if ($("#fileInput")[0].files.length >= 1) {
+            const file = $("#fileInput")[0].files[0];
+            let reader = new FileReader();
+            reader.onload = function () {
+                $("#urls").val(this.result);
+                $("#fileInput").val("");
+            };
+            reader.readAsText(file);
+        }
+    });
+
+    $('#btn_Clear').click(() => {
+        $("#urls").val('');
+    });
+
+    var storedData;
+
+    $('#btn_Quest').click(() => {
+        if ($("#urls").val().length > 5) {
+            $("#bg_loading").show();
+            $('#res_Container').html('');
+            //const urls = $('#urls').val();
+            let queryObj = {};
+            let typeName = $("#typeId").find("option:selected").val();
+            let serverName = $("#server").find("option:selected").val();
+
+            if (typeName !== 'all') {
+                queryObj['type'] = typeName;
+            }
+            if (serverName !== 'all') {
+                queryObj['server'] = serverName;
+            }
+
+            let _option = JSON.stringify(queryObj);
+            const urls = $('#urls').val();
+
+            $.post('api/font/url', {urls: urls, option: _option}, function (Json_data) {
+                $("#bg_loading").hide();
+
+                if (Json_data.result === true) {
+                    let str1 = ``;
+                    let arrdata=Json_data.data;
+                    storedData = Json_data.data;
+                    console.log(storedData);
+                    $.each(arrdata, function (m, value){
+
+                        str1 += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
+
+
+                        $.each(value.data, function (n, valueinter){
+
+                            str1 += `<tr><td>${n}</td><td>`;
+                            var x;
+                            for (x in valueinter){
+
+                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
+                            };
+                            str1+=`</td></tr>`;
+                        });
+
+                        $('#res_Container').html(str1);
+                    })
+
+
+                }
+
+
+            })
+        } else {
+            console.log("The URL length is too short!")
+        }
+    });
+
+    $("#getExcel").click(() => {
+        if ($("#urls_").val().length > 0) {
+            const arr = $("#res_Container").html();
+            $.post('/api/trans2xls', {
+                xls: JSON.stringify(arr),
+                type: document.querySelector("input[name=optionsRadios]:checked").value
+            }, function (data) {
+                $(this).text('../data/${data}');
+            })
         }
 
-        table {
-            border-collapse: collapse; /* IE7 and lower */
-            border-spacing: 0;
-            width: 100%;
+    });
+    $(".sideIcon").click(() => {
+        if ($(".trans-side").hasClass("navslid-hide")) {
+            $(".trans-side").addClass("navslid-show");
+            $(".trans-side").removeClass("navslid-hide");
+
         }
-
-
-
-        /*----------------------*/
-
-        .zebra td, .zebra th {
-            padding: 10px;
-            border-bottom: 1px solid #f2f2f2;
+        else if ($(".trans-side").hasClass("navslid-show")) {
+            $(".trans-side").addClass("navslid-hide");
+            $(".trans-side").removeClass("navslid-show");
         }
-
-        .zebra tbody tr:nth-child(even) {
-            background: #f5f5f5;
-            -webkit-box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
-            -moz-box-shadow:0 1px 0 rgba(255,255,255,.8) inset;
-            box-shadow: 0 1px 0 rgba(255,255,255,.8) inset;
+        else {
+            $(".trans-side").addClass("navslid-hide");
         }
+    });
 
-        .zebra th {
-            text-align: left;
-            text-shadow: 0 1px 0 rgba(255,255,255,.5);
-            border-bottom: 1px solid #ccc;
-            background-color: #eee;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#f5f5f5), to(#eee));
-            background-image: -webkit-linear-gradient(top, #f5f5f5, #eee);
-            background-image: -moz-linear-gradient(top, #f5f5f5, #eee);
-            background-image: -ms-linear-gradient(top, #f5f5f5, #eee);
-            background-image: -o-linear-gradient(top, #f5f5f5, #eee);
-            background-image: linear-gradient(top, #f5f5f5, #eee);
+    $("#btnExport").click(() => {
+        if ($("#urls").val().length > 0) {
+            console.log(storedData);
+            $.post(`/api/export/`, {
+                data: JSON.stringify(storedData),
+                title : 'Font Report',
+                file : 'font'
+            }, (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
         }
-
-        .zebra th:first-child {
-            -moz-border-radius: 6px 0 0 0;
-            -webkit-border-radius: 6px 0 0 0;
-            border-radius: 6px 0 0 0;
-        }
-
-        .zebra th:last-child {
-            -moz-border-radius: 0 6px 0 0;
-            -webkit-border-radius: 0 6px 0 0;
-            border-radius: 0 6px 0 0;
-        }
-
-        .zebra th:only-child{
-            -moz-border-radius: 6px 6px 0 0;
-            -webkit-border-radius: 6px 6px 0 0;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .zebra tfoot td {
-            border-bottom: 0;
-            border-top: 1px solid #fff;
-            background-color: #f1f1f1;
-        }
-
-        .zebra tfoot td:first-child {
-            -moz-border-radius: 0 0 0 6px;
-            -webkit-border-radius: 0 0 0 6px;
-            border-radius: 0 0 0 6px;
-        }
-
-        .zebra tfoot td:last-child {
-            -moz-border-radius: 0 0 6px 0;
-            -webkit-border-radius: 0 0 6px 0;
-            border-radius: 0 0 6px 0;
-        }
-
-        .zebra tfoot td:only-child{
-            -moz-border-radius: 0 0 6px 6px;
-            -webkit-border-radius: 0 0 6px 6px;
-            border-radius: 0 0 6px 6px
-        }
-
-    </style>
-</head>
-
-<body>
-
-
-<h2>WorkFlow Overview</h2>
-<table class="zebra">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Function Name</th>
-        <th>Function Intro</th>
-        <th></th>
-        <th>Export Y/N</th>
-    </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <td> </td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    </tfoot>
-    <tr>
-
-        <td>1</td>
-        <td>Meta Checker</td>
-        <td>Check Title,Description,OG,WeChat</td>
-        <td>Batch</td>
-        <td>Y</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Font Checker</td>
-        <td>缺字检查</td>
-        <td>Batch</td>
-        <td>Y</td>
-    </tr>
-    <tr>
-        <td>3</td>
-        <td>Link Checker</td>
-        <td>Only Link Localization checking</td>
-        <td>Single</td>
-        <td>Y</td>
-    <tr>
-        <td>4</td>
-        <td>V-Path Checker</td>
-        <td>All path with “/v/” ,show result of comparing with US corresponding page.</td>
-
-        <td>Batch</td>
-        <td>Y</td>
-
-    </tr>
-    <tr>
-        <td>5</td>
-        <td>ViewPort Checker</td>
-        <td>Only checking the meta of viewport</td>
-        <td>Batch</td>
-        <td>Y</td>
-    </tr>
-
-    <tr>
-        <td>6</td>
-        <td>FootNotes Checker</td>
-        <td>Check all footnotes on both of the copy and footer ,list them and find out the mismatch  </td>
-        <td>Batch</td>
-        <td>Y</td>
-    </tr>
-    <tr>
-        <td>7</td>
-        <td>Copy Checker</td>
-        <td>Listed all copy on the page body ,and show the result of contrast with production </td>
-        <td>In Process</td>
-        <td></td>
-    </tr>
-
-
-    <tr>
-        <td>8</td>
-        <td>GP Tool - Image Checker  </td>
-        <td>Basing on a US URL to check corresponding GC pages ,list all images except logo, icon and
-            added download function to the search result </td>
-        <td>Single</td>
-        <td>Y</td>
-    </tr>
-    <tr>
-        <td>9</td>
-        <td>GP Tool - MP4 Checker</td>
-        <td>Check all mp4 files on one page ,except those mp4 which are generated dynamically.</td>
-        <td>Single</td>
-        <td>N</td>
-    </tr>
-
-
-</table>
-</body>
-</html>
+    });
+</script>
