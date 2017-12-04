@@ -118,15 +118,23 @@
 
                                 str+=`<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
                                 str+=`<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
+                                if(data[i][2].length==0){
+                                    str+=`<tr><td class='red'>No added content</td></tr>`;
+                                }else
+                                {
                                 for(var x=0;x<data[i][2].length;x++){
                                     str+=`<tr><td class='red'>${data[i][2][x]}</td></tr>`;
-                                }
+                                }}
 
                             strbran+=`<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
                             strbran += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
+                               if(data[i][3].length==0){
+                                   strbran+=`<tr><td class='red'>No added content</td></tr>`;
+                               }else{
+
                                 for(var x=0;x<data[i][3].length;x++){
                                     strbran+=`<tr><td class='red'>${data[i][3][x]}</td></tr>`;
-                                 }
+                                 }}
 
                             // Below table is Equivalent table;
                                 str1+=`<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
