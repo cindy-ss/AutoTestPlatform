@@ -37,25 +37,19 @@ let compare = (url, auth, cb) => {
 
     let _comp = (baseArr, targetArr) => {
     let sameArr=[], oldArr = [], newArr = [];
-    function aa(){
-        for (var i = 0; i < targetArr.length; i++) {
+        for (let i = 0; i < targetArr.length; i++) {
             if(baseArr.indexOf(targetArr[i])==-1){
                 newArr.push(targetArr[i]);
             }else{
                 sameArr.push(targetArr[i]);
             }
         }
-    }
-    aa();
 
-    function bb(){
-        for (var i = 0; i < baseArr.length; i++) {
-            if(targetArr.indexOf(baseArr[i])==-1){
-                oldArr.push(baseArr[i]);
+        for (let j = 0; j < baseArr.length; j++) {
+            if(targetArr.indexOf(baseArr[j])==-1){
+                oldArr.push(baseArr[j]);
             }
         }
-    } 
-    bb();
     return [sameArr, oldArr, newArr];
 };
 
