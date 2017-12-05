@@ -61,6 +61,28 @@
    return s;
    }%>
 
+   <%function islocalized(url,geo){
+        let flag=false;
+
+        if (geo=="HKTC") {
+            if (url.indexOf("hk") !== -1 &&url.indexOf("/hk/en/") == -1){
+                flag=true;
+            }
+
+        }else
+        if(geo=="HKEN"){
+            if (url.indexOf("/hk/en/") !== -1){
+                flag=true;
+            }
+        }
+        else
+            if(url.indexOf(geo.toLowerCase()) !== -1)
+        {
+            flag=true;
+        }
+        return flag;
+    }%>
+
   <tr>
     <td bgcolor="#175b96" class="f1">URL</td>
     <td colspan="2" class ="headline" bgcolor="#175b96"><a  href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['url'] %></a></td>
@@ -73,61 +95,69 @@
   </tr>
 
   <tr>
-    <td>Title</td>
+    <td>Title:</td>
     <td <%if (flag<0){%> class="red" <%}%> ><%= content[i]['title'] %></td>
     <td <%if (flag<0){%> class="red" <%}%> ><%= content[i]['titleUS'] %></td>
   </tr>
 
   <tr>
-    <td>Description</td>
+    <td>Description:</td>
     <td <%if (content[i]['desc'] && (content[i]['desc'].length > 150 || content[i]['desc'].length < 100)){ %>
-                class="red" <%}%> ><%= content[i]['desc'] %> </td>
+                class="red" <%}%> ><%= content[i]['desc'] %>(<%= content[i]['desc'].length%>) </td>
     <td><%= content[i]['descUS'] %> </td> 
   </tr>
 
   <tr>
-    <td>OG Title</td>
+    <td>OG Title:</td>
     <td><%= content[i]['ogTitle'] %> </td>
     <td><%= content[i]['ogTitleUS'] %> </td>
   </tr>
 
   <tr>
-    <td>OG URL</td>
-    <td><a <%content[i].ogUrl && ((content[i].ogUrl.indexOf('https')==-1) || (content[i].ogUrl.indexOf(content[i].geo.toLowerCase())==-1))?"class='red'":""%> href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrl'] %></a> </td>
+    <td>OG URL:</td>
+    <td><a <%content[i].ogUrl && ((content[i].ogUrl.indexOf('https')==-1) || (islocalized(content[i].ogUrl,content[i].geo)==false))?"class='red'":""%> href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrl'] %></a> </td>
     <td><a href="<%=content[i]['ogUrl']%>" target="_blank"><%= content[i]['ogUrlUS'] %></a> </td> 
   </tr>
 
   <tr>
-    <td>OG Description</td>
+    <td>OG Description:</td>
     <td <%if (content[i]['ogDesc'] && (content[i]['ogDesc'].length > 150 || content[i]['ogDesc'].length < 100)){ %>
-                class="red" <%}%> ><%= content[i]['ogDesc'] %> </td>
+                class="red" <%}%> ><%= content[i]['ogDesc']%> (<%= content[i]['ogDesc'].length%>) </td>
     <td><%= content[i]['ogDescUS'] %> </td>
   </tr>
 
   <tr>
-    <td>OG Image </td>
-    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td>
-    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
+    <td>OG Image: </td>
+    <td><img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a <%=content[i]['ogUrl'] && (content[i]['oglab'].indexOf('https')==-1) ?"class='red'":""%> href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td>
+    <td><img src="<%=content[i]['ogImageUS']%>" alt="ogImageUS" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
   </tr>
 
   <tr>
     <td>OG Image Current Server:</td>
-    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>Width:<%=content[i]['ogImage']['size']['width'] %> Hight:<%=content[i]['ogImage']['size']['height'] %><br><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td>
-    <td><img src="<%=content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
+    <td><img src="<%=content[i]['ogImage'] ? content[i]['ogImage']['url'] : ''%>" alt="ogImage" class="ext-thumb"><br>Width:<%=content[i]['ogImage'] ? content[i]['ogImage']['size']['width']:'' %> .Hight:<%=content[i]['ogImage'] ? content[i]['ogImage']['size']['height']:'' %><br><a <%=content[i]['ogImage'] && (content[i]['ogImage']['url'].indexOf('https')==-1)?"class='red'":""%> href="<%= content[i]['ogImage']?content[i]['ogImage']['url']:'' %>" target="_blank"><%= content[i]['ogImage']?content[i]['ogImage']['url']:'' %></a></td>
+    <td><img src="<%=content[i]['ogImageUScur']?content[i]['ogImageUScur']:''%>" alt="ogImageUScur" class="ext-thumb"><br><a href="<%= content[i]['ogImageUScur'] %>" target="_blank"><%= content[i]['ogImageUScur'] %></a></td>
   </tr>
-
 
     <%if (content[i]['geo']=="CN") {%>
   <tr>
 
 
-    <td>WeChat Image </td>
+    <td>WeChat Image: </td>
     <td><img src="<%=content[i]['wechat']['url']%>" alt="wechatImage" class="ext-thumb"><br>
-            Width:<%=content[i]['wechat']['size']['width'] %> Hight:<%=content[i]['wechat']['size']['height'] %><br><a href="<%=content[i]['wechat']['url']%>" target="_blank"><%=content[i]['wechat']['url']%></a></td>
+            Width:<%=content[i]['wechat']['size']['width'] %> .Hight:<%=content[i]['wechat']['size']['height'] %><br><a href="<%=content[i]['wechat']['url']%>" target="_blank"><%=content[i]['wechat']['url']%></a></td>
             <td>NA</td>
   </tr>
 
-   <%}}%>
+
+      <%}else if(content[i]['desc']==="Bad Link"){%>
+  <tr>
+    <td><%=content[i]['url']%></td>
+    <td>Bad Link</td>
+    <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+  </tr>
+  <%}%>
+   
+  <%}%>
 
 
   </tbody>
