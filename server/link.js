@@ -30,13 +30,20 @@ const getLinks = (url, auth, cb) => {
 
 const judgeUrl = (origin, url, geo) => {
     let tempUrl = URL.resolve(origin, url);
-
+    let jUrl = decodeURIComponent(tempUrl);// jie ma
+    let newUrl= jUrl.split('{"tempUrl":"');
+    let linkUrl=newUrl[1].split('",\"text\":"');
+    let textc= linkUrl[1].split('"}');
+     textc.pop();
+     let textp = textc.join('');
+    let texto= textp.split('\\t').join('').split('\\n').join('').split('/n').join('').split('/t').join('');
     let obj = {
         type: null,
-        href: tempUrl,
+        href: newUrl[0],
         status: null,
         message: null,
-        rawLink: url
+        rawLink: linkUrl[0],
+        text: texto
 
     };
 
@@ -99,5 +106,4 @@ const judgeUrl = (origin, url, geo) => {
 
     return obj;
 };
-
 exports.getLinks = getLinks;
