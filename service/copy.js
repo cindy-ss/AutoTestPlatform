@@ -1,4 +1,3 @@
-
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
@@ -8,27 +7,31 @@ let compare = (url, auth, cb) => {
     let ogURLObj = URL.parse(url);
     ogURLObj['host'] = 'www.apple.com';
     let online_url = URL.format(ogURLObj);
-    Array.prototype.remove = function(val) {
+
+    Array.prototype.remove = function (val) {
         let index = this.indexOf(val);
         if (index > -1) {
             this.splice(index, 1);
         }
     };
-    let newurl=url.split('/'),usurl;
-    if(newurl[3]=='cn'){
+
+    //todo 可以使用URL这个包解析出路径数组，然后判断是否有CN，这样比较安全。
+    //todo usurl和newurl这样的命名不符合规范，请使用下划线或者驼峰。IDE会标注出typo
+    let newurl = url.split('/'), usurl;
+    if (newurl[3] === 'cn') {
         newurl.remove('cn');
-        usurl= newurl.join('/');
+        usurl = newurl.join('/');
+        //todo 这两个赋值在两个判断分支里是重复的。
         url = url;
-        online_url=url;
+        online_url = url;
 
-    }else{
+    } else {
 
         url = url;
-        online_url=url;
-        usurl=url;
+        online_url = url;
+        usurl = url;
 
     }
-
 
 
     console.log(`${online_url} VS ${url} VS ${usurl}\n`);
@@ -41,13 +44,13 @@ let compare = (url, auth, cb) => {
             query.query(usurl, callback, auth);
         },
         callback => {
-        query.query(url,callback,auth);
+            query.query(url, callback, auth);
         }
     ], function (err, res) {
         let arr = [[], [], []];
 
 
-        if (!err && res[0] && res[1]&& res[2]) {
+        if (!err && res[0] && res[1] && res[2]) {
             arr = _comp(_getContent(res[0]), _getContent(res[1]), _getContent(res[2]));
             // console.log("aaaaa");
             // console.log(_getContent(res[0]));
@@ -57,15 +60,17 @@ let compare = (url, auth, cb) => {
             console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
             // console.log(`${online_url} missed:\n\t${arr[0].join('\n\t')}\n\n${url} added:\n\t${arr[1].join('\n\t')}`);
         }
-        let durl=url.split('/');
-        let aurl=durl[2].split('.');
+        //todo 注意命名规范。
+        let durl = url.split('/');
+        let aurl = durl[2].split('.');
         let flag;
-        if(aurl[0]==="www"){
-            flag=1;
+        //todo Flag声明后，赋值，之后未被使用，IDE有提示。
+        if (aurl[0] === "www") {
+            flag = 1;
             arr.unshift(url);
         }
-        if(aurl[0]!=="www"){
-            flag=0;
+        if (aurl[0] !== "www") {
+            flag = 0;
             arr.unshift(url);
         }
         arr[1] = _getContent(res[0]);
@@ -74,33 +79,33 @@ let compare = (url, auth, cb) => {
 };
 
 
-    let _comp = (baseArr, targetArr) => {
-    let sameArr=[], oldArr = [], newArr = [];
-        for (let i = 0; i < targetArr.length; i++) {
-            if(baseArr.indexOf(targetArr[i])==-1){
-                newArr.push(targetArr[i]);
+let _comp = (baseArr, targetArr) => {
+    let sameArr = [], oldArr = [], newArr = [];
+    for (let i = 0; i < targetArr.length; i++) {
+        if (baseArr.indexOf(targetArr[i]) === -1) {
+            newArr.push(targetArr[i]);
 
-            }else{
-                sameArr.push(targetArr[i]);
-            }
+        } else {
+            sameArr.push(targetArr[i]);
         }
-        // console.log('abc');
-        // console.log(targetArr);
-        for (let j = 0; j < baseArr.length; j++) {
-            if(targetArr.indexOf(baseArr[j])==-1){
-                oldArr.push(baseArr[j]);
-            }
+    }
+    // console.log('abc');
+    // console.log(targetArr);
+    for (let j = 0; j < baseArr.length; j++) {
+        if (targetArr.indexOf(baseArr[j]) === -1) {
+            oldArr.push(baseArr[j]);
         }
-        // console.log(baseArr);
+    }
+    // console.log(baseArr);
     return [sameArr, oldArr, newArr];
 };
-
 
 
 let _getContent = (str) => {
     let $ = cheerio.load(str);
 
-    if(flag=0) {
+    //todo 注意let的使用范围。
+    if (flag = 0) {
 
 
         //let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();yijingzhushide
@@ -137,17 +142,18 @@ let _getContent = (str) => {
 
         // biao pan
         let _text2 = $(".gallery-watch");
+        //todo 建议用 obj = {animation : [], animation_local : []} 这种形式，不然arr2 ~ arr20,无法理解，加了注释也没啥作用。
         let arr2 = [];// data-animation
         let arr3 = [];// data-animation-locale
         let arr4 = [];// aria-label
-        let arrPid =[];//id
+        let arrPid = [];//id
         let arrPan = [];//biao pan shu xing
         _text2.each(function (i, elem) {
             arr2[i] = $(this).attr("data-animation");
             arr3[i] = $(this).attr('data-animation-locale');
             arr4[i] = $(this).attr('aria-label');
             arrPid[i] = $(this).attr('id');
-            arrPan.push("data-animation:" + arr2[i] + " " + "data-animation-locale:" + arr3[i] + " " + "aria-label:" + arr4[i] + " " +'id:' + arrPid[i]);
+            arrPan.push("data-animation:" + arr2[i] + " " + "data-animation-locale:" + arr3[i] + " " + "aria-label:" + arr4[i] + " " + 'id:' + arrPid[i]);
         });
         arrPan.shift();
         //biao kuan
@@ -157,7 +163,7 @@ let _getContent = (str) => {
         let arr16 = [];//data-size
         let arr8 = [];//data-sku-model
         let arr20 = [];//data-string-size
-        let arrKid =[];//id
+        let arrKid = [];//id
         let arrKuan = [];//biao kuan shuxing
         let _text3 = $("div.gallery-band-visible,div#gallery-cases,div.gallery-content-pane");
         _text3.each(function (i, elem) {
@@ -167,11 +173,11 @@ let _getContent = (str) => {
             arr8[i] = $(this).attr('data-sku-model');
             arr16[i] = $(this).attr('data-size');
             arr20[i] = $(this).attr('data-string-size');
-            arrKid[i]= $(this).attr('id');
+            arrKid[i] = $(this).attr('id');
             if (arr7.join(',').indexOf("表带") == -1) {
-                arrKuan.push('aria-label:' + arr7[i] + " " + "data-casing-name:" + arr5[i] + " " + "data-band-name:" + arr6[i] + " " + 'data-size:' + arr16[i] + "mm" + " "+ 'data-sku-model:' + arr8[i] +" "+'id:' + arrKid[i]);
+                arrKuan.push('aria-label:' + arr7[i] + " " + "data-casing-name:" + arr5[i] + " " + "data-band-name:" + arr6[i] + " " + 'data-size:' + arr16[i] + "mm" + " " + 'data-sku-model:' + arr8[i] + " " + 'id:' + arrKid[i]);
             } else {
-                arrKuan.push('aria-label:' + arr7[i] + " " + "data-casing-name:" + arr5[i] + " " + "data-band-name:" + arr6[i] + " " + 'data-size:' + arr16[i] + "毫米" + " "+ 'data-sku-model:' + arr8[i] +" "+'id:' + arrKid[i]);
+                arrKuan.push('aria-label:' + arr7[i] + " " + "data-casing-name:" + arr5[i] + " " + "data-band-name:" + arr6[i] + " " + 'data-size:' + arr16[i] + "毫米" + " " + 'data-sku-model:' + arr8[i] + " " + 'id:' + arrKid[i]);
 
             }
         });
@@ -186,7 +192,7 @@ let _getContent = (str) => {
         let arr13 = [];//data-hidden
         let arr14 = [];//aria-label
         let arr15 = [];//data-buy
-        let arrDid=[];//id
+        let arrDid = [];//id
         let arrDai = [];//biao dai shuxing
         _text4.each(function (i, elem) {
             arr9[i] = $(this).attr("data-size");
@@ -196,15 +202,15 @@ let _getContent = (str) => {
             arr13[i] = $(this).attr("data-hidden");
             arr14[i] = $(this).attr("aria-label");
             arr15[i] = $(this).attr("data-buy");
-            arrDid[i]= $(this).attr('id');
+            arrDid[i] = $(this).attr('id');
             if (arr14.join(',').indexOf("表带") == -1) {
-                arrDai.push('aria-label:' + arr14[i] + " " + 'data-size:' + arr9[i] + "mm" + " " + 'data-background:' + arr10[i] + " " + 'data-band-available:' + arr11[i] + " " + "data-band-unavailable-copy:" + arr12[i] + " " + "data-hidden:" + arr13[i] + " " + "data-buy:" + arr15[i] +" "+ 'id:' + arrDid[i]);
+                arrDai.push('aria-label:' + arr14[i] + " " + 'data-size:' + arr9[i] + "mm" + " " + 'data-background:' + arr10[i] + " " + 'data-band-available:' + arr11[i] + " " + "data-band-unavailable-copy:" + arr12[i] + " " + "data-hidden:" + arr13[i] + " " + "data-buy:" + arr15[i] + " " + 'id:' + arrDid[i]);
             } else {
-                arrDai.push('aria-label:' + arr14[i] + " " + 'data-size:' + arr9[i] + "毫米" + " " + 'data-background:' + arr10[i] + " " + 'data-band-available:' + arr11[i] + " " + "data-band-unavailable-copy:" + arr12[i] + " " + "data-hidden:" + arr13[i] + " " + "data-buy:" + arr15[i] +" "+ 'id:' + arrDid[i]);
+                arrDai.push('aria-label:' + arr14[i] + " " + 'data-size:' + arr9[i] + "毫米" + " " + 'data-background:' + arr10[i] + " " + 'data-band-available:' + arr11[i] + " " + "data-band-unavailable-copy:" + arr12[i] + " " + "data-hidden:" + arr13[i] + " " + "data-buy:" + arr15[i] + " " + 'id:' + arrDid[i]);
             }
         });
         arrDai.shift();
-        let arr=new Array();
+        let arr = new Array();
         arr[0] = arrKuan;
         arr[1] = arrDai;
         arr[2] = arrPan;
