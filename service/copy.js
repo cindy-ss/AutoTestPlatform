@@ -17,12 +17,12 @@ let compare = (url, auth, cb) => {
 
     //todo 可以使用URL这个包解析出路径数组，然后判断是否有CN，这样比较安全。
     //todo usurl和newurl这样的命名不符合规范，请使用下划线或者驼峰。IDE会标注出typo
-    let newurl = url.split('/'), usurl;
-    if (newurl[3] === 'cn') {
-        newurl.remove('cn');
-        usurl = newurl.join('/');
+    let new_url=URL.parse(url).pathname;
+    let us_url;
+    if (new_url.split('/').indexOf('cn')!==-1) {
+        new_url.remove('cn');
+        us_url = new_url.join('/');
         //todo 这两个赋值在两个判断分支里是重复的。
-        url = url;
         online_url = url;
 
     } else {
