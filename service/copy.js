@@ -53,7 +53,7 @@ let compare = (url, auth, cb) => {
 
         arr.unshift(url);
         // console.log(arr);
-        // arr[2] = _getContent(res[0]);
+        arr[2] = _getContent(res[0]);
         // console.log(arr);
         cb(err, arr);
     });
@@ -67,7 +67,7 @@ let compare = (url, auth, cb) => {
             var flag = 0;
 
         }
-        if(flag===1) {
+        if(flag===0) {
 
             //let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();yijingzhushide
             let _text;
@@ -102,7 +102,6 @@ let compare = (url, auth, cb) => {
 
 
             // 表盘
-            console.log("aaa");
             let _text2 = $(".gallery-watch");
             let arr_pan = [];//表盘属性
             let pan_obj = {animation: [], animation_locale: [], aria_label: [], id: []};
