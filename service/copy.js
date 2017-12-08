@@ -17,11 +17,11 @@ let autoplay = () =>{
 
         } else {
             us_url = url;
-          let  new_arr = new_url.split('/');
-               new_arr.splice(0,1,'/cn');
-               new_url = new_arr.join('/');
+            let  new_arr = new_url.split('/');
+            new_arr.splice(0,1,'/cn');
+            new_url = new_arr.join('/');
             online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + new_url;
-               url = online_url;
+            url = online_url;
         }
 
 
@@ -57,12 +57,12 @@ let autoplay = () =>{
         });
 
 
-    if (URL.parse(url).pathname.indexOf('interactive-gallery') === -1 ){
-        flag = 0;
-    } else {
-        flag = 1;
+        if (URL.parse(url).pathname.indexOf('interactive-gallery') === -1 ){
+            flag = 0;
+        } else {
+            flag = 1;
 
-    }
+        }
     };
     let _getContent = (str) => {
         let $ = cheerio.load(str);
