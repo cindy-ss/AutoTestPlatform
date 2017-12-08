@@ -4,15 +4,12 @@
 
 const cheerio = require('cheerio'),
     async = require('async'),
-    fs = require('fs'),
     URL = require('url'),
-    path = require('path'),
     gh = require('../service/geo_helper');
 
 const query = require('../service/query'),
     adapter = require('../service/adapter'),
     file = require('../service/file'),
-    exporter = require('../service/exporter'),
     util = require('../service/util');
 
 let MAX_THREAD = 20;
@@ -40,7 +37,7 @@ const fetchTrans = (url, auth, cb) => {
                 let ogTitle = $("meta[property='og:title']").attr('content');
                 let ogImage, ogImage1, ogImageUS = 'NA';
                 let title = $("title").text();
-                let descUS,ogDescUS,ogUrlUS,ogTitleUS,titleUS,ogImageUScur='NA';
+                let descUS, ogDescUS, ogUrlUS, ogTitleUS, titleUS, ogImageUScur = 'NA';
                 if (_ogImage) {
                     _ogImage = _ogImage.split('?')[0];
 
@@ -61,13 +58,12 @@ const fetchTrans = (url, auth, cb) => {
                     },
                     title,
                     oglab: ogImage1,
-                    geo : gh.getGEO(url),
+                    geo: gh.getGEO(url),
                     ogUrl,
                     ogUrlUS,
                     ogImageUS,
                     descUS,
                     ogImageUScur
-
 
 
                 };
@@ -106,15 +102,15 @@ const fetchTrans = (url, auth, cb) => {
                         }, auth)
                     },
                     callback => {
-                        if(_ogImage){
-                            if(gh.getGEO(url) !== 'US'){
+                        if (_ogImage) {
+                            if (gh.getGEO(url) !== 'US') {
                                 let tempUrl = gh.geo2us(url, true);
 
                                 query.query(tempUrl, (err, data) => {
-                                    if(!err){
+                                    if (!err) {
                                         let $ = cheerio.load(data);
                                         ogImageUS = $("meta[property='og:image']").attr('content');
-                                        if(ogImageUS){
+                                        if (ogImageUS) {
                                             ogImageUS = ogImageUS.split('?')[0];
 
                                             /*add US image on current server*/
@@ -124,60 +120,58 @@ const fetchTrans = (url, auth, cb) => {
                                         }
 
                                         obj['ogImageUS'] = ogImageUS;
-                                        obj['ogImageUScur']=ogImageUScur;
+                                        obj['ogImageUScur'] = ogImageUScur;
 
                                         callback(null);
-                                    }else{
+                                    } else {
                                         callback(err);
                                     }
                                 }, auth);
-                            }else{
+                            } else {
                                 ogImageUS = _ogImage;
                                 callback(null);
                             }
-                        }else{
+                        } else {
                             callback(null);
                         }
                     },
                     callback => {
-                        if(true){
-                            if(gh.getGEO(url) !== 'US'){
+                        if (true) {
+                            if (gh.getGEO(url) !== 'US') {
                                 let tempUrl = gh.geo2us(url, true);
 
                                 query.query(tempUrl, (err, data) => {
-                                    if(!err){
+                                    if (!err) {
                                         let $ = cheerio.load(data);
                                         descUS = $("meta[name='Description']").attr('content');
-                                        ogDescUS=$("meta[property='og:description']").attr('content');
-                                        ogUrlUS=$("meta[property='og:url']").attr('content');
-                                        ogTitleUS=$("meta[property='og:title']").attr('content');
-                                        titleUS=$("title").text();
+                                        ogDescUS = $("meta[property='og:description']").attr('content');
+                                        ogUrlUS = $("meta[property='og:url']").attr('content');
+                                        ogTitleUS = $("meta[property='og:title']").attr('content');
+                                        titleUS = $("title").text();
 
                                         obj['descUS'] = descUS;
-                                        obj['ogDescUS']=ogDescUS;
-                                        obj['ogUrlUS']=ogUrlUS;
-                                        obj['ogTitleUS']=ogTitleUS;
-                                        obj['titleUS']=titleUS;
+                                        obj['ogDescUS'] = ogDescUS;
+                                        obj['ogUrlUS'] = ogUrlUS;
+                                        obj['ogTitleUS'] = ogTitleUS;
+                                        obj['titleUS'] = titleUS;
                                         callback(null);
-                                    }else{
+                                    } else {
                                         callback(err);
                                     }
                                 }, auth);
-                            }else{
+                            } else {
                                 descUS = desc;
-                                ogDescUS =ogDesc;
-                                ogUrlUS=ogUrl;
-                                ogTitleUS=ogTitle;
-                                titleUS=title;
+                                ogDescUS = ogDesc;
+                                ogUrlUS = ogUrl;
+                                ogTitleUS = ogTitle;
+                                titleUS = title;
 
                                 callback(null);
                             }
-                        }else{
+                        } else {
                             callback(null);
                         }
                     },
-
-
 
                 ], function (err) {
                     if (err) {
@@ -192,9 +186,9 @@ const fetchTrans = (url, auth, cb) => {
                     ogDesc: "NA",
                     title: 'NA',
                     ogTitle: 'NA',
-                    ogUrl : 'NA',
-                    ogImageUS : 'NA',
-                    geo : gh.getGEO(url)
+                    ogUrl: 'NA',
+                    ogImageUS: 'NA',
+                    geo: gh.getGEO(url)
                 };
                 cb(null, obj);
             }
@@ -206,9 +200,9 @@ const fetchTrans = (url, auth, cb) => {
                 ogDesc: "NA",
                 title: 'NA',
                 ogTitle: 'NA',
-                ogUrl : 'NA',
-                ogImageUS : 'NA',
-                geo : gh.getGEO(url)
+                ogUrl: 'NA',
+                ogImageUS: 'NA',
+                geo: gh.getGEO(url)
             };
             cb(null, obj);
         }
@@ -229,99 +223,4 @@ const runTask = (urlStr, auth, cb) => {
     });
 };
 
-const dealHTML = (content, cb) => {
-    const exportTime = new Date().getTime();
-    const title = `report-${exportTime}`;
-    const fileName = `${title}.html`;
-    const exportPath = `./static/data/${fileName}`;
-
-    let finalStr = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>${title}</title>
-    <style>
-        .red {
-            color : red;
-        }
-        .ext-thumb {
-            width : 60px;
-            height : 60px
-        }
-        .metaStyle > tr > td > div {
-           width: 200px;
-           height: 200px;
-         word-wrap: break-word
-}
-    </style>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-<body class="container-fluid">
-    <table class="table table-bordered table-striped table-hover">
-    <caption align="top";color:black;>Meta Report</caption> 
-    <tbody class="metaStyle">
-        <tr>
-            <th>URL</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>OG Title</th>
-            <th>OG Description</th>
-            <th>OG Img</th>
-            <th>OG Img label</th>
-            <th>OG Img on Current Server</th>
-            <th>WeChat Img</th>
-            <th>WeChat URL</th>
-        </tr>
-        ${content.map(item => `
-            <tr>
-                <td><div><a href="${item.url}" target="_blank">${item.url}</a></div></td>
-                <td><div>${item.title}</div></td>
-                <td${item.desc && (item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : ""}><div>${item.desc}</div></td>
-               
-                <td><div>${item.ogTitle}</div></td>
-                <td${item.ogDesc && (item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : ""}><div>${item.ogDesc}</div></td>
-                <td class="text-center"><div><img src="${item.ogImage.url}" alt="ogImage" class="ext-thumb"><br>
-                Width:${item.ogImage.size.width}.Hight:${item.ogImage.size.height}</div></td>
-                <td><div><a href="${item.oglab}" target="_blank">${item.oglab}</a></div></td>
-                <td><div><a href="${item.ogImage.url}" target="_blank">${item.ogImage.url} </div></td>
-                <td class="text-center"><div><img src="${item.wechat.url}" alt="wachatImage" class="ext-thumb"><br>
-                <br>
-                Width:${item.wechat.size.width}.Hight:${item.wechat.size.height}</div></td>
-                <td><div><a href="${item.wechat.url}" target="_blank">${item.wechat.url}</div></td>
-            </tr>
-        `).join('')}
-        </tbody>
-    </table>
-</body>
-</html>
-    `;
-
-    fs.writeFileSync(exportPath, finalStr, 'utf-8');
-
-    cb(null, fileName);
-};
-
-const dealExcel = (content, cb) => {
-    const headers = {
-        url: 'URL',
-        title: 'Title',
-        desc: 'Description',
-        ogTitle: 'OG Title',
-        ogDesc: 'OG Description',
-    };
-    exporter.dealExcel(headers, content, cb);
-};
-
-const export2Xls = (obj, cb) => {
-    switch (obj.type) {
-        case "html" :
-            dealHTML(obj.xls, cb);
-            break;
-        default:
-            dealExcel(obj.xls, cb);
-    }
-};
-
 exports.runTask = runTask;
-exports.export2Xls = export2Xls;
