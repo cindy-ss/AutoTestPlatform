@@ -8,7 +8,9 @@ const run = async options => {
         url = options.url;
 
     let res = {
+        url,
         meta : options.meta ? await metaCheck(url, auth) : null,
+        link : ''
     };
 
     return res;
