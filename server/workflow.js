@@ -14,24 +14,22 @@ const run = async options => {
 
     let obj = {
         url,
-        message : null,
-        meta : null,
-        link : null
+        message: null,
+        meta: null,
+        link: null
     };
 
-    let res = await Promise.all(promises);
+    return await Promise.all(promises)
+        .then(value => {
+            obj['meta'] = value[0];
+            obj['link'] = value[1];
 
-    return res;
-
-    //     .then(value => {
-    //     obj['meta'] = value[0];
-    //     obj['link'] = value[1];
-    //
-    //     return obj;
-    // }, err => {
-    //     obj['message'] = err;
-    //     return obj;
-    // });
+            return obj;
+        }).catch(err => {
+            console.log(err.message);
+            obj.message = err.message;
+            return obj;
+        });
 };
 
 let metaCheck = (url, auth) => {
@@ -49,9 +47,9 @@ let metaCheck = (url, auth) => {
 let linkCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
         link.getLinks(url, auth, (err, data) => {
-            if(err){
+            if (err) {
                 reject(err);
-            }else{
+            } else {
                 resolve(data);
             }
         })
