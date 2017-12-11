@@ -55,7 +55,7 @@ const judgeUrl = (origin, url, geo) => {
     let iUrl = lUrl.join('/');
     let finalUrl,wUrl,eUrl;
     if(tempUrl.indexOf('interactive-gallery') ===-1){
-        console.log('aaaa');
+        // console.log('aaaa');
         if(linkUrl[0].indexOf('.com') !==-1 ||linkUrl[0].indexOf('www.') !==-1 ||linkUrl[0].indexOf('.gov') !==-1){
             finalUrl = 'https://' + iUrl;
         }else{
