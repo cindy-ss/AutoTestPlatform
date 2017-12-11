@@ -27,23 +27,80 @@ const getLinks = (url, auth, cb) => {
         }
     }, auth, {});
 };
-
+Array.prototype.unique = function(){
+    let res = [];
+    let json = {};
+    for(let i = 0; i < this.length; i++){
+        if(!json[this[i]]){
+            res.push(this[i]);
+            json[this[i]] = 1;
+        }
+    }
+    return res;
+}
 const judgeUrl = (origin, url, geo) => {
+
     let tempUrl = URL.resolve(origin, url);
     let jUrl = decodeURIComponent(tempUrl);// jie ma
     let newUrl= jUrl.split('{"tempUrl":"');
+    let mUrl = newUrl[0].split('/');
+            mUrl.pop();
+            mUrl.pop();
+            let kUrl = mUrl.join('/');
     let linkUrl=newUrl[1].split('",\"text\":"');
-    let textc= linkUrl[1].split('"}');
-     textc.pop();
-     let textp = textc.join('');
-    let texto= textp.split('\\t').join('').split('\\n').join('').split('/n').join('').split('/t').join('');
+    let textC= linkUrl[1].split('"}');
+    let lUrl = linkUrl[0].split('/');
+    lUrl.shift();
+    lUrl.shift();
+    let iUrl = lUrl.join('/');
+    let finalUrl,wUrl,eUrl;
+    if(tempUrl.indexOf('interactive-gallery') ===-1){
+        console.log('aaaa');
+        if(linkUrl[0].indexOf('.com') !==-1 ||linkUrl[0].indexOf('www.') !==-1 ||linkUrl[0].indexOf('.gov') !==-1){
+            finalUrl = 'https://' + iUrl;
+        }else{
+            wUrl = newUrl[0].split('/');
+            wUrl.pop();
+            wUrl.pop();
+            wUrl.unique();
+            eUrl = wUrl.join('/');
+            finalUrl = eUrl + '/' + iUrl;
+
+        }
+    }else{
+        let nUrl = tempUrl.split('/');
+        nUrl.pop();
+        nUrl.pop();
+        let tUrl = nUrl.join('/');
+        if(textC.join('')){
+            // console.log('aaaa');
+            finalUrl = tUrl + linkUrl[0] ;
+        }else{
+            // console.log('bbbb');
+            // let mUrl = newUrl[0].split('/');
+           // let kUrl = mUrl.pop();
+            finalUrl = kUrl;
+        }
+
+
+
+    }
+
+
+
+    let nUrl = finalUrl.split('/').unique();
+    let fUrl = nUrl.join('/');
+     textC.pop();
+     let textP = textC.join('');
+    let textO= textP.split('\\t').join('').split('\\n').join('').split('/n').join('').split('/t').join('');
+
     let obj = {
         type: null,
-        href: newUrl[0],
+        href: finalUrl,
         status: null,
         message: null,
-        rawLink: linkUrl[0],
-        text: texto
+        rawLink: newUrl[0],
+        text: textO
 
     };
 
@@ -100,8 +157,14 @@ const judgeUrl = (origin, url, geo) => {
 
     }
 
+    // if(obj.type !== 'normal'){
+    //     console.log(obj);
+    // }
     if(obj.type !== 'normal'){
-        console.log(obj);
+        if(obj.href.split('/').length < 4){
+            obj.href = '';
+            console.log(obj);
+        }
     }
 
     return obj;
