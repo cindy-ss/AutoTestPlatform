@@ -7,11 +7,31 @@ const run = async options => {
     let auth = options.auth,
         url = options.url;
 
-    return {
+    let promises = [
+        metaCheck(url, auth),
+        linkCheck(url, auth)
+    ];
+
+    let obj = {
         url,
-        meta: options.meta ? await metaCheck(url, auth) : null,
-        link: options.link ? await linkCheck(url, auth) : null,
+        message : null,
+        meta : null,
+        link : null
     };
+
+    let res = await Promise.all(promises);
+
+    return res;
+
+    //     .then(value => {
+    //     obj['meta'] = value[0];
+    //     obj['link'] = value[1];
+    //
+    //     return obj;
+    // }, err => {
+    //     obj['message'] = err;
+    //     return obj;
+    // });
 };
 
 let metaCheck = (url, auth) => {
