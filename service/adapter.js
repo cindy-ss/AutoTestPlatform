@@ -198,12 +198,29 @@ const linkHandler = (content, cb) => {
         const $ = cheerio.load(content);
         const linkArr = $("a");
 
+        // linkArr.each(function (i, item) {
+        //     if (item.attribs && item.attribs.href) {
+        //         let tempUrl = item.attribs.href;
+        //
+        //         res.push(tempUrl);
+        //     }
+        // });
+
+
         linkArr.each(function (i, item) {
             if (item.attribs && item.attribs.href) {
-                let tempUrl = item.attribs.href;
-                res.push(tempUrl);
+                let objUrl={};
+                objUrl.tempUrl=item.attribs.href;
+                let text = $(this).text();
+                objUrl.text= $(this).text();
+                let str=JSON.stringify(objUrl);
+
+                res.push(str);
             }
         });
+
+
+
         cb(null, res);
     } catch (e) {
         cb(e, res);

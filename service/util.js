@@ -55,9 +55,22 @@ const urlNormalize = url => {
             url += '/';
         }
     }
-    if (!URL.parse(url).protocol) {
+    let tUrl = URL.parse(url).protocol;
+    if (!tUrl){
         url = 'https://' + url;
+    }else{
+        let sUrl=url.split('/');
+        if(sUrl[0]!=='https:'){
+            sUrl[0] = "https:";
+            url=sUrl.join('/');
+        }
+        if(sUrl[1]!==""){
+            sUrl.splice(1,0,'');
+            sUrl[0]= "https:";
+            url = sUrl.join('/');
+        }
     }
+
 
     return url;
 };
