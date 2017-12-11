@@ -3,7 +3,7 @@ const query = require('../service/query'),
     async = require('async'),
     cheerio = require('cheerio');
 
-let autoplay = () =>{
+let autoPlay = () =>{
     let flag;
     let compare = (url, auth, cb) => {
         let ogURLObj = URL.parse(url);
@@ -11,18 +11,52 @@ let autoplay = () =>{
         let online_url = URL.format(ogURLObj);
         let new_url=URL.parse(url).pathname;
         let us_url;
-        if (new_url.indexOf('cn')!==-1) {
-            online_url = url;
-            us_url = url.replace('/cn','');
-
-        } else {
-            us_url = url;
-            let  new_arr = new_url.split('/');
-            new_arr.splice(0,1,'/cn');
-            new_url = new_arr.join('/');
-            online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + new_url;
-            url = online_url;
+        // if (new_url.indexOf('cn')!==-1) {
+        //     online_url = url;
+        //     us_url = url.replace('/cn','');
+        //
+        // } else {
+        //     us_url = url;
+        //     let  new_arr = new_url.split('/');
+        //     new_arr.splice(0,1,'/cn');
+        //     new_url = new_arr.join('/');
+        //     online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + new_url;
+        //     url = online_url;
+        // }
+        if(!URL.parse(url).protocol){
+            url = "https://" + url;
         }
+        let gUrl = new_url.split('/');
+        let dUrl = URL.parse(url).host.split('.');
+        if(dUrl[0] === 'www') {
+            if (gUrl[1].split('').length === 2) {
+
+                online_url = url;
+
+                gUrl.shift();
+                gUrl.shift();
+                us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
+            } else {
+                gUrl.unshift('/cn');
+                online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + gUrl.join('/');
+                us_url = url;
+            }
+        }else{
+
+            if (gUrl[1].split('').length === 2) {
+
+                gUrl.shift();
+                gUrl.shift();
+                us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
+                dUrl[0] = 'www';
+                online_url = URL.parse(url).protocol + "//"+ dUrl.join('.')  + URL.parse(url).pathname;
+            } else {
+                gUrl.unshift('/cn');
+                online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + gUrl.join('/');
+                us_url = url;
+            }
+
+    }
 
 
         console.log(`${online_url} VS ${url} VS ${us_url}\n`);
@@ -42,9 +76,15 @@ let autoplay = () =>{
             let arr = [[], [], []];
 
             if (!err && res[0] && res[1] && res[2]) {
-                arr = _comp(_getContent(res[0]), _getContent(res[1]), _getContent(res[2]));
-                // console.log(_getContent(res[0]));
                 // console.log(_getContent(res[2]));
+                // console.log(_getContent(res[0]));
+                // console.log(res[0]);
+                // console.log(res[2]);
+               if(url.indexOf('interactive-gallery') ===-1){
+                   arr = _comp(_getContent(res[0]),_getContent(res[2]));
+               }else{
+                   arr = [_getContent(res[2]),_getContent(res[0]),_getContent(res[1])];
+               }
             } else {
                 console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
                 // console.log(`${online_url} missed:\n\t${arr[0].join('\n\t')}\n\n${url} added:\n\t${arr[1].join('\n\t')}`);
@@ -68,7 +108,7 @@ let autoplay = () =>{
         let $ = cheerio.load(str);
 
         if (flag === 0) {
-            // console.log('addd');
+            // console.log('bbb');
             //let _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs,.section-buystrip-hero').text();yijingzhushide
             let _text;
             if ($(".section-buystrip-hero")) {
@@ -100,8 +140,7 @@ let autoplay = () =>{
             return arr;
 
         }else {
-
-            // console.log('aaaaa');
+            // console.log('aaa');
             // 表盘
             let _text2 = $(".gallery-watch");
             let arr_pan = [];//表盘属性
@@ -204,4 +243,4 @@ let autoplay = () =>{
 
 
 };
-autoplay();
+autoPlay();
