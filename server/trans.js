@@ -22,13 +22,6 @@ const fetchTrans = (url, auth, cb) => {
             let $, obj;
             try {
                 $ = cheerio.load(res);
-            }
-            catch (e) {
-                console.log(`\t[ X ] : Load response from ${url} failed, messages: ${e.message}`);
-                $ = null;
-            }
-
-            if ($) {
                 let desc = $("meta[name='Description']").attr('content') || $("meta[name='description']").attr('content');
                 let ogDesc = $("meta[property='og:description']").attr('content');
                 let ogUrl = $("meta[property='og:url']").attr('content');
@@ -179,34 +172,31 @@ const fetchTrans = (url, auth, cb) => {
                     }
                     cb(err, obj);
                 });
-            } else {
-                obj = {
-                    url,
-                    desc: "Bad Link",
-                    ogDesc: "NA",
-                    title: 'NA',
-                    ogTitle: 'NA',
-                    ogUrl: 'NA',
-                    ogImageUS: 'NA',
-                    geo: gh.getGEO(url)
-                };
-                cb(null, obj);
+            }
+            catch (e) {
+                console.log(`\t[ X ] : Load response from ${url} failed, messages: ${e.message}`);
+                $ = null;
+                cb(null, generateErrorObject(url));
             }
         } else {
             console.log(`\t[ X ] : Querying data from ${url} failed, with an error of ${err.message}`);
-            let obj = {
-                url,
-                desc: "Bad Link",
-                ogDesc: "NA",
-                title: 'NA',
-                ogTitle: 'NA',
-                ogUrl: 'NA',
-                ogImageUS: 'NA',
-                geo: gh.getGEO(url)
-            };
-            cb(null, obj);
+            cb(null, generateErrorObject(url));
         }
     }, auth);
+};
+
+//Generate an object for error handling.
+const generateErrorObject = url => {
+    return {
+        url,
+        desc: "Bad Link",
+        ogDesc: "NA",
+        title: 'NA',
+        ogTitle: 'NA',
+        ogUrl: 'NA',
+        ogImageUS: 'NA',
+        geo: gh.getGEO(url)
+    }
 };
 
 const runTask = (urlStr, auth, cb) => {
