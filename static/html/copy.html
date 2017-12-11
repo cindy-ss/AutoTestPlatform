@@ -1,8 +1,16 @@
 <h2 class="page-header">Copy Checker</h2>
+<style>
 
+    .f1{
+        color: white;
+    }
+    .f1>a{
+        color: white;
+    }
+</style>
 <div class="row">
     <div class="col-md-3">
-        <p>URL Import(.txt only)
+        <p>URL Import (.txt only)
         </p>
 
         <input class="form-control" type="file" id="fileInput">
@@ -20,7 +28,7 @@
         <button id="btnQuest" class="btn btn-primary">Query</button>
         <button id="btnClear" class="btn btn-primary">Clear</button>
         <button id="btnExport" class="btn btn-primary">Export</button>
-        <button id="btnQuestwatch" class="btn btn-primary">Watch Gallery Query(Not Ready)</button>
+
     </div>
 
 
@@ -76,11 +84,25 @@
 
 
 
+<div id="watchgallery">
+
+    <table class="table table-striped table-bordered"  >
+        <tbody id="resConwatchStyle"></tbody>
+        <tbody id="resConwatchBand"></tbody>
+        <tbody id="resConwatchFace"></tbody>
+    </table>
+
+</div>
+
+
+
 
 <script>
 
     $("#accordion")[0].style.display = 'none';
     $("#diff")[0].style.display = 'none';
+
+    $("#watchgallery")[0].style.display = 'none';
 
     var storedData;
 
@@ -105,48 +127,76 @@
             let str = ``;
             let str1 = ``;
             let strbran=``;
+            let strwatch=``,strwatchUS=``,strwatchstyle=``,strwatchband=``,strwatchface=``,strwatchUSstyle=``,strwatchUSband=``,strwatchUSface=``;
+
             $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
-               $("#accordion").show();
-                $("#diff").show();
+
                 console.log(data);
                     if (data) {
-
+                        $("#accordion").show();
+                        $("#diff").show();
                         storedData = data;
-                        str1+=`<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
-                        for(var i = 0;i < data.length; i++) {
+                        str1 += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i][0].indexOf("/interactive-gallery") == -1) {
 
+                                str += `<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
+                                str += `<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
+                                if (data[i][2].length == 0) {
+                                    str += `<tr><td class='red'>No added content</td></tr>`;
+                                } else {
+                                    for (var x = 0; x < data[i][2].length; x++) {
+                                        str += `<tr><td class='red'>${data[i][2][x]}</td></tr>`;
+                                    }
+                                }
 
-                                str+=`<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
-                                str+=`<tr><td><a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
-                                if(data[i][2].length==0){
-                                    str+=`<tr><td class='red'>No added content</td></tr>`;
-                                }else
-                                {
-                                for(var x=0;x<data[i][2].length;x++){
-                                    str+=`<tr><td class='red'>${data[i][2][x]}</td></tr>`;
-                                }}
+                                strbran += `<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
+                                strbran += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
+                                if (data[i][3].length == 0) {
+                                    strbran += `<tr><td class='red'>No added content</td></tr>`;
+                                } else {
 
-                            strbran+=`<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
-                            strbran += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
-                               if(data[i][3].length==0){
-                                   strbran+=`<tr><td class='red'>No added content</td></tr>`;
-                               }else{
+                                    for (var x = 0; x < data[i][3].length; x++) {
+                                        strbran += `<tr><td class='red'>${data[i][3][x]}</td></tr>`;
+                                    }
+                                }
 
-                                for(var x=0;x<data[i][3].length;x++){
-                                    strbran+=`<tr><td class='red'>${data[i][3][x]}</td></tr>`;
-                                 }}
-
-                            // Below table is Equivalent table;
-                                str1+=`<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
+                                // Below table is Equivalent table;
+                                str1 += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
                                 <a href="${FormateURL(data[i][0])}" target="_blank">${FormateURL(data[i][0])}</a></td></tr>`;
-                                for(var x=0;x<data[i][1].length;x++){
-                                    str1+=`<tr><td>${data[i][1][x]}</td></tr>`;
-                                 }
+                                for (var x = 0; x < data[i][1].length; x++) {
+                                    str1 += `<tr><td>${data[i][1][x]}</td></tr>`;
+                                }
+
+                                $('#resContainer').html(str);
+                                $('#resContainerbranch').html(strbran);
+                                $('#resContainerequ').html(str1);
+                            } else {
+                                $("#watchgallery").show();
+
+                                strwatchstyle += `<tr><td colspan="3" bgcolor="#175b96" class="f1"><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
+                                strwatchstyle += `<tr><td style="font-weight: bold" >Geo</td><td style="font-weight: bold" >WWW</td><td style="font-weight: bold" >US</td></tr>`;
+                                strwatchstyle += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1">表款</td></tr>`;
+                                    for (var y = 0; y < data[i][3][0].length; y++) {
+                                        strwatchstyle += `<tr><td>${data[i][2][0][y]}</td><td>${data[i][1][0][y]}</td><td>${data[i][3][0][y]}</td></tr>`;
+                                    }
+                                strwatchband += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1" >表带</td></tr>`;
+                                    for (var z = 0; z < data[i][3][1].length; z++) {
+                                        strwatchband += `<tr><td>${data[i][2][1][z]}</td><td>${data[i][1][0][z]}</td><td>${data[i][3][0][z]}</td></tr>`;
+                                    }
+                                strwatchface += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1" >表盘</td></tr>`;
+                                    for (var w = 0; w < data[i][3][2].length; w++) {
+                                        strwatchface += `<tr><td>${data[i][2][2][w]}</td><td>${data[i][1][2][w]}</td><td>${data[i][3][2][w]}</td></tr>`;
+                                     }
+
+
+                                $('#resConwatchStyle').html(strwatchstyle);
+                                $('#resConwatchBand').html(strwatchband);
+                                $('#resConwatchFace').html(strwatchface);
+
+                            }
                         }
-                        $('#resContainer').html(str);
-                        $('#resContainerbranch').html(strbran);
-                        $('#resContainerequ').html(str1);
 
                     } else {
                     }

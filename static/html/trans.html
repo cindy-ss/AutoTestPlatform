@@ -117,20 +117,20 @@ console.log(storedData);
 
                        // 验证+1
                       str+=`<tr><td>OG Image:</td><td><img src="${item.oglab?item.oglab:"null"}" alt="oglab" class="ext-thumb"><br>
-                        <a ${item.ogUrl ?( (item.oglab.indexOf('https')==-1) ?"class='red'":""):""} href="${item.oglab?item.oglab:""}" target="_blank">${item.oglab?item.oglab:""}</a> </td>`;
+                        <a ${item.oglab ?( (item.oglab.indexOf('https')==-1) ?"class='red'":""):""} href="${item.oglab?item.oglab:""}" target="_blank">${item.oglab?item.oglab:""}</a> </td>`;
                             str+=`<td><img src="${item.ogImageUS?item.ogImageUS:"null"}" alt="ogImageUS" class="ext-thumb"><br><a  href="${item.ogImageUS?item.ogImageUS:""}" target="_blank">${item.ogImageUS?item.ogImageUS:"null"}</a></td></tr>`;
 
                         //验证+2
-                      str+=`<tr><td>OG Image Current Server:</td><td><img src="${item.ogImage ? item.ogImage.url : 'null'}" alt="ogImage" class="ext-thumb"><br>
-                                     Width:${item.ogImage ? item.ogImage.size.width : ''}.Hight:${item.ogImage ? item.ogImage.size.height : ''} <br>
-                                      <a ${item.ogImage ?( (item.ogImage.url.indexOf('https')==-1) ?"class='red'":""):""}  href="${item.ogImage?item.ogImage.url:''}" target="_blank">${item.ogImage ? item.ogImage.url : ''}</a>
+                      str+=`<tr><td>OG Image Current Server:</td><td><img src="${item.ogImage.url ? item.ogImage.url : 'null'}" alt="ogImage" class="ext-thumb"><br>
+                                     Width:${item.ogImage.size ? item.ogImage.size.width : ''}.Hight:${item.ogImage.size ? item.ogImage.size.height : ''} <br>
+                                      <a ${item.ogImage.url ?( (item.ogImage.url.indexOf('https')==-1) ?"class='red'":""):""}  href="${item.ogImage.url?item.ogImage.url:''}" target="_blank">${item.ogImage.url ? item.ogImage.url : ''}</a>
                                      </td><td><img src="${item.ogImageUScur ? item.ogImageUScur : ''}" alt="ogImageUScUR" class="ext-thumb"><br><a href="${item.ogImageUScur?item.ogImageUScur:""}" target="_blank">${item.ogImageUScur?item.ogImageUScur:""}</a></td>
                             </tr>`;
 
                        if (item.geo=="CN") {
-                                  str+=`<tr><td>WeChat Image:</td><td><img src="${item.wechat?item.wechat.url:"null"}" alt="wachatImage" class="ext-thumb"><br>
-                            Width:${item.wechat?item.wechat.size.width:"null"}.Hight:${item.wechat?item.wechat.size.height:"null"} <br>
-                            <a href="${item.wechat?item.wechat.url:""}" target="_blank">${item.wehchat?item.wechat.url:""}</a> </td><td>NA</td></tr>`;
+                                  str+=`<tr><td>WeChat Image:</td><td><img src="${item.wechat.url?item.wechat.url:"null"}" alt="wachatImage" class="ext-thumb"><br>
+                            Width:${item.wechat.size?item.wechat.size.width:"null"}.Hight:${item.wechat.size?item.wechat.size.height:"null"} <br>
+                            <a href="${item.wechat.url?item.wechat.url:""}" target="_blank">${item.wechat.url?item.wechat.url:""}</a> </td><td>NA</td></tr>`;
 
                             }
 
