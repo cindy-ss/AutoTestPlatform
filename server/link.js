@@ -72,22 +72,22 @@ const judgeUrl = (origin, url, geo) => {
         finUrl = finalUrl.split('/').unique().join('/');
     }else{
 
-            // console.log('cccc');
-            let nUrl = tempUrl.split('/');
-            nUrl.pop();
-            nUrl.pop();
-            let tUrl = nUrl.join('/');
-            if (textC.join('')) {
-                // console.log('aaaa');
-                finalUrl = tUrl + linkUrl[0];
-            } else {
-                // console.log('bbbb');
-                // let mUrl = newUrl[0].split('/');
-                // let kUrl = mUrl.pop();
-                finalUrl = kUrl;
-            }
-            finUrl = finalUrl.split('/').unique().join('/');
+        // console.log('cccc');
+        let nUrl = tempUrl.split('/');
+        nUrl.pop();
+        nUrl.pop();
+        let tUrl = nUrl.join('/');
+        if (textC.join('')) {
+            // console.log('aaaa');
+            finalUrl = tUrl + linkUrl[0];
+        } else {
+            // console.log('bbbb');
+            // let mUrl = newUrl[0].split('/');
+            // let kUrl = mUrl.pop();
+            finalUrl = kUrl;
         }
+        finUrl = finalUrl.split('/').unique().join('/');
+    }
 
 
 
