@@ -37,7 +37,7 @@ Array.prototype.unique = function(){
         }
     }
     return res;
-}
+};
 const judgeUrl = (origin, url, geo) => {
 
     let tempUrl = URL.resolve(origin, url);
@@ -53,38 +53,43 @@ const judgeUrl = (origin, url, geo) => {
     lUrl.shift();
     lUrl.shift();
     let iUrl = lUrl.join('/');
-    let finalUrl,wUrl,eUrl;
+    let finalUrl,wUrl,eUrl,finUrl;
     if(tempUrl.indexOf('interactive-gallery') ===-1){
-        console.log('aaaa');
+        // console.log('aaaa');
         if(linkUrl[0].indexOf('.com') !==-1 ||linkUrl[0].indexOf('www.') !==-1 ||linkUrl[0].indexOf('.gov') !==-1){
             finalUrl = 'https://' + iUrl;
         }else{
+            console.log('bbbb');
             wUrl = newUrl[0].split('/');
-            wUrl.pop();
-            wUrl.pop();
+            console.log(wUrl);
             wUrl.unique();
+            wUrl.pop();
+            wUrl.pop();
             eUrl = wUrl.join('/');
             finalUrl = eUrl + '/' + iUrl;
 
         }
+        finUrl = finalUrl.split('/').unique().join('/');
     }else{
-        let nUrl = tempUrl.split('/');
-        nUrl.pop();
-        nUrl.pop();
-        let tUrl = nUrl.join('/');
-        if(textC.join('')){
-            // console.log('aaaa');
-            finalUrl = tUrl + linkUrl[0] ;
-        }else{
-            // console.log('bbbb');
-            // let mUrl = newUrl[0].split('/');
-            // let kUrl = mUrl.pop();
-            finalUrl = kUrl;
+
+            // console.log('cccc');
+            let nUrl = tempUrl.split('/');
+            nUrl.pop();
+            nUrl.pop();
+            let tUrl = nUrl.join('/');
+            if (textC.join('')) {
+                // console.log('aaaa');
+                finalUrl = tUrl + linkUrl[0];
+            } else {
+                // console.log('bbbb');
+                // let mUrl = newUrl[0].split('/');
+                // let kUrl = mUrl.pop();
+                finalUrl = kUrl;
+            }
+            finUrl = finalUrl.split('/').unique().join('/');
         }
 
 
-
-    }
 
 
 
@@ -96,14 +101,13 @@ const judgeUrl = (origin, url, geo) => {
 
     let obj = {
         type: null,
-        href: finalUrl,
+        href: finUrl,
         status: null,
         message: null,
         rawLink: newUrl[0],
         text: textO
 
     };
-
     let host = URL.parse(tempUrl).hostname;
     let originHost = URL.parse(origin).hostname;
 
@@ -117,7 +121,7 @@ const judgeUrl = (origin, url, geo) => {
             deformityList.push(d);
         }
     }
-    let tempDeformity = deformityList.find(item => {return tempUrl.indexOf(item) !== -1});
+    let tempDeformity = deformityList.find(item => {return finUrl.indexOf(item) !== -1});
 
     if(host !== originHost && host.indexOf('apple.com') === -1 && extFilter.indexOf(host) === -1){
 
@@ -134,12 +138,17 @@ const judgeUrl = (origin, url, geo) => {
         obj.type = 'deformity';
         if(deformity[tempDeformity][geo.toLowerCase()]){
             let regStr = deformity[tempDeformity][geo.toLowerCase()];
-
+            // //>>>
+            // if(tempUrl.indexOf('?') !==-1){
+            //     obj.status = 'failed';
+            //     obj.message = `No GEO String ,${regStr} Required for ${finUrl}`;
+            // }
+            // //<<<<
             if(tempUrl.indexOf(regStr) !== -1){
                 obj.status = 'pass';
             }else{
                 obj.status = 'failed';
-                obj.message = `No GEO String ,${regStr} Required for ${url}`;
+                obj.message = `No GEO String ,${regStr} Required for ${finUrl}`;
             }
         }else{
             obj.status = 'pass';
@@ -152,7 +161,7 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string , ${geo} Required for ${url}`;
+            obj.message = `No GEO string , ${geo} Required for ${linkUrl[0]}`;
         }
 
     }
