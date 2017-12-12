@@ -151,7 +151,7 @@ let autoPlay = () => {
                 pan_obj.animation_locale[i] = $(this).attr('data-animation-locale');
                 pan_obj.aria_label[i] = $(this).attr('aria-label');
                 pan_obj.id[i] = $(this).attr('id');
-                arr_pan.push("id:" + pan_obj.id[i] + ' \n ' + "data-animation:" + pan_obj.animation[i] + " \n " + "data-animation-locale:" + pan_obj.animation_locale[i] + ' \n ' + "aria-label:" + pan_obj.aria_label[i]);
+                arr_pan.push("id:" + pan_obj.id[i] + "<br>" + "data-animation:" + pan_obj.animation[i] + "<br>" + "data-animation-locale:" + pan_obj.animation_locale[i] + "<br>" + "aria-label:" + pan_obj.aria_label[i]);
 
 
             });
@@ -177,9 +177,9 @@ let autoPlay = () => {
                 kua_obj.string_size[i] = $(this).attr('data-string-size');
                 kua_obj.id[i] = $(this).attr('id');
                 if (kua_obj.aria_label.join(',').indexOf("表带") === -1) {
-                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + " \n " + "data-casing-name:" + kua_obj.casing_name[i] + " \n " + "data-band-name:" + kua_obj.band_name[i] + " \n " + 'data-size:' + kua_obj.data_size[i] + "mm" + " \n " + 'data-sku-model:' + kua_obj.sku_model[i] + " \n " + 'id:' + kua_obj.id[i]);
+                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + "<br>" + "data-casing-name:" + kua_obj.casing_name[i] + "<br>" + "data-band-name:" + kua_obj.band_name[i] + "<br>" + 'data-size:' + kua_obj.data_size[i] + "mm" + "<br>" + 'data-sku-model:' + kua_obj.sku_model[i] + "<br>" + 'id:' + kua_obj.id[i]);
                 } else {
-                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + " \n " + "data-casing-name:" + kua_obj.casing_name[i] + " \n " + "data-band-name:" + kua_obj.band_name[i] + " \n " + 'data-size:' + kua_obj.data_size[i] + "毫米" + " \n " + 'data-sku-model:' + kua_obj.sku_model[i] + " \n " + 'id:' + kua_obj.id[i]);
+                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + "<br>" + "data-casing-name:" + kua_obj.casing_name[i] + "<br>" + "data-band-name:" + kua_obj.band_name[i] + "<br>" + 'data-size:' + kua_obj.data_size[i] + "毫米" + "<br>" + 'data-sku-model:' + kua_obj.sku_model[i] + "<br>" + 'id:' + kua_obj.id[i]);
                 }
             });
             arr_kua.shift();
@@ -207,9 +207,9 @@ let autoPlay = () => {
                 dai_obj.data_buy[i] = $(this).attr("data-buy");
                 dai_obj.id[i] = $(this).attr('id');
                 if (dai_obj.aria_label.join(',').indexOf("表带") === -1) {
-                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + " \n " + 'data-size:' + dai_obj.data_size[i] + "mm" + " \n " + 'data-background:' + dai_obj.data_background[i] + " \n " + 'data-band-available:' + dai_obj.band_available[i] + " \n " + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] + " \n " + "data-hidden:" + dai_obj.data_hidden[i] + " \n " + "data-buy:" + dai_obj.data_buy[i] + " \n " + 'id:' + dai_obj.id[i]);
+                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + "<br>" + 'data-size:' + dai_obj.data_size[i] + "mm" + "<br>" + 'data-background:' + dai_obj.data_background[i] + "<br>" + 'data-band-available:' + dai_obj.band_available[i] + "<br>" + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] + "<br>" + "data-hidden:" + dai_obj.data_hidden[i] + "<br>" + "data-buy:" + dai_obj.data_buy[i] + "<br> " + 'id:' + dai_obj.id[i]);
                 } else {
-                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + " \n " + 'data-size:' + dai_obj.data_size[i] + "毫米" + " \n " + 'data-background:' + dai_obj.data_background[i] + " \n " + 'data-band-available:' + dai_obj.band_available[i] + " \n " + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] +" \n "+ "data-hidden:" + dai_obj.data_hidden[i] + + " \n " + "data-buy:" + dai_obj.data_buy[i] + " \n " + 'id:' + dai_obj.id[i]);
+                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + "<br>" + 'data-size:' + dai_obj.data_size[i] + "毫米" + "<br>" + 'data-background:' + dai_obj.data_background[i] + "<br>" + 'data-band-available:' + dai_obj.band_available[i] + "<br>" + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] +"<br>"+ "data-hidden:" + dai_obj.data_hidden[i] + + "<br>" + "data-buy:" + dai_obj.data_buy[i] + "<br>" + 'id:' + dai_obj.id[i]);
                 }
             });
             arr_dai.shift();
