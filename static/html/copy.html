@@ -134,6 +134,7 @@
 
                 console.log(data);
                     if (data) {
+                        $("#watchgallery").hide();
                         $("#accordion").show();
                         $("#diff").show();
                         storedData = data;
@@ -174,7 +175,8 @@
                                 $('#resContainerequ').html(str1);
                             } else {
                                 $("#watchgallery").show();
-
+                                $("#accordion").hide();
+                                $("#diff").hide();
                                 strwatchstyle += `<tr><td colspan="3" bgcolor="#175b96" class="f1"><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
                                 strwatchstyle += `<tr><td style="font-weight: bold" >Geo</td><td style="font-weight: bold" >WWW</td><td style="font-weight: bold" >US</td></tr>`;
                                 strwatchstyle += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1">表款</td></tr>`;
