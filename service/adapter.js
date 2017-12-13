@@ -209,13 +209,13 @@ const linkHandler = (content, cb) => {
 
         linkArr.each(function (i, item) {
             if (item.attribs && item.attribs.href) {
-                let objUrl={};
-                objUrl.tempUrl=item.attribs.href;
-                let text = $(this).text();
-                objUrl.text= $(this).text();
-                let str=JSON.stringify(objUrl);
+                let objUrl={
+                    tempUrl:item.attribs.href,
+                    text:$(this).text()
+                };
 
-                res.push(str);
+
+                res.push(objUrl);
             }
         });
 
