@@ -38,61 +38,23 @@ Array.prototype.unique = function(){
     }
     return res;
 };
-const judgeUrl = (origin, url, geo) => {
+const judgeUrl = (origin, urlObj, geo) => {
 
-    let tempUrl = URL.resolve(origin, url);
-    let jUrl = decodeURIComponent(tempUrl);// jie ma
+    let tempUrl = URL.resolve(origin, urlObj.tempUrl);
 
-    let fenUrl = jUrl.split('/{');
-    let rawLink = fenUrl[0];
-
-    fenUrl[0] = '';
-    let heUrl = fenUrl.join('{');
-    let uObj = JSON.parse(heUrl);
-
-
-    let fiUrl,finUrl,rawUrl,aUrl;
-
-        if(uObj.tempUrl.indexOf('.com') !==-1 ||uObj.tempUrl.indexOf('www.') !==-1 ||uObj.tempUrl.indexOf('.gov') !==-1){
-            if(!URL.parse(uObj.tempUrl).protocol){
-                fiUrl = 'https://' + uObj.tempUrl;
-            }else{
-                fiUrl = util.urlNormalize(uObj.tempUrl);
-            }
-            finUrl = fiUrl.split('/').unique().join('/');
-        }else{
-            rawUrl = rawLink.split('/');
-
-            if(uObj.tempUrl.indexOf('#') ===-1){
-                rawUrl.pop();
-                rawUrl.pop();
-                aUrl = rawUrl.join('/');
-                fiUrl = aUrl + uObj.tempUrl;
-            }else{
-                fiUrl = rawLink + "/" + uObj.tempUrl;
-            }
-
-
-
-
-        }
-
-        finUrl = fiUrl.split('/').unique().join('/');
-
-
-
-    let finalText= uObj.text.split('\t').join('').split('\n').join('');
+    let objText = urlObj.text.replace(/\/t/g,'').replace(/\/n/g,'');
+    let finalText= objText.split('\t').join('').split('\n').join('');
 
     let obj = {
         type: null,
-        href: finUrl,
+        href: tempUrl,
         status: null,
         message: null,
-        rawLink: rawLink,
+        rawLink: tempUrl,
         text: finalText
 
     };
-    let host = URL.parse(fiUrl).hostname;
+    let host = URL.parse(tempUrl).hostname;
     let originHost = URL.parse(origin).hostname;
 
     const conf = basic.conf['link-checker'] || {};
@@ -105,14 +67,14 @@ const judgeUrl = (origin, url, geo) => {
             deformityList.push(d);
         }
     }
-    let tempDeformity = deformityList.find(item => {return fiUrl.indexOf(item) !== -1});
+    let tempDeformity = deformityList.find(item => {return tempUrl.indexOf(item) !== -1});
 
     if(host !== originHost && host.indexOf('apple.com') === -1 && extFilter.indexOf(host) === -1){
 
         obj.type = 'external';
         obj.status = 'pass';
 
-    }else if (!util.filter(fiUrl, filter)) {
+    }else if (!util.filter(tempUrl, filter)) {
 
         obj.type = 'blacklist';
         obj.status = 'pass';
@@ -122,11 +84,11 @@ const judgeUrl = (origin, url, geo) => {
         obj.type = 'deformity';
         if(deformity[tempDeformity][geo.toLowerCase()]){
             let regStr = deformity[tempDeformity][geo.toLowerCase()];
-            if(fiUrl.indexOf(regStr) !== -1 ){
+            if(tempUrl.indexOf(regStr) !== -1 ){
                 obj.status = 'pass';
             }else{
                 obj.status = 'failed';
-                obj.message = `No GEO String ,${regStr} Required for ${finUrl}`;
+                obj.message = `No GEO String ,${regStr} Required for ${tempUrl}`;
             }
         }else{
             obj.status = 'pass';
@@ -135,23 +97,18 @@ const judgeUrl = (origin, url, geo) => {
     } else {
 
         obj.type = 'normal';
-        if (gh.isGEO(fiUrl, geo)) {
+        if (gh.isGEO(tempUrl, geo)) {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string , ${geo} Required for ${uObj.tempUrl}`;
+            obj.message = `No GEO string , ${geo} Required for ${URL.parse(tempUrl).pathname}`;
         }
 
     }
 
-    // if(obj.type !== 'normal'){
-    //     console.log(obj);
-    // }
+
     if(obj.type !== 'normal'){
-        // if(obj.href.split('/').length < 4){
-        //     obj.href = '';
             console.log(obj);
-        // }
     }
 
     return obj;
