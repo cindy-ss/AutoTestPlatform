@@ -80,8 +80,8 @@ const judgeUrl = (origin, url, geo) => {
         finUrl = fiUrl.split('/').unique().join('/');
 
 
-
-    let finalText= uObj.text.split('\t').join('').split('\n').join('');
+    let fText = uObj.text.replace(/\/t/g,'').replace(/\/n/g,'');
+    let finalText= fText.split('\t').join('').split('\n').join('');
 
     let obj = {
         type: null,
