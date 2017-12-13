@@ -136,6 +136,7 @@
                     if (data) {
                         $("#accordion").show();
                         $("#diff").show();
+                        $("#watchgallery").hide();
                         storedData = data;
                         str1 += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
                         for (var i = 0; i < data.length; i++) {
@@ -173,6 +174,8 @@
                                 $('#resContainerbranch').html(strbran);
                                 $('#resContainerequ').html(str1);
                             } else {
+                                $("#accordion").hide();
+                                $("#diff").hide();
                                 $("#watchgallery").show();
 
                                 strwatchstyle += `<tr><td colspan="3" bgcolor="#175b96" class="f1"><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
