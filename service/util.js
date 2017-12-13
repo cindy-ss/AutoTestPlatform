@@ -45,16 +45,18 @@ const deleteFolder = path => {
 
 String.prototype.lrtrim=function(){
     return this.replace(/(^\s*)|(\s*$)/g, "");
-}
+};
 const urlNormalize = url => {
     if (!path.parse(url).ext) {
+        url = url.lrtrim();
         if (url.charAt(url.length - 1) !== "/") {
-            if(url.charAt(url.length -1 === " ")){
+            if(url.charAt(url.length -1) === " "){
                 url = url.lrtrim();
             }
             url += '/';
         }
     }
+
     let tUrl = URL.parse(url).protocol;
     if (!tUrl){
         url = 'https://' + url;
