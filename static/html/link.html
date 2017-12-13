@@ -93,18 +93,18 @@
                     let strerr = ``;
                     let linkdata = Jsondata.data;
 
-                    strerr+=`<tr><td>URL</td><td>Status</td><td>Error Message</td></tr>`;
-                    str1+=`<tr><td>URL</td><td>Status</td></tr>`;
+                    strerr+=`<tr><td>URL</td><td>Status</td><td>Anchor Text</td><td>Error Message</td></tr>`;
+                    str1+=`<tr><td>URL</td><td>Status</td><td>Anchor Text</td></tr>`;
                     $.each(linkdata, function (n, value) {
 
                         if (value.status === "failed") {
 
                             strerr += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.status}</td>
-                                    <td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.message}</td></tr>`;
+                                    <td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.message}</td><td>${value.text}</td></tr>`;
                             $('#res_Containererr').html(strerr);
 
                         } else {
-                            str1 += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td >${value.status}</td>
+                            str1 += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td >${value.status}</td><td>${value.text}</td>
                                    </tr>`;
                             $('#res_Container').html(str1);
                         }

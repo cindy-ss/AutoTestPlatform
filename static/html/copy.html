@@ -179,15 +179,15 @@
                                 strwatchstyle += `<tr><td style="font-weight: bold" >Geo</td><td style="font-weight: bold" >WWW</td><td style="font-weight: bold" >US</td></tr>`;
                                 strwatchstyle += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1">表款</td></tr>`;
                                     for (var y = 0; y < data[i][3][0].length; y++) {
-                                        strwatchstyle += `<tr><td>${data[i][2][0][y]}</td><td>${data[i][1][0][y]}</td><td>${data[i][3][0][y]}</td></tr>`;
+                                        strwatchstyle += `<tr><td ${data[i][2][0][y]==data[i][1][0][y] ? "" : "class='red'"}>${data[i][2][0][y]}</td><td>${data[i][1][0][y]}</td><td>${data[i][3][0][y]}</td></tr>`;
                                     }
                                 strwatchband += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1" >表带</td></tr>`;
                                     for (var z = 0; z < data[i][3][1].length; z++) {
-                                        strwatchband += `<tr><td>${data[i][2][1][z]}</td><td>${data[i][1][0][z]}</td><td>${data[i][3][0][z]}</td></tr>`;
+                                        strwatchband += `<tr><td ${data[i][2][1][z]==data[i][1][0][z] ? "" : "class='red'"}>${data[i][2][1][z]}</td><td>${data[i][1][0][z]}</td><td>${data[i][3][0][z]}</td></tr>`;
                                     }
                                 strwatchface += `<tr><td colspan="3" bgcolor="#1e90ff" class="f1" >表盘</td></tr>`;
                                     for (var w = 0; w < data[i][3][2].length; w++) {
-                                        strwatchface += `<tr><td>${data[i][2][2][w]}</td><td>${data[i][1][2][w]}</td><td>${data[i][3][2][w]}</td></tr>`;
+                                        strwatchface += `<tr><td ${data[i][2][2][w]==data[i][1][2][w] ? "" : "class='red'"}>${data[i][2][2][w]}</td><td>${data[i][1][2][w]}</td><td>${data[i][3][2][w]}</td></tr>`;
                                      }
 
 
