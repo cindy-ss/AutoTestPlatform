@@ -26,7 +26,7 @@
             <div class="box">
                 <span>Please select which option you want to check or select All</span>
                 <div class="content">
-                    <input type="checkbox" name="checker" value="all"/>All <br>
+                    <input id="all_select" type="checkbox" name="checker" value="all"/>All <br>
                     <input type="checkbox" name="checker" value="meta"/>Meta Checker <br>
                     <input type="checkbox" name="checker" value="font"/>Font Checker <br>
                     <input type="checkbox" name="checker" value="link"/>Link Checker <br>
@@ -45,9 +45,9 @@
         </div>
     </div>
 
-    <div>
+    <!-- <div>
         <button class="sideIcon">&lt;</button>
-    </div>
+    </div> -->
     <div class="col-md-7">
         <button id="btnExport" class="btn btn-primary">Export</button>
 
@@ -65,6 +65,20 @@
     </div>
 </div>
 <script>
+    var CheckAll = false;
+        $("#all_select").click(function() {
+            if (CheckAll) {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = false;
+                });
+                CheckAll = false;
+            } else {
+                $("input[type='checkbox']").each(function() {
+                    this.checked = true;
+                });
+                CheckAll = true;
+            }
+        })
     $("#btnImport").click(() => {
         if ($("#fileInput")[0].files.length >= 1) {
             const file = $("#fileInput")[0].files[0];
@@ -98,6 +112,16 @@
             if (serverName !== 'all') {
                 queryObj['server'] = serverName;
             }
+            //post checked
+            var chk_val = {};
+            $('input[type=checkbox]').each(function(){
+                if($(this).is(':checked')){
+                    chk_val[$(this).val()]="true";
+                }else{
+                    chk_val[$(this).val()]="false";
+                }
+                console.log(chk_val);
+            })
 
             let _option = JSON.stringify(queryObj);
             const urls = $('#urls').val();
@@ -151,20 +175,20 @@
         }
 
     });
-    $(".sideIcon").click(() => {
-        if ($(".trans-side").hasClass("navslid-hide")) {
-            $(".trans-side").addClass("navslid-show");
-            $(".trans-side").removeClass("navslid-hide");
+    // $(".sideIcon").click(() => {
+    //     if ($(".trans-side").hasClass("navslid-hide")) {
+    //         $(".trans-side").addClass("navslid-show");
+    //         $(".trans-side").removeClass("navslid-hide");
 
-        }
-        else if ($(".trans-side").hasClass("navslid-show")) {
-            $(".trans-side").addClass("navslid-hide");
-            $(".trans-side").removeClass("navslid-show");
-        }
-        else {
-            $(".trans-side").addClass("navslid-hide");
-        }
-    });
+    //     }
+    //     else if ($(".trans-side").hasClass("navslid-show")) {
+    //         $(".trans-side").addClass("navslid-hide");
+    //         $(".trans-side").removeClass("navslid-show");
+    //     }
+    //     else {
+    //         $(".trans-side").addClass("navslid-hide");
+    //     }
+    // });
 
     $("#btnExport").click(() => {
         if ($("#urls").val().length > 0) {
