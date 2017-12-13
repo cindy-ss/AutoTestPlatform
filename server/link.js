@@ -101,19 +101,14 @@ const judgeUrl = (origin, urlObj, geo) => {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string , ${geo} Required for ${tempUrl}`;
+            obj.message = `No GEO string , ${geo} Required for ${URL.parse(tempUrl).pathname}`;
         }
 
     }
 
-    // if(obj.type !== 'normal'){
-    //     console.log(obj);
-    // }
+
     if(obj.type !== 'normal'){
-        // if(obj.href.split('/').length < 4){
-        //     obj.href = '';
             console.log(obj);
-        // }
     }
 
     return obj;
