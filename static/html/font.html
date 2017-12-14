@@ -102,11 +102,17 @@
 
                             str1 += `<tr><td>${n}</td><td>`;
                             var x;
+                            console.log(valueinter.length);
+                            if(valueinter.length>0){
                             for (x in valueinter){
 
                                 str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
                             };
                             str1+=`</td></tr>`;
+                            }else{
+                                str1 +=`No Font Missing`;
+                            }
+
                         });
 
                         $('#res_Container').html(str1);

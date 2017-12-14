@@ -17,8 +17,7 @@ const trans = require('./trans'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
     report = require('./report'),
-    copy = require('./copy'),
-    code = require('./code');
+    copy = require('./copy')
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;

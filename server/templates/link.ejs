@@ -35,6 +35,7 @@
         <th>URL</th>
         <th>Status</th>
         <th>Error Message</th>
+        <th>Anchor Text</th>
     </tr>
         <% for(var i = 0; i < content.length; i++) { %>
 <%if (content[i]['status']== "failed"){%>
@@ -43,6 +44,7 @@
     <td> <a href=<%=content[i]['href']%> target="_blank"><%=content[i]['href']%></a></td>
     <td class="red" ><%= content[i]['status']%></td>
     <td class="red" ><%= content[i]['message']%></td>
+    <td class="red" ><%= content[i]['text']%></td>
 </tr>
     <% }} %>
     </tbody>
@@ -56,6 +58,7 @@
 
         <th>URL</th>
         <th>Status</th>
+        <th>Anchor Text</th>
     </tr>
     <% for(var i = 0; i < content.length; i++) { %>
     <%if (content[i]['status']!= "failed"){%>
@@ -63,6 +66,7 @@
     <tr>
         <td> <a href=<%=content[i]['href']%> target="_blank"><%=content[i]['href']%></a></td>
         <td><%= content[i]['status']%></td>
+        <td><%= content[i]['text']%></td>
 
     </tr>
     <% }} %>

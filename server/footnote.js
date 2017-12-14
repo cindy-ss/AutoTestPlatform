@@ -48,55 +48,6 @@ const runTask = (urlStr, auth, cb) => {
     });
 };
 
-const exporter = data => {
-    let content = JSON.parse(data);
 
-    let finalStr = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>report-${new Date().getTime()}</title>
-    <style>
-        .red {
-            color : red;
-        }
-        .ext-thumb {
-            width : 60px;
-            height : 60px
-        }
-        .metaStyle > tr > td > div {
-           width: 200px;
-           height: 200px;
-         word-wrap: break-word
-}
-    </style>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-<body class="container-fluid">
-    <table class="table table-bordered table-striped table-hover">
-    <caption align="top">ViewPort Report</caption> 
-    <tbody class="metaStyle">
-        <tr>
-            <th>URL</th>
-            <th>ViewPort</th>
-            <th>Result</th>
-        </tr>
-        ${content.map(item => `
-            <tr>
-               <td><a href="${item.url}" target="_blank">${item.url}</a></td>
-               <td>${item.viewport}</td>
-               <td ${(item.flag == false ) ? " class='red'" : ""}>${item.flag}</td>
-            </tr>
-        `).join('')}
-        </tbody>
-    </table>
-</body>
-</html>
-    `;
-
-    return report.create(finalStr);
-};
 
 exports.runTask = runTask;
-exports.exporter = exporter;
