@@ -88,7 +88,7 @@ const judgeUrl = (origin, urlObj, geo) => {
                 obj.status = 'pass';
             }else{
                 obj.status = 'failed';
-                obj.message = `No GEO String ,${regStr} Required for ${tempUrl}`;
+                obj.message = `No GEO String ,${regStr} Required for ${tempUrl.tempUrl}`;
             }
         }else{
             obj.status = 'pass';
