@@ -1,6 +1,7 @@
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
+    util  = require('./util'),
     cheerio = require('cheerio');
 
 let autoPlay = () => {
@@ -27,6 +28,10 @@ let autoPlay = () => {
         if (!URL.parse(url).protocol) {
 
                 url = 'https://' + url;
+        }else{
+            if(URL.parse(url).protocol !== 'https:'){
+                url = util.urlNormalize(url);
+            }
         }
         let gUrl = new_url.split('/');
         let dUrl = URL.parse(url).host.split('.');
