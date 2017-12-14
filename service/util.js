@@ -47,9 +47,10 @@ String.prototype.lrtrim=function(){
     return this.replace(/(^\s*)|(\s*$)/g, "");
 }
 const urlNormalize = url => {
+    url = url.lrtrim();
     if (!path.parse(url).ext) {
         if (url.charAt(url.length - 1) !== "/") {
-            if(url.charAt(url.length -1 === " ")){
+            if(url.charAt(url.length -1) === " "){
                 url = url.lrtrim();
             }
             url += '/';
