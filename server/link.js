@@ -1,7 +1,7 @@
 const adapter = require('../service/adapter'),
     q = require('../service/query'),
     util = require('../service/util'),
-    conf = require('../server/conf'),
+    basic = require('../service/basic'),
     gh = require('../service/geo_helper');
 
 const URL = require("url");
@@ -57,7 +57,7 @@ const judgeUrl = (origin, urlObj, geo) => {
     let host = URL.parse(tempUrl).hostname;
     let originHost = URL.parse(origin).hostname;
 
-    const conf = conf['link-checker'] || {};
+    const conf = basic.conf['link-checker'] || {};
     const filter = conf['filter'] || [];
     const extFilter = conf['ext-filter'] || [];
     const deformity = conf['deformity'] || {};

@@ -4,7 +4,8 @@ const util = require('../service/util'),
     vpath = require('./vpath'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
-    copy = require('../service/copy');
+    copy = require('../service/copy'),
+font = require('./font');
 
 
 //do the flow run.
@@ -20,7 +21,8 @@ const run = async options => {
         vpathCheck(url,auth),
         viewportCheck(url,auth),
         footnoteCheck(url,auth),
-        copyCheck(url,auth)
+        copyCheck(url,auth),
+        fontCheck(url, auth)
 
     ];
 
@@ -43,7 +45,7 @@ const run = async options => {
             obj['viewport'] = value[3];
             obj['footnote'] = value[4];
             obj['copy'] = value[5];
-
+            obj['font'] = value[6];
             return obj;
         }).catch(err => {
             console.log(err.message);
@@ -124,4 +126,15 @@ let copyCheck = (url, auth) => {
     })
 };
 
+let fontCheck = (url, auth) => {
+    return new Promise((resolve, reject) => {
+        font.check(url, auth, (err, data) => {
+            if(err) {
+                reject(err);
+            }else {
+                resolve(data);
+            }
+        })
+    })
+};
 exports.run = run;
