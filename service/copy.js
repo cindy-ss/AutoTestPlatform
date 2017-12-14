@@ -1,6 +1,7 @@
 const query = require('../service/query'),
     URL = require('url'),
     async = require('async'),
+    util  = require('./util'),
     cheerio = require('cheerio');
 
 let autoPlay = () => {
@@ -25,13 +26,17 @@ let autoPlay = () => {
         //     url = online_url;
         // }
         if (!URL.parse(url).protocol) {
-            url = "https://" + url;
+
+                url = 'https://' + url;
+        }else{
+            if(URL.parse(url).protocol !== 'https:'){
+                url = util.urlNormalize(url);
+            }
         }
         let gUrl = new_url.split('/');
         let dUrl = URL.parse(url).host.split('.');
         if (dUrl[0] === 'www') {
             if (gUrl[1].split('').length === 2) {
-
                 online_url = url;
 
                 gUrl.shift();
@@ -60,7 +65,7 @@ let autoPlay = () => {
         }
 
 
-        console.log(`${online_url} VS ${url} VS ${us_url}\n`);
+        console.log(`${online_url} VS ${url}\n VS ${us_url}\n`);
 
         async.parallel([
             callback => {
@@ -151,7 +156,9 @@ let autoPlay = () => {
                 pan_obj.animation_locale[i] = $(this).attr('data-animation-locale');
                 pan_obj.aria_label[i] = $(this).attr('aria-label');
                 pan_obj.id[i] = $(this).attr('id');
-                arr_pan.push("data-animation:" + pan_obj.animation[i] + " " + "data-animation-locale:" + pan_obj.animation_locale[i] + " " + "aria-label:" + pan_obj.aria_label[i] + " " + 'id:' + pan_obj.id[i]);
+                arr_pan.push("id:" + pan_obj.id[i] + "<br>" + "data-animation:" + pan_obj.animation[i] + "<br>" + "data-animation-locale:" + pan_obj.animation_locale[i] + "<br>" + "aria-label:" + pan_obj.aria_label[i]);
+
+
             });
             arr_pan.shift();
             //表款
@@ -175,9 +182,9 @@ let autoPlay = () => {
                 kua_obj.string_size[i] = $(this).attr('data-string-size');
                 kua_obj.id[i] = $(this).attr('id');
                 if (kua_obj.aria_label.join(',').indexOf("表带") === -1) {
-                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + " " + "data-casing-name:" + kua_obj.casing_name[i] + " " + "data-band-name:" + kua_obj.band_name[i] + " " + 'data-size:' + kua_obj.data_size[i] + "mm" + " " + 'data-sku-model:' + kua_obj.sku_model[i] + " " + 'id:' + kua_obj.id[i]);
+                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + "<br>" + "data-casing-name:" + kua_obj.casing_name[i] + "<br>" + "data-band-name:" + kua_obj.band_name[i] + "<br>" + 'data-size:' + kua_obj.data_size[i] + "mm" + "<br>" + 'data-sku-model:' + kua_obj.sku_model[i] + "<br>" + 'id:' + kua_obj.id[i]);
                 } else {
-                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + " " + "data-casing-name:" + kua_obj.casing_name[i] + " " + "data-band-name:" + kua_obj.band_name[i] + " " + 'data-size:' + kua_obj.data_size[i] + "毫米" + " " + 'data-sku-model:' + kua_obj.sku_model[i] + " " + 'id:' + kua_obj.id[i]);
+                    arr_kua.push('aria-label:' + kua_obj.aria_label[i] + "<br>" + "data-casing-name:" + kua_obj.casing_name[i] + "<br>" + "data-band-name:" + kua_obj.band_name[i] + "<br>" + 'data-size:' + kua_obj.data_size[i] + "毫米" + "<br>" + 'data-sku-model:' + kua_obj.sku_model[i] + "<br>" + 'id:' + kua_obj.id[i]);
                 }
             });
             arr_kua.shift();
@@ -205,9 +212,9 @@ let autoPlay = () => {
                 dai_obj.data_buy[i] = $(this).attr("data-buy");
                 dai_obj.id[i] = $(this).attr('id');
                 if (dai_obj.aria_label.join(',').indexOf("表带") === -1) {
-                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + " " + 'data-size:' + dai_obj.data_size[i] + "mm" + " " + 'data-background:' + dai_obj.data_background[i] + " " + 'data-band-available:' + dai_obj.band_available[i] + " " + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] + " " + "data-hidden:" + dai_obj.data_hidden[i] + " " + "data-buy:" + dai_obj.data_buy[i] + " " + 'id:' + dai_obj.id[i]);
+                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + "<br>" + 'data-size:' + dai_obj.data_size[i] + "mm" + "<br>" + 'data-background:' + dai_obj.data_background[i] + "<br>" + 'data-band-available:' + dai_obj.band_available[i] + "<br>" + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] + "<br>" + "data-hidden:" + dai_obj.data_hidden[i] + "<br>" + "data-buy:" + dai_obj.data_buy[i] + "<br> " + 'id:' + dai_obj.id[i]);
                 } else {
-                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + " " + 'data-size:' + dai_obj.data_size[i] + "毫米" + " " + 'data-background:' + dai_obj.data_background[i] + " " + 'data-band-available:' + dai_obj.band_available[i] + " " + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] + " " + "data-hidden:" + dai_obj.data_hidden[i] + " " + "data-buy:" + dai_obj.data_buy[i] + " " + 'id:' + dai_obj.id[i]);
+                    arr_dai.push('aria-label:' + dai_obj.aria_label[i] + "<br>" + 'data-size:' + dai_obj.data_size[i] + "毫米" + "<br>" + 'data-background:' + dai_obj.data_background[i] + "<br>" + 'data-band-available:' + dai_obj.band_available[i] + "<br>" + "data-band-unavailable-copy:" + dai_obj.band_unavailable[i] +"<br>"+ "data-hidden:" + dai_obj.data_hidden[i] + + "<br>" + "data-buy:" + dai_obj.data_buy[i] + "<br>" + 'id:' + dai_obj.id[i]);
                 }
             });
             arr_dai.shift();
@@ -236,7 +243,6 @@ let autoPlay = () => {
                 oldArr.push(baseArr[j]);
             }
         }
-
         return [sameArr, oldArr, newArr];
     };
 
@@ -244,4 +250,5 @@ let autoPlay = () => {
 
 
 };
+
 autoPlay();

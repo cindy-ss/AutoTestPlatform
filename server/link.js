@@ -27,26 +27,33 @@ const getLinks = (url, auth, cb) => {
         }
     }, auth, {});
 };
+Array.prototype.unique = function(){
+    let res = [];
+    let json = {};
+    for(let i = 0; i < this.length; i++){
+        if(!json[this[i]]){
+            res.push(this[i]);
+            json[this[i]] = 1;
+        }
+    }
+    return res;
+};
+const judgeUrl = (origin, urlObj, geo) => {
 
-const judgeUrl = (origin, url, geo) => {
-    let tempUrl = URL.resolve(origin, url);
-    let jUrl = decodeURIComponent(tempUrl);// jie ma
-    let newUrl= jUrl.split('{"tempUrl":"');
-    let linkUrl=newUrl[1].split('",\"text\":"');
-    let textc= linkUrl[1].split('"}');
-     textc.pop();
-     let textp = textc.join('');
-    let texto= textp.split('\\t').join('').split('\\n').join('').split('/n').join('').split('/t').join('');
+    let tempUrl = URL.resolve(origin, urlObj.tempUrl);
+
+    let objText = urlObj.text.replace(/\/t/g,'').replace(/\/n/g,'');
+    let finalText= objText.split('\t').join('').split('\n').join('');
+
     let obj = {
         type: null,
-        href: newUrl[0],
+        href: tempUrl,
         status: null,
         message: null,
-        rawLink: linkUrl[0],
-        text: texto
+        rawLink: tempUrl,
+        text: finalText
 
     };
-
     let host = URL.parse(tempUrl).hostname;
     let originHost = URL.parse(origin).hostname;
 
@@ -77,12 +84,11 @@ const judgeUrl = (origin, url, geo) => {
         obj.type = 'deformity';
         if(deformity[tempDeformity][geo.toLowerCase()]){
             let regStr = deformity[tempDeformity][geo.toLowerCase()];
-
-            if(tempUrl.indexOf(regStr) !== -1){
+            if(tempUrl.indexOf(regStr) !== -1 ){
                 obj.status = 'pass';
             }else{
                 obj.status = 'failed';
-                obj.message = `No GEO String ,${regStr} Required for ${url}`;
+                obj.message = `No GEO String ,${regStr} Required for ${tempUrl.tempUrl}`;
             }
         }else{
             obj.status = 'pass';
@@ -95,13 +101,14 @@ const judgeUrl = (origin, url, geo) => {
             obj.status = 'pass';
         } else {
             obj.status = 'failed';
-            obj.message = `No GEO string , ${geo} Required for ${url}`;
+            obj.message = `No GEO string , ${geo} Required for ${URL.parse(tempUrl).pathname}`;
         }
 
     }
 
+
     if(obj.type !== 'normal'){
-        console.log(obj);
+            console.log(obj);
     }
 
     return obj;
