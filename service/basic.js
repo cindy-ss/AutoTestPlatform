@@ -6,10 +6,21 @@ const font = require('./font');
 
 const fs = require('fs');
 
-const dirList = ['./static/data/', './tmp/'];
+const DIR_REQUIRED = ['./static/data/', './tmp/'],
+    LEVEL = {
+        'S': 2,
+        'E': 1,
+        'D': 3
+    };//S for standard/summary; E for Error; D for Detail
 
+//The current log level of project.
+const log_level = require('../server/config/server').config['log_level'];
+
+/**
+* @param {Function}cb
+*/
 exports.init = (cb) => {
-    dirList.forEach(url => {
+    DIR_REQUIRED.forEach(url => {
         try {
             fs.statSync(url)
         }
@@ -25,8 +36,20 @@ exports.init = (cb) => {
     });
 };
 
-exports.log = function (obj) {
-    console.log(obj);
+/**
+ *
+ * @param {Object}obj
+ * @param {String}level
+ * @constructor
+ */
+exports.log = function (obj, level) {
+    if (!level || !LEVEL[level]) {
+        level = 'S';
+    }
+
+    if(LEVEL[level] <= log_level){
+        console.log(obj);
+    }
 };
 
 exports.conf = this.conf;

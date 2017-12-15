@@ -13,18 +13,7 @@ let autoPlay = () => {
         let new_url = URL.parse(url).pathname;
         let us_url;
 
-        // if (new_url.indexOf('cn')!==-1) {
-        //     online_url = url;
-        //     us_url = url.replace('/cn','');
-        //
-        // } else {
-        //     us_url = url;
-        //     let  new_arr = new_url.split('/');
-        //     new_arr.splice(0,1,'/cn');
-        //     new_url = new_arr.join('/');
-        //     online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + new_url;
-        //     url = online_url;
-        // }
+
         if (!URL.parse(url).protocol) {
 
                 url = 'https://' + url;
@@ -37,28 +26,43 @@ let autoPlay = () => {
         let dUrl = URL.parse(url).host.split('.');
         if (dUrl[0] === 'www') {
             if (gUrl[1].split('').length === 2) {
-                online_url = url;
+                if(gUrl[2].split('').length !== 2){
+                    online_url = url;
 
-                gUrl.shift();
-                gUrl.shift();
-                us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
+                    gUrl.shift();
+                    gUrl.shift();
+                    us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
+                }else{
+                    online_url = url;
+                    gUrl.shift();
+                    gUrl.shift();
+                    gUrl.shift();
+                    us_url = URL.parse(url).protocol + '//' + URL.parse(url).host + "/" + gUrl.join('/');
+                }
+
             } else {
-                gUrl.unshift('/cn');
-                online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + gUrl.join('/');
+                online_url = url;
                 us_url = url;
             }
         } else {
 
             if (gUrl[1].split('').length === 2) {
+                if(gUrl[2].split('').length !==2){
+                    gUrl.shift();
+                    gUrl.shift();
+                    us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
+                    dUrl[0] = 'www';
+                    online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
+                }else{
+                    online_url = url;
+                    gUrl.shift();
+                    gUrl.shift();
+                    gUrl.shift();
+                    us_url = URL.parse(url).protocol + '//' + URL.parse(url).host + "/" + gUrl.join('/');
+                }
 
-                gUrl.shift();
-                gUrl.shift();
-                us_url = URL.parse(url).protocol + "//" + URL.parse(url).host + "/" + gUrl.join('/');
-                dUrl[0] = 'www';
-                online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
             } else {
-                gUrl.unshift('/cn');
-                online_url = URL.parse(url).protocol + "//" + URL.parse(url).host + gUrl.join('/');
+                online_url = url;
                 us_url = url;
             }
 

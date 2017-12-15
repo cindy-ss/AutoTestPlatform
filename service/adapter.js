@@ -9,6 +9,9 @@ const cheerio = require('cheerio'),
 const basic = require('./basic'),
     util = require('./util');
 
+const imageCheckerConf = require('../server/config/image_checker').config || {},
+    cssCheckerConf = require('../server/config/css_checker').config || {};
+
 const videoHandler = (content, cb) => {
     let res = [];
     const $ = cheerio.load(content);
@@ -43,21 +46,27 @@ const bgHandler = (content, url, cb) => {
     if (content) {
         let matched = content.toString().match(/url\(\"[a-z0-9A-Z_\:\/\.\-]*\"\)/g);
         if (matched) {
+            //不匹配地址的結果數組，用於紀錄所有不匹配結果的數量。
+            let unmatchedArr = [];
+
             matched.forEach(item => {
                 const tempUrl = item.substr(5, item.length - 7);
 
-                const filterArr = (basic.conf['image-checker'] || {})['filterRegs'] || [];
+                const filterArr = imageCheckerConf['filterRegs'] || [];
 
-                let filter = (basic.conf['image-checker'] || {})['filter'] || [];
+                let filter = imageCheckerConf['filter'] || [];
 
-                let filterPathArr = (basic.conf['image-checker'] || {})['filterPathRegs'] || [];
+                let filterPathArr = imageCheckerConf['filterPathRegs'] || [];
 
                 if (filter.indexOf(path.basename(tempUrl)) === -1 && util.filter(path.basename(tempUrl), filterArr) && util.filter(tempUrl, filterPathArr)) {
                     res.push(URL.resolve(url, tempUrl));
                 } else {
-                    console.log(`we popped a url : ${tempUrl}`);
+                    unmatchedArr.push(tempUrl);
+                    basic.log(`\t[ ! ] : Image checker adapter has filtered a url : ${tempUrl}.`, 'D');
                 }
             });
+
+            basic.log(`\t[ ! ] : Totally ${unmatchedArr.length} urls have been filtered.`, 'S')
         }
         cb(null, res);
     } else {
@@ -97,11 +106,11 @@ const cssHandler = (content, url, cb, filter) => {
 
         const arr = $("link[rel='stylesheet']");
 
+        const filterArr = cssCheckerConf['filterRegs'] || [];
+
         arr.each((i, item) => {
             if (item.attribs && item.attribs.href) {
                 let tempUrl = item.attribs.href;
-
-                const filterArr = (basic.conf['css-checker'] || {})['filterRegs'] || [];
 
                 if (util.filter(tempUrl, filterArr)) {
                     const tempResolvedUrl = URL.resolve(url, tempUrl);
@@ -209,17 +218,14 @@ const linkHandler = (content, cb) => {
 
         linkArr.each(function (i, item) {
             if (item.attribs && item.attribs.href) {
-                let objUrl={
-                    tempUrl:item.attribs.href,
-                    text:$(this).text()
+                let objUrl = {
+                    tempUrl: item.attribs.href,
+                    text: $(this).text()
                 };
-
 
                 res.push(objUrl);
             }
         });
-
-
 
         cb(null, res);
     } catch (e) {
@@ -251,8 +257,8 @@ const footNoteHandler = content => {
                     console.log(`[ ERR ]`);
                 } else {
                     footNoteObj[mark] = {
-                        footnote : tempText,
-                        copy : [],
+                        footnote: tempText,
+                        copy: [],
                     }
                 }
             } else {
@@ -262,26 +268,26 @@ const footNoteHandler = content => {
 
         olArr.each((index, item) => {
             footNoteObj[index + 1] = {
-                footnote : $(item).text(),
-                copy : [],
+                footnote: $(item).text(),
+                copy: [],
             };
         });
 
         supArr.each(function (i, item) {
             let mark = $(item).text().replace(/footnote/g, '').replace(/ /g, '');
             let text;
-            if($(item).parent().text().length < 10){
-                if($(item).parent().parent().text().length > 20){
+            if ($(item).parent().text().length < 10) {
+                if ($(item).parent().parent().text().length > 20) {
                     let parent = $(item).parent().text();
                     let grandParent = $(item).parent().parent().text();
 
                     let pos = grandParent.indexOf(parent) + parent.length;
 
                     text = grandParent.substr(pos > 20 ? pos - 20 : 0, 20);
-                }else{
+                } else {
                     text = $(item).parent().parent().text();
                 }
-            }else{
+            } else {
                 text = $(item).parent().text();
             }
 
@@ -292,18 +298,18 @@ const footNoteHandler = content => {
             }
 
             footNoteObj[mark] = footNoteObj[mark] || {
-                footnote : '',
-                copy : []
+                footnote: '',
+                copy: []
             };
 
             footNoteObj[mark]['copy'].push(text);
         });
 
-        for(let i in footNoteObj){
+        for (let i in footNoteObj) {
             res['data'].push({
-                mark : i,
-                footnote : footNoteObj[i]['footnote'],
-                copy : footNoteObj[i]['copy']
+                mark: i,
+                footnote: footNoteObj[i]['footnote'],
+                copy: footNoteObj[i]['copy']
             })
         }
 
