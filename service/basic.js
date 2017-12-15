@@ -13,8 +13,12 @@ const DIR_REQUIRED = ['./static/data/', './tmp/'],
         'D': 3
     };//S for standard/summary; E for Error; D for Detail
 
+//The current log level of project.
 const log_level = require('../server/config/server').config['log_level'];
 
+/**
+* @param {Function}cb
+*/
 exports.init = (cb) => {
     DIR_REQUIRED.forEach(url => {
         try {

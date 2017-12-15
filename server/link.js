@@ -6,6 +6,8 @@ const adapter = require('../service/adapter'),
 
 const URL = require("url");
 
+const linkCheckerConf = require('./config/link_checker').config || {};
+
 const getLinks = (url, auth, cb) => {
     url = util.urlNormalize(url);
     const geo = gh.getGEO(url);
@@ -57,10 +59,9 @@ const judgeUrl = (origin, urlObj, geo) => {
     let host = URL.parse(tempUrl).hostname;
     let originHost = URL.parse(origin).hostname;
 
-    const conf = basic.conf['link-checker'] || {};
-    const filter = conf['filter'] || [];
-    const extFilter = conf['ext-filter'] || [];
-    const deformity = conf['deformity'] || {};
+    const filter = linkCheckerConf['filter'] || [];
+    const extFilter = linkCheckerConf['ext-filter'] || [];
+    const deformity = linkCheckerConf['deformity'] || {};
     let deformityList = [];
     for(let d in deformity){
         if (deformity.hasOwnProperty(d)) {

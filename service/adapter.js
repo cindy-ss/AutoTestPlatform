@@ -9,7 +9,8 @@ const cheerio = require('cheerio'),
 const basic = require('./basic'),
     util = require('./util');
 
-let imageCheckerConf = require('../server/config/image_checker').config;
+const imageCheckerConf = require('../server/config/image_checker').config || {},
+    cssCheckerConf = require('../server/config/css_checker').config || {};
 
 const videoHandler = (content, cb) => {
     let res = [];
@@ -50,8 +51,6 @@ const bgHandler = (content, url, cb) => {
 
             matched.forEach(item => {
                 const tempUrl = item.substr(5, item.length - 7);
-
-                imageCheckerConf = imageCheckerConf || {};
 
                 const filterArr = imageCheckerConf['filterRegs'] || [];
 
@@ -107,11 +106,11 @@ const cssHandler = (content, url, cb, filter) => {
 
         const arr = $("link[rel='stylesheet']");
 
+        const filterArr = cssCheckerConf['filterRegs'] || [];
+
         arr.each((i, item) => {
             if (item.attribs && item.attribs.href) {
                 let tempUrl = item.attribs.href;
-
-                const filterArr = (basic.conf['css-checker'] || {})['filterRegs'] || [];
 
                 if (util.filter(tempUrl, filterArr)) {
                     const tempResolvedUrl = URL.resolve(url, tempUrl);
@@ -224,11 +223,9 @@ const linkHandler = (content, cb) => {
                     text: $(this).text()
                 };
 
-
                 res.push(objUrl);
             }
         });
-
 
         cb(null, res);
     } catch (e) {
