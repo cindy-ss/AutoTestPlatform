@@ -29,7 +29,7 @@ const fetchTrans = (url, auth, cb) => {
             if ($) {
                 let viewport = $("meta[name='viewport']").attr('content');
 
-                console.log(viewport);
+                // console.log(viewport);
 
                 let obj = {
                     url,
