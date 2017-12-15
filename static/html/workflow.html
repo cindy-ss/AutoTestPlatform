@@ -98,7 +98,8 @@
     var storedData;
 
     $('#btn_Quest').click(() => {
-        if ($("#urls").val().length > 5) {
+        if ($("#url").val().length > 5) {
+            console.log('abcd');
             $("#bg_loading").show();
             $('#res_Container').html('');
             //const urls = $('#urls').val();
@@ -124,9 +125,10 @@
             })
 
             let _option = JSON.stringify(queryObj);
-            const urls = $('#urls').val();
+            const urls = $('#url').val();
 
-            $.post('api/font/url', {urls: urls, option: _option}, function (Json_data) {
+            $.post('api/workflow', {url: urls, option: _option}, function (Json_data) {
+                console.log(url);
                 $("#bg_loading").hide();
 
                 if (Json_data.result === true) {
@@ -164,7 +166,7 @@
     });
 
     $("#getExcel").click(() => {
-        if ($("#urls_").val().length > 0) {
+        if ($("#url").val().length > 0) {
             const arr = $("#res_Container").html();
             $.post('/api/trans2xls', {
                 xls: JSON.stringify(arr),

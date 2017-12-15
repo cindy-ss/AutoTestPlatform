@@ -18,7 +18,8 @@ const trans = require('./trans'),
     footnote = require('./footnote'),
     report = require('./report'),
     copy = require('./copy'),
-    code = require('./code');
+    code = require('./code'),
+    workflow = require('./workflow');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -305,7 +306,31 @@ router.route('/link')
             })
         }
     });
+router.route('/workflow')
+    .post((req, res) => {
+    const url = req.body.url;
+    if(url){
+        workflow.run(req.body.url, req.session.od, (err, data) => {
+            if(!err){
+                res.json({
+                    result: true,
+                    data:data
+                })
+            }else{
+                res.json({
+                    result: false,
+                    message: 'Something went wrong'
+                })
+            }
+        });
+    }else {
+        res.json({
+            result: false,
+            message: 'No URL Provided'
+        })
+    }
 
+    });
 router.route('/pat_link')
     .post((req, res) => {
         const url = req.body.urls;
@@ -354,7 +379,6 @@ router.route('/vpath/url')
             })
         }
     });
-
 router.route('/export/')
     .post((req, res) => {
         let obj = {

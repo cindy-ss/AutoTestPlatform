@@ -1,11 +1,11 @@
 const util = require('../service/util'),
     meta = require('./trans'),
     link = require('./link'),
-    vpath = require('./vpath'),
+    vPath = require('./vpath'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
     copy = require('../service/copy'),
-font = require('./font');
+font = require('../service/font');
 
 
 //do the flow run.
@@ -14,7 +14,7 @@ const run = async options => {
 
     let auth = options.auth,
         url = options.url;
-
+    // url = util.urlNormalize(url);
     let promises = [
         metaCheck(url, auth),
         linkCheck(url, auth),
@@ -31,33 +31,36 @@ const run = async options => {
         message: null,
         meta: null,
         link: null,
-        vpath: null,
+        vPath: null,
         viewport: null,
         footnote: null,
-        copy: null
+        copy: null,
+        font: null
     };
-
+// console.log(obj);
     return await Promise.all(promises)
         .then(value => {
             obj['meta'] = value[0];
             obj['link'] = value[1];
-            obj['vpath'] = value[2];
+            obj['vPath'] = value[2];
             obj['viewport'] = value[3];
             obj['footnote'] = value[4];
             obj['copy'] = value[5];
-            obj['font'] = value[6];
+            // obj['font'] = value[6];
             return obj;
         }).catch(err => {
             console.log(err.message);
             obj.message = err.message;
             return obj;
         });
+
 };
 
 let metaCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
         meta.runTask(url, auth, (data) => {
             if (data) {
+                // console.log('1');
                 resolve(data);
             } else {
                 reject(data);
@@ -72,6 +75,7 @@ let linkCheck = (url, auth) => {
             if (err) {
                 reject(err);
             } else {
+                // console.log('2');
                 resolve(data);
             }
         })
@@ -80,10 +84,11 @@ let linkCheck = (url, auth) => {
 
 let vpathCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
-        vpath.getVPaths(url, auth, (err,data) => {
+        vPath.getVPaths(url, auth, (err,data) => {
             if (err) {
                 reject(err);
             } else {
+               // console.log('3');
                 resolve(data);
             }
         })
@@ -92,11 +97,12 @@ let vpathCheck = (url, auth) => {
 
 let viewportCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
-        viewport.runTask(url, auth, (err, data) => {
-            if(err){
-                reject(err);
-            }else{
+        viewport.runTask(url, auth, (data) => {
+            if(data){
+               // console.log('4');
                 resolve(data);
+            }else{
+                reject(data);
             }
         })
     })
@@ -104,11 +110,12 @@ let viewportCheck = (url, auth) => {
 
 let footnoteCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
-        footnote.runTask(url, auth, (err, data) => {
-            if(err) {
-                reject(err);
-            }else {
+        footnote.runTask(url, auth, (data) => {
+            if(data) {
+                //console.log('5');
                 resolve(data);
+            }else {
+                reject(data);
             }
         })
     })
@@ -120,18 +127,21 @@ let copyCheck = (url, auth) => {
             if(err) {
                 reject(err);
             }else {
+               // console.log('6');
                 resolve(data);
             }
         })
     })
 };
 
-let fontCheck = (url, auth) => {
+let fontCheck = (url, auth,option) => {
     return new Promise((resolve, reject) => {
-        font.check(url, auth, (err, data) => {
+        font.checkByUrl(url, auth, option, (err, data) => {
             if(err) {
+                // console.log('8');
                 reject(err);
             }else {
+                // console.log('7');
                 resolve(data);
             }
         })
