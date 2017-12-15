@@ -2,7 +2,7 @@
  *copy test
  */
 const copy = require("../service/copy");
-copy.compare("https://www.apple.com/hk/en",{odUser: 'qun_ma', odPass: 'Profero@123'},(err,data)=> {
+copy.compare("https://ic06.apple.com/hk/en",{odUser: 'qun_ma', odPass: 'Profero@123'},(err,data)=> {
             console.log(data);
             // console.log(data[0]);
             });

@@ -54,7 +54,8 @@ let autoPlay = () => {
                     dUrl[0] = 'www';
                     online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
                 }else{
-                    online_url = url;
+                    dUrl[0] = 'www';
+                    online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
                     gUrl.shift();
                     gUrl.shift();
                     gUrl.shift();
