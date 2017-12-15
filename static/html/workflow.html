@@ -99,6 +99,7 @@
 
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
+            console.log('abcd');
             $("#bg_loading").show();
             $('#res_Container').html('');
             //const urls = $('#urls').val();
@@ -124,14 +125,35 @@
             })
 
             let _option = JSON.stringify(queryObj);
+            const urls = $('#url').val();
 
-
-
-            $.post('api/workflow', {urls: url, option: chk_val}, function (Json_data) {
+            $.post('api/workflow', {url: urls, option: _option}, function (Json_data) {
+                console.log(url);
                 $("#bg_loading").hide();
 
                 if (Json_data.result === true) {
+                    let str1 = ``;
+                    let arrdata=Json_data.data;
+                    storedData = Json_data.data;
+                    console.log(storedData);
+                    $.each(arrdata, function (m, value){
 
+                        str1 += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
+
+
+                        $.each(value.data, function (n, valueinter){
+
+                            str1 += `<tr><td>${n}</td><td>`;
+                            var x;
+                            for (x in valueinter){
+
+                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
+                            };
+                            str1+=`</td></tr>`;
+                        });
+
+                        $('#res_Container').html(str1);
+                    })
 
 
                 }
@@ -144,7 +166,7 @@
     });
 
     $("#getExcel").click(() => {
-        if ($("#urls_").val().length > 0) {
+        if ($("#url").val().length > 0) {
             const arr = $("#res_Container").html();
             $.post('/api/trans2xls', {
                 xls: JSON.stringify(arr),
