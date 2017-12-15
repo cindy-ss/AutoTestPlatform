@@ -80,7 +80,7 @@
                 $("#bg_loading").hide();
                 $("#image_us_res_out").show();
                 $("#image_gc_res_out").hide();
-
+                console.log(_image.type);
                 console.log(data);
 
                 if (data && data.result === true) {
@@ -148,8 +148,8 @@
                         _image.type = geo;
                         arr.push(geo.toUpperCase());
                     }
-
-                    console.log(arr);
+                    //console.log(_image.type);
+                    //console.log(arr);
 
                     ['US', 'CN', 'HKTC', 'HKEN', 'TW', 'MO'].forEach(item => {
                         $(`#image_td_${item.toLowerCase()}_title`).hide();
@@ -184,15 +184,38 @@
         }
     };
 
-    $("#btn_image_export").click(() => {
+    /*$("#btn_image_export").click(() => {
         $.post(`/api/image/export/${_image.type}`, {
                 data: JSON.stringify(_image.data)
             },
             (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })
-    });
+    });*/
+//add new
+    $("#btn_image_export").click(() => {
+            var arr = [];
+        if (_image.type === 'us') {
+            $.each(_image.data, (n, value) => {
+                arr.push({
+                    url: value['url'],
+                    geo: value['geo'],
+                    total: value['total'],
+                    list: value['list']
+                })
+            });
+        }else{
+           arr=_image.data;
+        }
+            $.post(`/api/export/`, {
+                data: JSON.stringify(arr),
+                title : 'image Report',
+                file : 'image'
+            }, (data) => {
+                $.fileDownload(`/api/files/${data}`);
+            })
 
+    });
     $("#btn_image_download").click(() => {
         $("#bg_loading").show();
         if (_image.type === 'us') {
