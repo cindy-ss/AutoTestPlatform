@@ -86,14 +86,15 @@
             $("#bg_loading").show();
             $.post('api/link', {url: url}, function (Jsondata) {
                 $("#bg_loading").hide();
-                console.log(Jsondata);
+
                 storedData = Jsondata.data;
+                console.log(storedData)
                 if (Jsondata && Jsondata.result === true) {
                     let str1 = ``;
                     let strerr = ``;
                     let linkdata = Jsondata.data;
 
-                    strerr+=`<tr><td>URL</td><td>Status</td><td>Anchor Text</td><td>Error Message</td></tr>`;
+                    strerr+=`<tr><td>URL</td><td>Status</td><td>Error Message</td><td>Anchor Text</td></tr>`;
                     str1+=`<tr><td>URL</td><td>Status</td><td>Anchor Text</td></tr>`;
                     $.each(linkdata, function (n, value) {
 
@@ -149,7 +150,7 @@
     });
     $("#btnExport").click(() => {
         if ($("#url").val().length > 0) {
-            console.log('3333');
+
             console.log(storedData);
 
             var arr = [];
@@ -159,7 +160,8 @@
                     message : value['message'],
                     rawLink : value['rawLink'],
                     status:value['status'],
-                    type:value['type']
+                    type:value['type'],
+                    text:value['text']
                 })
             });
 

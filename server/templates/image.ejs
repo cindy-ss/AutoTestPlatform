@@ -9,7 +9,6 @@
         .red {
             color: red;
         }
-
         .ext-thumb {
             width: 60px;
             height: 60px
@@ -26,25 +25,28 @@
 </head>
 <body class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
-    <caption align="top">V-Path Report</caption>
+    <caption align="top">ViewPort Report</caption>
     <tbody class="metaStyle">
     <tr>
         <th>URL</th>
-        <th>Geo-Vpath</th>
-        <th>US-Vpath</th>
+        <th>ViewPort</th>
+        <th>Result</th>
     </tr>
     <% for(var i = 0; i < content.length; i++) { %>
     <tr>
         <td>
-            <%= content[i]['url'] %>
+            <a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %></a>
+        </td>
+        <td>
+            <%= content[i]['viewport'] %>
         </td>
 
-        <td>
-            <%= content[i]['us'] %>
-        </td>
-
-        <td>
-            <%= content[i]['origin'] %>
+        <td
+                <% if(!content[i]['flag']) { %>
+                class="red"
+                <% } %>
+        >
+            <%= content[i]['flag'] %>
         </td>
     </tr>
     <% } %>
