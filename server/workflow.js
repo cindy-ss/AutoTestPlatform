@@ -38,6 +38,7 @@ const run = async options => {
         font: null
     };
 // console.log(obj);
+    console.log(options);
     return await Promise.all(promises)
         .then(value => {
             obj['meta'] = value[0];
@@ -46,7 +47,7 @@ const run = async options => {
             obj['viewport'] = value[3];
             obj['footnote'] = value[4];
             obj['copy'] = value[5];
-            // obj['font'] = value[6];
+            obj['font'] = value[6];
             return obj;
         }).catch(err => {
             console.log(err.message);
@@ -75,7 +76,8 @@ let linkCheck = (url, auth) => {
             if (err) {
                 reject(err);
             } else {
-                // console.log('2');
+                console.log('2');
+                console.log(data);
                 resolve(data);
             }
         })

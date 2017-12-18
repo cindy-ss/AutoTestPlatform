@@ -308,21 +308,22 @@ router.route('/link')
     });
 router.route('/workflow')
     .post((req, res) => {
-    const url = req.body.url;
-    if(url){
-        workflow.run(req.body.url, req.session.od, (err, data) => {
-            if(!err){
+    const options = {
+        url: req.body.url,
+        option: req.body.option,
+        auth: req.session.od
+    };
+    if(options.url){
+
+        workflow.run(options).then(data => {
+
                 res.json({
-                    result: true,
-                    data:data
+                    result:true,
+                    data: data
                 })
-            }else{
-                res.json({
-                    result: false,
-                    message: 'Something went wrong'
-                })
-            }
+
         });
+
     }else {
         res.json({
             result: false,
