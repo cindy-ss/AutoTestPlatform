@@ -9,20 +9,11 @@
     }
 </style>
 <div class="row">
-    <div class="col-md-3">
-        <p>URL Import (.txt only)
-        </p>
 
-        <input class="form-control" type="file" id="fileInput">
-        <span class="input-group-btn">
-             <input type="button" class="btn btn-primary" value="Import" id="btnImport"/>
-              </span>
-
-    </div>
     <div class="col-md-4">
         <p>URL Input(eg:https://www.apple.com/hk/en/iphone)</p>
 
-        <textarea rows="5" id="urls" class="form-control"></textarea>
+        <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
 
 
         <button id="btnQuest" class="btn btn-primary">Query</button>
@@ -137,22 +128,12 @@
 
     var storedData;
 
-    $("#btnImport").click(() => {
-        if ($("#fileInput")[0].files.length >= 1) {
-            const file = $("#fileInput")[0].files[0];
-            let reader = new FileReader();
-            reader.onload = function () {
-                $("#urls").val(this.result);
-                $("#fileInput").val("");
-            };
-            reader.readAsText(file);
-        }
-    });
+
     $('#btnClear').click(() => {
-        $("#urls").val('');
+        $("#url").val('');
     });
     $('#btnQuest').click(() => {
-        if ($("#urls").val().length > 5) {
+        if ($("#url").val().length > 5) {
             $('#resContainer').html('');
             $("#bg_loading").show();
             let str = ``,str1us=``;
@@ -160,7 +141,7 @@
             let strbran=``;
             let strwatchstyle=``,strwatchband=``,strwatchface=``;
             let strhkenus=``,strbranus=``;
-            $.post('/api/copyhken', {urls: $("#urls").val().trim()}, function (data) {
+            $.post('/api/copyhken', {urls: $("#url").val().trim()}, function (data) {
                     $("#bg_loading").hide();
                 console.log(data);
                     if (data) {
