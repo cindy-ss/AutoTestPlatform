@@ -16,7 +16,7 @@ let autoPlay = () => {
 
         if (!URL.parse(url).protocol) {
 
-                url = 'https://' + url;
+            url = 'https://' + url;
         }else{
             if(URL.parse(url).protocol !== 'https:'){
                 url = util.urlNormalize(url);
@@ -24,10 +24,6 @@ let autoPlay = () => {
         }
         let gUrl = new_url.split('/');
         let dUrl = URL.parse(url).host.split('.');
-        console.log("gulr");
-        console.log(gUrl);
-        console.log("dulr");
-        console.log(dUrl);
         if (dUrl[0] === 'www') {
             if (gUrl[1].split('').length === 2) {
                 if(gUrl[2].split('').length !== 2){
@@ -58,8 +54,7 @@ let autoPlay = () => {
                     dUrl[0] = 'www';
                     online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
                 }else{
-                    dUrl[0] = 'www';
-                    online_url = URL.parse(url).protocol + "//" + dUrl.join('.') + URL.parse(url).pathname;
+                    online_url = url;
                     gUrl.shift();
                     gUrl.shift();
                     gUrl.shift();
@@ -72,6 +67,7 @@ let autoPlay = () => {
             }
 
         }
+
 
         console.log(`${online_url} VS ${url}\n VS ${us_url}\n`);
 
@@ -94,17 +90,10 @@ let autoPlay = () => {
                 // console.log(_getContent(res[0]));
                 // console.log(res[0]);
                 // console.log(res[2]);
-                console.log("1111555");
-                if (url.indexOf('interactive-gallery') === -1&&url.indexOf('/hk/en/') === -1) {
+                if (url.indexOf('interactive-gallery') === -1) {
                     arr = _comp(_getContent(res[0]), _getContent(res[2]));
-                    console.log("none");
-                } else if (url.indexOf('interactive-gallery') !== -1){
+                } else {
                     arr = [_getContent(res[2]), _getContent(res[0]), _getContent(res[1])];
-                    console.log("watch");
-                }else if (url.indexOf('/hk/en/') !== -1){
-                    arr = _comp_hken(_getContent(res[0]), _getContent(res[2]), _getContent(res[1]));
-                    console.log("hken copy");
-                    console.log(arr);
                 }
             } else {
                 console.log(`\t[ X ] : Fetching shared images on ${url} failed, with an error of ${err.message}`);
@@ -118,10 +107,11 @@ let autoPlay = () => {
         });
 
 
-        if (URL.parse(url).pathname.indexOf('interactive-gallery') === -1 ) {
+        if (URL.parse(url).pathname.indexOf('interactive-gallery') === -1) {
             flag = 0;
-        } else  {
+        } else {
             flag = 1;
+
         }
     };
     let _getContent = (str) => {
@@ -159,7 +149,7 @@ let autoPlay = () => {
 
             return arr;
 
-        } else if (flag === 1) {
+        } else {
             // console.log('aaa');
             // 表盘
             let _text2 = $(".gallery-watch");
@@ -240,7 +230,6 @@ let autoPlay = () => {
         }
 
 
-
     };
     let _comp = (baseArr, targetArr) => {
         let sameArr = [], oldArr = [], newArr = [];
@@ -260,43 +249,6 @@ let autoPlay = () => {
         }
         return [sameArr, oldArr, newArr];
     };
-    let _comp_hken = (baseArr, targetArr,usArr) => {
-        let sameArr = [], oldArr = [], newArr = [],newArrus = [];
-        for (let i = 0; i < targetArr.length; i++) {
-            if (baseArr.indexOf(targetArr[i]) === -1) {
-                newArr.push(targetArr[i]);
-            } else {
-                sameArr.push(targetArr[i]);
-            }
-        }
-
-        for (let j = 0; j < baseArr.length; j++) {
-            if (targetArr.indexOf(baseArr[j]) === -1) {
-                oldArr.push(baseArr[j]);
-            }
-        }
-        for (let z = 0; z < usArr.length; z++) {
-            if (targetArr.indexOf(usArr[z]) === -1) {
-                newArrus.push(usArr[z]);
-            } else {
-                sameArr.push(usArr[z]);
-            }
-        }
-        for (let h = 0; h < usArr.length; h++) {
-            if (usArr.indexOf(targetArr[h]) === -1) {
-                usArr.push(targetArr[h]);
-            }
-        }
-
-        if(newArrus.length===0){
-            return [sameArr, oldArr, newArr];
-        }else{
-            return [sameArr, oldArr, newArr,newArrus];
-        }
-
-    };
-
-
 
     exports.compare = compare;
 

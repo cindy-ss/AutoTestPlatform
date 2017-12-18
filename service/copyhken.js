@@ -261,37 +261,37 @@ let autoPlay = () => {
         return [sameArr, oldArr, newArr];
     };
     let _comp_hken = (baseArr, targetArr,usArr) => {
-        let sameArr = [], oldArr = [], newArr = [],newArrus = [];
+        let sameliveArr = [], oldliveArr = [], newbranArr = [],newArrus = [],branUSdiff=[],sameUSarr=[];
         for (let i = 0; i < targetArr.length; i++) {
             if (baseArr.indexOf(targetArr[i]) === -1) {
-                newArr.push(targetArr[i]);
+                newbranArr.push(targetArr[i]);
             } else {
-                sameArr.push(targetArr[i]);
+                sameliveArr.push(targetArr[i]);
             }
         }
 
         for (let j = 0; j < baseArr.length; j++) {
             if (targetArr.indexOf(baseArr[j]) === -1) {
-                oldArr.push(baseArr[j]);
+                oldliveArr.push(baseArr[j]);
             }
         }
         for (let z = 0; z < usArr.length; z++) {
             if (targetArr.indexOf(usArr[z]) === -1) {
                 newArrus.push(usArr[z]);
             } else {
-                sameArr.push(usArr[z]);
+                sameUSarr.push(usArr[z]);
             }
         }
         for (let h = 0; h < usArr.length; h++) {
             if (usArr.indexOf(targetArr[h]) === -1) {
-                usArr.push(targetArr[h]);
+                branUSdiff.push(targetArr[h]);
             }
         }
 
         if(newArrus.length===0){
             return [sameArr, oldArr, newArr];
         }else{
-            return [sameArr, oldArr, newArr,newArrus];
+            return [sameliveArr, oldliveArr, newbranArr,newArrus,branUSdiff,sameUSarr];
         }
 
     };

@@ -18,7 +18,8 @@ const trans = require('./trans'),
     footnote = require('./footnote'),
     report = require('./report'),
     copy = require('./copy'),
-    workflow = require('./workflow');
+    workflow = require('./workflow'),
+   copyhken = require('./copyhken');
 
 const validUrl = (req, res, next) => {
     const url = req.body.url;
@@ -80,6 +81,18 @@ router.route('/copy')
         });
     });
 
+router.route('/copy')
+    .post((req, res) => {
+        copy.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
+router.route('/copyhken')
+    .post((req, res) => {
+        copyhken.runTask(req.body.urls, req.session.od, data => {
+            res.json(data);
+        });
+    });
 
 router.route('/viewport/export')
     .post((req, res) => {

@@ -1,7 +1,7 @@
 
 const async = require('async');
 
-const comp = require('../service/copy');
+const comp = require('../service/copyhken');
 
 let MAX_THREAD = 20;
 
