@@ -56,11 +56,26 @@ $(() =>{
         $('#odConfirm').modal();
     });
 });
-function list(event){
+function gp(event){
     event.preventDefault();
     $("#Gp").children('ul').slideDown(100);
 }
-function listUp(event){
+function gpUp(event){
     event.preventDefault();
     $("#Gp").children('ul').slideUp(100);
 }
+//Copy event
+function copy(event){
+    event.preventDefault();
+    $("#Copy").children('ul').slideDown(100);
+}
+function copyUp(event){
+    event.preventDefault();
+    $("#Copy").children('ul').slideUp(100);
+}
+// $("#Copy").mouseover(function(){
+//     $("#copyul").show();
+// })
+// $("#Copy").mouseout(function(){
+//     $("#copyul").hide();
+// })
