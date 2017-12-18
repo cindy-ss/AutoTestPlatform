@@ -203,9 +203,10 @@
       "www.miibeian.gov.cn": {
         "cn": "www.miibeian.gov.cn",
         "hktc": "hk-zh",
-        "hken": "",
-        "tw": "",
-        "mo": ""
+        "hken": "en-hk",
+        "tw": "zh-tw",
+        "mo": "zh-mo"
+
       },
       "support.apple.com": {
         "cn": "zh-cn",
@@ -213,6 +214,14 @@
         "hken": "en-hk",
         "tw": "zh-tw",
         "mo": "zh-mo"
+      },
+      "help.apple.com": {
+        "cn": "zh-cn",
+        "hktc": "zh-hk",
+        "hken": "en-hk",
+        "tw": "zh-tw",
+        "mo": "zh-mo"
+
       },
       "www.apple.com/jobs": {
         "cn": "jobs/cn",
