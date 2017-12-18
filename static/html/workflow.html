@@ -48,17 +48,59 @@
     <!-- <div>
         <button class="sideIcon">&lt;</button>
     </div> -->
-    <div class="col-md-7">
-        <button id="btnExport" class="btn btn-primary">Export</button>
 
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_meta">
-            </tbody>
-        </table>
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_font">
-            </tbody>
-        </table>
+
+    <div class="col-md-7">
+
+        <div class="panel-group" id="accordion" >
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseOne">
+                            Meta Result
+                        </a>
+                    </h4>
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseTwo">
+                            Font Result
+                        </a>
+                    </h4>
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion"
+                           href="#collapseThree">
+                            Link Result
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered">
+                            <tbody id="res_Container_meta">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered">
+                            <tbody id="res_Container_font">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered">
+                            <tbody id="res_Container_link">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
         <table class="table table-striped table-bordered">
             <tbody id="res_Container_vpath">
             </tbody>
@@ -106,11 +148,10 @@
 
     $('#btn_Quest').click(() => {
         if ($("#url").val().length > 5) {
-            console.log('abcd');
+
             $("#bg_loading").show();
             $('#res_Container').html('');
             let strMeta=``,strFont=``,strVpath=``,strLink=``,strViewport=``,strFootnote=``,strCopy=``;
-
 
             var chk_val = {};
             $('input[type=checkbox]').each(function(){
@@ -121,14 +162,28 @@
                 }
 
             })
-
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
 
             $.post('api/workflow', {url: url, option: option}, function (Json_data) {
-                console.log(url);
+
                 console.log(Json_data);
                 $("#bg_loading").hide();
+                strMeta+=`Meta Result`;
+                strFont+=`Font Result`;
+                strVpath+=`VPath Result`;
+                strLink+=`Lin Result`;
+                strViewport+=`ViewPort Result`;
+                strFootnote+=`Footnote Result`;
+                strCopy+=`Copy Result`;
+                $('#res_Container_meta').html(strMeta);
+                $('#res_Container_link').html(strLink);
+                $('#res_Container_font').html(strFont);
+                $('#res_Container_vpath').html(strVpath);
+                $('#res_Container_viewport').html(strViewport);
+                $('#res_Container_footnote').html(strFootnote);
+                $('#res_Container_copy').html(strCopy);
+
 
 //                if (Json_data.result === true) {
 //                    let str1 = ``;
