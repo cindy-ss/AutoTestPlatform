@@ -187,12 +187,12 @@
 
 
                                 strhkenus += `<tr><td>&diams;&#9785;&diams; US &diams;&#9785;&diams;</td></tr>`;
-                                strhkenus += `<tr><td><a href="${data[i][0]}" target="_blank">${FormateUSURL(data[i][0])}</a></td></tr>`;
-                                if (data[i][4].length ==0) {
 
+                                if (data[i].length <= 4) {
+                                    strhkenus += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a></td></tr>`;
                                     strhkenus += `<tr><td class='red'>No content</td></tr>`;
-                                } else {
-
+                                } else if (data[i][4]){
+                                    strhkenus += `<tr><td><a href="${FormateUSURL(data[i][0])}" target="_blank">${FormateUSURL(data[i][0])}</a></td></tr>`;
                                     for (var x = 0; x < data[i][4].length; x++) {
                                         strhkenus += `<tr><td class='red'>${data[i][4][x]}</td></tr>`;
                                     }
@@ -207,7 +207,7 @@
                                 }
 
                                 str1us += `<tr><td><a href="${data[i][0]}" target="_blank">${data[i][0]}</a><br>
-                                <a href="${FormateURL(data[i][0])}" target="_blank">${FormateUSURL(data[i][0])}</a></td></tr>`;
+                                <a href="${FormateUSURL(data[i][0])}" target="_blank">${FormateUSURL(data[i][0])}</a></td></tr>`;
                                 for (var x = 0; x < data[i][6].length; x++) {
                                     str1us+= `<tr><td>${data[i][6][x]}</td></tr>`;
                                 }
