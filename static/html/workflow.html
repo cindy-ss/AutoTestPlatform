@@ -84,7 +84,7 @@
             const file = $("#fileInput")[0].files[0];
             let reader = new FileReader();
             reader.onload = function () {
-                $("#urls").val(this.result);
+                $("#url").val(this.result);
                 $("#fileInput").val("");
             };
             reader.readAsText(file);
@@ -92,7 +92,7 @@
     });
 
     $('#btn_Clear').click(() => {
-        $("#urls").val('');
+        $("#url").val('');
     });
 
     var storedData;
@@ -124,39 +124,40 @@
                 console.log(chk_val);
             })
 
-            let _option = JSON.stringify(queryObj);
+            let option = JSON.stringify(queryObj);
             const urls = $('#url').val();
 
-            $.post('api/workflow', {url: urls, option: _option}, function (Json_data) {
+            $.post('api/workflow', {url: urls, option: option}, function (Json_data) {
                 console.log(url);
+                console.log(Json_data);
                 $("#bg_loading").hide();
 
-                if (Json_data.result === true) {
-                    let str1 = ``;
-                    let arrdata=Json_data.data;
-                    storedData = Json_data.data;
-                    console.log(storedData);
-                    $.each(arrdata, function (m, value){
-
-                        str1 += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
-
-
-                        $.each(value.data, function (n, valueinter){
-
-                            str1 += `<tr><td>${n}</td><td>`;
-                            var x;
-                            for (x in valueinter){
-
-                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
-                            };
-                            str1+=`</td></tr>`;
-                        });
-
-                        $('#res_Container').html(str1);
-                    })
-
-
-                }
+//                if (Json_data.result === true) {
+//                    let str1 = ``;
+//                    let arrdata=Json_data.data;
+//                    storedData = Json_data.data;
+//                    console.log(storedData);
+//                    $.each(arrdata, function (m, value){
+//
+//                        str1 += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
+//
+//
+//                        $.each(value.data, function (n, valueinter){
+//
+//                            str1 += `<tr><td>${n}</td><td>`;
+//                            var x;
+//                            for (x in valueinter){
+//
+//                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
+//                            };
+//                            str1+=`</td></tr>`;
+//                        });
+//
+//                        $('#res_Container').html(str1);
+//                    })
+//
+//
+//                }
 
 
             })
@@ -193,7 +194,7 @@
     // });
 
     $("#btnExport").click(() => {
-        if ($("#urls").val().length > 0) {
+        if ($("#url").val().length > 0) {
             console.log(storedData);
             $.post(`/api/export/`, {
                 data: JSON.stringify(storedData),
