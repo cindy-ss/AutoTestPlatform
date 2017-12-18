@@ -1,6 +1,6 @@
 <h2 class="page-header">Workflow Checker</h2>
 <style>
-    div.box{width:300px;padding:20px;margin:20px;border:4px dashed #ccc;}
+    div.box{width:300px;padding:20px;margin:20px;border:4px dashed #428bca;}
     div.box span{color:#999;font-style:italic;}
     div.content{width:250px;margin:10px 0;padding:20px;border:2px solid #0099ff;}
     input[type='checkbox']{margin:5px;}
@@ -109,9 +109,9 @@
             console.log('abcd');
             $("#bg_loading").show();
             $('#res_Container').html('');
-            let strMeta=``,strFont=``,strVpath=``,strLink=``
+            let strMeta=``,strFont=``,strVpath=``,strLink=``,strViewport=``,strFootnote=``,strCopy=``;
 
-            //post checked
+
             var chk_val = {};
             $('input[type=checkbox]').each(function(){
                 if($(this).is(':checked')){
@@ -121,11 +121,11 @@
                 }
 
             })
-            console.log(chk_val);
+
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
 
-            $.post('api/workflow', {url: url, option: chk_val}, function (Json_data) {
+            $.post('api/workflow', {url: url, option: option}, function (Json_data) {
                 console.log(url);
                 console.log(Json_data);
                 $("#bg_loading").hide();
