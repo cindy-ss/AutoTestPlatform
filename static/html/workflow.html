@@ -1,28 +1,58 @@
 <h2 class="page-header">Workflow Checker</h2>
 <style>
-    div.box{width:300px;padding:20px;margin:20px;border:4px dashed #428bca;}
-    div.box span{color:#999;font-style:italic;}
-    div.content{width:250px;margin:10px 0;padding:20px;border:2px solid #0099ff;}
-    input[type='checkbox']{margin:5px;}
-    input[type='button']{height:30px;margin:10px;padding:5px 10px;}
+    div.box {
+        width: 300px;
+        padding: 20px;
+        margin: 20px;
+        border: 4px dashed #428bca;
+    }
 
+    div.box span {
+        color: #999;
+        font-style: italic;
+    }
+
+    div.content {
+        width: 250px;
+        margin: 10px 0;
+        padding: 20px;
+        border: 2px solid #0099ff;
+    }
+
+    input[type='checkbox'] {
+        margin: 5px;
+    }
+
+    input[type='button'] {
+        height: 30px;
+        margin: 10px;
+        padding: 5px 10px;
+    }
+
+    span {
+        text-align: center;
+        color: #800080;
+
+
+    }
+
+    td {
+        border: 1px solid #ccc;
+        height: 50px;
+        text-align: center;
+        font-size: 10pt;
+        padding: 2px;
+    }
 
 </style>
-
-<div id="trans" class="row">
-    <div class="col-md-4 navslid trans-side navslid-show">
+<div id="trans" class="col-md-4 row">
+    <div class="navslid trans-side navslid-show">
         <div>
 
             <p>URL Input (eg:https://webedit.apple.com/cn/iphone/)</p>
             <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
         </div>
-
-
         <div class="dropdown">
-           <!-- <select id="typeId"  multiple="multiple">
-                <option value="all" selected>ALL</option>
-
-            </select><br>-->
             <div class="box">
                 <span>Please select which option you want to check or select All</span>
                 <div class="content">
@@ -34,110 +64,101 @@
                     <input type="checkbox" name="checker" value="viewport"/>Viewport Checker <br>
                     <input type="checkbox" name="checker" value="footnote"/>Footnote Checker <br>
                     <input type="checkbox" name="checker" value="copy"/>Copy Checker<br>
-
                 </div>
-
             </div>
-
             <button id="btn_Quest" class="btn btn-primary">Query</button>
             <button id="btn_Clear" class="btn btn-primary">Clear</button>
-
         </div>
     </div>
-
-    <!-- <div>
-        <button class="sideIcon">&lt;</button>
-    </div> -->
-
-
-    <div class="col-md-7">
-
-        <div class="panel-group" id="accordion" >
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseOne">
-                            Meta Result
-                        </a>
-                    </h4>
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseTwo">
-                            Font Result
-                        </a>
-                    </h4>
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion"
-                           href="#collapseThree">
-                            Link Result
-                        </a>
-                    </h4>
-                </div>
-                <div id="collapseOne" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped table-bordered">
-                            <tbody id="res_Container_meta">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped table-bordered">
-                            <tbody id="res_Container_font">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div id="collapseThree" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table table-striped table-bordered">
-                            <tbody id="res_Container_link">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_vpath">
+</div>
+<div class="col-md-8">
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">&#8680 ------Meta Result------</a></span></h5>
+    <div id="collapseOne" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container_meta">
             </tbody>
         </table>
-        <table class="table table-striped table-bordered">
+    </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">&#8680 ------Font Result------</a></span></h5>
+    <div id="collapseTwo" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container_font">
+            </tbody>
+        </table>
+    </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">&#8680 ------Link Result------</a></span></h5>
+    <div id="collapseThree" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
             <tbody id="res_Container_link">
             </tbody>
         </table>
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_viewport">
-            </tbody>
-        </table>
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_footnote">
-            </tbody>
-        </table>
-        <table class="table table-striped table-bordered">
-            <tbody id="res_Container_copy">
+    </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">&#8680 ------V-Path Result------</a></span></h5>
+    <div id="collapseFour" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container_vpath">
             </tbody>
         </table>
     </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">&#8680 ------ViewPort Result------</a></span></h5>
+    <div id="collapseFive" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container_viewport">
+            </tbody>
+        </table>
+    </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">&#8680 ------Footnote Result------</a></span></h5>
+    <div id="collapseSix" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead>
+            </thead>
+            <tbody id="res_Container_footnote">
+            </tbody>
+        </table>
+    </div>
+    <h5 class="panel-title"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">&#8680 ------Copy Result------</a></span></h5>
+    <div id="collapseSeven" class="panel-collapse collapse">
+        <table border="3" class="table table-striped table-bordered">
+            <thead></thead>
+            <tr>
+                <td><table><tbody id="res_Container_copylive"></tbody></table></td>
+                <td><table><tbody id="res_Container_copybran"></tbody></table></td>
+            </tr>
+            <tr><table><tbody id="res_Container_copyequ"></tbody></table></tr>
+
+        </table>
+       <table> <tbody id="resConwatchStyle"></tbody></table>
+       <table> <tbody id="resConwatchBand"></tbody></table>
+        <table> <tbody id="resConwatchFace"></tbody></table>
+
+    </div>
 </div>
 <script>
+
     var CheckAll = false;
-        $("#all_select").click(function() {
-            if (CheckAll) {
-                $("input[type='checkbox']").each(function() {
-                    this.checked = false;
-                });
-                CheckAll = false;
-            } else {
-                $("input[type='checkbox']").each(function() {
-                    this.checked = true;
-                });
-                CheckAll = true;
-            }
-        })
+    $("#all_select").click(function () {
+        if (CheckAll) {
+            $("input[type='checkbox']").each(function () {
+                this.checked = false;
+            });
+            CheckAll = false;
+        } else {
+            $("input[type='checkbox']").each(function () {
+                this.checked = true;
+            });
+            CheckAll = true;
+        }
+    })
 
 
     $('#btn_Clear').click(() => {
@@ -151,66 +172,249 @@
 
             $("#bg_loading").show();
             $('#res_Container').html('');
-            let strMeta=``,strFont=``,strVpath=``,strLink=``,strViewport=``,strFootnote=``,strCopy=``;
+            let strMeta = ``, strFont = ``, strVpath = ``, strLink = ``, strViewport = ``, strFootnote = ``,
+                strCopylive = ``, strCopybranch = ``, strCopyequ = ``;
+            let strwatchstyle = ``, strwatchband = ``, strwatchface = ``;
 
             var chk_val = {};
-            $('input[type=checkbox]').each(function(){
-                if($(this).is(':checked')){
-                    chk_val[$(this).val()]="true";
-                }else{
-                    chk_val[$(this).val()]="false";
+            $('input[type=checkbox]').each(function () {
+                if ($(this).is(':checked')) {
+                    chk_val[$(this).val()] = "true";
+                } else {
+                    chk_val[$(this).val()] = "false";
                 }
 
             })
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
+            console.log(option);
+            $.post('api/workflow', {url: url, option: option}, function (data) {
 
-            $.post('api/workflow', {url: url, option: option}, function (Json_data) {
-
-                console.log(Json_data);
+                console.log(data);
                 $("#bg_loading").hide();
-                strMeta+=`Meta Result`;
-                strFont+=`Font Result`;
-                strVpath+=`VPath Result`;
-                strLink+=`Lin Result`;
-                strViewport+=`ViewPort Result`;
-                strFootnote+=`Footnote Result`;
-                strCopy+=`Copy Result`;
+                strMeta += ``;
+                strFont += ``;
+                strVpath += ``;
+                strLink += ``;
+                strViewport += ``;
+                strFootnote += ``;
+                strCopylive += ``;
+                strCopybranch += ``;
+                strCopyequ += ``;
+                strwatchstyle += ``;
+                strwatchband += ``;
+                strwatchface += ``;
+
+                if (data.result === true) {
+                    if (data.data.meta) {
+                        let checkdata = "";
+                        checkdata = data.data.meta;
+                        checkdata.forEach((item, index) => {
+                            strMeta += ``;
+                            if (item.desc != "Bad Link") {
+                                let geoname = ctitle(item.geo);
+                                let ptitle = item.title;
+                                let flag = "";
+                                if (item.geo == "US") {
+                                    flag = 1;
+                                } else {
+                                    flag = ptitle.indexOf(geoname);
+                                }
+                                strMeta += `<tr><td bgcolor="#175b96" class="f1">URL: </td><td class ="headline" bgcolor="#175b96" colspan="2"><a href="${item.url}" target="_blank"> ${item.url}</a></td></tr>`;
+                                strMeta += `<tr><th></th><th>Geo</th><th>US</th></tr>`;
+                                strMeta += `<tr><td>Title:</td><td ${flag > 0 ? "" : "class='red'"}><div>${item.title ? item.title : "null"}</div></td><td><div>${item.titleUS ? item.titleUS : ""}</div></td></tr>`;
+
+
+                                strMeta += `<tr><td>Description:</td><td${item.desc ? ((item.desc.length > 150 || item.desc.length < 100) ? " class='red'" : "") : ""}>${item.desc ? item.desc : "null"}(${item.desc ? item.desc.length : "0"})</td>`;
+                                strMeta += `<td>${item.descUS ? item.descUS : "null"}</td></tr>`;
+
+                                strMeta += `<tr><td>OG Title:</td><td>${item.ogTitle ? item.ogTitle : "null"}</td>`;
+                                strMeta += `<td>${item.ogTitleUS ? item.ogTitleUS : "null"}</td></tr>`;
+
+
+                                strMeta += `<tr><td>OG URL:</td><td><a ${item.ogUrl ? ( ((item.ogUrl.indexOf('https') == -1) || (islocalized(item.ogUrl, item.geo) == false)) ? "class='red'" : "") : ""}href="${item.ogUrl ? item.ogUrl : ""}" target="_blank">${item.ogUrl ? item.ogUrl : "null"}</a></td>`;
+                                strMeta += `<td><a  href="${item.ogUrlUS}" target="_blank">${item.ogUrlUS}</a></td></tr>`;
+
+
+                                strMeta += `<tr><td>OG Description:</td><td${item.ogDesc ? ((item.ogDesc.length > 150 || item.ogDesc.length < 100) ? " class='red'" : "") : ""}>${item.ogDesc ? item.ogDesc : "null"}(${item.ogDesc ? item.ogDesc.length : "0"})</td>`;
+                                strMeta += `<td>${item.ogDescUS ? item.ogDescUS : ""}</td></tr>`
+
+
+                                strMeta += `<tr><td>OG Image:</td><td><img src="${item.oglab ? item.oglab : "null"}" alt="oglab" class="ext-thumb"><br>
+                        <a ${item.oglab ? ( (item.oglab.indexOf('https') == -1) ? "class='red'" : "") : ""} href="${item.oglab ? item.oglab : ""}" target="_blank">${item.oglab ? item.oglab : ""}</a> </td>`;
+                                strMeta += `<td><img src="${item.ogImageUS ? item.ogImageUS : "null"}" alt="ogImageUS" class="ext-thumb"><br><a  href="${item.ogImageUS ? item.ogImageUS : ""}" target="_blank">${item.ogImageUS ? item.ogImageUS : "null"}</a></td></tr>`;
+
+
+                                strMeta += `<tr><td>OG Image Current Server:</td><td><img src="${item.ogImage.url ? item.ogImage.url : 'null'}" alt="ogImage" class="ext-thumb"><br>
+                                     Width:${item.ogImage.size ? item.ogImage.size.width : ''}.Hight:${item.ogImage.size ? item.ogImage.size.height : ''} <br>
+                                      <a ${item.ogImage.url ? ( (item.ogImage.url.indexOf('https') == -1) ? "class='red'" : "") : ""}  href="${item.ogImage.url ? item.ogImage.url : ''}" target="_blank">${item.ogImage.url ? item.ogImage.url : ''}</a>
+                                     </td><td><img src="${item.ogImageUScur ? item.ogImageUScur : ''}" alt="ogImageUScUR" class="ext-thumb"><br><a href="${item.ogImageUScur ? item.ogImageUScur : ""}" target="_blank">${item.ogImageUScur ? item.ogImageUScur : ""}</a></td>
+                            </tr>`;
+
+                                if (item.geo == "CN") {
+                                    strMeta += `<tr><td>WeChat Image:</td><td><img src="${item.wechat.url ? item.wechat.url : "null"}" alt="wachatImage" class="ext-thumb"><br>
+                            Width:${item.wechat.size ? item.wechat.size.width : "null"}.Hight:${item.wechat.size ? item.wechat.size.height : "null"} <br>
+                            <a href="${item.wechat.url ? item.wechat.url : ""}" target="_blank">${item.wechat.url ? item.wechat.url : ""}</a> </td><td>NA</td></tr>`;
+
+                                }
+
+                            }
+                        })
+                    }//meta
+                    if (data.data.font) {
+                        let checkdata = "";
+                        checkdata = data.data.font;
+                        $.each(checkdata, function (m, value) {
+
+                            strFont += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
+
+
+                            $.each(checkdata, function (n, valueinter) {
+
+                                strFont += `<tr><td>${n}</td><td>`;
+                                var x;
+                                console.log(valueinter.length);
+                                if (valueinter.length > 0) {
+                                    for (x in valueinter) {
+
+                                        strFont += `${valueinter[x].word}[${valueinter[x].code}], `;
+                                    }
+                                    ;
+                                    strFont += `</td></tr>`;
+                                } else {
+                                    strFont += `No Font Missing`;
+                                }
+
+                            });
+
+                            $('#res_Container').html(strFont);
+                        })
+                    }//font
+                    if (data.data.link) {
+                        let checkdata = "";
+                        checkdata = data.data.link;
+
+                        strLink += `<tr><td>URL</td><td>Status</td><td>Error Message</td><td>Anchor Text</td></tr>`
+                        $.each(checkdata, function (n, value) {
+                            strLink += `<tr><td> <a href="${value.href}" target="_blank">${value.href}</a></td><td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.status}</td>
+                                    <td ${(value.status === "failed" ) ? " class='red'" : ""}>${value.message}</td><td>${value.text}</td></tr>`;
+
+                        })
+                    }//link
+                    if (data.data.vPath) {
+                        let checkdata = "";
+                        checkdata = data.data.vPath;
+                        $.each(checkdata, function (n, value) {
+                            strVpath += `<tr><td colspan="2"><a href="${n}" target="_blank">${n}</td></tr>`;
+                            for (var i = 0; i < value.length; i++) {
+                                strVpath += `<tr><td ${value[i].flag == true ? "" : "class='red'"}>${html_encode(value[i].origin)}</td><td ${value[i].flag == true ? "" : "class='red'"}>${html_encode(value[i].us)}</td></tr>`;
+                            }
+
+                        })
+
+                    }//vpath
+                    if (data.data.viewport) {
+                        let checkdata = "";
+                        checkdata = data.data.viewport;
+                        strViewport += `<tr><th>URL</th><th>ViewPort</th><th>Result</th></tr>`;
+                        checkdata.forEach((item, index) => {
+                            strViewport += `<tr>
+                                    <td><a href="${item.url}" target="_blank">${item.url}</a></td>
+                                    <td>${item.viewport}</td>
+
+                                    <td ${(item.flag == false ) ? " class='red'" : ""}>${item.flag}</td>
+                                </tr>`;
+                        })
+
+                    }//viewport
+
+                    if (data.data.footnote) {
+                        let checkdata = "";
+                        checkdata = data.data.footnote;
+                        strFootnote += `<tr><th>Sort</th><th width="48%">FootNote</th><th width="48%">☞Copy</th></tr>`;
+                        $.each(checkdata, function (n, value) {
+
+                            let footnotes = checkdata[n].data.data;
+                            strFootnote += `<tr><td colspan="3"><a href="${checkdata[n].url}" target="_blank">${checkdata[n].url}</td>`;
+                            let arrlen = footnotes.length;
+
+                            strFootnote += ``;
+                            for (let i = 0; i < arrlen; i++) {
+
+                                strFootnote += `<tr><td></td><td ${footnotes[i].copy == "" ? "class='red'" : ""} >${footnotes[i].mark} ${isContainstar(footnotes[i].mark) ? " " : "."} ${footnotes[i].footnote}</td>
+                                <td ${footnotes[i].footnote == "" ? "class='red'" : ""}>${footnotes[i].copy}</td></tr>`;
+                            }
+                            ;
+                            strFootnote += `<tr><td>Un-sorted</td><td colspan="2">`;
+
+                            let irrlen = checkdata[n].data.irrelevance.length;
+                            let irr = checkdata[n].data.irrelevance;
+                            for (let j = 0; j < irrlen; j++) {
+                                strFootnote += `&#9829 ${irr[j]}<br>`;
+                            }
+                            ;
+
+                            strFootnote += `</td></tr>`;
+
+                        })
+                    }//footnote
+                    if (data.data.copy) {
+                        let checkdata = "";
+                        checkdata = data.data.copy;
+
+
+                                strCopylive += `<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
+                                strCopylive += `<tr><td><a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
+                                if (checkdata[2].length == 0) {
+                                    strCopylive += `<tr><td class='red'>No added content</td></tr>`;
+                                } else {
+                                    for (var x = 0; x < checkdata[2].length; x++) {
+                                        strCopylive += `<tr><td class='red'>${checkdata[2][x]}</td></tr>`;
+                                    }
+                                }
+
+                                strCopybranch += `<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
+                                strCopybranch += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a></td></tr>`;
+                                if (checkdata[3].length == 0) {
+                                    strCopybranch += `<tr><td class='red'>No added content</td></tr>`;
+                                } else {
+
+                                    for (var x = 0; x < checkdata[3].length; x++) {
+                                        strCopybranch += `<tr><td class='red'>${checkdata[3][x]}</td></tr>`;
+                                    }
+                                }
+
+                                // Below table is Equivalent table;
+                                strCopyequ += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
+                                strCopyequ += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a><br>
+                                <a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
+                                for (var x = 0; x < checkdata[1].length; x++) {
+                                    strCopyequ += `<tr><td>${checkdata[1][x]}</td></tr>`;
+                                }
+
+
+
+
+
+                    }//copy
+                }
                 $('#res_Container_meta').html(strMeta);
-                $('#res_Container_link').html(strLink);
                 $('#res_Container_font').html(strFont);
+                $('#res_Container_link').html(strLink);
                 $('#res_Container_vpath').html(strVpath);
                 $('#res_Container_viewport').html(strViewport);
                 $('#res_Container_footnote').html(strFootnote);
-                $('#res_Container_copy').html(strCopy);
+
+                $('#res_Container_copylive').html(strCopylive);
+                $('#res_Container_copybran').html(strCopybranch);
+                $('#res_Container_copyequ').html(strCopyequ);
+
+                $('#resConwatchStyle').html(strwatchstyle);
+                $('#resConwatchBand').html(strwatchband);
+                $('#resConwatchFace').html(strwatchface);
 
 
-//                if (Json_data.result === true) {
-//                    let str1 = ``;
-//                    let arrdata=Json_data.data;
-//                    storedData = Json_data.data;
-//                    console.log(storedData);
-//                    $.each(arrdata, function (m, value){
 //
-//                        str1 += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
-//
-//
-//                        $.each(value.data, function (n, valueinter){
-//
-//                            str1 += `<tr><td>${n}</td><td>`;
-//                            var x;
-//                            for (x in valueinter){
-//
-//                                str1 += `${valueinter[x].word}[${valueinter[x].code}], `;
-//                            };
-//                            str1+=`</td></tr>`;
-//                        });
-//
-//                        $('#res_Container').html(str1);
-//                    })
-//
-//
-//                }
 
 
             })
@@ -220,17 +424,111 @@
     });
 
 
-
     $("#btnExport").click(() => {
         if ($("#url").val().length > 0) {
             console.log(storedData);
             $.post(`/api/export/`, {
                 data: JSON.stringify(storedData),
-                title : 'Font Report',
-                file : 'font'
+                title: 'Font Report',
+                file: 'font'
             }, (data) => {
                 $.fileDownload(`/api/files/${data}`);
             })
         }
     });
+    function ctitle(geo) {
+        let s = "";
+        switch (geo) {
+            case "CN":
+                s = "中国";
+                break;
+            case "HKTC":
+                s = "香港";
+                break;
+            case "HKEN":
+                s = "HK";
+                break;
+            case "TW":
+                s = "台灣";
+                break;
+            case "MO":
+                s = "澳門";
+                break;
+            default:
+                s = "";
+        }
+
+        return s;
+    }
+
+    function islocalized(url, geo) {
+        let flag = false;
+
+        if (geo == "HKTC") {
+            if (url.indexOf("hk") !== -1 && url.indexOf("/hk/en/") == -1) {
+                flag = true;
+            }
+
+        } else if (geo == "HKEN") {
+            if (url.indexOf("/hk/en/") !== -1) {
+                flag = true;
+            }
+        }
+        else if (url.indexOf(geo.toLowerCase()) !== -1) {
+            flag = true;
+        }
+        return flag;
+    }
+    function html_encode(str1) {
+        let s = "";
+        if (str1) {
+            if (str1.length === 0) return "";
+            s = str1
+                .replace(/&/g, "&gt;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/ /g, "&nbsp;")
+                .replace(/\'/g, "&#39;")
+                .replace(/\"/g, "&quot;")
+                .replace(/\n/g, "<br>")
+                .replace(/ /g, "")
+                .replace(/\t/g, "");
+        }
+        return s;
+    }
+    function FormateURL(url) {
+
+        var myURL = parseURL(url);
+
+        return "https://www.apple.com" + myURL.path;
+
+    };
+    function parseURL(url) {
+        var a = document.createElement('a');
+        a.href = url;
+        return {
+            source: url,
+            protocol: a.protocol.replace(':', ''),
+            host: a.hostname,
+            port: a.port,
+            query: a.search,
+
+            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+            hash: a.hash.replace('#', ''),
+            path: a.pathname.replace(/^([^\/])/, '/$1'),
+            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+            segments: a.pathname.replace(/^\//, '').split('/')
+        };
+    }
+    function isContainstar(str1) {
+        let flag = false;
+        if (str1) {
+            if (str1.length === 0) return flag;
+            if(str1.indexOf('*') >= 0){
+                flag=true;
+            }
+        }
+        return flag;
+    }
+
 </script>

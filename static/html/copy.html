@@ -135,7 +135,7 @@
             let str = ``;
             let str1 = ``;
             let strbran=``;
-            let strwatch=``,strwatchUS=``,strwatchstyle=``,strwatchband=``,strwatchface=``,strwatchUSstyle=``,strwatchUSband=``,strwatchUSface=``;
+            let strwatch=``,strwatchUS=``,strwatchstyle=``,strwatchband=``,strwatchface=``;
             let strhkenus=``;
             $.post('/api/copy', {urls: $("#urls").val().trim()}, function (data) {
                     $("#bg_loading").hide();
@@ -193,7 +193,7 @@
                                 $('#resContainer').html(str);
                                 $('#resContainerbranch').html(strbran);
                                 $('#resContainerequ').html(str1);
-                                $('#resContainerus').html(strhkenus);
+                                //$('#resContainerus').html(strhkenus);
 
                             } else {
                                 $("#accordion").hide();
