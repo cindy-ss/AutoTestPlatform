@@ -121,15 +121,15 @@
                 }
 
             })
-            console.log(chk_val);
+//            console.log(chk_val);
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
 
 //            ["all","meta",'font','link','vpath','footnote','viewport','copy']=> arr;
             $.post('api/workflow', {url: url, option: option}, function (Json_data) {
-                console.log(url);
-                console.log(Json_data);
-                console.log(chk_val);
+//                console.log(url);
+//                console.log(Json_data);
+//                console.log(chk_val);
                 $("#bg_loading").hide();
 
 //                if (Json_data.result === true) {
