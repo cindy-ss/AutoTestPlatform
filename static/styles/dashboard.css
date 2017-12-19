@@ -283,6 +283,10 @@ thead {
 #Gp>a{
     width:120px;
 }
+#Copy>a{
+    width:120px;
+    text-align: center;
+}
 #sidebar li a:hover
  {
     background-color: #080808;
