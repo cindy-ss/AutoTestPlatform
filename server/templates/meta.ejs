@@ -131,9 +131,7 @@
   <tr>
     <td>OG Image: </td>
       <%if(content[i]['oglab']) { %>
-      <%if(content[i]['oglab'].indexOf('https')==-1) { %>
-      <td><img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a class="red" href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td><% }else{ %>
-      <td><img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td><% } %><% }else{ %>
+      <img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a <%= content[i]['oglab'].indexOf('https')==-1 ?"class='red'":""%> href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a><%}else{%>
       <td><img alt="oglab" class="ext-thumb"><br><a target="_blank"></a></td><% } %>
 
     <td><img src="<%=content[i]['ogImageUS']%>" alt="ogImageUS" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
@@ -143,11 +141,7 @@
     <td>OG Image Current Server:</td>
     <td>
       <%if(content[i]['ogImage']['url']) { %>
-      <img src="<%= content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>Width:<%= content[i]['ogImage']['size']['width']%> .Hight:<%= content[i]['ogImage']['size']['height'] %><br>
-        <%if(content[i]['ogImage']['url'].indexOf('https')==-1) { %>
-        <a class="red" href="<%= content[i]['ogImage']['url']%>" target="_blank"><%= content[i]['ogImage']['url'] %></a><% }else{ %>
-        <a href="<%= content[i]['ogImage']['url']%>" target="_blank"><%= content[i]['ogImage']['url'] %></a><% } %>
-      <% }else{ %>
+        <img src="<%= content[i]['ogImage']['url']%>" alt="ogImage" class="ext-thumb"><br>Width:<%= content[i]['ogImage']['size']['width']%> .Hight:<%= content[i]['ogImage']['size']['height'] %><br><a <%=content[i]['ogImage'] && (content[i]['ogImage']['url'].indexOf('https')==-1)?"class='red'":""%> href="<%= content[i]['ogImage']['url']%>" target="_blank"><%= content[i]['ogImage']['url'] %></a></td><%}else{%>
       <img src=""><br>Width:undefined .Hight:undefined<br><a target="_blank"></a><% } %>
     </td>
     <td><img src="<%=content[i]['ogImageUScur']?content[i]['ogImageUScur']:''%>" alt="ogImageUScur" class="ext-thumb"><br><a href="<%= content[i]['ogImageUScur'] %>" target="_blank"><%= content[i]['ogImageUScur'] %></a></td>
