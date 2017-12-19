@@ -121,7 +121,7 @@ let linkCheck = (url, auth) => {
 
 let vpathCheck = (url, auth) => {
     return new Promise((resolve, reject) => {
-        vPath.getVPaths(url, auth, (err,data) => {
+        vPath.runMultiTasks(url, auth, (err,data) => {
             if (err) {
                 reject(err);
             } else {
