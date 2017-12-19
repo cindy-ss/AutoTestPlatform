@@ -38,7 +38,7 @@ const run = async options => {
         },
         {
             name: "footnote",
-            action: copyCheck(url,auth)
+            action: footnoteCheck(url,auth)
         },
         {
             name: 'copy',
