@@ -114,6 +114,9 @@ let autoPlay = () => {
 
         }
     };
+    String.prototype.sTrim=function(){
+        return this.replace(/(^\s*)|(\s*$)/g, "");
+    };
     let _getContent = (str) => {
         let $ = cheerio.load(str);
 
@@ -139,7 +142,25 @@ let autoPlay = () => {
             } else {
                 _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
             }
-            let textArr = _text.split('\n'), arr = [];
+            console.log("----------------");
+            let tArr,texArr,_tex;
+            if(_text.indexOf('&nbsp;') ===-1){
+                 tArr = _text.split('\n');
+            }else{
+                 _tex = _text.replace('&nbsp;','\n');
+                 tArr = _tex.split('\n');
+            }
+            texArr = tArr.join('').split('\t');
+            let textArr=[];
+            for(let i=0;i<texArr.length;i++){
+                if(texArr[i] !== ''){
+                    textArr.push(texArr[i]);
+                }
+            }
+            console.log(textArr);
+            let arr =[];
+            console.log("=================");
+            // let textArr = _text.split('\n'), arr = [];
             textArr.map(item => {
                 let temp = item.replace(/\t/g, '');
                 if (temp.length > 0 && temp.replace(/ /g, '').length > 0) {
