@@ -288,11 +288,9 @@ let autoPlay = () => {
             }
         }
 
-        if(newArrus.length===0){
-            return [sameArr, oldArr, newArr];
-        }else{
+
             return [sameliveArr, oldliveArr, newbranArr,newArrus,branUSdiff,sameUSarr];
-        }
+
 
     };
 
