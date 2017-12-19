@@ -131,7 +131,7 @@
   <tr>
     <td>OG Image: </td>
       <%if(content[i]['oglab']) { %>
-      <img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a <%= content[i]['oglab'].indexOf('https')==-1 ?"class='red'":""%> href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a><%}else{%>
+      <td><img src="<%=content[i]['oglab']%>" alt="oglab" class="ext-thumb"><br><a <%= content[i]['oglab'].indexOf('https')==-1 ?"class='red'":""%> href="<%= content[i]['oglab'] %>" target="_blank"><%= content[i]['oglab'] %></a></td><%}else{%>
       <td><img alt="oglab" class="ext-thumb"><br><a target="_blank"></a></td><% } %>
 
     <td><img src="<%=content[i]['ogImageUS']%>" alt="ogImageUS" class="ext-thumb"><br><a href="<%= content[i]['ogImageUS'] %>" target="_blank"><%= content[i]['ogImageUS'] %></a></td>
