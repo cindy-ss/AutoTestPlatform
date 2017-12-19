@@ -13,18 +13,52 @@ font = require('../service/font');
 const run = async options => {
 
     let auth = options.auth,
-        url = options.url;
-    // url = util.urlNormalize(url);
-    let promises = [
-        metaCheck(url, auth),
-        linkCheck(url, auth),
-        vpathCheck(url,auth),
-        viewportCheck(url,auth),
-        footnoteCheck(url,auth),
-        copyCheck(url,auth),
-        fontCheck(url, auth)
+        url = options.url,
+        option = options.option;
+    let optionObj = JSON.parse(option);
+    console.log(optionObj);
 
+    let config = [
+        {
+            name: 'meta',
+            action: metaCheck(url,auth)
+        },
+        {
+            name: 'link',
+            action: linkCheck(url,auth)
+        },
+        {
+            name: 'vpath',
+            action: vpathCheck(url,auth)
+        },
+        {
+            name: 'viewport',
+            action: viewportCheck(url,auth)
+        },
+        {
+            name: "footnote",
+            action: copyCheck(url,auth)
+        },
+        {
+            name: 'copy',
+            action: copyCheck(url,auth)
+        },
+        {
+            name: 'font',
+            action: fontCheck(url,auth)
+        }
     ];
+    let promises =[];
+
+    // console.log(optionObj);
+
+    for(let k=0;k<config.length;k++){
+        if((config[k].name) in optionObj && optionObj[config[k].name] === 'true'){
+           promises.push(config[k].action);
+        }else{
+            promises.push(null);
+        }
+    }
 
     let obj = {
         url,
@@ -41,7 +75,7 @@ const run = async options => {
     console.log(options);
     return await Promise.all(promises)
         .then(value => {
-            obj['meta'] = value[0];
+            obj['meta'] =  value[0];
             obj['link'] = value[1];
             obj['vPath'] = value[2];
             obj['viewport'] = value[3];

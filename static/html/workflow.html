@@ -125,9 +125,11 @@
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
 
-            $.post('api/workflow', {url: url, option: chk_val}, function (Json_data) {
+//            ["all","meta",'font','link','vpath','footnote','viewport','copy']=> arr;
+            $.post('api/workflow', {url: url, option: option}, function (Json_data) {
                 console.log(url);
                 console.log(Json_data);
+                console.log(chk_val);
                 $("#bg_loading").hide();
 
 //                if (Json_data.result === true) {

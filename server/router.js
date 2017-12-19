@@ -316,19 +316,20 @@ router.route('/workflow')
     .post((req, res) => {
     const options = {
         url: req.body.url,
-        option: req.body.option,
-        auth: req.session.od
+        auth: req.session.od,
+        option: req.body.option
     };
+    console.log(options);
     if(options.url){
-
-        workflow.run(options).then(data => {
-
+        workflow.run(options).then(
+            data => {
                 res.json({
                     result:true,
                     data: data
                 })
 
         });
+
 
     }else {
         res.json({
