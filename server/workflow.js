@@ -15,6 +15,7 @@ const run = async options => {
     let auth = options.auth,
         url = options.url,
         option = options.option;
+    url = util.urlNormalize(url);
     let optionObj = JSON.parse(option);
     console.log(optionObj);
 
