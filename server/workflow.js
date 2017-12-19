@@ -5,7 +5,7 @@ const util = require('../service/util'),
     viewport = require('./viewport'),
     footnote = require('./footnote'),
     copy = require('../service/copy'),
-font = require('../service/font');
+font = require('./font');
 
 
 //do the flow run.
