@@ -32,26 +32,25 @@
     td {
         border: 1px solid #ccc;
         height: 50px;
-        text-align: center;
+
         font-size: 10pt;
         padding: 2px;
     }
 
-    h5 span{
-        display: inline-block;
-        width: 100%;
-        min-width: 920px;
-        height: 30px;
-        background: #175a96;
-    }
-    h5 span a{
+    h5 a {
         display: inline-block;
         padding-top: 5px;
-        color: #9d9d9d;
+        color: #080808;
     }
-    h5 span a:hover{
+
+    h5 span a:hover {
         color: #fff;
     }
+
+    #vpath {
+        max-width: 100px;
+    }
+
 </style>
 <div id="trans" class="col-md-4 row">
     <div class="navslid trans-side navslid-show">
@@ -79,8 +78,10 @@
         </div>
     </div>
 </div>
-<div class="col-md-8" style="text-align: center;">
-    <h5 class="panel-title meta_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">&#8680 ------Meta Result------</a></span></h5>
+<div class="col-md-8">
+    <h5 class="panel-title meta_res" style="display: none">
+        <button class="btn btn-info btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> &#10144 Meta Result </a></button>
+    </h5>
     <div id="collapseOne" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -89,7 +90,9 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title font_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">&#8680 ------Font Result------</a></span></h5>
+    <h5 class="panel-title font_res" style="display: none">
+        <button class="btn btn-primary btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"> &#10144 Font Result </a></button>
+    </h5>
     <div id="collapseTwo" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -98,7 +101,9 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title link_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">&#8680 ------Link Result------</a></span></h5>
+    <h5 class="panel-title link_res" style="display: none">
+        <button class="btn btn-info btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> &#10144 Link Result </a></button>
+    </h5>
     <div id="collapseThree" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -107,7 +112,10 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title vpath_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">&#8680 ------V-Path Result------</a></span></h5>
+    <h5 class="panel-title vpath_res" style="display: none">
+        <button class="btn btn-primary btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"> &#10144 V-Path Result </a></button>
+    </h5>
+
     <div id="collapseFour" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -116,7 +124,10 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title view_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseFive">&#8680 ------ViewPort Result------</a></span></h5>
+
+    <h5 class="panel-title view_res" style="display: none">
+        <button class="btn btn-info btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"> &#10144 ViewPort Result </a></button>
+    </h5>
     <div id="collapseFive" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -125,7 +136,10 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title foot_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseSix">&#8680 ------Footnote Result------</a></span></h5>
+    <h5 class="panel-title foot_res" style="display: none">
+        <button class="btn btn-primary btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"> &#10144 Footnote Result </a>
+        </button>
+    </h5>
     <div id="collapseSix" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead>
@@ -134,20 +148,40 @@
             </tbody>
         </table>
     </div>
-    <h5 class="panel-title copy_res" style="display: none"><span><a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven">&#8680 ------Copy Result------</a></span></h5>
+    <h5 class="panel-title copy_res" style="display: none">
+        <button class="btn btn-info btn-large btn-block"><a data-toggle="collapse" data-parent="#accordion" href="#collapseSeven"> &#10144 Copy Result </a></button>
+    </h5>
     <div id="collapseSeven" class="panel-collapse collapse">
         <table class="table table-striped table-bordered">
             <thead></thead>
             <tr>
-                <td><table width="100%"><tbody id="res_Container_copylive"></tbody></table></td>
-                <td><table width="100%"><tbody id="res_Container_copybran"></tbody></table></td>
+                <td>
+                    <table width="100%">
+                        <tbody id="res_Container_copylive"></tbody>
+                    </table>
+                </td>
+                <td>
+                    <table width="100%">
+                        <tbody id="res_Container_copybran"></tbody>
+                    </table>
+                </td>
             </tr>
-            <tr><table><tbody id="res_Container_copyequ"></tbody></table></tr>
+            <tr>
+                <table>
+                    <tbody id="res_Container_copyequ"></tbody>
+                </table>
+            </tr>
 
         </table>
-       <table> <tbody id="resConwatchStyle"></tbody></table>
-       <table> <tbody id="resConwatchBand"></tbody></table>
-        <table> <tbody id="resConwatchFace"></tbody></table>
+        <table>
+            <tbody id="resConwatchStyle"></tbody>
+        </table>
+        <table>
+            <tbody id="resConwatchBand"></tbody>
+        </table>
+        <table>
+            <tbody id="resConwatchFace"></tbody>
+        </table>
 
     </div>
 </div>
@@ -192,27 +226,27 @@
 
             })
             //选中显示
-        if($('.meta_chk').is(':checked')) {
-            $(".meta_res").show();
-        }
-        if($('.font_chk').is(':checked')) {
-            $(".font_res").show();
-        }
-        if($('.link_chk').is(':checked')) {
-            $(".link_res").show();
-        }
-        if($('.vpath_chk').is(':checked')) {
-            $(".vpath_res").show();
-        }
-        if($('.view_chk').is(':checked')) {
-            $(".view_res").show();
-        }
-        if($('.foot_chk').is(':checked')) {
-            $(".foot_res").show();
-        }
-        if($('.copy_chk').is(':checked')) {
-            $(".copy_res").show();
-        }
+            if ($('.meta_chk').is(':checked')) {
+                $(".meta_res").show();
+            }
+            if ($('.font_chk').is(':checked')) {
+                $(".font_res").show();
+            }
+            if ($('.link_chk').is(':checked')) {
+                $(".link_res").show();
+            }
+            if ($('.vpath_chk').is(':checked')) {
+                $(".vpath_res").show();
+            }
+            if ($('.view_chk').is(':checked')) {
+                $(".view_res").show();
+            }
+            if ($('.foot_chk').is(':checked')) {
+                $(".foot_res").show();
+            }
+            if ($('.copy_chk').is(':checked')) {
+                $(".copy_res").show();
+            }
 
             let option = JSON.stringify(chk_val);
             const url = $('#url').val();
@@ -387,37 +421,34 @@
                         checkdata = data.data.copy;
 
 
-                                strCopylive += `<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
-                                strCopylive += `<tr><td><a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
-                                if (checkdata[2].length == 0) {
-                                    strCopylive += `<tr><td class='red'>No added content</td></tr>`;
-                                } else {
-                                    for (var x = 0; x < checkdata[2].length; x++) {
-                                        strCopylive += `<tr><td class='red'>${checkdata[2][x]}</td></tr>`;
-                                    }
-                                }
+                        strCopylive += `<tr><td>&diams;&#9785;&diams; Production &diams;&#9785;&diams;</td></tr>`;
+                        strCopylive += `<tr><td><a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
+                        if (checkdata[2].length == 0) {
+                            strCopylive += `<tr><td class='red'>No added content</td></tr>`;
+                        } else {
+                            for (var x = 0; x < checkdata[2].length; x++) {
+                                strCopylive += `<tr><td class='red'>${checkdata[2][x]}</td></tr>`;
+                            }
+                        }
 
-                                strCopybranch += `<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
-                                strCopybranch += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a></td></tr>`;
-                                if (checkdata[3].length == 0) {
-                                    strCopybranch += `<tr><td class='red'>No added content</td></tr>`;
-                                } else {
+                        strCopybranch += `<tr><td>&diams;&#9785;&diams; Branch &diams;&#9785;&diams;</td></tr>`;
+                        strCopybranch += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a></td></tr>`;
+                        if (checkdata[3].length == 0) {
+                            strCopybranch += `<tr><td class='red'>No added content</td></tr>`;
+                        } else {
 
-                                    for (var x = 0; x < checkdata[3].length; x++) {
-                                        strCopybranch += `<tr><td class='red'>${checkdata[3][x]}</td></tr>`;
-                                    }
-                                }
+                            for (var x = 0; x < checkdata[3].length; x++) {
+                                strCopybranch += `<tr><td class='red'>${checkdata[3][x]}</td></tr>`;
+                            }
+                        }
 
-                                // Below table is Equivalent table;
-                                strCopyequ += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
-                                strCopyequ += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a><br>
+                        // Below table is Equivalent table;
+                        strCopyequ += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
+                        strCopyequ += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a><br>
                                 <a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
-                                for (var x = 0; x < checkdata[1].length; x++) {
-                                    strCopyequ += `<tr><td>${checkdata[1][x]}</td></tr>`;
-                                }
-
-
-
+                        for (var x = 0; x < checkdata[1].length; x++) {
+                            strCopyequ += `<tr><td>${checkdata[1][x]}</td></tr>`;
+                        }
 
 
                     }//copy
@@ -511,7 +542,7 @@
                 .replace(/&/g, "&gt;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
-                .replace(/ /g, "&nbsp;")
+                .replace(/ /g, "")
                 .replace(/\'/g, "&#39;")
                 .replace(/\"/g, "&quot;")
                 .replace(/\n/g, "<br>")
@@ -548,8 +579,8 @@
         let flag = false;
         if (str1) {
             if (str1.length === 0) return flag;
-            if(str1.indexOf('*') >= 0){
-                flag=true;
+            if (str1.indexOf('*') >= 0) {
+                flag = true;
             }
         }
         return flag;
