@@ -172,18 +172,11 @@ ul, li {
     bottom: 5%;
     right: 3%;
 }
-.Platform{
+.Platform {
     padding: 5px;
-    margin-top: 5px;
+    background-color: #eeeeee;
 }
-.Platform a{
-    font-size: 18px;
-    color:#9d9d9d;
-}
-.Platform a:hover{
-    color:#fff;
-    text-decoration: none;
-}
+
 
 /*
  * Placeholder dashboard ideas
@@ -303,7 +296,7 @@ thead {
     -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     text-align: center;
     width:120px;
-    background-color: #080808;
+    background-color:#080808;
 }
 #sidebar ul li{
     border-bottom:1px solid #d5dce8;
