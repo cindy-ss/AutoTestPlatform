@@ -26,29 +26,47 @@
 <body class="container-fluid">
 <table class="table table-bordered table-striped table-hover">
     <caption align="top">ViewPort Report</caption>
+    <% if(content[0]['geo']) {%>
+    <tbody>
+    <tr>
+        <th colspan="2">US</th>
+    </tr>
+    <tr>
+        <td><%= content[0]['url']%></td>
+        <td><%= content[0]['total']%></td>
+    </tr>
+    <% for(var k = 0;k < content[0]['list'].length;k++) { %>
+    <tr>
+        <td><img class="ext-thumb" src="<%= content[0]['list'][k]%>"></td>
+        <td><%= content[0]['list'][k]%></td>
+    </tr>
+    <% } %>
+    </tbody>
+    <% } else {%>
     <tbody class="metaStyle">
     <tr>
-        <th>URL</th>
-        <th>ViewPort</th>
-        <th>Result</th>
+        <th>Name</th>
+        <th>US</th>
+        <th>content</th>
     </tr>
+    
     <% for(var i = 0; i < content.length; i++) { %>
-    <tr>
-        <td>
-            <a href="<%= content[i]['url'] %>" target="_blank"><%= content[i]['url'] %></a>
-        </td>
-        <td>
-            <%= content[i]['viewport'] %>
-        </td>
-
-        <td
-                <% if(!content[i]['flag']) { %>
-                class="red"
-                <% } %>
-        >
-            <%= content[i]['flag'] %>
-        </td>
-    </tr>
+      <% var arr=[]%>
+      <% for(var j in content[i]) { %>
+      <% arr.push(content[i][j])%>
+      <% } %>
+      <% var local=arr[1]%>
+      <tr>
+          <td rowspan="2"><%= content[i]['name']%></td>
+          <td><img class="ext-thumb" src="<%= content[i]['US']%>"></td>
+          <td><img class="ext-thumb" src="<%= local%>"></td>
+      </tr>
+      <tr>
+          <td><a href="<%= content[i]['US']%>"><%= content[i]['US']%></a></td>
+          <td><a href="<%= local%>"><%= local%></a></td>
+      </tr>
+      
+    <% } %>
     <% } %>
     </tbody>
 </table>
