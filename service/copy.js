@@ -142,27 +142,33 @@ let autoPlay = () => {
             } else {
                 _text = $('main,#main,.main,section.ac-gf-sosumi,nav.ac-gf-breadcrumbs').text();
             }
-            console.log("----------------");
-            let tArr,texArr,_tex;
-            if(_text.indexOf('&nbsp;') ===-1){
-                 tArr = _text.split('\n');
-            }else{
-                 _tex = _text.replace('&nbsp;','\n');
-                 tArr = _tex.split('\n');
-            }
-            texArr = tArr.join('').split('\t');
-            let textArr=[];
-            for(let i=0;i<texArr.length;i++){
-                if(texArr[i] !== ''){
-                    textArr.push(texArr[i]);
+            Array.prototype.unique = function(){
+                let res = [];
+                let json = {};
+                for(let i = 0; i < this.length; i++){
+                    if(!json[this[i]]){
+                        res.push(this[i]);
+                        json[this[i]] = 1;
+                    }
                 }
-            }
-            console.log(textArr);
-            let arr =[];
-            console.log("=================");
+                return res;
+            };
+
+           let _textArr = _text.split('\t').join('').split('\n');
+           let _texArr = _textArr.unique();
+           let newArr=[];
+           for(let i=0;i<_texArr.length;i++){
+               if(_texArr[i] !== ''){
+                   newArr.push(_texArr[i]);
+               }
+           }
+           for(let j=0;j<newArr.length;j++){
+               newArr[j].split(' ').join('&nbsp;');
+           }
             // let textArr = _text.split('\n'), arr = [];
-            textArr.map(item => {
-                let temp = item.replace(/\t/g, '');
+            let arr = [];
+            newArr.map(item => {
+                let temp = item.replace(/\s/g, ' ');
                 if (temp.length > 0 && temp.replace(/ /g, '').length > 0) {
                     arr.push(temp);
                 }
