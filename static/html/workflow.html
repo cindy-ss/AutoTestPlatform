@@ -232,24 +232,40 @@
             //选中显示
             if ($('.meta_chk').is(':checked')) {
                 $(".meta_res").show();
+            }else{
+                $(".meta_res").hide();
             }
             if ($('.font_chk').is(':checked')) {
                 $(".font_res").show();
             }
+            else{
+                $(".font_res").hide();
+            }
             if ($('.link_chk').is(':checked')) {
                 $(".link_res").show();
             }
+            else{
+                $(".link_res").hide();
+            }
             if ($('.vpath_chk').is(':checked')) {
                 $(".vpath_res").show();
+            }else{
+                $(".vpath_res").hide();
             }
             if ($('.view_chk').is(':checked')) {
                 $(".view_res").show();
+            }else{
+                $(".view_res").hide();
             }
             if ($('.foot_chk').is(':checked')) {
                 $(".foot_res").show();
+            }else{
+                $(".foot_res").hide();
             }
             if ($('.copy_chk').is(':checked')) {
                 $(".copy_res").show();
+            }else{
+                $(".copy_res").hide();
             }
 
             let option = JSON.stringify(chk_val);
