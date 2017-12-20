@@ -331,16 +331,18 @@
                     if (data.data.font) {
                         let checkdata = "";
                         checkdata = data.data.font;
+                        console.log("666:");
+                        console.log(checkdata);
                         $.each(checkdata, function (m, value) {
 
                             strFont += `<tr><td>URL:</td><td><a href="${value.url}" target="_blank">${value.url}</a></td></tr>`;
 
 
-                            $.each(checkdata, function (n, valueinter) {
+                            $.each(value.data, function (n, valueinter) {
 
                                 strFont += `<tr><td>${n}</td><td>`;
                                 var x;
-                                console.log(valueinter.length);
+
                                 if (valueinter.length > 0) {
                                     for (x in valueinter) {
 
