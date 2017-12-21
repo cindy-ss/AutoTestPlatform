@@ -58,7 +58,9 @@
     #copyequ td {
         word-wrap: break-word;
     }
-
+    .copy_equ{
+        display: none;
+    }
 </style>
 <div id="trans" class="col-md-4 row">
     <div class="navslid trans-side navslid-show">
@@ -478,14 +480,12 @@
                         }
 
                         // Below table is Equivalent table;
-                        strCopyequ += `<tr><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
-                        strCopyequ += `<tr><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a><br>
+                        strCopyequ += `<tr onclick="common(event)"><td>&diams;&#9786;&diams; Equivalent &diams;&#9786;&diams;</td></tr>`;
+                        strCopyequ += `<tr class="copy_equ"><td><a href="${checkdata[0]}" target="_blank">${checkdata[0]}</a><br>
                                 <a href="${FormateURL(checkdata[0])}" target="_blank">${FormateURL(checkdata[0])}</a></td></tr>`;
                         for (var x = 0; x < checkdata[1].length; x++) {
-                            strCopyequ += `<tr><td>${checkdata[1][x]}</td></tr>`;
+                            strCopyequ += `<tr class="copy_equ"><td>${checkdata[1][x]}</td></tr>`;
                         }
-
-
                     }//copy
                 }
                 $('#res_Container_meta').html(strMeta);
@@ -618,5 +618,7 @@
         }
         return flag;
     }
-
+    function common(event){
+    $(".copy_equ").toggle();
+}
 </script>
