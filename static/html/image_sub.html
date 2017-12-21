@@ -196,14 +196,12 @@
     $("#btn_image_export").click(() => {
             var arr = [];
         if (_image.type === 'us') {
-            $.each(_image.data, (n, value) => {
-                arr.push({
-                    url: value['url'],
-                    geo: value['geo'],
-                    total: value['total'],
-                    list: value['list']
+            arr.push({
+                    url: _image.data['url'],
+                    geo: _image.data['geo'],
+                    total: _image.data['total'],
+                    list: _image.data['list']
                 })
-            });
         }else{
            arr=_image.data;
         }
