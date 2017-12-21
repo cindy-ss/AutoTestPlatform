@@ -1,15 +1,10 @@
 <h2 class="page-header">Workflow Checker</h2>
 <style>
-    div.box {
-        width: 300px;
-        padding: 20px;
-        margin: 20px;
-        border: 4px dashed #428bca;
-    }
 
     div.box span {
-        color: #999;
+        color: #cc4444;
         font-style: italic;
+        background-color: deepskyblue;
     }
 
     div.content {
@@ -72,6 +67,7 @@
             <p>URL Input (eg:https://webedit.apple.com/cn/iphone/)</p>
             <input type="text" class="form-control" id="url" name="url" placeholder="Please input URL"/>
         </div>
+        <br>
         <div class="dropdown">
             <div class="box">
                 <span>Please select which option you want to check or select All</span>
@@ -298,7 +294,7 @@
                 strwatchstyle += ``;
                 strwatchband += ``;
                 strwatchface += ``;
-                $(".collapse").collapse();
+
 
                 if (data.result === true) {
                     if (data.data.meta) {
