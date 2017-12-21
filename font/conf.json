@@ -9,7 +9,7 @@
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff2",
-      "geo": "hk",
+      "geo": "hktc",
       "type": "woff2",
       "name": "SF Pro HK - WOFF2 - Online",
       "server": "WWW"
@@ -30,7 +30,7 @@
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
-      "geo": "hk",
+      "geo": "hktc",
       "type": "woff",
       "name": "SF Pro HK - WOFF - Online",
       "server": "WWW"
@@ -51,7 +51,7 @@
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff2",
-      "geo": "hk",
+      "geo": "hktc",
       "type": "woff2",
       "name": "SF Pro HK - WOFF2 - UAT",
       "server": "UAT"
@@ -72,7 +72,7 @@
     },
     {
       "url": "SF-Pro-HK/v1/PingFangHK-Regular.woff",
-      "geo": "hk",
+      "geo": "hktc",
       "type": "woff",
       "name": "SF Pro HK - WOFF - UAT",
       "server": "UAT"
