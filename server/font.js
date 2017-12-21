@@ -14,12 +14,14 @@ exports.checkByUrl = (url, auth, option, cb) => {
     let res = [];
 
     async.eachLimit(url, 5, (item, callback) => {
+
         let geo = gh.getGEO(item);
         if (geo === 'MO') {
             geo = 'TW';
         }
         option = option || {};
         option['geo'] = (option['geo'] || geo).toLowerCase();
+
         font.checkByUrl(item, auth, option, (err, data) => {
             res.push({
                 url: item,

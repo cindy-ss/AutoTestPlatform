@@ -17,7 +17,7 @@ const run = async options => {
         option = options.option;
     url = util.urlNormalize(url);
     let optionObj = JSON.parse(option);
-    console.log(optionObj);
+    //console.log(optionObj);
 
     let config = [
         {
@@ -72,8 +72,7 @@ const run = async options => {
         copy: null,
         font: null
     };
-// console.log(obj);
-    console.log(options);
+
     return await Promise.all(promises)
         .then(value => {
             obj['meta'] =  value[0];
@@ -85,7 +84,7 @@ const run = async options => {
             obj['font'] = value[6];
             return obj;
         }).catch(err => {
-            console.log(err.message);
+            //console.log(err.message);
             obj.message = err.message;
             return obj;
         });
@@ -111,8 +110,7 @@ let linkCheck = (url, auth) => {
             if (err) {
                 reject(err);
             } else {
-                console.log('2');
-                console.log(data);
+
                 resolve(data);
             }
         })

@@ -81,7 +81,10 @@ const fetch = () => {
 const check = (data, option) => {
     option = option || {};
     // option['server'] = "WWW";
+
+
     data = data.replace(/ /g, "").replace(/\n/g, "").replace(/\t/g, "").replace(/[a-z0-9A-Z]/g, '');
+
     let res = {};
     let srcArr = [];
     if (option) {
@@ -91,9 +94,12 @@ const check = (data, option) => {
                 filter.push(i);
             }
         }
+
         metrics.forEach(item => {
             let flag = true;
+
             for (let i of filter) {
+
                 flag = flag && (item[i] === option[i]);
             }
             if (flag) {
@@ -104,6 +110,7 @@ const check = (data, option) => {
         srcArr = metrics;
     }
 
+//console.log(srcArr);
     srcArr.forEach(item => {
         res[item.name] = [];
         let tempArr = res[item.name];
@@ -131,6 +138,8 @@ const checkByUrl = (url, auth, option, cb) => {
         try {
             const $ = cheerio.load(data);
             const text = $("body").text();
+
+
             cb(err, check(text, option));
         }
         catch (e) {
